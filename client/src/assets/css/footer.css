@@ -1,0 +1,14 @@
+:root{
+    --purple: #5B00CF;
+    --lightpurple: #905ECF;
+    --lightslate: #CFCFCF;
+    --slate: #999999;
+    --darkpurple: #140724;
+}
+
+.footer{
+    position: relative;
+    width: 100%;
+    
+}
+

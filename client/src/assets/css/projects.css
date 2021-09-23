@@ -1,0 +1,47 @@
+:root{
+    --purple: #5B00CF;
+    --lightpurple: #905ECF;
+    --lighterpurple: rgba(90, 0, 207, .1);
+    --lightslate: #CFCFCF;
+    --slate: #999999;
+    --darkpurple: #140724;
+}
+
+.projects{
+    position: relative;
+    width: 100%;
+    /* height: 100vh; */
+}
+
+.project{
+    background-color: var(--lighterpurple);
+    height: 100%;
+    border-radius: 1rem;
+}
+
+.project-icons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.project-aux-icons{
+    display: flex;
+}
+
+.project-blog-btn{
+    border: 1px solid var(--lightpurple);
+}
+
+.project-blog-btn:hover{
+    color: var(--lightpurple);
+    background-color: var(--purple);
+    border: 1px solid var(--purple);
+    transition: all .35s;
+}
+
+.aux-icon:hover{
+    color: var(--lightpurple) !important;
+    transition: all .35s;
+}

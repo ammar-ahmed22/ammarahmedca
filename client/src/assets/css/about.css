@@ -1,0 +1,36 @@
+:root{
+    --purple: #5B00CF;
+    --lightpurple: #905ECF;
+    --lightslate: #CFCFCF;
+    --slate: #999999;
+    --darkpurple: #140724;
+}
+
+.about{
+    position: relative;
+    /* height: 100vh; */
+    width: 100%;
+}
+
+p span{
+    font-weight: 900;
+    color: var(--lightslate);
+}
+
+
+
+.tech-list li{
+    margin-right: .75rem;
+}
+
+.me-img{
+    width: 100%;
+    border-radius: 1rem;
+    border: solid 3px var(--purple);
+}
+
+@media only screen and (max-width: 600px){
+    .about{
+        height: auto;
+    }
+}

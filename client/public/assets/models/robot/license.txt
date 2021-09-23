@@ -1,0 +1,11 @@
+Model Information:
+* title:	Mixamo bot character (Lowpoly)
+* source:	https://sketchfab.com/3d-models/mixamo-bot-character-lowpoly-c0c4d8c54d394e50821c193bd201f24d
+* author:	Rzyas (https://sketchfab.com/rzyas)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Mixamo bot character (Lowpoly)" (https://sketchfab.com/3d-models/mixamo-bot-character-lowpoly-c0c4d8c54d394e50821c193bd201f24d) by Rzyas (https://sketchfab.com/rzyas) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

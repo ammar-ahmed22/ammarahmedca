@@ -1,0 +1,61 @@
+:root{
+    --purple: #5B00CF;
+    --lightpurple: #905ECF;
+    --lightslate: #CFCFCF;
+    --slate: #999999;
+    --darkpurple: #140724;
+  }
+
+.project-page{
+    position: relative;
+    /* margin-top: 10vh; */
+}
+
+
+.project-page .container .row .col-md-6{
+    margin-top: 10vh;
+}
+
+.main-img{
+    width: 100%;
+    /* height: 50vh;
+    background-position: center;
+    background-size: contain; */
+}
+
+.main-img img{
+    width: 80%;
+}
+
+.context span{
+    color: var(--purple);
+}
+
+.figure-img{
+    width: 80%;
+}
+
+.separator{
+    width: 100%;
+    height: 1px;
+    background-color: var(--purple);
+    opacity: .5;
+}
+
+.project-nav{
+    top: 50%;
+    position: sticky;
+    transform: translate(0, -50%);
+    opacity: 0;
+    
+}
+
+.project-nav-info{
+    border-bottom: .5px solid var(--bs-secondary);
+}
+
+.project-nav-links a:hover{
+    color: var(--purple);
+    opacity: .75;
+}
+
