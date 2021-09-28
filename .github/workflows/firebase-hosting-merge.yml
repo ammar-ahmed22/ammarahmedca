@@ -10,6 +10,8 @@ name: Deploy to Firebase Hosting on merge
 defaults:
   run:
     working-directory: client
+env:
+  CI: false
 jobs:
   build_and_deploy:
     runs-on: ubuntu-latest
