@@ -16,6 +16,7 @@ class Hero extends Component {
     state = {
         canvasRedirect: false,
         canvasId: 0,
+        toggleAnimation: false
     }
 
     mediaQuery = window.matchMedia(" (max-width: 600px) ");
@@ -23,6 +24,10 @@ class Hero extends Component {
         if (!this.mediaQuery.matches){
             document.querySelector("canvas").addEventListener("click", this.handleCanvasClick)
         }
+
+        setTimeout(()=>{
+            this.setState({toggleAnimation: true})
+        }, 1000)
        
     }
 
@@ -33,7 +38,7 @@ class Hero extends Component {
     handleToggleClick = (e) =>{
         const input = e.target;
         const label = input.nextElementSibling;
-
+        
         this.props.toggleIsDark();
     }
 
@@ -53,20 +58,20 @@ class Hero extends Component {
         return (
             <section className="hero d-flex align-items-center" id="home">
                 <div className="container">
-                <div className="row ">
+                <div className="row">
                     <DarkModeToggle isDark={this.props.isDark} toggleIsDark={this.props.toggleIsDark} updateCanvasId={this.updateCanvasId}/>
                     <div className="col-md-6  d-flex flex-column">
-                        <Animated animProps={{to: {opacity: 1, marginTop: 0}, from: {opacity: 0, marginTop: 200}, config: {duration: 2000}}}>
-                            <Typist avgTypingDelay={120} cursor={{show: false}}>
+                        <Animated from={{opacity: 0, marginTop: 0}} to={{opacity: 1, marginTop: 0}} duration={2000} toggle={this.state.toggleAnimation}>
+                            <Typist avgTypingDelay={120} cursor={{show: false}} >
                                 <h1 className="display-1 text-light type-text">hi, i'm <span className="text-purple">ammar</span></h1>
                             </Typist>    
                         </Animated>
-                        <Animated animProps={{to: {opacity: 1, marginTop: 0}, from: {opacity: 0, marginTop: 200}, config: {duration: 2000}}}>
+                        <Animated from={{opacity: 0, marginTop: 200}} to={{opacity: 1, marginTop: 0}} duration={2000}  toggle={this.state.toggleAnimation}>
                             <h2 className="text-light">Nanotechnology Engineer with a passion to learn</h2>
                         </Animated>
                         
                         {/* <h2 className="text-light">Nanotechnology Engineer with a passion to learn</h2> */}
-                        <Animated animProps={{to: {opacity: 1, marginTop: 0}, from: {opacity: 0, marginTop: 200}, config: {duration: 2000}}}>
+                        <Animated from={{opacity: 0, marginTop: 0}} to={{opacity: 1, marginTop: 0}} duration={2000}  toggle={this.state.toggleAnimation}>
                             <p className="text-slate fs-5">I’m a second year engineering student at the University of Waterloo with a strong interest in software development</p>
                         </Animated>
                         
