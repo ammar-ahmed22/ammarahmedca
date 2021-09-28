@@ -68,7 +68,7 @@ class About extends Component {
                         </div>
 
                         <div className="col-4 d-md-flex d-none justify-content-center align-items-center">
-                            <Animated from={{opacity: 0, marginLeft: 200, marginTop: -300}} to={{opacity: 1, marginLeft: 0, marginTop: 0}} duration={1000} onScroll childRef={this.anim1} >
+                            <Animated from={{opacity: 0, marginLeft: 200, marginTop: -200}} to={{opacity: 1, marginLeft: 0, marginTop: 0}} duration={1000} onScroll childRef={this.anim1} >
                                 <img src={me} alt="" className="img img-fluid me-img"/>
                             </Animated>
                             
