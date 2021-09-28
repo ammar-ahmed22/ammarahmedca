@@ -23,6 +23,6 @@ jobs:
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AMMARAHMED_986FB }}'
           channelId: live
           projectId: ammarahmed-986fb
-          path: "./client"
+          entryPoint: ./client
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
