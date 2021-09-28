@@ -36,8 +36,7 @@ class Hero extends Component {
     }
 
     handleToggleClick = (e) =>{
-        const input = e.target;
-        const label = input.nextElementSibling;
+        
         
         this.props.toggleIsDark();
     }
