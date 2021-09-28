@@ -1,8 +1,14 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import '../assets/css/about.css'
+import Animated from './Animated';
 import me from '../assets/images/me.jpg'
 
 class About extends Component {
+
+    anim1 = createRef();
+    anim2 = createRef();
+    anim3 = createRef();
+
     render() {
         return (
             <section className="about" id="about">
@@ -11,16 +17,23 @@ class About extends Component {
                         <div className="col-md-8 col-12">
                             <h2 className="text-purple display-3 section-heading my-4 fw-bold">.about()</h2>
 
-                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold ">.who()</h3>
-                            <p className="text-slate fs-5">
-                            I am currently in my second year studying <span>Nanotechnology Engineering</span> at the <span>University of Waterloo</span>. As part of my last co-op term, I was employed by the <span>University of Waterloo WIL Programs</span> as a <span>Developer</span>. 
-                            </p>
-
-                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold">.interests()</h3>
+                            
+                            <Animated from={{opacity: 0, marginTop: 100}} to={{opacity: 1, marginTop: 0}} duration={1000} onScroll={true} anchor="bottom"  childRef={this.anim1}>
+                                <h3 className="text-lightpurple fs-2 ff-alt fw-bold " ref={this.anim1}>.who()</h3>
+                                <p className="text-slate fs-5" >
+                                I am currently in my second year studying <span>Nanotechnology Engineering</span> at the <span>University of Waterloo</span>. As part of my last co-op term, I was employed by the <span>University of Waterloo WIL Programs</span> as a <span>Developer</span>. 
+                                </p>
+                            </Animated>
+                            
+                            <Animated from={{opacity: 0, marginTop: 200}} to={{opacity: 1, marginTop: 0}} duration={1000} onScroll={true} anchor="bottom"  childRef={this.anim2}>
+                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold" ref={this.anim2}>.interests()</h3>
                             <p className="text-slate fs-5">
                                 Professionally, I have a strong interest in <span>software development</span> with a focus in the <span>front-end</span>. I am also interested in <span>machine learning</span> and <span>full stack app development</span>. In my free-time, you can find me spending time with my lovely wife or playing video games.  
                             </p>
-
+                            </Animated>
+                            
+                            <Animated from={{opacity: 0, marginTop: 300}} to={{opacity: 1, marginTop: 0}} duration={1000} onScroll={true} anchor="bottom"  childRef={this.anim3}>
+                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold" ref={this.anim3}>.interests()</h3>
                             <h3 className="text-lightpurple fs-2 ff-alt fw-bold">.technologies()</h3>
                             <p className="text-slate fs-5">
                             Technologies/languages that I am comfortable with:
@@ -52,13 +65,14 @@ class About extends Component {
                                     <li><div className="fs-4"><i class='bx bx-code'></i></div> Flutter/Dart</li>
                                     <li><div className="fs-4"><i class='bx bx-code'></i></div> C++</li>
                                 </ul>
-                            
+                            </Animated>
                         </div>
 
                         <div className="col-4 d-md-flex d-none justify-content-center align-items-center">
-                            <div >
+                            <Animated from={{opacity: 0, marginLeft: 200, marginTop: -300}} to={{opacity: 1, marginLeft: 0, marginTop: 0}} duration={1000} onScroll childRef={this.anim1} >
                                 <img src={me} alt="" className="img img-fluid me-img"/>
-                            </div>
+                            </Animated>
+                            
                         </div>
                     </div>
                 </div>

@@ -26,6 +26,11 @@ html{
   
 }
 
+body{
+  padding-left: 10vw;
+  padding-right: 10vw;
+}
+
 /* Template Styles */
 .text-purple{
   color: var(--purple);

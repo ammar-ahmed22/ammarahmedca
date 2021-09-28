@@ -10,8 +10,11 @@
 
 ## Technologies
 - React.js (Functionality)
-- THREE.js (Home page animation)
+- THREE.js (Landing page 3D rendering)
+- react-spring (Animations)
+- react-typist (Typewriter animations)
 - Bootstrap (Design)
+
 
 ## How To Run Locally
 Using `npm`:
