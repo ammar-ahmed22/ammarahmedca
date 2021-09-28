@@ -33,8 +33,7 @@ class About extends Component {
                             </Animated>
                             
                             <Animated from={{opacity: 0, marginTop: 300}} to={{opacity: 1, marginTop: 0}} duration={1000} onScroll={true} anchor="bottom"  childRef={this.anim3}>
-                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold" ref={this.anim3}>.interests()</h3>
-                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold">.technologies()</h3>
+                            <h3 className="text-lightpurple fs-2 ff-alt fw-bold" ref={this.anim3}>.technologies()</h3>
                             <p className="text-slate fs-5">
                             Technologies/languages that I am comfortable with:
                             </p>
