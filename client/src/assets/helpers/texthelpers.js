@@ -18,13 +18,13 @@ export const convertToFunctionText = str =>{
     return `.${str}( )`
 }
 
-export const boldText = word => {
+export const boldText = (word, index) => {
     
     
     
         if (word.slice(0,2) === "**" && word.slice(-2) === "**"){
 
-            return <span className="text-light fw-bold"> {word.slice(2, word.length - 2)} </span>
+            return <span key={index} className="text-light fw-bold"> {word.slice(2, word.length - 2)} </span>
         }else{
             return " " + word + " "
         }

@@ -39,30 +39,30 @@ class About extends Component {
                             </p>
                             
                                 <ul className="d-flex flex-wrap text-slate justify-content-start fs-5 tech-list">
-                                    <li><div className="fs-4"><i class='bx bx-code-alt'></i></div> JavaScript ES6+
+                                    <li><div className="fs-4"><i className='bx bx-code-alt'></i></div> JavaScript ES6+
                                         <ul>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> React</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> React Native</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Express.js</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Node.js</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Three.js</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> MERN Stack</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> React</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> React Native</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Express.js</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Node.js</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Three.js</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> MERN Stack</li>
                                         </ul>
                                     </li>
-                                    <li><div className="fs-4"><i class='bx bx-code'></i></div> Python 
+                                    <li><div className="fs-4"><i className='bx bx-code'></i></div> Python 
                                         <ul>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Pandas</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Numpy</li>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Matplotlib</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Pandas</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Numpy</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Matplotlib</li>
                                         </ul>
                                     </li>
-                                    <li><div className="fs-4"><i class='bx bx-code'></i></div> HTML/CSS 
+                                    <li><div className="fs-4"><i className='bx bx-code'></i></div> HTML/CSS 
                                         <ul>
-                                            <li><div className="fs-4"><i class='bx bx-code'></i></div> Bootstrap</li>
+                                            <li><div className="fs-4"><i className='bx bx-code'></i></div> Bootstrap</li>
                                         </ul>
                                     </li>
-                                    <li><div className="fs-4"><i class='bx bx-code'></i></div> Flutter/Dart</li>
-                                    <li><div className="fs-4"><i class='bx bx-code'></i></div> C++</li>
+                                    <li><div className="fs-4"><i className='bx bx-code'></i></div> Flutter/Dart</li>
+                                    <li><div className="fs-4"><i className='bx bx-code'></i></div> C++</li>
                                 </ul>
                             </Animated>
                         </div>

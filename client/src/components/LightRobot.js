@@ -27,7 +27,7 @@ class LightRobot extends Component {
             const init = () =>{
                 const MODEL_PATH = './assets/models/robot/scene.gltf';
 
-                const canvas = document.querySelector("#c");
+                
 
                 
 

@@ -1,29 +1,21 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { animated, useSpring } from 'react-spring';
 
-import { distFromTop, getYPos } from '../assets/helpers/DOMcalcs';
+import { getYPos } from '../assets/helpers/DOMcalcs';
 
 const Animated = ({children, onScroll, anchor, from, to, duration, offset, childRef }) => {
 
     const [styles, api] = useSpring(()=>({from: from, config: {duration: duration}}));
     const props = useSpring({from: from, to: to, config: {duration: duration}});
 
-    // const [triggered, setTriggered] = useState(false);
-
-    // useEffect(()=>{
-    //     if (toggle){
-    //         api({
-    //             to: to
-    //         })
-    //     }
-    // }, [toggle, api, to])
+    
 
     
 
     const animatedDiv = useRef(null);
 
-    let callCounter = 0;
-    let triggered = false;
+    
+    
 
     const toggleAnimation = () =>{
         let windowAnchor;
@@ -55,7 +47,7 @@ const Animated = ({children, onScroll, anchor, from, to, duration, offset, child
     
 
     onScroll && window.addEventListener("scroll", toggleAnimation);
-    console.log(callCounter)
+    
 
     return (
         <animated.div style={onScroll ? styles : props} ref={animatedDiv}>
