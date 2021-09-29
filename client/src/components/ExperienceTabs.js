@@ -95,8 +95,8 @@ class ExperienceTabs extends Component {
                                     <div key={index} className="tab-pane fade show active" id={`tab-${item.id}`} role="tabpanel" aria-labelledby={`tabs-${item.id}`}>
                                         <h3 className="text-light fw-bold ">{item.role} @ <span>{item.fullName}</span></h3>
                                         <h5 className="text-slate ">{item.time}</h5>
-                                        <p className="text-slate fs-5">{item.desc.split(" ").map( word => {
-                                            return textHelper.boldText(word)
+                                        <p className="text-slate fs-5">{item.desc.split(" ").map( (word, index) => {
+                                            return textHelper.boldText(word, index)
                                         })}</p>
                                         {/* <ul className="tech-list text-slate exp-list">
 
@@ -115,8 +115,8 @@ class ExperienceTabs extends Component {
                                         <h3 className="text-light fw-bold">{item.role} @ <span>{item.fullName}</span></h3>
                                         <h5 className="text-slate">{item.time}</h5>
                                         <p className="text-slate fs-5">{
-                                            item.desc.split(" ").map( word => {
-                                                return textHelper.boldText(word)
+                                            item.desc.split(" ").map( (word, index) => {
+                                                return textHelper.boldText(word, index)
                                             })
                                         }</p>
                                         {/* <ul className="tech-list text-slate exp-list">

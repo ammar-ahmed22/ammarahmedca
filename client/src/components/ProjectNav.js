@@ -49,7 +49,9 @@ class ProjectNav extends Component {
                                 <div className="project-nav-links  py-3">
                                     <p className="ff-alt text-light fw-light m-0">Jump to:</p>
                                     <ul className="list-unstyled">
-                                        {
+                                        {   
+                                            // eslint not picking up jsx return
+                                            // eslint-disable-next-line array-callback-return
                                             project.textContent.map( item => {
                                                 if (item.type === "title"){
                                                     return (<li><a href={`#${textHelper.hyphenate(item.text)}`} className="ff-alt text-purple">{item.text}</a></li>)

@@ -59,7 +59,9 @@ class ProjectPage extends Component {
                             <div className="text-content my-4">
                                 
                             
-                                {
+                                {   
+                                    // eslint not picking jsx return
+                                    // eslint-disable-next-line array-callback-return
                                     project.textContent.map( item => {
                                         switch (item.type) {
                                             case "title":

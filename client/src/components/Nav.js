@@ -8,11 +8,12 @@ class Nav extends Component {
         this.getDistancesFromTop()
         window.addEventListener("scroll", (e)=>{
             
-            const windowBottom = window.scrollY + window.innerHeight;
+            const windowBottom = window.scrollY + window.innerHeight ;
             const scrollHeight = document.body.scrollHeight;
             const lastIndex = this.distances.length - 1;
             
             for (let i = 0; i < this.distances.length; i++){
+                
 
                 if (windowBottom > this.distances[i] && windowBottom < this.distances[i+1]){
                    
@@ -72,9 +73,9 @@ class Nav extends Component {
                 </div>
                 
                 <div className="nav-socials">
-                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i class='bx bxl-linkedin' ></i></a>
-                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i class='bx bxl-github' ></i></a>
-                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i class='bx bxs-envelope' ></i></a>
+                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i className='bx bxl-linkedin' ></i></a>
+                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i className='bx bxl-github' ></i></a>
+                    <a href="https://google.ca" className="text-lightpurple text-decoration-none fs-4 cursor-pointer "><i className='bx bxs-envelope' ></i></a>
                 </div>
             </div>
         );

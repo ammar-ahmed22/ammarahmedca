@@ -37,7 +37,6 @@ class Hero extends Component {
 
     handleToggleClick = (e) =>{
         
-        
         this.props.toggleIsDark();
     }
 
@@ -51,7 +50,7 @@ class Hero extends Component {
         if (this.state.canvasRedirect){
             return <Redirect push to="/snake"/>;
         }
-        console.log(this.state.canvasId)
+        
 
         
         return (
@@ -75,7 +74,7 @@ class Hero extends Component {
                         </Animated>
                         
                         
-                        <a href="#about" className="scroll-ind text-purple text-decoration-none display-5 cursor-pointer"><i class='bx bxs-down-arrow-alt'></i></a>
+                        <a href="#about" className="scroll-ind text-purple text-decoration-none display-5 cursor-pointer"><i className='bx bxs-down-arrow-alt'></i></a>
                         
                     </div>
                 </div>
