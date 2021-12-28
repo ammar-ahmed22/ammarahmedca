@@ -4,6 +4,17 @@
     --light: #FFF;
 }
 
+body{
+    font-family: "Manrope", sans-serif;
+}
+::-webkit-scrollbar-track{
+    background: #000;
+}
+
+/* ::-webkit-scrollbar-thumb{
+    background-color: rgb(255, 255, 255);
+} */ 
+
 
 /* Bootstrap Redefinitions */
 .text-primary{
@@ -32,4 +43,10 @@
 
 .bg-light{
     background-color: var(--light) !important;
+}
+
+/* TEMPORARY */
+/* WILL GO IN SEPARATE CSS FILE */
+.hero-text{
+    font-size: 10rem;
 }

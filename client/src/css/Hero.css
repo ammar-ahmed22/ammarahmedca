@@ -1,0 +1,8 @@
+.hero-text{
+    font-size: 10rem;
+}
+
+.hero{
+    background-color: rgba(0,0,0,1);
+    height: 200vh;
+}
