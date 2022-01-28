@@ -4,7 +4,7 @@ import "../css/Hero.css";
 import HeroImage from "../assets/images/HeroImage.png";
 import { ReactComponent as Signature} from "../assets/images/Signature.svg";
 
-const Hero = () => {
+export default () => {
 
     useEffect(()=>{
         window.addEventListener("scroll", e => {
@@ -19,7 +19,7 @@ const Hero = () => {
             // scroll values
             const vh = hero.clientHeight;
             const scrollPos = window.scrollY;
-            const percentScrolled = (1 - ((vh - scrollPos) / vh))*2;
+            const percentScrolled = (1 - ((vh - scrollPos) / vh));
 
             // Signature animation (reversed when scroll)
             for (let i = 0; i < signaturePaths.length; i++){
@@ -59,7 +59,11 @@ const Hero = () => {
                 }else{
                     heroText.style.textAlign = "right"
                 }
+            }else{
+                nav.style.backgroundColor = "var(--light)"
             }
+
+            
         })
     },[])
 
@@ -74,4 +78,3 @@ const Hero = () => {
 
 };
 
-export default Hero;

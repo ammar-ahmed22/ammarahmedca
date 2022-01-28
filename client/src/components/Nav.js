@@ -2,40 +2,10 @@ import React from "react";
 import "../css/Nav.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Logo from "../assets/images/Logo.svg";
+import { navItems } from "../data/data";
 
-const Nav = () => {
-    const navItems = [
-        {
-            type: "text",
-            text: "About",
-            href: "#about"
-        },
-        {
-            type: "text",
-            text: "Projects",
-            href: "#projects"
-        },
-        {
-            type: "text",
-            text: "Experience",
-            href: "#experience"
-        },
-        {
-            type: "icon",
-            icon: ['fab', 'github'],
-            href: 'https://google.ca'
-        },
-        {
-            type: "icon",
-            icon: ['fab', 'linkedin'],
-            href: "https://google.ca"
-        },
-        {
-            type: "icon",
-            icon: "file-download",
-            href: "https://google.ca"
-        }
-    ]
+export default () => {
+    
     return (
     <div className="navigation d-flex justify-content-between p-2">
         <div className="nav-logo d-flex align-items-center">
@@ -62,5 +32,3 @@ const Nav = () => {
     );
 };
 
-
-export default Nav;
