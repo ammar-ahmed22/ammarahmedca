@@ -1,22 +1,17 @@
 import React from "react";
 import "./App.css";
-
-import Main from "./pages/Main";
+import Home from "./pages/Home";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fab } from "@fortawesome/free-brands-svg-icons";
-import { faFileDownload } from "@fortawesome/free-solid-svg-icons";
 
-library.add(fab, faFileDownload);
 
 const App = () => {
 
     return (
         <Router>
             <Switch>
-                <Route path="/" exact component={Main}/>
+                <Route path="/" exact component={Home}/>
             </Switch>
         </Router>
     )
