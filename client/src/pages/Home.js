@@ -1,11 +1,14 @@
 import React from "react"
-import { Heading } from "@chakra-ui/react"
+import NavBar from "../components/NavBar"
+import Main from "../components/Main"
 
 const Home = () => {
     return (
-        <Heading as="h1" size="4xl">
-            Hello World
-        </Heading>
+        <>
+            <NavBar />
+            <Main />
+            {/* <Avatar /> */}
+        </>
     )
 }
 

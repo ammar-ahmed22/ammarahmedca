@@ -1,0 +1,23 @@
+@keyframes draw-signature {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+.signature path:nth-child(1){
+    stroke-dasharray: 795px;
+    stroke-dashoffset: 795px;
+    animation: draw-signature 1.5s ease forwards;
+}
+
+.signature path:nth-child(2){
+    stroke-dasharray: 1327px;
+    stroke-dashoffset: 1327px;
+    animation: draw-signature 2s ease forwards;
+}
+
+.signature path:nth-child(3){
+    stroke-dasharray: 1704px;
+    stroke-dashoffset: 1704px;
+    animation: draw-signature 3s ease forwards;
+}
