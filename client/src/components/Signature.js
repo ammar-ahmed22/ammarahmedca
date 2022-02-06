@@ -9,7 +9,7 @@ const Signature = ({ color }) => {
             transform: "translate(-60%, -60%)",
             // top: '50%',
             left: "40%",
-            zIndex: 1
+            zIndex: -1
         }
     }
 

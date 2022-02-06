@@ -1,7 +1,15 @@
 import React from 'react';
-import { Box, Text, Flex } from "@chakra-ui/react"
+import { Box, Text, Flex, useColorModeValue, List, ListItem, ListIcon, Icon, createIcon } from "@chakra-ui/react"
+import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
+import { MinusIcon } from "@chakra-ui/icons"
+
+const Circle = (color) => {
+    return <Icon color={color} as={<FontAwesomeIcon icon="circle" />} />
+}
 
 const Timeline = () => {
+
+    const circleIcon = createIcon(Circle("primaryLight"))
 
     const timeLineDataByYear = [
         {
@@ -77,6 +85,19 @@ const Timeline = () => {
         
     ]
 
+    const circleSize = 3
+
+    const circle = {
+        size: circleSize,
+        styles: {
+            w: circleSize,
+            h: circleSize,
+            bg: "primaryLight",
+            borderRadius: "50%",
+            // left: -circleSize,
+            position: "absolute"
+        }
+    }
 
     const styleProps = {
         mainBox: {
@@ -86,13 +107,28 @@ const Timeline = () => {
             as: 'h3',
             fontSize: "6xl",
             fontFamily: "heading"
+        },
+        circleFirst: {
+            ...circle.styles,
+            transform: "translate(-50%, -50%)",
+            top: 0
+        },
+        circleMiddle: {
+            ...circle.styles,
+            transform: "translate(-100%, -50%)",
+            top: circle.size
+        },
+        circleLast: {
+            ...circle.styles,
+            transform: "translate(-100%, 0)",
+            top: circle.size
         }
     }
 
     return (
         <Box {...styleProps.mainBox}>
-            <Text {...styleProps.title}>A Glimpse of My Life</Text>
-            {
+            <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Life</Text> So Far</Text>
+            {/* {
                 timeLineDataByYear.map( ( item, idx ) => {
                     return (
                         <Box key={`year-${idx}`}>
@@ -109,7 +145,7 @@ const Timeline = () => {
                                             { idx !== item.items.length - 1 && <Box w="1px" bg="gray.700" position="relative">
                                                 <Box w="10px" h="10px" borderRadius="50%" bg="black" position="absolute" transform={idx === 0 ? "translate(-50%, 0%)" : "translate(-50%, 50%)"}></Box>
                                             </Box>}
-                                            <Text as="h5" ml={2} mb="2" fontSize="xl" fontFamily="body">{content.title}</Text>
+                                            <Text as="h5" ml={2} mb="4" fontSize="xl" fontFamily="body">{content.title}</Text>
                                         </Flex>
                                         )
                                     })
@@ -118,7 +154,46 @@ const Timeline = () => {
                         </Box>
                     )
                 })
-            }
+            } */}
+            <Box >
+                <Text as="h4" fontSize="4xl" fontFamily="heading">2052</Text>
+                
+                <List position={"relative"}>
+                    <Box w="3px" h="100%" bg={"black"} position={"absolute"}></Box>
+                    <ListItem pb="4" position="relative" ml="5">
+                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
+                        <Box {...styleProps.circleFirst}></Box>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
+                    </ListItem>
+                    <ListItem pb="4" position="relative" ml="5">
+                        <Box {...styleProps.circleMiddle}></Box>
+                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
+                    </ListItem>
+                    <ListItem pb="0" position="relative" ml="5">
+                        <Box {...styleProps.circleLast}></Box>
+                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
+                    </ListItem>
+                </List>
+
+                <Text as="h4" fontSize="4xl" fontFamily="heading">2051</Text>
+                
+                <List position={"relative"}>
+                    <Box w="3px" h="100%" bg={"black"} position={"absolute"}></Box>
+                    <ListItem pb="4" position="relative" ml="5">
+                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
+                        <Box {...styleProps.circleFirst}></Box>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
+                    </ListItem>
+                    
+                    <ListItem pb="0" position="relative" ml="5">
+                        <Box {...styleProps.circleLast}></Box>
+                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
+                    </ListItem>
+                </List>
+            </Box>
         </Box>
     );
 }

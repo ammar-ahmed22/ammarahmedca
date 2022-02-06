@@ -18,7 +18,7 @@ const Main = () => {
     return (
         <Container {...styleProps.container} as="main">
             <Hero />
-            <About />
+            {/* <About /> */}
             <Timeline />
         </Container>
     );

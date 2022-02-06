@@ -6,13 +6,18 @@ import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faFileDownload } from "@fortawesome/free-solid-svg-icons"
+import { faFileDownload, faCircle } from "@fortawesome/free-solid-svg-icons"
 
-library.add(fab, faFileDownload)
+library.add(fab, faFileDownload, faCircle)
 
 const fonts = {
   body: "Manrope, sans-serif",
   heading: "DM Serif Display, sans-serif",
+}
+
+const colors = {
+  primaryLight: "#A10010",
+  primaryDark: "#9c414a"
 }
 
 const config = {
@@ -20,7 +25,7 @@ const config = {
   useSystemColorMode: false
 }
 
-const theme = extendTheme({ fonts, config })
+const theme = extendTheme({ fonts, config, colors })
 
 
 ReactDOM.render(

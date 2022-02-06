@@ -17,12 +17,8 @@ import Resume from "../assets/documents/Ammar_Resume_Sep_2021.pdf"
 
 const LogoIcon = (props) => {
   return (
-    <Icon {...props} viewBox="0 0 50 50">
-      <Logo
-        bg={useColorModeValue("black", "white")}
-        stroke={useColorModeValue("white", "black")}
-        strokeWidth="0.5"
-      />
+    <Icon {...props} viewBox="0 0 602 328">
+      <Logo color1={useColorModeValue("#A10010", "#9c414a")} color2="transparent" strokeWidth={8} />
     </Icon>
   );
 };
@@ -33,15 +29,13 @@ const NavBar = () => {
   const styleProps = {
     main: {
       p: 4,
-      borderRadius: "0 0 1rem 1rem",
       position: "fixed",
       w: "100%",
-      bg: useColorModeValue("white", "gray.900"),
+      bg: useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(26, 32, 44, 0.8)"),
       top: 0,
-      boxShadow: useColorModeValue(
-        "4px 4px 30px rgba(0, 0, 0, 0.25)",
-        "4px 4px 30px rgba(0, 0, 0, 0.25)"
-      ),
+      backdropFilter: "saturate(180%) blur(5px)",
+      borderTop: "solid 2vh",
+      borderColor: useColorModeValue("primaryLight", "primaryDark"),
       align: "center",
       justify: "space-between",
       zIndex: 200,
@@ -50,8 +44,8 @@ const NavBar = () => {
       colorScheme: "blackAlpha",
       color: useColorModeValue("black", "white"),
       variant: "ghost",
-      fontWeight: "light",
-      fontFamily: "heading",
+      fontWeight: "bold",
+      fontFamily: "body",
       fontSize: "xl",
     },
     iconLink: {
@@ -71,7 +65,7 @@ const NavBar = () => {
   return (
     <Flex as="header" {...styleProps.main}>
       <Box>
-        <LogoIcon boxSize={10} />
+        <LogoIcon boxSize={20} />
       </Box>
       <Spacer />
       <Flex align="center">
