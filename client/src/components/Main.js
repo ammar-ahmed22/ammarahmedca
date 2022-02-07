@@ -9,7 +9,7 @@ const Main = () => {
     const styleProps = {
         container: {
             minH: "100vh",
-            maxW: "container.lg",
+            maxW: "container.md",
             marginTop: "10vh",
             p: 4
         }

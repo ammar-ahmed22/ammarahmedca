@@ -1,17 +1,21 @@
 import React from 'react';
-import { Box, Text, Flex, useColorModeValue, List, ListItem, ListIcon, Icon, createIcon } from "@chakra-ui/react"
+import { Box, Text, Flex, useColorModeValue } from "@chakra-ui/react"
 import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
-import { MinusIcon } from "@chakra-ui/icons"
 
-const Circle = (color) => {
-    return <Icon color={color} as={<FontAwesomeIcon icon="circle" />} />
-}
+
 
 const Timeline = () => {
 
-    const circleIcon = createIcon(Circle("primaryLight"))
 
     const timeLineDataByYear = [
+        {
+            year: 2001,
+            items: [
+                {
+                    title: "A little brown boy was born in Regina, Saskatchewan (me)"
+                }
+            ]
+        },
         {
             year: 2013,
             items: [
@@ -29,34 +33,35 @@ const Timeline = () => {
                     content: "Successfully memorized the Holy Quran (850 pages), an immense honor in Islam."    
                 },
                 {
-                    title: "Started highschool at Lester B. Pearson Collegiate Institute"
+                    title: "Started highschool"
                 }
             ],
-            
-        },
-        {
-            year: 2018,
-            items: [
-                {  
-                    title: "Switched highscools to Anderson Collegiate Institute"
-                }
-            ]
             
         },
         {
             year: 2020,
             items: [
                 {
-                    title: "Gained acceptance to the University of Waterloo's highly competitive engineering program."
+                    title: "Graduated highschool"
                 },
                 {
-                    title: "Initiated a team of 7 incoming first-years to collaborate on a resource webstie for applicants to the University of Waterloo"
+                    title: "Accepted into the University of Waterloo's highly competitive engineering program."
                 },
                 {
-                    title: "Commenced studies at the University of Waterloo (from the comfort of my basement)"
+                    title: "Wrote my first line of code",
+                    content: "Python to start off with, wrote a function to solve the quadratic formula"
                 },
                 {
-                    title: "Landed my first co-op intership for the University of Waterloo's WIL Programs as a Developer"
+                    title: "Started my first collaborative coding project",
+                    content: "Initiated a team of 7 fellow incoming first-years to create a resource website for applicants to the University of Waterloo."
+                },
+                {
+                    title: "Started Bachelor of Applied Science in Nanotechnology Engineering (from my basement)",
+                    content: "Gotta love the pandemic"
+                },
+                {
+                    title: "Landed first co-op intership for the University of Waterloo's WIL Programs as a Developer",
+                    content: "An immense accomplishment especially due to the pandemic causing the internship market to be very scarce. I was so happy when I received this offer as I would be doing work I really enjoyed."
                 }
             ],
             
@@ -66,38 +71,30 @@ const Timeline = () => {
             year: 2021,
             items: [
                 {
-                    title: "Completed my first year of engineering."
+                    title: "Completed 1 year of my Bachelor's Degree"
                 },
                 {
-                    title: "Got married at the ripe, young age of 20 years old."
+                    title: "Landed a position as Husband",
+                    content: "Yes, I got married at 20 years old. Ask me about it!"
                 },
                 {
-                    title: "Arrived on campus, living away from home for the first time"
+                    title: "Arrived at the University of Waterloo campus",
+                    content: "My first time living alone after a year of doing school from home."
                 },
                 {
-                    title: "Landed my second co-op internship at HIRE Technologies as a QA Engineer."
+                    title: "Landed my second co-op internship at HIRE Technologies as a QA Engineer.",
+                    content: "Super excited for this job as it was much more technical as compared to my last internship. I'd be working with React, GraphQL and AWS; all of which are very popular technologies at the moment."
                 },
                 {
-                    title: "Accepted an offer from my previous co-op at the University of Waterloo WIL Programs to come back in casual/part-time Developer role."
+                    title: "Accepted an offer from my previous co-op at the University of Waterloo WIL Programs to come back in casual/part-time Developer role.",
+                    content: "Due to exceptional performance during my co-op term, WIL Programs offered me to come back in a casual/part-time role to help out with backlog. Very exciting to be making some extra money."
                 }
             ],
         },
         
     ]
 
-    const circleSize = 3
-
-    const circle = {
-        size: circleSize,
-        styles: {
-            w: circleSize,
-            h: circleSize,
-            bg: "primaryLight",
-            borderRadius: "50%",
-            // left: -circleSize,
-            position: "absolute"
-        }
-    }
+    
 
     const styleProps = {
         mainBox: {
@@ -108,45 +105,61 @@ const Timeline = () => {
             fontSize: "6xl",
             fontFamily: "heading"
         },
-        circleFirst: {
-            ...circle.styles,
-            transform: "translate(-50%, -50%)",
-            top: 0
+        line: {
+            position: "absolute",
+            w: 1,
+            h: "100%",
+            bg: useColorModeValue("gray.800", "white"),
+            top: "1rem",
+            left: 3,
+            zIndex: -1,
+            transform: "translate(-6px, 0)"
         },
-        circleMiddle: {
-            ...circle.styles,
-            transform: "translate(-100%, -50%)",
-            top: circle.size
+        bullet: {
+            color: useColorModeValue("primaryLight", "primaryDark")
         },
-        circleLast: {
-            ...circle.styles,
-            transform: "translate(-100%, 0)",
-            top: circle.size
+        year: {
+            as: "h4",
+            fontSize: "4xl",
+            fontFamily: "heading",
+        },
+        event: {
+            fontSize: "xl",
+            ml: 3,
+            fontWeight: "bold"
+        },
+        eventContent: {
+            ml: 3,
+            fontWeight: "light"
         }
+        
     }
 
     return (
         <Box {...styleProps.mainBox}>
             <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Life</Text> So Far</Text>
-            {/* {
-                timeLineDataByYear.map( ( item, idx ) => {
+            
+            {
+                timeLineDataByYear.slice(0).reverse().map( (item, idx) => {
                     return (
                         <Box key={`year-${idx}`}>
-                            
-                                
-                                <Text as="h4" fontSize="4xl" ml={2} fontFamily="heading">{item.year}</Text>
-                    
-                            
-                            <Box>
+                            <Text {...styleProps.year}>{item.year}</Text>
+
+                            <Box >
+
                                 {
-                                    item.items.map( (content, idx) => {
+                                    item.items.slice(0).reverse().map( (content, conIdx) => {
                                         return (
-                                        <Flex >
-                                            { idx !== item.items.length - 1 && <Box w="1px" bg="gray.700" position="relative">
-                                                <Box w="10px" h="10px" borderRadius="50%" bg="black" position="absolute" transform={idx === 0 ? "translate(-50%, 0%)" : "translate(-50%, 50%)"}></Box>
-                                            </Box>}
-                                            <Text as="h5" ml={2} mb="4" fontSize="xl" fontFamily="body">{content.title}</Text>
-                                        </Flex>
+                                            <Flex pb="5" key={`event-${item.year}-${conIdx}`} position="relative">
+                                                { conIdx !== item.items.length - 1 && <Box {...styleProps.line}></Box>}
+                                                <Text {...styleProps.bullet}><FontAwesomeIcon icon="circle"/></Text>
+                                                <Box>
+                                                    <Text {...styleProps.event}>{content.title}</Text>
+                                                    {content.content && <Text {...styleProps.eventContent}>{content.content}</Text>}
+                                                </Box>
+                                                
+                                                
+                                            </Flex>
                                         )
                                     })
                                 }
@@ -154,46 +167,7 @@ const Timeline = () => {
                         </Box>
                     )
                 })
-            } */}
-            <Box >
-                <Text as="h4" fontSize="4xl" fontFamily="heading">2052</Text>
-                
-                <List position={"relative"}>
-                    <Box w="3px" h="100%" bg={"black"} position={"absolute"}></Box>
-                    <ListItem pb="4" position="relative" ml="5">
-                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
-                        <Box {...styleProps.circleFirst}></Box>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
-                    </ListItem>
-                    <ListItem pb="4" position="relative" ml="5">
-                        <Box {...styleProps.circleMiddle}></Box>
-                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
-                    </ListItem>
-                    <ListItem pb="0" position="relative" ml="5">
-                        <Box {...styleProps.circleLast}></Box>
-                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
-                    </ListItem>
-                </List>
-
-                <Text as="h4" fontSize="4xl" fontFamily="heading">2051</Text>
-                
-                <List position={"relative"}>
-                    <Box w="3px" h="100%" bg={"black"} position={"absolute"}></Box>
-                    <ListItem pb="4" position="relative" ml="5">
-                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
-                        <Box {...styleProps.circleFirst}></Box>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
-                    </ListItem>
-                    
-                    <ListItem pb="0" position="relative" ml="5">
-                        <Box {...styleProps.circleLast}></Box>
-                        {/* <ListIcon as={MinusIcon} color={useColorModeValue("primaryLight", "primaryDark")}/> */}
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere, temporibus!
-                    </ListItem>
-                </List>
-            </Box>
+            }
         </Box>
     );
 }
