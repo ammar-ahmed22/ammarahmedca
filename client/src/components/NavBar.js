@@ -41,13 +41,21 @@ const NavBar = () => {
       justify: "space-between",
       zIndex: 200,
     },
+    topBar: {
+        position: "fixed",
+        w: "100%",
+        h: "2vh",
+        top: 0,
+        zIndex: 500,
+        bg: useColorModeValue("primaryLight", "primaryDark")
+    },
     navButton: {
       colorScheme: "blackAlpha",
       color: useColorModeValue("black", "white"),
       variant: "ghost",
       fontWeight: "bold",
       fontFamily: "body",
-      fontSize: "xl",
+      fontSize: "md",
     },
     iconLink: {
         mr: 2,
@@ -65,7 +73,7 @@ const NavBar = () => {
 
   return (
     <>
-    <Box position="fixed" w="100%" h="2vh" bg="primaryLight" top={0} zIndex={500}></Box>
+    <Box {...styleProps.topBar}></Box>
     <Flex as="header" {...styleProps.main}>
       <Box>
         <LogoIcon boxSize={20} />
