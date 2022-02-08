@@ -6,7 +6,7 @@ const Hero = () => {
 
     const styleProps = {
         mainText: {
-            fontSize: "9xl",
+            fontSize: "8xl",
             fontWeight: "bold",
             textAlign: "right",
             lineHeight: "none",
@@ -25,7 +25,7 @@ const Hero = () => {
     }
     
     return (
-        <Box minH="100vh" position="relative">
+        <Box minH="100vh" position="relative" >
             <Box marginTop="10vh" zIndex={10} >
                 <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize="7xl">👋🏽</Text><br />I'm <Text color={useColorModeValue("primaryLight", "primaryDark")} as="span">Ammar</Text></Text>
                 <Text {...styleProps.subText}>Engineering student at the <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Box } from "@chakra-ui/react"
 import '../assets/css/Signature.css'
 
@@ -6,13 +6,14 @@ const Signature = ({ color }) => {
     const styleProps = {
         box: {
             position: "absolute",
-            transform: "translate(-60%, -60%)",
-            // top: '50%',
-            left: "40%",
-            zIndex: -1
+            transform: "translate(-70%, 0)",
+            top: '20%',
+            left: "30%",
+            zIndex: -1,
         }
     }
 
+    
     
     return (
         <Box {...styleProps.box} >
