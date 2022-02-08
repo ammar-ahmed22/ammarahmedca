@@ -8,7 +8,8 @@ import {
   IconButton,
   useColorMode,
   useColorModeValue,
-  Link
+  Link,
+  Container
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -30,12 +31,12 @@ const NavBar = () => {
     main: {
       p: 4,
       position: "fixed",
-      w: "100%",
+      w: "container.md",
       bg: useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(26, 32, 44, 0.8)"),
       top: 0,
+      left: "50%",
+      transform: "translate(-50%, 0)",
       backdropFilter: "saturate(180%) blur(5px)",
-      borderTop: "solid 2vh",
-      borderColor: useColorModeValue("primaryLight", "primaryDark"),
       align: "center",
       justify: "space-between",
       zIndex: 200,
@@ -63,6 +64,8 @@ const NavBar = () => {
   };
 
   return (
+    <>
+    <Box position="fixed" w="100%" h="2vh" bg="primaryLight" top={0} zIndex={500}></Box>
     <Flex as="header" {...styleProps.main}>
       <Box>
         <LogoIcon boxSize={20} />
@@ -91,6 +94,7 @@ const NavBar = () => {
         />
       </Flex>
     </Flex>
+    </>
   );
 };
 
