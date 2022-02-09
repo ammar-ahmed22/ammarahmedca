@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img width="30"  alt="ammarahmed.ca Website Logo" src="https://user-images.githubusercontent.com/68879139/134760810-76d0733d-eafb-4783-a760-52f7d8ebb229.png">
+    <img width="30"  alt="ammarahmed.ca Website Logo" src="../images/LogoIcon.png">
 </p>
 <h1 align="center">ammarahmed.ca</h1>
 <p align="center">
