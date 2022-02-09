@@ -1,6 +1,6 @@
 
 <p align="center">
-    <img width="30"  alt="ammarahmed.ca Website Logo" src="../images/LogoIcon.png">
+    <img width="30"  alt="ammarahmed.ca Website Logo" src="../images/LogoIcon.png?raw=true">
 </p>
 <h1 align="center">ammarahmed.ca</h1>
 <p align="center">
