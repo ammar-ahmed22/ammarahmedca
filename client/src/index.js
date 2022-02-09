@@ -6,9 +6,9 @@ import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faFileDownload, faCircle } from "@fortawesome/free-solid-svg-icons"
+import { faFileDownload, faCircle, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons"
 
-library.add(fab, faFileDownload, faCircle)
+library.add(fab, faFileDownload, faCircle, faExternalLinkAlt)
 
 const fonts = {
   body: "Manrope, sans-serif",
