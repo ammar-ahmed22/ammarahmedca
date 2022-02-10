@@ -1,4 +1,3 @@
-require("dotenv").config({ path: "../config.env"})
 const { Client } = require("@notionhq/client")
 
 class Notion{
@@ -8,11 +7,29 @@ class Notion{
     }
 
     parseResponse = (resp) => {
+        // Parses results list from Notion API
         
+        const result = resp.map( (page, idx) => {
+            const { Name, Timeline, Type, Languages, GitHub, External, Description } = page.properties;
+            return {
+                id: page.id,
+                lastEdited: page.last_edited_time,
+                name: Name.title[0].plain_text,
+                timeline: Timeline.rich_text[0].plain_text,
+                type: Type.multi_select.map( item => item.name),
+                languages: Languages.multi_select.map( item => item.name),
+                github: GitHub.url,
+                external: External.url,
+                description: Description.rich_text.length > 0 ? Description.rich_text[0].plain_text : ""
+            }
+        })
+
+        return result
+
     }
 
 
-    query = async ({name = null, languages = null, type = null}) => {
+    getProjectInfo = async ({name = null, languages = null, type = null}) => {
         const { notion, dbId } = this;
 
         const or = []
@@ -57,8 +74,8 @@ class Notion{
         
 
         //if (!res) throw new Error("cannot query")
-
-        console.log(res)
+        console.log(res.results)
+        return this.parseResponse(res.results);
     }
 
 

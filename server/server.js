@@ -7,10 +7,6 @@ const readContent = require('./utils/readContent');
 
 const Notion = require("./models/Notion")
 
-const projectDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_PROJECTS_DB_ID)
-
-projectDb.query({languages: "HTML/CSS"})
-
 
 
 const PORT = process.env.PORT || 5000
