@@ -2,6 +2,7 @@ import React from 'react';
 import { Container } from "@chakra-ui/react"
 import Hero from './Hero';
 import About from './About';
+import Projects from './Projects';
 import Timeline from './Timeline';
 
 const Main = () => {
@@ -19,6 +20,7 @@ const Main = () => {
         <Container {...styleProps.container} as="main" >
             <Hero />
             {/* <About /> */}
+            <Projects />
             <Timeline />
         </Container>
     );

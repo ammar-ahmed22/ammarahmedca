@@ -1,0 +1,17 @@
+type ProjectInfo {
+    id: ID!
+    lastEdited: String!
+    name: String!
+    timeline: String
+    type: [String]
+    languages: [String]
+    frameworks: [String]
+    github: String
+    external: String
+    description: String
+}
+
+type Query{
+    hello: String!
+    ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
+}
