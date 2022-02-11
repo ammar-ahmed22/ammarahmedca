@@ -5,9 +5,6 @@ const express = require("express")
 // Simple .gql file loader
 const readContent = require('./utils/readContent');
 
-const Notion = require("./models/Notion")
-
-
 
 const PORT = process.env.PORT || 5000
 

@@ -6,7 +6,7 @@ const projectDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOT
 const resolver = {
     Query: {
         hello: () => "hello world!!!!",
-        GetProjectInfo: async (_, { name, type, languages }) => {
+        ProjectInfo: async (_, { name, type, languages }) => {
             const result = await projectDb.getProjectInfo({name, type, languages})
             return result
         }

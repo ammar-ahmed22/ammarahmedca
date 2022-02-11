@@ -5,6 +5,7 @@ type ProjectInfo {
     timeline: String
     type: [String]
     languages: [String]
+    frameworks: [String]
     github: String
     external: String
     description: String
@@ -12,5 +13,5 @@ type ProjectInfo {
 
 type Query{
     hello: String!
-    GetProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
+    ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
 }

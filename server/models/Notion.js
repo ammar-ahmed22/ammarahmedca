@@ -10,7 +10,7 @@ class Notion{
         // Parses results list from Notion API
         
         const result = resp.map( (page, idx) => {
-            const { Name, Timeline, Type, Languages, GitHub, External, Description } = page.properties;
+            const { Name, Timeline, Type, Languages, GitHub, External, Description, Frameworks } = page.properties;
             return {
                 id: page.id,
                 lastEdited: page.last_edited_time,
@@ -18,10 +18,11 @@ class Notion{
                 timeline: Timeline.rich_text[0].plain_text,
                 type: Type.multi_select.map( item => item.name),
                 languages: Languages.multi_select.map( item => item.name),
+                frameworks: Frameworks.multi_select.map( item => item.name),
                 github: GitHub.url,
                 external: External.url,
-                description: Description.rich_text.length > 0 ? Description.rich_text[0].plain_text : ""
-            }
+                description: Description.rich_text.length > 0 ? Description.rich_text[0].plain_text : "",
+            };
         })
 
         return result
@@ -73,8 +74,8 @@ class Notion{
 
         
 
-        //if (!res) throw new Error("cannot query")
-        console.log(res.results)
+        if (!res) throw new Error("cannot query")
+        //console.log(res.results)
         return this.parseResponse(res.results);
     }
 

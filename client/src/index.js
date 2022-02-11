@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
+import { ApolloProvider, ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client"
 import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
@@ -27,13 +28,24 @@ const config = {
 
 const theme = extendTheme({ fonts, config, colors })
 
+const httpLink = new HttpLink({
+  uri: "http://localhost:8080/graphql"
+})
+
+const client = new ApolloClient({
+  cache: new InMemoryCache(),
+  link: ApolloLink.from([httpLink])
+})
+
 
 ReactDOM.render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
-      <App />
-    </ChakraProvider>
+    <ApolloProvider client={client} >
+      <ChakraProvider theme={theme}>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode}/>
+        <App />
+      </ChakraProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
