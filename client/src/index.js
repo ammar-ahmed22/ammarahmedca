@@ -7,9 +7,9 @@ import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faFileDownload, faCircle, faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons"
+import { faFileDownload, faCircle, faExternalLinkAlt, faSearch } from "@fortawesome/free-solid-svg-icons"
 
-library.add(fab, faFileDownload, faCircle, faExternalLinkAlt)
+library.add(fab, faFileDownload, faCircle, faExternalLinkAlt, faSearch)
 
 const fonts = {
   body: "Manrope, sans-serif",
@@ -26,7 +26,11 @@ const config = {
   useSystemColorMode: false
 }
 
-const theme = extendTheme({ fonts, config, colors })
+const shadows = {
+  outline: "0 0 0 3px rgba(161, 0, 16, 0.6)",
+}
+
+const theme = extendTheme({ fonts, config, colors, shadows })
 
 const httpLink = new HttpLink({
   uri: "http://localhost:8080/graphql"

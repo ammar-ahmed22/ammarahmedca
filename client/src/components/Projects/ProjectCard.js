@@ -31,16 +31,18 @@ const ProjectCard = ({ project, id, loading }) => {
             fontWeight: "bold"
         }
     }
+
+    const primary = useColorModeValue("primaryLight", "primaryDark");
     
     return (
         <Skeleton isLoaded={!loading} >
             <Box {...styleProps.mainBox} _after={{...styleProps.afterBox}} key={id} >
-                <Flex justify="space-between" align="center">
+                <Flex justify="space-between" align="baseline">
                     <Text fontSize="2xl" fontFamily="heading">{project.name}</Text>
-                    <Box>
+                    <Flex>
                         { project.github && <Link href={project.github} mr={1} isExternal ><FontAwesomeIcon icon={['fab', 'github']}/></Link>}
                         { project.external && <Link href={project.external} isExternal ><FontAwesomeIcon icon="external-link-alt"/></Link>}
-                    </Box>
+                    </Flex>
                 </Flex>
                 {
                     project.type.length > 0 && (

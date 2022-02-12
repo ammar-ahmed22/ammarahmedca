@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Text, Box, SimpleGrid, useColorModeValue } from "@chakra-ui/react"
+import { Text, Box, SimpleGrid, useColorModeValue, Flex } from "@chakra-ui/react"
 import ProjectCard from './Projects/ProjectCard';
+import Search from './Projects/Search';
+import Filter from './Projects/Filter';
 
 
 
@@ -36,6 +38,9 @@ const Projects = () => {
         }
     }
 
+    const [projects, setProjects] = useState([]);
+
+
     
 
     const { data, loading, error } = useQuery(PROJECT_INFO);
@@ -43,16 +48,26 @@ const Projects = () => {
 
     const primaryColor = useColorModeValue("primaryLight", "primaryDark");
 
+    useEffect(() => {
+        if (data){
+            setProjects(data.ProjectInfo)
+        }
+    }, [data])
     
     
     return (
         <Box {...styleProps.mainBox} >
             <Text {...styleProps.title}>My <Text color={primaryColor} as="span">Works</Text></Text>
+            <Flex mb={4}>
+               {data &&  <Search data={data.ProjectInfo} setData={setProjects} /> }
+               <Filter />
+            </Flex>
+            
             {
-                data && (
+                data && projects && (
                     <SimpleGrid columns={2} spacing={5}>
                         {
-                            data.ProjectInfo.map( project => {
+                            projects.map( project => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />
                             })
                         }
