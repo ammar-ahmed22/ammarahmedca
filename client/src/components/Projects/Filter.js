@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, Button } from "@chakra-ui/react"
+import { ChevronDownIcon } from "@chakra-ui/icons"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useQuery, gql } from "@apollo/client"
 
@@ -22,7 +23,7 @@ const Filter = () => {
     
     return (
         <Menu closeOnSelect={false} >
-            <MenuButton as={Button} colorScheme="red" rightIcon={<FontAwesomeIcon icon="search" />}>
+            <MenuButton as={Button} variant="outline" colorScheme="black" rightIcon={<ChevronDownIcon />} >
                 Filter
             </MenuButton>
             <MenuList minWidth="240px">

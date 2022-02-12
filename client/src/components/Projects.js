@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Text, Box, SimpleGrid, useColorModeValue, Flex } from "@chakra-ui/react"
+import { Text, Box, SimpleGrid, useColorModeValue, HStack } from "@chakra-ui/react"
 import ProjectCard from './Projects/ProjectCard';
 import Search from './Projects/Search';
 import Filter from './Projects/Filter';
@@ -58,10 +58,10 @@ const Projects = () => {
     return (
         <Box {...styleProps.mainBox} >
             <Text {...styleProps.title}>My <Text color={primaryColor} as="span">Works</Text></Text>
-            <Flex mb={4}>
+            <HStack mb={4} spacing={2} >
                {data &&  <Search data={data.ProjectInfo} setData={setProjects} /> }
-               <Filter />
-            </Flex>
+               {data && <Filter /> }
+            </HStack>
             
             {
                 data && projects && (
