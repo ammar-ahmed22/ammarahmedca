@@ -75,7 +75,7 @@ class Notion{
         
 
         if (!res) throw new Error("cannot query")
-        //console.log(res.results)
+        console.log(res.results[0].properties.Frameworks)
         return this.parseResponse(res.results);
     }
 

@@ -11,7 +11,14 @@ type ProjectInfo {
     description: String
 }
 
+type FilterParams {
+    frameworks: [String]!
+    type: [String]!
+    languages: [String]!
+}
+
 type Query{
     hello: String!
     ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
+    FilterBy: FilterParams!
 }
