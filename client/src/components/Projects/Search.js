@@ -2,53 +2,56 @@ import React, { useState, useEffect } from 'react';
 import { InputGroup, Input, InputLeftElement, useColorModeValue } from "@chakra-ui/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
-const Search = ({ data, setData }) => {
+const Search = ({ projects, setProjects }) => {
 
     const [query, setQuery] = useState("");
 
 
     useEffect(() => {
         if (query !== ""){
+            
             const queryRegex = new RegExp(query, "g");
-            const resTest = data.filter( project => {
-                let match = false;
 
-                // does query match the name
-                if (queryRegex.test(project.name)){
-                    match = true
-                }
-
-                // does query match any of the languages
-                project.languages.forEach( language => {
-                    if (queryRegex.test(language)){
-                        match = true
-                    }
-                })
-
-                // does query match any of the frameworks
-                project.frameworks.forEach( framework => {
-                    if (queryRegex.test(framework)){
-                        match = true
-                    }
-                })
-
-                // does query match of any of the types
-                project.type.forEach( item => {
-                    if (queryRegex.test(item)){
-                        match = true
-                    }
-                })
-
-                return match
+            setProjects( () => {
                 
+                return projects.filter( project => {
+                    let match = false;
+    
+                    // does query match the name
+                    if (queryRegex.test(project.name)){
+                        match = true
+                    }
+    
+                    // does query match any of the languages
+                    project.languages.forEach( language => {
+                        if (queryRegex.test(language)){
+                            match = true
+                        }
+                    })
+    
+                    // does query match any of the frameworks
+                    project.frameworks.forEach( framework => {
+                        if (queryRegex.test(framework)){
+                            match = true
+                        }
+                    })
+    
+                    // does query match of any of the types
+                    project.type.forEach( item => {
+                        if (queryRegex.test(item)){
+                            match = true
+                        }
+                    })
+    
+                    return match
+                    
+                })
             })
-
-            setData(resTest)
             
         }else{
-            setData(data)
+            setProjects(projects)
         }
-    }, [query, data, setData])
+    }, [query, projects, setProjects])
 
     return (
         <InputGroup>

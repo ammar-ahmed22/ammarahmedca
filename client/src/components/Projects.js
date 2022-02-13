@@ -59,8 +59,8 @@ const Projects = () => {
         <Box {...styleProps.mainBox} >
             <Text {...styleProps.title}>My <Text color={primaryColor} as="span">Works</Text></Text>
             <HStack mb={4} spacing={2} >
-               {data &&  <Search data={data.ProjectInfo} setData={setProjects} /> }
-               {data && <Filter /> }
+               {data &&  <Search projects={data.ProjectInfo} setProjects={setProjects} /> }
+               {data && <Filter projects={data.ProjectInfo} setProjects={setProjects} /> }
             </HStack>
             
             {
