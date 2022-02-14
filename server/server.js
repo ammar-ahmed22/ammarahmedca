@@ -6,8 +6,6 @@ const Notion = require("./models/Notion");
 // Simple .gql file loader
 const readContent = require('./utils/readContent');
 
-const projectDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_PROJECTS_DB_ID)
-projectDb.getProjectInfo({})
 
 const PORT = process.env.PORT || 5000
 

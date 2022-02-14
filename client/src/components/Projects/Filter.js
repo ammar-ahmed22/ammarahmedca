@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, Button } from "@chakra-ui/react"
-import { ChevronDownIcon } from "@chakra-ui/icons"
+import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, MenuDivider, MenuItem, Button } from "@chakra-ui/react"
+import { ChevronDownIcon, RepeatIcon } from "@chakra-ui/icons"
 import { useQuery, gql } from "@apollo/client"
 
 const Filter = ({ projects, setProjects }) => {
@@ -28,11 +28,26 @@ const Filter = ({ projects, setProjects }) => {
             setDataLoaded(true)
         }
 
-        // setProjects( prevProjects => {
-        //     return projects.filter( project => {
+        if (Object.keys(filterParams).length !== 0 && filterBy !== ""){
+        setProjects( prevProjects => {
+            
+            return projects.filter( project => {
+                let match = false;
 
-        //     })
-        // })
+                project[filterBy].forEach( item => {
+                    if (filterParams[filterBy].indexOf(item) !== -1){
+                        match = true
+                    }
+                })
+
+                if (project[filterBy].length === 0){
+                    match = false
+                }
+
+                return match
+            })
+        })
+        }
 
     }, [filterBy, data, filterParams, dataLoaded, setDataLoaded, setProjects, projects])
 
@@ -50,19 +65,26 @@ const Filter = ({ projects, setProjects }) => {
         })
     }
 
+    const handleReset = e => {
+        if (data){
+            setFilterParams(data.FilterBy)
+        }
+    }
+
     
     return (
         <Menu closeOnSelect={false} >
             <MenuButton as={Button} variant="outline" colorScheme="black" rightIcon={<ChevronDownIcon />} >
                 Filter
             </MenuButton>
-            <MenuList minWidth="240px">
+            <MenuList>
                 
-                <MenuOptionGroup title="By" type="radio" defaultValue="type" onChange={ value => setFilterBy(value)}>
+                <MenuOptionGroup title="Category" type="radio" defaultValue="type" onChange={ value => setFilterBy(value)}>
                     <MenuItemOption value="type">Type</MenuItemOption>
                     <MenuItemOption value="frameworks">Framework</MenuItemOption>
                     <MenuItemOption value="languages">Language</MenuItemOption>
                 </MenuOptionGroup>
+                <MenuDivider />
                 {
                     data && filterBy && (
                         <MenuOptionGroup title={filterBy[0].toUpperCase() + filterBy.substring(1)} type="checkbox" value={filterParams[filterBy]} onChange={handleFilterParamChange}>
@@ -74,8 +96,13 @@ const Filter = ({ projects, setProjects }) => {
                         </MenuOptionGroup>
                     )
                 }
+                <MenuDivider />
+                <MenuOptionGroup>
+                    <MenuItem onClick={handleReset} >Reset</MenuItem>
+                </MenuOptionGroup>
                 
             </MenuList>
+            
         </Menu>
     );
 }
