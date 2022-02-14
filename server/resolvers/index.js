@@ -9,6 +9,37 @@ const resolver = {
         ProjectInfo: async (_, { name, type, languages }) => {
             const result = await projectDb.getProjectInfo({name, type, languages})
             return result
+        },
+        FilterBy: async () => {
+            const res = await projectDb.getProjectInfo({});
+
+            const result = {
+                frameworks: [],
+                type: [],
+                languages: []
+            }
+
+            res.forEach(project => {
+                project.frameworks.forEach( item => {
+                    result.frameworks.push(item)
+                })
+
+                project.type.forEach(item => {
+                    result.type.push(item)
+                })
+
+                project.languages.forEach(item => {
+                    result.languages.push(item)
+                })
+            })
+
+            // removing duplicates
+            return {
+                frameworks: [...new Set(result.frameworks)],
+                type: [...new Set(result.type)],
+                languages: [...new Set(result.languages)]
+            }
+
         }
     }
 }

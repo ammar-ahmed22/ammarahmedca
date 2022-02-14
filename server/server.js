@@ -1,6 +1,7 @@
 require("dotenv").config({ path: "./config.env"});
 const { ApolloServer } = require("apollo-server-express")
 const express = require("express")
+const Notion = require("./models/Notion");
 
 // Simple .gql file loader
 const readContent = require('./utils/readContent');
