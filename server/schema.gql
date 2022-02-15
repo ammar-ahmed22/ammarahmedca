@@ -17,8 +17,19 @@ type FilterParams {
     languages: [String]!
 }
 
+type YearData {
+    title: String!
+    description: String
+}
+
+type TimelineYear {
+    year: Int!
+    yearData: [YearData]!
+}
+
 type Query{
     hello: String!
     ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
     FilterBy: FilterParams!
+    TimelineInfo: [TimelineYear]!
 }
