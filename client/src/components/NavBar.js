@@ -80,6 +80,7 @@ const NavBar = () => {
       </Box>
       <Spacer />
       <Flex align="center">
+        <Button {...styleProps.navButton}>Home</Button>
         <Button {...styleProps.navButton}>About</Button>
         <Button {...styleProps.navButton}>Projects</Button>
         <Button {...styleProps.navButton}>Experience</Button>

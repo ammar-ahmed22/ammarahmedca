@@ -2,6 +2,7 @@ require("dotenv").config({ path: "../config.env"});
 const Notion = require("../models/Notion");
 
 const projectDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_PROJECTS_DB_ID)
+const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
 
 const resolver = {
     Query: {
@@ -40,6 +41,11 @@ const resolver = {
                 languages: [...new Set(result.languages)]
             }
 
+        },
+        TimelineInfo: async () => {
+            const results = await timelineDb.getTimelineInfo();
+
+            return results
         }
     }
 }
