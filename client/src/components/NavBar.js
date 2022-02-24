@@ -13,6 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { Link as ReactLink } from "react-router-dom"
 import Logo from "./Logo";
 import Resume from "../assets/documents/Ammar_Resume_Sep_2021.pdf"
 
@@ -52,10 +53,16 @@ const NavBar = () => {
     navButton: {
       colorScheme: "blackAlpha",
       color: useColorModeValue("black", "white"),
-      variant: "ghost",
+      //variant: "ghost",
       fontWeight: "bold",
       fontFamily: "body",
       fontSize: "md",
+      px: 4,
+      py: 2,
+      borderRadius: "base",
+      _hover: {
+        bg: useColorModeValue("gray.50", "gray.700")
+      }
     },
     iconLink: {
         mr: 2,
@@ -80,9 +87,9 @@ const NavBar = () => {
       </Box>
       <Spacer />
       <Flex align="center">
-        <Button {...styleProps.navButton}>About</Button>
-        <Button {...styleProps.navButton}>Projects</Button>
-        <Button {...styleProps.navButton}>Experience</Button>
+        <Link {...styleProps.navButton} as={ReactLink} to="/about" >About</Link>
+        <Link {...styleProps.navButton} >Projects</Link>
+        <Link {...styleProps.navButton} >Experience</Link>
       </Flex>
       <Spacer />
       <Flex align="center">
