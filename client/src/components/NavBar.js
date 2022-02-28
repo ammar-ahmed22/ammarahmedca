@@ -87,9 +87,11 @@ const NavBar = () => {
       </Box>
       <Spacer />
       <Flex align="center">
+
         <Link {...styleProps.navButton} as={ReactLink} to="/about" >About</Link>
         <Link {...styleProps.navButton} >Projects</Link>
         <Link {...styleProps.navButton} >Experience</Link>
+
       </Flex>
       <Spacer />
       <Flex align="center">
