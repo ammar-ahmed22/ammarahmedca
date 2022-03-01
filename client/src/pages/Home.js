@@ -8,7 +8,7 @@ import Timeline from "../components/Timeline"
 const Home = () => {
     return (
         <>
-            <NavBar />
+            <NavBar active="home"/>
             {/* <Main /> */}
             <PageContent>
                 <Hero />

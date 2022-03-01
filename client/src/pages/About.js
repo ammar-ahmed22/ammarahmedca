@@ -31,7 +31,7 @@ const About = () => {
 
     return (
         <>
-            <NavBar />
+            <NavBar active="about" />
             <PageContent>
                 <Box marginTop="10vh">
                     <Text {...styleProps.title} ><Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Who</Text> Am I?</Text>

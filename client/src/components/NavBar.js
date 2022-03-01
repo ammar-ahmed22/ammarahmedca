@@ -25,7 +25,7 @@ const LogoIcon = (props) => {
   );
 };
 
-const NavBar = () => {
+const NavBar = ({ active }) => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   const styleProps = {
@@ -52,7 +52,6 @@ const NavBar = () => {
     },
     navButton: {
       colorScheme: "blackAlpha",
-      color: useColorModeValue("black", "white"),
       //variant: "ghost",
       fontWeight: "bold",
       fontFamily: "body",
@@ -61,9 +60,10 @@ const NavBar = () => {
       py: 2,
       borderRadius: "base",
       _hover: {
-        bg: useColorModeValue("gray.50", "gray.700")
+        bg: useColorModeValue("gray.50", "gray.700"),
       }
     },
+    
     iconLink: {
         mr: 2,
         _hover: {
@@ -78,6 +78,9 @@ const NavBar = () => {
     },
   };
 
+  const primary = useColorModeValue("primaryLight", "primaryDark");
+  const regular = useColorModeValue("black", "white");
+
   return (
     <>
     <Box {...styleProps.topBar}></Box>
@@ -88,13 +91,21 @@ const NavBar = () => {
       <Spacer />
       <Flex align="center">
 
-        <Link {...styleProps.navButton} as={ReactLink} to="/about" >About</Link>
-        <Link {...styleProps.navButton} >Projects</Link>
+        <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/">Home</Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" >About Me</Link>
         <Link {...styleProps.navButton} >Experience</Link>
+        <Link {...styleProps.navButton} >Resume</Link>
+
+        <IconButton
+          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+          {...styleProps.colorModeToggle}
+          onClick={toggleColorMode}
+        />
 
       </Flex>
-      <Spacer />
-      <Flex align="center">
+      {/* <Spacer /> */}
+      
+      {/* <Flex align="center">
         <Link href="https://github.com/ammar-ahmed22" isExternal {...styleProps.iconLink}>
             <FontAwesomeIcon icon={['fab', "github"]}/>
         </Link>
@@ -109,7 +120,7 @@ const NavBar = () => {
           {...styleProps.colorModeToggle}
           onClick={toggleColorMode}
         />
-      </Flex>
+      </Flex> */}
     </Flex>
     </>
   );
