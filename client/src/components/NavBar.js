@@ -4,18 +4,14 @@ import {
   Icon,
   Spacer,
   Box,
-  Button,
   IconButton,
   useColorMode,
   useColorModeValue,
   Link,
-  Container
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link as ReactLink } from "react-router-dom"
 import Logo from "./Logo";
-import Resume from "../assets/documents/Ammar_Resume_Sep_2021.pdf"
 
 const LogoIcon = (props) => {
   return (
@@ -103,24 +99,6 @@ const NavBar = ({ active }) => {
         />
 
       </Flex>
-      {/* <Spacer /> */}
-      
-      {/* <Flex align="center">
-        <Link href="https://github.com/ammar-ahmed22" isExternal {...styleProps.iconLink}>
-            <FontAwesomeIcon icon={['fab', "github"]}/>
-        </Link>
-        <Link href="https://www.linkedin.com/in/ammarahmed03/" isExternal {...styleProps.iconLink}>
-            <FontAwesomeIcon icon={['fab', "linkedin"]}/>
-        </Link>
-        <Link href={Resume} {...styleProps.iconLink} isExternal >
-            <FontAwesomeIcon icon="file-download"/>
-        </Link>
-        <IconButton
-          icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-          {...styleProps.colorModeToggle}
-          onClick={toggleColorMode}
-        />
-      </Flex> */}
     </Flex>
     </>
   );
