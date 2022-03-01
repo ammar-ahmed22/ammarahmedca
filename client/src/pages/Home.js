@@ -4,6 +4,7 @@ import PageContent from "../components/PageContent"
 import Hero from "../components/Hero"
 import Projects from "../components/Projects"
 import Timeline from "../components/Timeline"
+import Footer from "../components/Footer"
 
 const Home = () => {
     return (
@@ -15,6 +16,7 @@ const Home = () => {
                 <Projects />
                 <Timeline />
             </PageContent>
+            <Footer />
             {/* <Avatar /> */}
         </>
     )

@@ -89,7 +89,7 @@ const NavBar = ({ active }) => {
 
         <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/">Home</Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" >About Me</Link>
-        <Link {...styleProps.navButton} >Experience</Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "experience" ? primary : regular} to="/experience" >Experience</Link>
         <Link {...styleProps.navButton} >Resume</Link>
 
         <IconButton
