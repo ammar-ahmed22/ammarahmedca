@@ -1,5 +1,6 @@
 import React from 'react';
 import NavBar from '../components/NavBar';
+import Footer from '../components/Footer';
 import PageContent from '../components/PageContent';
 import { Text, Box, Image, useColorModeValue, Flex } from "@chakra-ui/react";
 import Wedding from "../assets/images/Wedding.jpg";
@@ -24,14 +25,14 @@ const About = () => {
         imageCaption: {
             fontSize: "sm",
             textAlign: "center",
-            color: "gray.500",
+            color: "gray.600",
             mb: 2
         }
     }
 
     return (
         <>
-            <NavBar />
+            <NavBar active="about" />
             <PageContent>
                 <Box marginTop="10vh">
                     <Text {...styleProps.title} ><Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Who</Text> Am I?</Text>
@@ -72,6 +73,7 @@ const About = () => {
                     
                 </Box>
             </PageContent>
+            <Footer />
         </>
     );
 }
