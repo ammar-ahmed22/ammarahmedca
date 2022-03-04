@@ -4,12 +4,14 @@ import {
   Icon,
   Spacer,
   Box,
+  Text,
   IconButton,
   useColorMode,
   useColorModeValue,
   Link,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link as ReactLink } from "react-router-dom"
 import Logo from "./Logo";
 
@@ -55,6 +57,9 @@ const NavBar = ({ active }) => {
       px: 4,
       py: 2,
       borderRadius: "base",
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "center",
       _hover: {
         bg: useColorModeValue("gray.50", "gray.700"),
       }
@@ -87,10 +92,10 @@ const NavBar = ({ active }) => {
       <Spacer />
       <Flex align="center">
 
-        <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/">Home</Link>
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" >About Me</Link>
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "experience" ? primary : regular} to="/experience" >Experience</Link>
-        <Link {...styleProps.navButton} >Resume</Link>
+        <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/"><FontAwesomeIcon icon="home"/><Text>Home</Text></Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon="user"/><Text>About Me</Text></Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "experience" ? primary : regular} to="/experience" ><FontAwesomeIcon icon="briefcase"/><Text>Experience</Text></Link>
+        <Link {...styleProps.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link>
 
         <IconButton
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
