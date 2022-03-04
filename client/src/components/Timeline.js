@@ -1,7 +1,8 @@
-import React from 'react';
-import { Box, Text, Flex, useColorModeValue, Skeleton } from "@chakra-ui/react"
+import React, { useState, useEffect } from 'react';
+import { Box, Text, Flex, useColorModeValue, Skeleton, Button } from "@chakra-ui/react"
 import { FontAwesomeIcon, } from '@fortawesome/react-fontawesome';
 import { useQuery, gql } from '@apollo/client';
+import DisplayLimiter from './DisplayLimiter';
 
 
 
@@ -19,94 +20,11 @@ const Timeline = () => {
         }
     `
 
+    const [yearsToDisplay, setYearsToDisplay] = useState(2);
+    
+
     const { data, loading, error } = useQuery(GET_TIMELINE_INFO);
 
-    // const timeLineDataByYear = [
-    //     {
-    //         year: 2001,
-    //         items: [
-    //             {
-    //                 title: "A little brown boy was born in Regina, Saskatchewan (me)"
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         year: 2013,
-    //         items: [
-    //             {
-    //                 title: "Started Hifz (Memorization of Quran)",
-    //                 content: "Left school to memorize the Holy Quran full-time while doing academic schooling from home."
-    //             }
-    //         ]
-    //     },
-    //     {
-    //         year: 2016,
-    //         items: [
-    //             {
-    //                 title: "Completed Hifz",
-    //                 content: "Successfully memorized the Holy Quran (850 pages), an immense honor in Islam."    
-    //             },
-    //             {
-    //                 title: "Started highschool"
-    //             }
-    //         ],
-            
-    //     },
-    //     {
-    //         year: 2020,
-    //         items: [
-    //             {
-    //                 title: "Graduated highschool"
-    //             },
-    //             {
-    //                 title: "Accepted into the University of Waterloo's highly competitive engineering program."
-    //             },
-    //             {
-    //                 title: "Wrote my first line of code",
-    //                 content: "Python to start off with, wrote a function to solve the quadratic formula"
-    //             },
-    //             {
-    //                 title: "Started my first collaborative coding project",
-    //                 content: "Initiated a team of 7 fellow incoming first-years to create a resource website for applicants to the University of Waterloo."
-    //             },
-    //             {
-    //                 title: "Started Bachelor of Applied Science in Nanotechnology Engineering (from my basement)",
-    //                 content: "Gotta love the pandemic"
-    //             },
-    //             {
-    //                 title: "Landed first co-op intership for the University of Waterloo's WIL Programs as a Developer",
-    //                 content: "An immense accomplishment especially due to the pandemic causing the internship market to be very scarce. I was so happy when I received this offer as I would be doing work I really enjoyed."
-    //             }
-    //         ],
-            
-    //     },
-        
-    //     {
-    //         year: 2021,
-    //         items: [
-    //             {
-    //                 title: "Completed 1 year of my Bachelor's Degree"
-    //             },
-    //             {
-    //                 title: "Landed a position as Husband",
-    //                 content: "Yes, I got married at 20 years old. Ask me about it!"
-    //             },
-    //             {
-    //                 title: "Arrived at the University of Waterloo campus",
-    //                 content: "My first time living alone after a year of doing school from home."
-    //             },
-    //             {
-    //                 title: "Landed my second co-op internship at HIRE Technologies as a QA Engineer.",
-    //                 content: "Super excited for this job as it was much more technical as compared to my last internship. I'd be working with React, GraphQL and AWS; all of which are very popular technologies at the moment."
-    //             },
-    //             {
-    //                 title: "Accepted an offer from my previous co-op at the University of Waterloo WIL Programs to come back in casual/part-time Developer role.",
-    //                 content: "Due to exceptional performance during my co-op term, WIL Programs offered me to come back in a casual/part-time role to help out with backlog. Very exciting to be making some extra money."
-    //             }
-    //         ],
-    //     },
-        
-    // ]
 
     
 
@@ -152,12 +70,14 @@ const Timeline = () => {
         
     }
 
+    
+
     return (
-        <Box {...styleProps.mainBox}>
+        <Box {...styleProps.mainBox} id='timeline'>
             <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Life</Text> So Far</Text>
             
             {
-                data && data.TimelineInfo.map( (item, idx) => {
+                data && data.TimelineInfo.slice(0, yearsToDisplay).map( (item, idx) => {
                     return (
                         <Skeleton key={idx} isLoaded={!loading}>
                         <Box key={`year-${idx}`}>
@@ -187,6 +107,12 @@ const Timeline = () => {
                     )
                 })
             }
+            
+            <Flex justify="center">
+                {data && <DisplayLimiter numDisplaying={yearsToDisplay} setNumDisplaying={setYearsToDisplay} initial={2} total={data.TimelineInfo.length} incrementBy={2} scrollToId="timeline"/>}
+            </Flex>
+                
+            
         </Box>
     );
 }

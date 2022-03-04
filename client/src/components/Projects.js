@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Text, Box, SimpleGrid, useColorModeValue, HStack } from "@chakra-ui/react"
+import { Text, Box, SimpleGrid, useColorModeValue, HStack, Button } from "@chakra-ui/react"
+import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"
 import ProjectCard from './Projects/ProjectCard';
 import Search from './Projects/Search';
 import Filter from './Projects/Filter';
+import DisplayLimiter from './DisplayLimiter';
 
 
 
@@ -35,13 +37,19 @@ const Projects = () => {
             fontSize: "6xl",
             fontFamily: "heading",
             as: "h3",
+        },
+        showMoreLessBtn: {
+            variant: "ghost",
+            display: "flex",
+            flexDirection: "column",
+            _hover: {
+                color: "primaryLight"
+            }
         }
     }
 
     const [projects, setProjects] = useState([]);
-
-
-    
+    const [projectsToDisplay, setProjectsToDisplay] = useState(4);
 
     const { data, loading, error } = useQuery(PROJECT_INFO);
     console.log(data)
@@ -49,14 +57,16 @@ const Projects = () => {
     const primaryColor = useColorModeValue("primaryLight", "primaryDark");
 
     useEffect(() => {
-        if (data){
-            setProjects(data.ProjectInfo)
+        if (data && !loading){
+            setProjects(data.ProjectInfo);
+            
         }
-    }, [data])
+    }, [data, loading])
+
     
     
     return (
-        <Box {...styleProps.mainBox} >
+        <Box {...styleProps.mainBox} id="projects">
             <Text {...styleProps.title}>My <Text color={primaryColor} as="span">Works</Text></Text>
             <HStack mb={4} spacing={2} >
                {data &&  <Search projects={data.ProjectInfo} setProjects={setProjects} /> }
@@ -67,7 +77,7 @@ const Projects = () => {
                 data && projects && (
                     <SimpleGrid columns={2} spacing={5}>
                         {
-                            projects.map( project => {
+                            projects.slice(0, projectsToDisplay).map( project => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />
                             })
                         }
@@ -77,6 +87,14 @@ const Projects = () => {
             {
                 error && <Text>Error</Text>
             }
+            
+                
+            <HStack justify="center" mt={5}>
+                
+                {data && <DisplayLimiter numDisplaying={projectsToDisplay} setNumDisplaying={setProjectsToDisplay} initial={4} total={data.ProjectInfo.length} incrementBy={2} scrollToId="projects" />}
+                        
+            </HStack>
+                
             
         </Box>
     );
