@@ -28,7 +28,7 @@ class Notion{
     
 
 
-    getProjectInfo = async ({name = null, languages = null, type = null}) => {
+    getProjectInfo = async ({name = null, languages = null, type = null, onlyHasContent=false}) => {
         const { notion, dbId } = this;
 
         const or = []
@@ -96,8 +96,41 @@ class Notion{
         
 
         if (!res) throw new Error("cannot query")
+
+        // pageResp.results.forEach( (item, idx) => {
+        //     switch (item.type) {
+        //         case "heading_1":
+        //             console.log(idx, "H1:", item.heading_1.text[0].plain_text)
+        //             break;
+        //         case "heading_3":
+        //             console.log(idx, "H3:", item.heading_3.text[0].plain_text)
+        //             break
+        //         case "paragraph":
+        //             if (item.paragraph.text.length > 0){
+        //                 console.log(idx, "PARA:", item.paragraph.text[0].plain_text)
+        //             }
+                    
+        //             break
+        //         case "numbered_list_item":
+        //             console.log(idx, "OL ITEM:", item.numbered_list_item.text[0].plain_text)
+        //         default:
+        //             break;
+        //     }
+        // })
+
+        const response = await Promise.all(parseProjectsResponse(res.results).map( async item => {
+            const pageContent = await notion.blocks.children.list({ block_id: item.id });
+            return {
+                ...item,
+                hasContent: pageContent.results.length > 0
+            }
+        }));
         
-        return parseProjectsResponse(res.results);
+        if (onlyHasContent){
+            return response.filter( item => item.hasContent)
+        }
+        
+        return response;
     }
 
     getTimelineInfo = async () => {

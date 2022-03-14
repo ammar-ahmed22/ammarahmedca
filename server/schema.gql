@@ -9,6 +9,7 @@ type ProjectInfo {
     github: String
     external: String
     description: String
+    hasContent: Boolean
 }
 
 type FilterParams {
@@ -29,7 +30,7 @@ type TimelineYear {
 
 type Query{
     hello: String!
-    ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
+    ProjectInfo(name: String, type: String, languages: String, onlyHasContent: Boolean) : [ProjectInfo]!
     FilterBy: FilterParams!
     TimelineInfo: [TimelineYear]!
 }

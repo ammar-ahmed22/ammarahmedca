@@ -7,8 +7,8 @@ const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NO
 const resolver = {
     Query: {
         hello: () => "hello world!!!!",
-        ProjectInfo: async (_, { name, type, languages }) => {
-            const result = await projectDb.getProjectInfo({name, type, languages})
+        ProjectInfo: async (_, { name, type, languages, onlyHasContent }) => {
+            const result = await projectDb.getProjectInfo({name, type, languages, onlyHasContent})
             return result
         },
         FilterBy: async () => {

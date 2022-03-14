@@ -94,8 +94,10 @@ const NavBar = ({ active }) => {
 
         <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/"><FontAwesomeIcon icon="home"/><Text>Home</Text></Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon="user"/><Text>About Me</Text></Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon="pen"/><Text>Blog</Text></Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "experience" ? primary : regular} to="/experience" ><FontAwesomeIcon icon="briefcase"/><Text>Experience</Text></Link>
-        <Link {...styleProps.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link>
+        
+        {/* <Link {...styleProps.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link> */}
 
         <IconButton
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
