@@ -9,7 +9,9 @@ type ProjectInfo {
     github: String
     external: String
     description: String
+    published: String
     hasContent: Boolean
+    readTime: Int
 }
 
 type FilterParams {

@@ -18,9 +18,36 @@ class Notion{
                 return property.select.name
             case "url":
                 return property.url
+            case "date":
+                return property.date.start
             
             default:
                 throw Error("error getting data")
+                break;
+        }
+    }
+
+    readBlockContent = (block) => {
+        switch (block.type) {
+            case "heading_1":
+                return {type: "h1", content: block.heading_1.text[0].plain_text}
+                break;
+            case "heading_2":
+                return {type: "h2", content: block.heading_2.text[0].plain_text}
+                break
+            
+            case "heading_3":
+                return {type: "h3", content: block.heading_3.text[0].plain_text}
+                break
+            
+            case "paragraph":
+                if (block.paragraph.text.length > 0){
+                    return {type: "p", content: block.paragraph.text[0].plain_text}
+                }
+
+                break
+            
+            default:
                 break;
         }
     }
@@ -63,7 +90,7 @@ class Notion{
         const parseProjectsResponse = (resp) => {
             // Parses projects results list from Notion API
             const result = resp.map( (page, idx) => {
-                const { Name, Timeline, Type, Languages, GitHub, External, Description, Frameworks } = page.properties;
+                const { Name, Timeline, Type, Languages, GitHub, External, Description, Frameworks, Published } = page.properties;
                 
                 return {
                     id: page.id,
@@ -76,12 +103,39 @@ class Notion{
                     github: this.readPropertyContent(GitHub, "url"),
                     external: this.readPropertyContent(External, "url"),
                     description: this.readPropertyContent(Description, "text"),
+                    published: this.readPropertyContent(Published, "date")
                 };
             })
     
             return result
     
         }
+
+        const calculateReadTime = (blocks) => {
+
+            let totalWords = 0;
+
+            for (let i = 0; i < blocks.length; i++){
+                const blockContent = this.readBlockContent(blocks[i]);
+
+                if (blockContent){
+                    totalWords += blockContent.content.split(" ").length
+                }
+            }
+
+            const time = totalWords / 200;
+            const minutes = Math.floor(time)
+            const seconds = Math.floor(((time) - Math.floor(time))*60)
+
+            return {
+                time,
+                minutes,
+                seconds
+            }
+
+        }
+
+        
 
         
 
@@ -92,6 +146,8 @@ class Notion{
                 or: or
             }
         })
+
+        
 
         
 
@@ -119,10 +175,15 @@ class Notion{
         // })
 
         const response = await Promise.all(parseProjectsResponse(res.results).map( async item => {
-            const pageContent = await notion.blocks.children.list({ block_id: item.id });
+            const blocks = await notion.blocks.children.list({ block_id: item.id });
+
+            
+
+            
             return {
                 ...item,
-                hasContent: pageContent.results.length > 0
+                hasContent: blocks.results.length > 0,
+                readTime: calculateReadTime(blocks.results).minutes
             }
         }));
         
