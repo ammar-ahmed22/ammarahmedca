@@ -23,7 +23,7 @@ const PROJECT_INFO = gql`
             github
             external
             description
-            hasContent
+            isBlog
         }
     }
 `

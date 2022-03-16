@@ -1,18 +1,18 @@
 require("dotenv").config({ path: "../config.env"});
 const Notion = require("../models/Notion");
 
-const projectDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_PROJECTS_DB_ID)
+const blogDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_BLOG_DB_ID)
 const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
 
 const resolver = {
     Query: {
         hello: () => "hello world!!!!",
-        ProjectInfo: async (_, { name, type, languages, onlyHasContent }) => {
-            const result = await projectDb.getProjectInfo({name, type, languages, onlyHasContent})
+        ProjectInfo: async () => {
+            const result = await blogDb.getBlogPostInfo({ isProject: true})
             return result
         },
         FilterBy: async () => {
-            const res = await projectDb.getProjectInfo({});
+            const res = await blogDb.getBlogPostInfo({});
 
             const result = {
                 frameworks: [],
@@ -46,6 +46,17 @@ const resolver = {
             const results = await timelineDb.getTimelineInfo();
 
             return results
+        },
+        BlogInfo: async () => {
+            const result = await blogDb.getBlogPostInfo({isBlog: true});
+            return result
+        },
+        BlogContent: async (_, { id }) => {
+
+            const result = await blogDb.getBlogContent(id)
+            //console.log(result)
+            return result;
+            //return "tester"
         }
     }
 }

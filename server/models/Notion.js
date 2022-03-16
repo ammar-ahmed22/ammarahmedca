@@ -1,7 +1,7 @@
 const { Client } = require("@notionhq/client")
 
 class Notion{
-    constructor(integration_key, database_id){
+    constructor(integration_key, database_id=null){
         this.notion = new Client({ auth: integration_key })
         this.dbId = database_id
     }
@@ -9,7 +9,7 @@ class Notion{
     readPropertyContent = (property, type) => {
         switch (type) {
             case "title":
-                return property.title[0].plain_text
+                return property.title.length > 0 ? property.title[0].plain_text : ""
             case "text":
                 return property.rich_text.length > 0 ? property.rich_text[0].plain_text : ""
             case "multi-select":
@@ -20,7 +20,10 @@ class Notion{
                 return property.url
             case "date":
                 return property.date.start
-            
+            case "checkbox":
+                //console.log(property)
+                return property.checkbox
+                break;
             default:
                 throw Error("error getting data")
                 break;
@@ -30,24 +33,28 @@ class Notion{
     readBlockContent = (block) => {
         switch (block.type) {
             case "heading_1":
-                return {type: "h1", content: block.heading_1.text[0].plain_text}
+                return {type: "h1", content: [block.heading_1.text[0].plain_text]}
                 break;
             case "heading_2":
-                return {type: "h2", content: block.heading_2.text[0].plain_text}
+                return {type: "h2", content: [block.heading_2.text[0].plain_text]}
                 break
             
             case "heading_3":
-                return {type: "h3", content: block.heading_3.text[0].plain_text}
+                return {type: "h3", content: [block.heading_3.text[0].plain_text]}
                 break
             
             case "paragraph":
                 if (block.paragraph.text.length > 0){
-                    return {type: "p", content: block.paragraph.text[0].plain_text}
+                    return {type: "p", content: [block.paragraph.text[0].plain_text]}
                 }
 
                 break
             
+            case "numbered_list_item":
+                return { type: "ol-li", content: [block.numbered_list_item.text[0].plain_text]}
             default:
+
+            return block
                 break;
         }
     }
@@ -55,43 +62,36 @@ class Notion{
     
 
 
-    getProjectInfo = async ({name = null, languages = null, type = null, onlyHasContent=false}) => {
+    getBlogPostInfo = async ({ isBlog=false, isProject=false}) => {
         const { notion, dbId } = this;
 
         const or = []
 
-        if (name){
+        
+
+        if (isProject){
             or.push({
-                property: "Name",
-                text: {
-                    contains: name
+                property: "isProject",
+                checkbox: {
+                    "equals": true
                 }
             })
         }
 
-        if (languages){
+        if (isBlog){
             or.push({
-                property: "Languages",
-                multi_select: {
-                    contains: languages
+                property: "isBlog",
+                checkbox: {
+                    "equals": true
                 }
             })
         }
 
-        if (type){
-            or.push({
-                property: "Type",
-                multi_select: {
-                    contains: type
-                }
-            })
-        }
-
-        const parseProjectsResponse = (resp) => {
+        const parseBlogPostResponse = (resp) => {
             // Parses projects results list from Notion API
             const result = resp.map( (page, idx) => {
-                const { Name, Timeline, Type, Languages, GitHub, External, Description, Frameworks, Published } = page.properties;
-                
+                const { Name, Timeline, Type, Languages, GitHub, External, Description, Frameworks, Published, isBlog, isProject } = page.properties;
+                this.readPropertyContent(isBlog, "checkbox")
                 return {
                     id: page.id,
                     lastEdited: page.last_edited_time,
@@ -103,7 +103,9 @@ class Notion{
                     github: this.readPropertyContent(GitHub, "url"),
                     external: this.readPropertyContent(External, "url"),
                     description: this.readPropertyContent(Description, "text"),
-                    published: this.readPropertyContent(Published, "date")
+                    published: this.readPropertyContent(Published, "date"),
+                    isBlog: this.readPropertyContent(isBlog, "checkbox"),
+                    isProject: this.readPropertyContent(isProject, 'checkbox')
                 };
             })
     
@@ -136,10 +138,6 @@ class Notion{
         }
 
         
-
-        
-
-        
         const res = await notion.databases.query({
             database_id: dbId,
             filter: {
@@ -147,51 +145,71 @@ class Notion{
             }
         })
 
-        
-
-        
 
         if (!res) throw new Error("cannot query")
 
-        // pageResp.results.forEach( (item, idx) => {
-        //     switch (item.type) {
-        //         case "heading_1":
-        //             console.log(idx, "H1:", item.heading_1.text[0].plain_text)
-        //             break;
-        //         case "heading_3":
-        //             console.log(idx, "H3:", item.heading_3.text[0].plain_text)
-        //             break
-        //         case "paragraph":
-        //             if (item.paragraph.text.length > 0){
-        //                 console.log(idx, "PARA:", item.paragraph.text[0].plain_text)
-        //             }
-                    
-        //             break
-        //         case "numbered_list_item":
-        //             console.log(idx, "OL ITEM:", item.numbered_list_item.text[0].plain_text)
-        //         default:
-        //             break;
-        //     }
-        // })
-
-        const response = await Promise.all(parseProjectsResponse(res.results).map( async item => {
+        
+        const response = await Promise.all(parseBlogPostResponse(res.results).map( async item => {
             const blocks = await notion.blocks.children.list({ block_id: item.id });
-
-            
-
             
             return {
                 ...item,
-                hasContent: blocks.results.length > 0,
                 readTime: calculateReadTime(blocks.results).minutes
             }
         }));
         
-        if (onlyHasContent){
-            return response.filter( item => item.hasContent)
-        }
         
         return response;
+    }
+
+    getBlogContent = async (pageId) => {
+        const blocks = await this.notion.blocks.children.list({block_id: pageId});
+
+        console.log("INSIDE BLOG CONTENT")
+       
+        const response = blocks.results.map( block => {
+            return this.readBlockContent(block)
+        }).filter( item => item !== undefined);
+
+        
+        let temp = [];
+        for (let i = 0; i < response.length; i++){
+            const curr = this.readBlockContent(response[i]);
+
+            
+
+            if ((i-1) > 0 && curr.type === "ol-li" && this.readBlockContent(response[i-1]).type !== "ol-li"){
+                console.log("START INDEX", i)
+                
+                temp.push(i)
+            }else if ((i+1) < response.length - 1 && curr.type === "ol-li" && this.readBlockContent(response[i+1]).type !== 'ol-li'){
+                console.log("END INDEX", i)
+                temp.push(i)
+            }
+
+            if (temp.length !== 0 && temp.length % 2 == 0 ){
+                
+                const [start, end] = temp;
+
+
+                for (let j = start; j <= end; j++){
+                    if (j !== start){
+                        response[start].content.push(response[j].content[0]);
+                    }
+                }
+
+                response[start].type = "ol";
+                
+                temp = []
+            }
+
+        }
+
+
+        
+
+        return response.filter( item => item.type !== 'ol-li')
+
     }
 
     getTimelineInfo = async () => {
@@ -247,6 +265,8 @@ class Notion{
         return results
     }
 
+
+    
 
 }
 
