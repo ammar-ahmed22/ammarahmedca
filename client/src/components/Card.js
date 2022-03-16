@@ -6,6 +6,7 @@ const Card = ({ children, isLink=false, to=undefined }) => {
 
     const accentColor = useColorModeValue("gray.800", "white");
     const mainColor = useColorModeValue("white", "gray.800");
+    const primary = useColorModeValue("primaryLight", "primaryDark");
 
     const styleProps = {
         mainBox: {
@@ -16,15 +17,20 @@ const Card = ({ children, isLink=false, to=undefined }) => {
             h: "100%",
             w: "100%",
             _hover: {
-                textDecoration: "none"
+                textDecoration: "none",
+                _after: {
+                    bg: primary
+                },
+                bg: accentColor,
+                color: mainColor
             },
-            p: 2,
-            my: 2,
+            p: 4,
+            my: 4,
             bg: mainColor,
             _after: {
                 position: "absolute",
-                top: ".25rem",
-                left: ".25rem",
+                top: ".35rem",
+                left: ".35rem",
                 h: "100%",
                 w: "100%",
                 bg: accentColor,

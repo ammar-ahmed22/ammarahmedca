@@ -24,22 +24,9 @@ const Blog = ({ match }) => {
     const projResp = useQuery(GET_PROJ_INFO, { variables: {onlyHasContent: true}});
 
     useEffect(() => {
-        if (projResp.data){
-            console.log(projResp.data)
+        
 
-            const now = new Date();
-            const prev = new Date(projResp.data.ProjectInfo[0].published);
-
-            const diff = now - prev
-            const s = diff / 1000
-            const m = s / 60
-            const h = m / 60
-            const d = h / 24
-            const y = d / 365
-
-            console.log({ now, prev, diff, s, m, h, d, y })
-
-        }
+        
     }, [projResp])
 
     const styleProps = {
@@ -57,28 +44,57 @@ const Blog = ({ match }) => {
         }
     }
 
-    const calculateTimeHasPassed = (prev) => {
+    const displayTimeSince = (prev) => {
+        console.log(prev)
         const nowDate = new Date();
         const prevDate = Date.parse(prev)
 
-        const diff = nowDate - prevDate
-        const secs = diff / 1000;
-        const mins = secs / 60;
-        const hrs = mins / 60;
-        const days = hrs / 24;
-        const weeks = days / 7;
-        const months = weeks / 4;
-        const years = months / 12;
+        const result = {};
 
-        if (years >= 1){
-            if (years == 1){
-                return `${Math.floor(years)} year`
+        let delta = Math.abs(nowDate - prevDate) / 1000
+
+        const s = {
+            year: 31536000,
+            month: 2592000,
+            week: 604800,
+            day: 86400,
+            hour: 3600,
+            minute: 60,
+            second: 1
+        }
+        
+        Object.keys(s).forEach( key => {
+            result[key] = Math.floor( delta / s[key]);
+            delta -= result[key] * s[key]
+        })
+
+        console.log(result)
+        
+        const pluralize = val => {
+            return val === 1 ? "" : "s";
+        }
+
+        if (result.year >= 1){
+            if (result.month >= 1){
+                return `${result.year} year${pluralize(result.year)} ${result.month} month${pluralize(result.month)} ago`
             }else{
-                const fullYears = Math.floor(years);
-                const rem = years - fullYears;
-                
+                return `${result.year} year${pluralize(result.year)} ago`
+            }
+        }else if (result.year === 0){
+            if (result.month >= 1){
+                return `${result.month} month${pluralize(result.month)} ago`
+            }else{
+                if (result.week >= 1){
+                    return `${result.week} week${pluralize(result.week)} ago`
+                }else{
+                    return `${result.day} day${pluralize(result.day)} ago`
+                }
             }
         }
+
+        return "hold up"
+
+        
     }
 
     return (
@@ -92,7 +108,7 @@ const Blog = ({ match }) => {
                         return (
                             <Card isLink to={`/blog/${item.name.toLowerCase().split(" ").join("-")}`} key={idx}>
                                 <Text {...styleProps.postTitle} >{item.name}</Text>
-                                <Text {...styleProps.postInfo} >{item.published} &bull; {item.readTime} min read</Text>
+                                <Text {...styleProps.postInfo} >{displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
                                 <Text {...styleProps.postDescription} >{item.description}</Text>
                             </Card>
                         )
