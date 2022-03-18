@@ -1,5 +1,5 @@
-type ProjectInfo {
-    id: ID!
+type BlogInfo {
+    id: String!
     lastEdited: String!
     name: String!
     timeline: String
@@ -9,12 +9,23 @@ type ProjectInfo {
     github: String
     external: String
     description: String
+    published: String
+    isBlog: Boolean
+    isProject: Boolean
+    readTime: Int
 }
 
 type FilterParams {
     frameworks: [String]!
     type: [String]!
     languages: [String]!
+}
+
+
+
+type ContentBlock {
+    type: String!
+    content: [String]!
 }
 
 type YearData {
@@ -29,7 +40,9 @@ type TimelineYear {
 
 type Query{
     hello: String!
-    ProjectInfo(name: String, type: String, languages: String) : [ProjectInfo]!
+    ProjectInfo: [BlogInfo]!
+    BlogInfo(id: String): [BlogInfo]!
     FilterBy: FilterParams!
     TimelineInfo: [TimelineYear]!
+    BlogContent(id: String!): [ContentBlock]!
 }

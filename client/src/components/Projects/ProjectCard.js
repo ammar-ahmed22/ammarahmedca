@@ -11,7 +11,14 @@ const ProjectCard = ({ project, id, loading }) => {
             position: "relative",
             h: "100%",
             bg: useColorModeValue("white", 'gray.800'),
-            p: 4
+            p: 4,
+            // _hover: {
+            //     _after: {
+            //         display: "none",
+            //     },
+            //     transition: "all .35s ease",
+            //     cursor: "pointer"
+            // }
         },
         afterBox: {
             position: "absolute",
@@ -21,7 +28,8 @@ const ProjectCard = ({ project, id, loading }) => {
             top: ".25rem",
             zIndex: -1,
             bg: useColorModeValue("gray.800", "white"),
-            content: "' '"
+            content: "' '",
+            display: "block"
         },
         tag: {
             size: "sm",
@@ -57,6 +65,9 @@ const ProjectCard = ({ project, id, loading }) => {
                     )
                  }
                 <Text fontSize="sm">{project.description}</Text>
+                {
+                    project.isBlog && <Link fontSize="sm" mt="2" color="primaryLight" fontWeight="bold" >Read more</Link>
+                }
                 {project.frameworks.length > 0 && <Text fontSize="md" fontFamily="heading">Frameworks:</Text>}
                 {
                     project.frameworks.length > 0 && (
@@ -81,6 +92,7 @@ const ProjectCard = ({ project, id, loading }) => {
                         </Flex>
                     )
                 }
+                
                 
             </Box>
         </Skeleton>
