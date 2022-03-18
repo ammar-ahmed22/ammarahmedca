@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
-import { Text, Skeleton, SkeletonText, Box } from "@chakra-ui/react";
+import { Text, Skeleton, SkeletonText, Box, useColorModeValue } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
 import * as helper from "../utils/helpers"
 
@@ -27,6 +27,18 @@ const Blog = ({ match }) => {
     
 
     const styleProps = {
+        title : {
+            fontSize: "6xl",
+            fontFamily: "heading",
+            as: "h1"
+        },
+        titleSpan: {
+            as: "span",
+            color: useColorModeValue("primaryLight", "primaryDark")
+        },
+        info: {
+            fontSize: "lg"
+        },
         postTitle: {
             fontSize: "2xl",
             fontFamily: "heading",
@@ -48,8 +60,8 @@ const Blog = ({ match }) => {
         <>
             <NavBar active="blog"/>
             <PageContent>
-                <Text fontSize="6xl" fontFamily="heading" as="h1">My <Text as="span" color="primaryLight">Journal</Text></Text>
-                <Text fontSize='lg' >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
+                <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
+                <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
                 {
                      data && [...data.BlogInfo].sort((a, b) => Date.parse(b.published) - Date.parse(a.published)).map( (item, idx) => {
                         return (
