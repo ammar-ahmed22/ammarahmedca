@@ -5,6 +5,7 @@ import Footer from '../components/Footer';
 import Card from '../components/Card';
 import { Text, Skeleton, SkeletonText, Box } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
+import * as helper from "../utils/helpers"
 
 const Blog = ({ match }) => {
     console.log("page", match)
@@ -40,62 +41,12 @@ const Blog = ({ match }) => {
         },
         postInfo: {
             fontSize: "sm",
-            fontWeight: "light"
+            fontWeight: "light",
+            color: "gray.500"
         }
     }
 
-    const displayTimeSince = (prev) => {
-        console.log(prev)
-        const nowDate = new Date();
-        const prevDate = Date.parse(prev)
-
-        const result = {};
-
-        let delta = Math.abs(nowDate - prevDate) / 1000
-
-        const s = {
-            year: 31536000,
-            month: 2592000,
-            week: 604800,
-            day: 86400,
-            hour: 3600,
-            minute: 60,
-            second: 1
-        }
-        
-        Object.keys(s).forEach( key => {
-            result[key] = Math.floor( delta / s[key]);
-            delta -= result[key] * s[key]
-        })
-
-        console.log(result)
-        
-        const pluralize = val => {
-            return val === 1 ? "" : "s";
-        }
-
-        if (result.year >= 1){
-            if (result.month >= 1){
-                return `${result.year} year${pluralize(result.year)} ${result.month} month${pluralize(result.month)} ago`
-            }else{
-                return `${result.year} year${pluralize(result.year)} ago`
-            }
-        }else if (result.year === 0){
-            if (result.month >= 1){
-                return `${result.month} month${pluralize(result.month)} ago`
-            }else{
-                if (result.week >= 1){
-                    return `${result.week} week${pluralize(result.week)} ago`
-                }else{
-                    return `${result.day} day${pluralize(result.day)} ago`
-                }
-            }
-        }
-
-        return "hold up"
-
-        
-    }
+    
 
     return (
         <>
@@ -109,7 +60,7 @@ const Blog = ({ match }) => {
                             
                             <Card isLink to={{pathname: `/blog/${item.name.toLowerCase().split(" ").join("-")}`, state: {id: item.id}}} key={idx}>
                                 <Text {...styleProps.postTitle} >{item.name}</Text>
-                                <Text {...styleProps.postInfo} >{displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
+                                <Text {...styleProps.postInfo} >{helper.displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
                                 <Text {...styleProps.postDescription} >{item.description}</Text>
                             </Card>
                             
