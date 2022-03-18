@@ -1,6 +1,6 @@
 import React from 'react';
 import {useQuery, gql} from "@apollo/client"
-import { Text, OrderedList, ListItem, Flex, Image, Box, SkeletonText, Spinner } from "@chakra-ui/react"
+import { Text, OrderedList, ListItem, Flex, Image, Box, SkeletonText, Spinner, useColorModeValue } from "@chakra-ui/react"
 
 const BlogContent = ({ pageId, infoLoaded }) => {
 
@@ -46,7 +46,25 @@ const BlogContent = ({ pageId, infoLoaded }) => {
             fontSize: "md",
             mb: 4,
             pl: 2
+        },
+        imageBox:{
+            align: "center",
+            justify: "center",
+            direction: "column",
+            my: 5,
+        },
+        image: {
+            objectFit: "cover",
+            borderRadius: "md",
+            boxShadow: "lg",
+            mb: 2,
+            fallback: <Spinner thickness='4px' speed="0.65s" emptyColor='gray.200' color={useColorModeValue("primaryLight", "primaryDark")} size="xl" />
+        },
+        imageCaption:{
+            fontSize: "sm",
+            color: "gray.500"
         }
+
     }
 
     const renderBlogContent = (item) => {
@@ -79,16 +97,13 @@ const BlogContent = ({ pageId, infoLoaded }) => {
             
             case "image":
                 return (
-                    <Flex align="center" justify="center" w="100%" direction="column" my={5}>
+                    <Flex {...styleProps.imageBox}>
                         <Image 
-                            objectFit="cover"
+                            {...styleProps.image}
                             src={item.content[0]}
-                            borderRadius="md"
-                            boxShadow="lg"
-                            mb="2"
-                            fallback={<Spinner thickness='4px' speed="0.65s" emptyColor='gray.200' color="primaryLight" size="xl"/>}
+
                         />
-                        <Text {...styleProps.info}>{item.content[1]}</Text>
+                        <Text {...styleProps.imageCaption}>{item.content[1]}</Text>
                     </Flex>
                 )
                 break
