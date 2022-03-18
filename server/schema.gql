@@ -1,5 +1,5 @@
 type BlogInfo {
-    id: ID!
+    id: String!
     lastEdited: String!
     name: String!
     timeline: String
@@ -41,7 +41,7 @@ type TimelineYear {
 type Query{
     hello: String!
     ProjectInfo: [BlogInfo]!
-    BlogInfo: [BlogInfo]!
+    BlogInfo(id: String): [BlogInfo]!
     FilterBy: FilterParams!
     TimelineInfo: [TimelineYear]!
     BlogContent(id: String!): [ContentBlock]!

@@ -52,9 +52,17 @@ class Notion{
             
             case "numbered_list_item":
                 return { type: "ol-li", content: [block.numbered_list_item.text[0].plain_text]}
+                break
+            
+            case "image":
+                
+                return { type: "image", content: [block.image.file.url, block.image.caption.length > 0 ? block.image.caption[0].plain_text : ""]}
+                
+                
+               break
             default:
-
-            return block
+                
+                return undefined
                 break;
         }
     }
@@ -62,13 +70,15 @@ class Notion{
     
 
 
-    getBlogPostInfo = async ({ isBlog=false, isProject=false}) => {
+    getBlogPostInfo = async ({ isBlog=false, isProject=false, id=undefined}) => {
         const { notion, dbId } = this;
+
+        
 
         const or = []
 
         
-
+        // Filters
         if (isProject){
             or.push({
                 property: "isProject",
@@ -87,6 +97,7 @@ class Notion{
             })
         }
 
+        // Creating object to be return for each result
         const parseBlogPostResponse = (resp) => {
             // Parses projects results list from Notion API
             const result = resp.map( (page, idx) => {
@@ -121,7 +132,7 @@ class Notion{
                 const blockContent = this.readBlockContent(blocks[i]);
 
                 if (blockContent){
-                    totalWords += blockContent.content.split(" ").length
+                    totalWords += blockContent.content[0].split(" ").length
                 }
             }
 
@@ -137,7 +148,20 @@ class Notion{
 
         }
 
-        
+        // Only need to retrieve a single page
+        if (id){
+            const page = await notion.pages.retrieve({page_id: id})
+            const response = parseBlogPostResponse([page])
+
+            const blocks = await notion.blocks.children.list({ block_id: id });
+
+            response[0].readTime = Math.round(calculateReadTime(blocks.results).time)
+            
+
+            return response
+        }   
+
+        // Get all pages that match the filter
         const res = await notion.databases.query({
             database_id: dbId,
             filter: {
@@ -148,13 +172,13 @@ class Notion{
 
         if (!res) throw new Error("cannot query")
 
-        
+        // Calculating read time by getting blocks
         const response = await Promise.all(parseBlogPostResponse(res.results).map( async item => {
             const blocks = await notion.blocks.children.list({ block_id: item.id });
             
             return {
                 ...item,
-                readTime: calculateReadTime(blocks.results).minutes
+                readTime: Math.round(calculateReadTime(blocks.results).time)
             }
         }));
         
@@ -165,28 +189,32 @@ class Notion{
     getBlogContent = async (pageId) => {
         const blocks = await this.notion.blocks.children.list({block_id: pageId});
 
-        console.log("INSIDE BLOG CONTENT")
-       
+        
+        // if type is not being read, filter it out
         const response = blocks.results.map( block => {
             return this.readBlockContent(block)
         }).filter( item => item !== undefined);
 
-        
+        //console.log(response)
+
+        // Combining numbered list items into a single object { type: 'ol-li', content: ["item1"]}, { type: 'ol-li', content: ["item2"]} => { type: 'ol', content: ["item1", "item2"]}
+        // TODO: extend this for ul as well
+        // TODO: refactor
         let temp = [];
         for (let i = 0; i < response.length; i++){
-            const curr = this.readBlockContent(response[i]);
+
+            const curr = response[i];
 
             
-
-            if ((i-1) > 0 && curr.type === "ol-li" && this.readBlockContent(response[i-1]).type !== "ol-li"){
-                console.log("START INDEX", i)
-                
+            // previous type is not ol-li and curr type is (first index)
+            if ((i-1) > 0 && curr.type === "ol-li" && response[i-1].type !== "ol-li"){    
                 temp.push(i)
-            }else if ((i+1) < response.length - 1 && curr.type === "ol-li" && this.readBlockContent(response[i+1]).type !== 'ol-li'){
-                console.log("END INDEX", i)
+            // next type is not ol-li and curr type is (last index)
+            }else if ((i+1) < response.length - 1 && curr.type === "ol-li" && response[i+1].type !== 'ol-li'){
                 temp.push(i)
             }
 
+            // temp arr has 2 items (start, end)
             if (temp.length !== 0 && temp.length % 2 == 0 ){
                 
                 const [start, end] = temp;
@@ -194,12 +222,14 @@ class Notion{
 
                 for (let j = start; j <= end; j++){
                     if (j !== start){
+                        // add all consecutive items to the end of first items content array
                         response[start].content.push(response[j].content[0]);
                     }
                 }
-
+                // change the first items type to ol as all items are added
                 response[start].type = "ol";
                 
+                // reinitialize temp
                 temp = []
             }
 
@@ -207,7 +237,7 @@ class Notion{
 
 
         
-
+        // remove all the "ol-li" types as they are redundant
         return response.filter( item => item.type !== 'ol-li')
 
     }
@@ -225,6 +255,7 @@ class Notion{
             ]
         })
 
+        // Returns an array of all the years in the timeline data
         const getAllYears = (resp) => {
             const years = resp.map( page => {
                 return this.readPropertyContent(page.properties.Year, "select")

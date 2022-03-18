@@ -47,8 +47,8 @@ const resolver = {
 
             return results
         },
-        BlogInfo: async () => {
-            const result = await blogDb.getBlogPostInfo({isBlog: true});
+        BlogInfo: async (_, { id }) => {
+            const result = await blogDb.getBlogPostInfo({isBlog: true, id});
             return result
         },
         BlogContent: async (_, { id }) => {
