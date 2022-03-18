@@ -22,13 +22,9 @@ const Blog = ({ match }) => {
         }
     `
 
-    const projResp = useQuery(GET_BLOG_INFO);
+    const { data, loading, error } = useQuery(GET_BLOG_INFO);
 
-    useEffect(() => {
-        
-
-        
-    }, [projResp])
+    
 
     const styleProps = {
         postTitle: {
@@ -55,7 +51,7 @@ const Blog = ({ match }) => {
                 <Text fontSize="6xl" fontFamily="heading" as="h1">My <Text as="span" color="primaryLight">Journal</Text></Text>
                 <Text fontSize='lg' >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
                 {
-                     projResp.data && projResp.data.BlogInfo.map( (item, idx) => {
+                     data && [...data.BlogInfo].sort((a, b) => Date.parse(b.published) - Date.parse(a.published)).map( (item, idx) => {
                         return (
                             
                             <Card isLink to={{pathname: `/blog/${item.name.toLowerCase().split(" ").join("-")}`, state: {id: item.id}}} key={idx}>
@@ -68,7 +64,7 @@ const Blog = ({ match }) => {
                     })
                 }
                 {
-                    projResp.loading && [1,2].map((item, idx) => {
+                    loading && [1,2].map((item, idx) => {
                         return (
                             
                             <Skeleton height="20vh" my={4} key={idx}/>
