@@ -21,11 +21,31 @@ type FilterParams {
     languages: [String]!
 }
 
+type Annotations {
+    bold: Boolean!
+    underline: Boolean!
+    strikethrough: Boolean!
+    code: Boolean!
+    italic: Boolean!
+    color: String!
+    language: String
+}
 
+type Text {
+    plain_text: String!
+    annotations: Annotations!
+}
+
+type Image {
+    caption: String!
+    url: String!
+}
+
+union TextOrImage = Text | Image
 
 type ContentBlock {
     type: String!
-    content: [String]!
+    content: [TextOrImage]!
 }
 
 type YearData {
