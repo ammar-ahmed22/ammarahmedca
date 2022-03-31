@@ -1,4 +1,5 @@
 const { Client } = require("@notionhq/client")
+const { listBlockChildren } = require("@notionhq/client/build/src/api-endpoints")
 
 class Notion{
     constructor(integration_key, database_id=null){
@@ -31,40 +32,110 @@ class Notion{
     }
 
     readBlockContent = (block) => {
-        switch (block.type) {
-            case "heading_1":
-                return {type: "h1", content: [block.heading_1.text[0].plain_text]}
-                break;
-            case "heading_2":
-                return {type: "h2", content: [block.heading_2.text[0].plain_text]}
-                break
-            
-            case "heading_3":
-                return {type: "h3", content: [block.heading_3.text[0].plain_text]}
-                break
-            
-            case "paragraph":
-                if (block.paragraph.text.length > 0){
-                    return {type: "p", content: [block.paragraph.text[0].plain_text]}
-                }
-
-                break
-            
-            case "numbered_list_item":
-                return { type: "ol-li", content: [block.numbered_list_item.text[0].plain_text]}
-                break
-            
-            case "image":
-                
-                return { type: "image", content: [block.image.file.url, block.image.caption.length > 0 ? block.image.caption[0].plain_text : ""]}
-                
-                
-               break
-            default:
-                
-                return undefined
-                break;
+        const { type } = block;
+        if (type === "code"){
+            console.log(block)
+            const { language } = block[type];
+            return {
+                type,
+                content: block[type].text.map( textBlock => {
+                    const { plain_text, annotations } = textBlock
+                    annotations.language = language
+                    return {
+                        plain_text,
+                        annotations
+                    }
+                })
+            }
         }
+        if (type !== "image"){
+            return {
+                type,
+                content: block[type].text.map( textBlock => {
+                    const { plain_text, annotations } = textBlock;
+                    return {
+                        plain_text,
+                        annotations
+                    }
+                })
+            }
+        }else{
+            const { url } = block[type].file;
+            const caption = block[type].caption.length > 0 ? block[type].caption[0].plain_text : ""
+            return {
+                type,
+                content: [{
+                    url,
+                    caption
+                }]
+            }
+        }
+        // switch (block.type) {
+        //     case "heading_1":
+        //         console.log(block.heading_1.text)
+        //         return {type: "h1", content: block.heading_1.text.map( item => {
+        //             return {
+        //                 plain_text: item.plain_text,
+        //                 annotations: item.annotations
+        //             }
+        //         })}
+        //         break;
+        //     case "heading_2":
+        //         return {type: "h2", content: block.heading_2.text.map( item => {
+        //             return {
+        //                 plain_text: item.plain_text,
+        //                 annotations: item.annotations
+        //             }
+        //         })}
+        //         break
+            
+        //     case "heading_3":
+        //         return {type: "h3", content: block.heading_3.text.map( item => {
+        //             return {
+        //                 plain_text: item.plain_text,
+        //                 annotations: item.annotations
+        //             }
+        //         })}
+        //         break
+            
+        //     case "paragraph":
+        //         if (block.paragraph.text.length > 0){
+        //             //console.log(block.paragraph.text)
+                    
+        //             return {type: "p", content: block.paragraph.text.map( item => {
+        //                 return {
+        //                     plain_text: item.plain_text,
+        //                     annotations: item.annotations,
+        //                 }
+        //             })}
+        //         }
+
+        //         break
+            
+        //     // case "numbered_list_item":
+        //     //     return { type: "ol-li", content: [block.numbered_list_item.text[0].plain_text]}
+        //     //     break
+
+            
+            
+        //     case "image":
+                
+        //         //return { type: "image", content: [block.image.file.url, block.image.caption.length > 0 ? block.image.caption[0].plain_text : ""]}
+        //         return {
+        //             type: "image",
+        //             content: [{
+        //                 caption: block.image.caption.length > 0 ? block.image.caption[0].plain_text : "",
+        //                 url: block.image.file.url
+        //             }]
+        //         }
+                
+                
+        //        break
+        //     default:
+                
+        //         return undefined
+        //         break;
+        // }
     }
 
     
@@ -131,8 +202,11 @@ class Notion{
             for (let i = 0; i < blocks.length; i++){
                 const blockContent = this.readBlockContent(blocks[i]);
 
-                if (blockContent){
-                    totalWords += blockContent.content[0].split(" ").length
+                if (blockContent && blockContent.type !== "image"){
+                    blockContent.content.forEach( item => {
+                        totalWords += item.plain_text.split(" ").length
+                    })
+                    //totalWords += blockContent.content[0].split(" ").length
                 }
             }
 
@@ -200,45 +274,42 @@ class Notion{
         // Combining numbered list items into a single object { type: 'ol-li', content: ["item1"]}, { type: 'ol-li', content: ["item2"]} => { type: 'ol', content: ["item1", "item2"]}
         // TODO: extend this for ul as well
         // TODO: refactor
-        let temp = [];
-        for (let i = 0; i < response.length; i++){
 
-            const curr = response[i];
+        const mergeListItems = ( contentBlocks, typeToMerge, typeMerged ) => {
+            let result = [...contentBlocks]
+            let temp = [];
+            for (let i = 0; i < contentBlocks.length; i++){
+                const curr = contentBlocks[i]
 
-            
-            // previous type is not ol-li and curr type is (first index)
-            if ((i-1) > 0 && curr.type === "ol-li" && response[i-1].type !== "ol-li"){    
-                temp.push(i)
-            // next type is not ol-li and curr type is (last index)
-            }else if ((i+1) < response.length - 1 && curr.type === "ol-li" && response[i+1].type !== 'ol-li'){
-                temp.push(i)
-            }
-
-            // temp arr has 2 items (start, end)
-            if (temp.length !== 0 && temp.length % 2 == 0 ){
-                
-                const [start, end] = temp;
-
-
-                for (let j = start; j <= end; j++){
-                    if (j !== start){
-                        // add all consecutive items to the end of first items content array
-                        response[start].content.push(response[j].content[0]);
+                if (curr.type === typeToMerge){
+                    if ((i - 1) > 0 && contentBlocks[i - 1].type !== typeToMerge){
+                        
+                        temp.push(i)
+                    }else if ((i+1) < contentBlocks.length - 1 && contentBlocks[i+1].type !== typeToMerge){
+                        temp.push(i)
                     }
                 }
-                // change the first items type to ol as all items are added
-                response[start].type = "ol";
-                
-                // reinitialize temp
-                temp = []
+
+                if (temp.length !== 0 && temp.length % 2 === 0){
+                    const [start, end] = temp;
+                    console.log({start, end})
+                    for (let j = start+1; j <= end; j++ ){
+                        contentBlocks[start].content.push(...contentBlocks[j].content);
+                    }
+
+                    contentBlocks[start].type = typeMerged
+
+                    temp = [];
+                }
             }
 
+            return contentBlocks.filter( block => block.type !== typeToMerge)
         }
 
-
         
-        // remove all the "ol-li" types as they are redundant
-        return response.filter( item => item.type !== 'ol-li')
+        return mergeListItems(mergeListItems(response, "numbered_list_item", "ordered_list"), "bulleted_list_item", "unordered_list").filter( block => {
+            return block.content.length > 0
+        })
 
     }
 

@@ -57,6 +57,21 @@ const resolver = {
             //console.log(result)
             return result;
             //return "tester"
+        },
+        
+    },
+    TextOrImage: {
+        __resolveType(obj, context, info){
+            //console.log("__resolveType", obj)
+
+            if (obj.annotations){
+                //console.log('HELLO')
+                return "Text"
+            }else if (obj.url){
+                return "Image"
+            }else{
+                return null
+            }
         }
     }
 }
