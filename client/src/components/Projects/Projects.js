@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
 import { Text, Box, SimpleGrid, useColorModeValue, HStack, Button } from "@chakra-ui/react"
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"
-import ProjectCard from './Projects/ProjectCard';
-import Search from './Projects/Search';
-import Filter from './Projects/Filter';
-import DisplayLimiter from './DisplayLimiter';
+import ProjectCard from './ProjectCard';
+import Search from './Search';
+import Filter from './Filter';
+import DisplayLimiter from '../DisplayLimiter';
 
 
 
