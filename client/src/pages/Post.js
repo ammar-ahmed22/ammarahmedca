@@ -2,19 +2,26 @@ import React from 'react';
 import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
-import BlogContent from '../components/BlogContent';
-import { Text, Box, useColorModeValue } from "@chakra-ui/react"
+import BlogContent from '../components/Blog/BlogContent';
+import { Text, Box, useColorModeValue, Link, Button, IconButton } from "@chakra-ui/react"
+import { ChevronLeftIcon, ArrowBackIcon } from "@chakra-ui/icons"
+import { Link as ReactLink } from "react-router-dom"
 import { useParams, useLocation} from "react-router-dom"
 import { useQuery, gql } from "@apollo/client"
 import * as helper from "../utils/helpers"
 
-const Post = () => {
-    //console.log("post:", match)
+const Post = ({ history }) => {
+    
 
     const { postName } = useParams();
     const { state } = useLocation();
 
-    console.log({ postName, state })
+    const handleBackClick = e => {
+        e.preventDefault()
+        history.push("/blog")
+    }
+
+    
 
     
 
@@ -56,7 +63,9 @@ const Post = () => {
                 {
                     !loading && data && data.BlogInfo.map( item => {
                         //console.log(item)
-                        return (<Box my={4}>
+                        return (
+                        <Box my={5}>
+                            <Button leftIcon={<ArrowBackIcon />} mt={4} variant="ghost" onClick={handleBackClick}>Back</Button>
                             <Text {...styleProps.title}>{item.name}</Text>
                             <Text {...styleProps.info}>{helper.displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
 
