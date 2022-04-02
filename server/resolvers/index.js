@@ -3,6 +3,7 @@ const Notion = require("../models/Notion");
 
 const blogDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_BLOG_DB_ID)
 const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
+const expDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_EXP_DB_ID)
 
 const resolver = {
     Query: {
@@ -42,11 +43,6 @@ const resolver = {
             }
 
         },
-        TimelineInfo: async () => {
-            const results = await timelineDb.getTimelineInfo();
-
-            return results
-        },
         BlogInfo: async (_, { id }) => {
             const result = await blogDb.getBlogPostInfo({isBlog: true, id});
             return result
@@ -57,6 +53,10 @@ const resolver = {
             //console.log(result)
             return result;
             //return "tester"
+        },
+        ExperienceInfo: async () => {
+            const res = await expDb.getExperienceInfo()
+            return res
         },
         
     },

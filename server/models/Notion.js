@@ -19,8 +19,10 @@ class Notion{
                 return property.select.name
             case "url":
                 return property.url
-            case "date":
+            case "date-start":
                 return property.date.start
+            case "date-end":
+                return property.date.end
             case "checkbox":
                 //console.log(property)
                 return property.checkbox
@@ -70,72 +72,7 @@ class Notion{
                 }]
             }
         }
-        // switch (block.type) {
-        //     case "heading_1":
-        //         console.log(block.heading_1.text)
-        //         return {type: "h1", content: block.heading_1.text.map( item => {
-        //             return {
-        //                 plain_text: item.plain_text,
-        //                 annotations: item.annotations
-        //             }
-        //         })}
-        //         break;
-        //     case "heading_2":
-        //         return {type: "h2", content: block.heading_2.text.map( item => {
-        //             return {
-        //                 plain_text: item.plain_text,
-        //                 annotations: item.annotations
-        //             }
-        //         })}
-        //         break
-            
-        //     case "heading_3":
-        //         return {type: "h3", content: block.heading_3.text.map( item => {
-        //             return {
-        //                 plain_text: item.plain_text,
-        //                 annotations: item.annotations
-        //             }
-        //         })}
-        //         break
-            
-        //     case "paragraph":
-        //         if (block.paragraph.text.length > 0){
-        //             //console.log(block.paragraph.text)
-                    
-        //             return {type: "p", content: block.paragraph.text.map( item => {
-        //                 return {
-        //                     plain_text: item.plain_text,
-        //                     annotations: item.annotations,
-        //                 }
-        //             })}
-        //         }
-
-        //         break
-            
-        //     // case "numbered_list_item":
-        //     //     return { type: "ol-li", content: [block.numbered_list_item.text[0].plain_text]}
-        //     //     break
-
-            
-            
-        //     case "image":
-                
-        //         //return { type: "image", content: [block.image.file.url, block.image.caption.length > 0 ? block.image.caption[0].plain_text : ""]}
-        //         return {
-        //             type: "image",
-        //             content: [{
-        //                 caption: block.image.caption.length > 0 ? block.image.caption[0].plain_text : "",
-        //                 url: block.image.file.url
-        //             }]
-        //         }
-                
-                
-        //        break
-        //     default:
-                
-        //         return undefined
-        //         break;
-        // }
+        
     }
 
     
@@ -185,7 +122,7 @@ class Notion{
                     github: this.readPropertyContent(GitHub, "url"),
                     external: this.readPropertyContent(External, "url"),
                     description: this.readPropertyContent(Description, "text"),
-                    published: this.readPropertyContent(Published, "date"),
+                    published: this.readPropertyContent(Published, "date-start"),
                     isBlog: this.readPropertyContent(isBlog, "checkbox"),
                     isProject: this.readPropertyContent(isProject, 'checkbox')
                 };
@@ -313,58 +250,66 @@ class Notion{
 
     }
 
-    getTimelineInfo = async () => {
+    
+    getExperienceInfo = async () => {
         const { notion, dbId } = this;
 
         const res = await notion.databases.query({
             database_id: dbId,
             sorts: [
                 {
-                    property: "Year",
+                    property: "Timeframe",
                     direction: "descending"
                 }
             ]
         })
 
-        // Returns an array of all the years in the timeline data
-        const getAllYears = (resp) => {
-            const years = resp.map( page => {
-                return this.readPropertyContent(page.properties.Year, "select")
-            })
+        
 
-            return [... new Set(years)]
+        const monthYear = (dateStr) => {
+            const [y, m, d] = dateStr.split("-").map( num => parseInt(num))
+            
+            
+            const date = new Date(y, m - 1, d)
+            const month = date.toLocaleString("en-US", { month: "long"})
+            
+            return `${month} ${y}`;
         }
 
-        const results = await Promise.all(getAllYears(res.results).map( async year => {
-            const notionYearData = await notion.databases.query({
-                database_id: dbId,
-                filter: {
-                    or: [
-                        {
-                            property: "Year",
-                            select: {
-                                equals: year
-                            }
-                        }
-                    ]
+        const result = res.results.map( item => {
+            const { Name, Timeframe, Role, Description, Type, Skills } = item.properties;
+            const company = this.readPropertyContent(Name, "title")
+            const description = Description.rich_text.map( textBlock => {
+                const { plain_text, annotations } = textBlock
+                return {
+                    plain_text,
+                    annotations
                 }
             })
-
-
+            const role = this.readPropertyContent(Role, "text")
+            const type = this.readPropertyContent(Type, "select")
+            const skills = this.readPropertyContent(Skills, "multi-select")
+            const startDate = this.readPropertyContent(Timeframe, "date-start")
+            const endDate = this.readPropertyContent(Timeframe, "date-end")
             
-            return {
-                year: parseInt(year),
-                yearData: notionYearData.results.map( item => {
-                    const { Title, Description } = item.properties;
-                    return {
-                        title: this.readPropertyContent(Title, "title"),
-                        description: this.readPropertyContent(Description, "text")
-                    }
-                })
-            }
-        }))
+            
+            //console.log(textDescription)
 
-        return results
+            return {
+                company,
+                role,
+                description,
+                type,
+                skills,
+                timeframe: {
+                    start: monthYear(startDate),
+                    end: endDate ? monthYear(endDate) : "Present"
+                }
+            }
+
+        })
+
+        return result
     }
 
 

@@ -48,14 +48,18 @@ type ContentBlock {
     content: [TextOrImage]!
 }
 
-type YearData {
-    title: String!
-    description: String
+type Timeframe {
+    start: String!
+    end: String
 }
 
-type TimelineYear {
-    year: Int!
-    yearData: [YearData]!
+type Experience {
+    company: String!
+    role: String!
+    description: [Text]!
+    type: String!
+    skills: [String]
+    timeframe: Timeframe!
 }
 
 type Query{
@@ -63,6 +67,6 @@ type Query{
     ProjectInfo: [BlogInfo]!
     BlogInfo(id: String): [BlogInfo]!
     FilterBy: FilterParams!
-    TimelineInfo: [TimelineYear]!
     BlogContent(id: String!): [ContentBlock]!
+    ExperienceInfo: [Experience]!
 }
