@@ -4,6 +4,7 @@ import PageContent from "../components/PageContent"
 import Hero from "../components/Hero"
 import Projects from "../components/Projects/Projects"
 import Timeline from "../components/Timeline"
+import Experience from "../components/Experience"
 import Footer from "../components/Footer"
 
 const Home = () => {
@@ -14,7 +15,8 @@ const Home = () => {
             <PageContent>
                 <Hero />
                 <Projects />
-                <Timeline />
+                {/* <Timeline /> */}
+                <Experience />
             </PageContent>
             <Footer />
             {/* <Avatar /> */}

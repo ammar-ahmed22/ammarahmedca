@@ -58,6 +58,20 @@ type TimelineYear {
     yearData: [YearData]!
 }
 
+type Timeframe {
+    start: String!
+    end: String
+}
+
+type Experience {
+    company: String!
+    role: String!
+    description: [Text]!
+    type: String!
+    skills: [String]
+    timeframe: Timeframe!
+}
+
 type Query{
     hello: String!
     ProjectInfo: [BlogInfo]!
@@ -65,4 +79,5 @@ type Query{
     FilterBy: FilterParams!
     TimelineInfo: [TimelineYear]!
     BlogContent(id: String!): [ContentBlock]!
+    ExperienceInfo: [Experience]!
 }

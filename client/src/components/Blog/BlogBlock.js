@@ -2,6 +2,7 @@ import React from 'react';
 import { Text, UnorderedList, OrderedList, ListItem, Box, Flex, Image, Spinner, useColorModeValue } from "@chakra-ui/react"
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierCaveDark, atelierCaveLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
+import RichText from '../RichText';
 
 // Renders blog blocks from API
 const BlogBlock = ({ type, content, idx }) => {
@@ -119,7 +120,7 @@ const BlogBlock = ({ type, content, idx }) => {
         return (
             <Text key={idx} {...styleProps.p}>
                 {
-                    content.map( (text, textIdx) => renderRichText(text, textIdx))
+                    content.map( (text, textIdx) => (<RichText idx={textIdx} {...text.annotations} >{text.plain_text}</RichText>))
                 }
             </Text>
         )
