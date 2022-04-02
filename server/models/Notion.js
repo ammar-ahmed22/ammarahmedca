@@ -250,60 +250,7 @@ class Notion{
 
     }
 
-    getTimelineInfo = async () => {
-        const { notion, dbId } = this;
-
-        const res = await notion.databases.query({
-            database_id: dbId,
-            sorts: [
-                {
-                    property: "Year",
-                    direction: "descending"
-                }
-            ]
-        })
-
-        // Returns an array of all the years in the timeline data
-        const getAllYears = (resp) => {
-            const years = resp.map( page => {
-                return this.readPropertyContent(page.properties.Year, "select")
-            })
-
-            return [... new Set(years)]
-        }
-
-        const results = await Promise.all(getAllYears(res.results).map( async year => {
-            const notionYearData = await notion.databases.query({
-                database_id: dbId,
-                filter: {
-                    or: [
-                        {
-                            property: "Year",
-                            select: {
-                                equals: year
-                            }
-                        }
-                    ]
-                }
-            })
-
-
-            
-            return {
-                year: parseInt(year),
-                yearData: notionYearData.results.map( item => {
-                    const { Title, Description } = item.properties;
-                    return {
-                        title: this.readPropertyContent(Title, "title"),
-                        description: this.readPropertyContent(Description, "text")
-                    }
-                })
-            }
-        }))
-
-        return results
-    }
-
+    
     getExperienceInfo = async () => {
         const { notion, dbId } = this;
 

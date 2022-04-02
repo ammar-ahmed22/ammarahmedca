@@ -43,11 +43,6 @@ const resolver = {
             }
 
         },
-        TimelineInfo: async () => {
-            const results = await timelineDb.getTimelineInfo();
-
-            return results
-        },
         BlogInfo: async (_, { id }) => {
             const result = await blogDb.getBlogPostInfo({isBlog: true, id});
             return result
