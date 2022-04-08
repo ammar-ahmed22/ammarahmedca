@@ -1,5 +1,6 @@
 require("dotenv").config({ path: "../config.env"});
 const Notion = require("../models/Notion");
+const Notionv2 = require("../models/Notionv2");
 
 const blogDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_BLOG_DB_ID)
 const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
@@ -9,6 +10,22 @@ const resolver = {
     Query: {
         hello: () => "hello world!!!!",
         ProjectInfo: async () => {
+            const notion = new Notionv2(process.env.NOTION_INTEGRATION_KEY);
+            const projectPages = await notion.db.get({
+                dbId: process.env.NOTION_BLOG_DB_ID,
+                filter: {
+                    or: [
+                        {
+                            property: "isProject",
+                            checkbox: {
+                                equals: true
+                            }
+                        }
+                    ]
+                }
+            })
+
+
             const result = await blogDb.getBlogPostInfo({ isProject: true})
             return result
         },
