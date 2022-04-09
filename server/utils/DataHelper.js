@@ -37,7 +37,7 @@ class DataHelper {
     readBlockContent = (block) => {
         const { type } = block;
         if (type === "code"){
-            console.log(block)
+            
             const { language } = block[type];
             return {
                 type,
@@ -176,7 +176,7 @@ class DataHelper {
 
             if (temp.length !== 0 && temp.length % 2 === 0){
                 const [start, end] = temp;
-                console.log({start, end})
+                
                 for (let j = start+1; j <= end; j++ ){
                     contentBlocks[start].content.push(...contentBlocks[j].content);
                 }

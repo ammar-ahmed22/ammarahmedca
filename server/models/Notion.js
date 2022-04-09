@@ -19,7 +19,7 @@ class Notion{
             return new Error("Provide a filter or sort")
         }
 
-        //console.log(dbId)
+        
 
         try {
             const res = await this.notion.databases.query({
@@ -27,7 +27,7 @@ class Notion{
                 filter,
                 sorts
             })
-            console.log(res)
+            
             if (res){
                 return res.results
             }
