@@ -1,25 +1,12 @@
 require("dotenv").config({ path: "../config.env" });
 const Notion = require("../models/Notion");
-const Notionv2 = require("../models/Notionv2");
 const DataHelper = require("../utils/DataHelper");
 
-const blogDb = new Notion(
-  process.env.NOTION_INTEGRATION_KEY,
-  process.env.NOTION_BLOG_DB_ID
-);
-const timelineDb = new Notion(
-  process.env.NOTION_INTEGRATION_KEY,
-  process.env.NOTION_TIMELINE_DB_ID
-);
-const expDb = new Notion(
-  process.env.NOTION_INTEGRATION_KEY,
-  process.env.NOTION_EXP_DB_ID
-);
 
 const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID, NOTION_EXP_DB_ID } = process.env;
 
-// Custome Notion API wrapper
-const notionWrapper = new Notionv2(NOTION_INTEGRATION_KEY);
+// Custom Notion API wrapper
+const notionWrapper = new Notion(NOTION_INTEGRATION_KEY);
 // Methods to help with data parsing from Notion
 const helper = new DataHelper(notionWrapper);
 
@@ -133,7 +120,7 @@ const resolver = {
                 annotations
             }
         })
-        
+
         const company = helper.readPropertyContent(Name);
         const role = helper.readPropertyContent(Role)
         const type = helper.readPropertyContent(Type)
