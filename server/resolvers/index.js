@@ -1,18 +1,27 @@
 require("dotenv").config({ path: "../config.env"});
 const Notion = require("../models/Notion");
 const Notionv2 = require("../models/Notionv2");
+const DataHelper = require("../utils/DataHelper")
 
 const blogDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_BLOG_DB_ID)
 const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
 const expDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_EXP_DB_ID)
 
+const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID } = process.env;
+
+// Custome Notion API wrapper
+const notionWrapper = new Notionv2(NOTION_INTEGRATION_KEY);
+// Methods to help with data parsing from Notion
+const helper = new DataHelper(notionWrapper);
+
 const resolver = {
     Query: {
         hello: () => "hello world!!!!",
-        ProjectInfo: async () => {
-            const notion = new Notionv2(process.env.NOTION_INTEGRATION_KEY);
-            const projectPages = await notion.db.get({
-                dbId: process.env.NOTION_BLOG_DB_ID,
+        ProjectInfo: async () => { // Returns info for all projects
+            
+            // All blog pages with isProject checked
+            const projectPages = await notionWrapper.db.get({
+                dbId: NOTION_BLOG_DB_ID,
                 filter: {
                     or: [
                         {
@@ -25,33 +34,35 @@ const resolver = {
                 }
             })
 
+            // parses into BlogInfo GraphQL type
+            const res = await helper.parseBlogInfo(projectPages);
 
-            const result = await blogDb.getBlogPostInfo({ isProject: true})
-            return result
+            return res
         },
-        FilterBy: async () => {
-            const res = await blogDb.getBlogPostInfo({});
+        FilterBy: async () => { // Returns all options to filter projects by
+            const allBlogPages = await notionWrapper.db.get({
+                dbId: NOTION_BLOG_DB_ID
+            })
 
             const result = {
                 frameworks: [],
-                type: [],
-                languages: []
+                languages: [],
+                type: []
             }
 
-            res.forEach(project => {
-                project.frameworks.forEach( item => {
-                    result.frameworks.push(item)
-                })
+            allBlogPages.forEach( page => {
+                const {
+                    Frameworks,
+                    Languages,
+                    Type
+                } = page.properties;
 
-                project.type.forEach(item => {
-                    result.type.push(item)
-                })
-
-                project.languages.forEach(item => {
-                    result.languages.push(item)
-                })
+                result.frameworks.push(...helper.readPropertyContent(Frameworks))
+                result.type.push(...helper.readPropertyContent(Type));
+                result.languages.push(...helper.readPropertyContent(Languages))
             })
 
+            
             // removing duplicates
             return {
                 frameworks: [...new Set(result.frameworks)],
@@ -61,8 +72,23 @@ const resolver = {
 
         },
         BlogInfo: async (_, { id }) => {
-            const result = await blogDb.getBlogPostInfo({isBlog: true, id});
-            return result
+            const blogPages = await notionWrapper.db.get({
+                dbId: NOTION_BLOG_DB_ID,
+                filter: {
+                    or: [
+                        {
+                            property: "isBlog",
+                            checkbox: {
+                                equals: true
+                            }
+                        }
+                    ]
+                }
+            });
+
+            const res = await helper.parseBlogInfo(blogPages);
+
+            return id ? res.filter( blogInfo => blogInfo.id === id ) : res;
         },
         BlogContent: async (_, { id }) => {
 

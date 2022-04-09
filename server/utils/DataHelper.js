@@ -4,7 +4,7 @@ class DataHelper {
     }
 
     // Reads content from notion property
-    readPropertyContent = (property, { includeDateEnd = false}) => {
+    readPropertyContent = (property, options={includeDateEnd: false}) => {
         const { type } = property;
         const value = property[type];
 
@@ -20,7 +20,7 @@ class DataHelper {
             case "url":
                 return value
             case "date":
-                if (includeDateEnd){
+                if (options.includeDateEnd){
                     const { start, end } = value;
                     return { start, end }
                 }else{
@@ -123,7 +123,8 @@ class DataHelper {
 
             const { id, last_edited_time } = page
 
-            //const readTime = 
+            const blocks = await this.notion.blocks.get({ blockId: id })
+            const readTime = Math.round(this.calculateReadTime(blocks).time);
 
             return {
                 id,
@@ -138,8 +139,13 @@ class DataHelper {
                 description: this.readPropertyContent(Description),
                 published: this.readPropertyContent(Published),
                 isBlog: this.readPropertyContent(isBlog),
-                isProject: this.readPropertyContent(isProject)
+                isProject: this.readPropertyContent(isProject),
+                readTime
             }
         }))
+
+        return result;
     }
 }
+
+module.exports = DataHelper
