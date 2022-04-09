@@ -75,6 +75,17 @@ class DataHelper {
         }
         
     }
+
+    // Return "Month Year" string from ISO date (yyyy-mm-dd)
+    monthYearFromISO = (dateStr) => {
+        const [y, m, d] = dateStr.split("-").map( num => parseInt(num))
+        
+        
+        const date = new Date(y, m - 1, d)
+        const month = date.toLocaleString("en-US", { month: "long"})
+        
+        return `${month} ${y}`;
+    }
     
     // calculates read time given notion blocks
     calculateReadTime = (blocks) => {
@@ -145,6 +156,38 @@ class DataHelper {
         }))
 
         return result;
+    }
+
+    // Merges list item blocks into a single object given list of all blocks
+    mergeListItems = ( contentBlocks, typeToMerge, typeMerged ) => {
+        let result = [...contentBlocks]
+        let temp = [];
+        for (let i = 0; i < contentBlocks.length; i++){
+            const curr = contentBlocks[i]
+
+            if (curr.type === typeToMerge){
+                if ((i - 1) > 0 && contentBlocks[i - 1].type !== typeToMerge){
+                    
+                    temp.push(i)
+                }else if ((i+1) < contentBlocks.length - 1 && contentBlocks[i+1].type !== typeToMerge){
+                    temp.push(i)
+                }
+            }
+
+            if (temp.length !== 0 && temp.length % 2 === 0){
+                const [start, end] = temp;
+                console.log({start, end})
+                for (let j = start+1; j <= end; j++ ){
+                    contentBlocks[start].content.push(...contentBlocks[j].content);
+                }
+
+                contentBlocks[start].type = typeMerged
+
+                temp = [];
+            }
+        }
+
+        return contentBlocks.filter( block => block.type !== typeToMerge)
     }
 }
 

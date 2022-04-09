@@ -63,7 +63,8 @@ class Notionv2{
     }
 
     blocksGet = async (blockId) => {
-        return this.notion.blocks.children.list({ block_id: blockId })
+        const response = await this.notion.blocks.children.list({ block_id: blockId })
+        return response.results
     }
     
 }
