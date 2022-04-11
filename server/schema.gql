@@ -13,6 +13,7 @@ type BlogInfo {
     isBlog: Boolean
     isProject: Boolean
     readTime: Int
+    category: String
 }
 
 type FilterParams {
