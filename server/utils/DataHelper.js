@@ -16,7 +16,7 @@ class DataHelper {
             case "multi_select":
                 return value.map(item => item.name)
             case "select":
-                return value.name
+                return value ? value.name : ""
             case "url":
                 return value
             case "date":
@@ -129,7 +129,8 @@ class DataHelper {
                 Frameworks, 
                 Published, 
                 isBlog, 
-                isProject 
+                isProject,
+                Category 
             } = page.properties;
 
             const { id, last_edited_time } = page
@@ -151,6 +152,7 @@ class DataHelper {
                 published: this.readPropertyContent(Published),
                 isBlog: this.readPropertyContent(isBlog),
                 isProject: this.readPropertyContent(isProject),
+                category: this.readPropertyContent(Category),
                 readTime
             }
         }))
