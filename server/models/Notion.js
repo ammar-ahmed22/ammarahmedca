@@ -34,7 +34,7 @@ class Notion{
         } catch (error) {
             return new Error(error)
         }
-        //return "gets some shit from: " + dbId
+        
     }
 
     blocksGet = async (blockId) => {
