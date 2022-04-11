@@ -6,9 +6,6 @@ const Notion = require("./models/Notion");
 // Simple .gql file loader
 const readContent = require('./utils/readContent');
 
-const timelineDb = new Notion(process.env.NOTION_INTEGRATION_KEY, process.env.NOTION_TIMELINE_DB_ID)
-
-timelineDb.getTimelineInfo()
 
 const PORT = process.env.PORT || 5000
 
