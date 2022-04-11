@@ -16,6 +16,11 @@ type BlogInfo {
     category: String
 }
 
+type BlogCategory{
+    category: String
+    posts: [BlogInfo]!
+}
+
 type FilterParams {
     frameworks: [String]!
     type: [String]!
@@ -66,7 +71,7 @@ type Experience {
 type Query{
     hello: String!
     ProjectInfo: [BlogInfo]!
-    BlogInfo(id: String): [BlogInfo]!
+    BlogInfo(id: String): [BlogCategory]!
     FilterBy: FilterParams!
     BlogContent(id: String!): [ContentBlock]!
     ExperienceInfo: [Experience]!

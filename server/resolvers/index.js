@@ -78,9 +78,35 @@ const resolver = {
         },
       });
 
-      const res = await helper.parseBlogInfo(blogPages);
+      let categories = [];
+      
+      // getting all categories
+      blogPages.forEach( page => {
+        const { Category } = page.properties
+        categories.push(helper.readPropertyContent(Category))
+      })
 
-      return id ? res.filter((blogInfo) => blogInfo.id === id) : res;
+      // removing duplicates
+      categories = [... new Set(categories)];
+      
+
+      const posts = await helper.parseBlogInfo(blogPages);
+
+      if (id){
+        return [
+          {
+            category: null,
+            posts: posts.filter( post => post.id === id)
+          }
+        ]
+      }
+
+      return categories.map( category => {
+        return {
+          category,
+          posts: posts.filter( post => post.category === category)
+        }
+      })
     },
     BlogContent: async (_, { id }) => {
       const allBlocks = await notionWrapper.blocks.get({ blockId: id });
