@@ -35,6 +35,8 @@
 | ----------------- | ------------------------------------------------------------------ |
 | Light Mode Primary | ![#a10010](https://via.placeholder.com/10/a10010?text=+) #a10010 |
 | Dark Mode Primary | ![#9c414a](https://via.placeholder.com/10/9c414a?text=+) #9c414a |
+| Dark Color | ![#1a202c](https://via.placeholder.com/10/1a202c?text=+) #1a202c |
+| Light Color| ![#ffffff](https://via.placeholder.com/10/ffffff?text=+) #ffffff |
 
 
 ## Feedback
