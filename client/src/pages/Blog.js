@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
-import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider } from "@chakra-ui/react";
+import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGrid, HStack } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
 import * as helper from "../utils/helpers"
 
@@ -40,6 +40,11 @@ const Blog = ({ match }) => {
             as: "span",
             color: useColorModeValue("primaryLight", "primaryDark")
         },
+        category: {
+            as: "h3",
+            fontSize: "3xl",
+            fontFamily: "heading"
+        },
         info: {
             fontSize: "lg"
         },
@@ -49,7 +54,8 @@ const Blog = ({ match }) => {
             fontWeight: "semibold"
         },
         postDescription: {
-            my: 0
+            my: 0,
+            fontSize: "sm"
         },
         postInfo: {
             fontSize: "sm",
@@ -59,10 +65,14 @@ const Blog = ({ match }) => {
     }
 
     
+    // Sorts BlogInfo array by date
+    const sortByDate = (array) => {
+        return [...array].sort( ( a, b ) => Date.parse(b.published) - Date.parse(a.published))
+    }
 
-    const sortByDate = (blogInfo) => {
-        //console.log(blogInfo)
-        return [...blogInfo].sort( ( a, b ) => Date.parse(b.published) - Date.parse(a.published))
+    // Sorts BlogCategory array by number of posts in descending order
+    const sortBySize = (array) => {
+        return [...array].sort( ( a, b ) => b.posts.length - a.posts.length);
     }
 
     const hyphenate = string => {
@@ -75,17 +85,18 @@ const Blog = ({ match }) => {
             <PageContent>
                 <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
                 <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
+                <HStack  spacing={5} align="baseline">                
                 {
-                    data && data.BlogInfo.map( (categoryPosts, catIdx) => {
+                    data && sortBySize(data.BlogInfo).map( (categoryPosts, catIdx) => {
                         const { category, posts } = categoryPosts;
                         return (
-                            <Box key={catIdx}>
-                                <Text>{category}</Text>
+                            <Box  key={catIdx} width="50%" >
+                                <Text {...styleProps.category} >{category}</Text>
                                 {
                                     sortByDate(posts).map( (post, postIdx) => {
                                         const { name, id, readTime, description, published } = post;
                                         return (
-                                            <Card isLink to={{pathname: hyphenate(name), state: { id }}}>
+                                            <Card isLink to={{pathname: `/blog/${hyphenate(name)}`, state: { id }}} key={postIdx} >
                                                 <Text {...styleProps.postTitle} >{name}</Text>
                                                 <Text {...styleProps.postInfo} >{helper.displayTimeSince(published)} &bull; {readTime} min read</Text>
                                                 <Text {...styleProps.postDescription} >{description}</Text>
@@ -93,14 +104,13 @@ const Blog = ({ match }) => {
                                         )
                                     })
                                 }
-                                {
-                                    catIdx !== data.BlogInfo.length - 1 && <Divider />
-                                }
+                                
 
                             </Box>
                         )
                     })
                 }
+                </HStack>
                 {
                     loading && [1,2].map((item, idx) => {
                         return (
