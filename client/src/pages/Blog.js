@@ -7,6 +7,23 @@ import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGr
 import { useQuery, gql } from "@apollo/client";
 import * as helper from "../utils/helpers"
 
+const CustomSkeleton = () => {
+    return (
+        <SimpleGrid columns={2} spacing={2} >
+            <Box>
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w='50%' />
+                <Skeleton height="30vh" my={2} />
+                <Skeleton height="30vh" my={2} />
+            </Box>
+            <Box>
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w="50%"/>
+                <Skeleton height="30vh" my={2} />
+                <Skeleton height="30vh" my={2} />
+            </Box>
+        </SimpleGrid>
+    )
+}
+
 const Blog = ({ match }) => {
     console.log("page", match)
 
@@ -112,13 +129,7 @@ const Blog = ({ match }) => {
                 }
                 </HStack>
                 {
-                    loading && [1,2].map((item, idx) => {
-                        return (
-                            
-                            <Skeleton height="20vh" my={4} key={idx}/>
-                            
-                        )
-                    })
+                    loading && <CustomSkeleton />
                 }
             </PageContent>
             <Footer />
