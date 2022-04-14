@@ -10,12 +10,14 @@ const SquareIdentifier = ({ type, identifier }) => {
             margin: 0
         },
         file: {
-            bottom: 0,
+            bottom: "-100%",
+            transform: "translate(0, -50%)",
             right: 0,
         },
         rank: {
             top: 0,
-            left: 0,
+            left: "0",
+            transform: "translate(-150%, 0)"
         }
     }
 
