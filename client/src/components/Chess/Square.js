@@ -197,6 +197,10 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen
 
             setPieceClicked({})
         }
+
+        if (!showMoveIdentifier && Object.keys(pieceClicked).length > 0){
+            setPieceClicked({})
+        }
     }
 
     return (
