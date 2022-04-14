@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Piece from './Piece';
+import { Text, Box, useColorModeValue } from "@chakra-ui/react"
 
 const SquareIdentifier = ({ type, identifier }) => {
     const styles = {
@@ -9,22 +10,24 @@ const SquareIdentifier = ({ type, identifier }) => {
             margin: 0
         },
         file: {
-            bottom: 0,
+            bottom: "-100%",
+            transform: "translate(0, -50%)",
             right: 0,
         },
         rank: {
             top: 0,
-            left: 0,
+            left: "0",
+            transform: "translate(-150%, 0)"
         }
     }
 
 
     switch (type) {
         case "file":
-            return <p style={{...styles.file, ...styles.shared}}>{identifier}</p>
+            return <Text {...styles.file} {...styles.shared} >{identifier}</Text>
             break;
         case "rank":
-            return <p style={{...styles.rank, ...styles.shared}}>{identifier}</p>
+            return <Text {...styles.rank} {...styles.shared} >{identifier}</Text>
             break
         default:
             break;
@@ -42,29 +45,35 @@ const MoveIdentifier = () => {
             transform: "translate(-50%, -50%)",
             height: '100%',
             width: '100%',
-            backgroundColor: "rgba(255, 255, 153, .25)",
+            bg: "rgba(255, 255, 153, .25)",
             zIndex: 1000
         }
     }
 
     return (
-        <div style={styles.main}>
-
-        </div>
+        <Box {...styles.main} />
     )
 }
 
 const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardIndices, pieceClicked, setPieceClicked, showMoveIdentifier }) => {
 
+    const primary = useColorModeValue("primaryLight", "primaryDark");
+
+
     const styles = {
         square: {
-            backgroundColor: (boardIndices.rank + boardIndices.file ) % 2 === 0 ? "lightgray" : "darkgray",
+            bg: (boardIndices.rank + boardIndices.file ) % 2 === 0 ? primary : "gray.200",
             width: size,
             height: size,
             position: "relative",
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
+            // borderLeft: boardIndices.file === 0 ? "solid 1px" : "",
+            // borderRight: boardIndices.file === 7 ? "solid 1px" : "",
+            // borderTop: boardIndices.rank === 0 ? "solid 1px" : "",
+            // borderBottom: boardIndices.rank === 7 ? "solid 1px" : "",
+            // borderColor: "transparent"
         }
     }
 
@@ -187,7 +196,7 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
     }
 
     return (
-        <div className='square' style={styles.square} onDragOver={handleDragOver} onDrop={handleDrop} onClick={handleClick}>
+        <Box className='square' {...styles.square} onDragOver={handleDragOver} onDrop={handleDrop} onClick={handleClick}>
             {
                 boardIndices.file === 0 && <SquareIdentifier type="rank" identifier={rank}/>
             }
@@ -198,7 +207,7 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
                 showMoveIdentifier && <MoveIdentifier />
             }
             {Object.keys(pieceParams).length > 0 && <Piece color={pieceParams.color} piece={pieceParams.piece} setPieceClicked={setPieceClicked} boardLayout={boardLayout} setBoardLayout={setBoardLayout} rank={rank} file={file} boardIndices={boardIndices}/>}
-        </div>
+        </Box>
     );
 }
 
