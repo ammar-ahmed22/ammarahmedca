@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Square from "./Square";
+import { Box } from "@chakra-ui/react"
 
 const Board = ({ size, fen, setFen }) => {
   const styles = {
@@ -87,12 +88,13 @@ const Board = ({ size, fen, setFen }) => {
   }, [fen]);
 
   return (
-    <div id="board" style={styles.board}>
+    <Box id="board" {...styles.board} >
       {boardLayout.length > 0 &&
         boardLayout.map((rank, rankNum) => {
           return (
-            <div style={styles.rankContainer} key={`rank-${rankNum}`}>
+            <Box {...styles.rankContainer} key={`rank-${rankNum}`}>
               {rank.map((pieceID, fileNum) => {
+                // No piece is clicked
                 if (Object.keys(pieceClicked).length === 0){
                     return (
                         <Square
@@ -105,11 +107,12 @@ const Board = ({ size, fen, setFen }) => {
                           setBoardLayout={setBoardLayout}
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
-                          showMoveIdentifier={false}
+                          showMoveIdentifier={false} // don't show move identifier
                           key={`${rankNum}-${fileNum}`}
                         />
                       );
                 }else{
+                    // check if the current square is a valid move of the clicked piece
                     let valid = false;
                     pieceClicked.validMoves.forEach( move => {
                         if (move.rank === rankNum && move.file === fileNum){
@@ -128,17 +131,17 @@ const Board = ({ size, fen, setFen }) => {
                           setBoardLayout={setBoardLayout}
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
-                          showMoveIdentifier={valid}
+                          showMoveIdentifier={valid} // show move identifier accordingly
                           key={`${rankNum}-${fileNum}`}
                         />
                     )
                 }
                 
               })}
-            </div>
+            </Box>
           );
         })}
-    </div>
+    </Box>
   );
 };
 
