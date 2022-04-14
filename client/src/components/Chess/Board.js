@@ -52,19 +52,25 @@ const Board = ({ size, fen, setFen }) => {
       const fullMove = designations[5];
 
       const squares = [];
-
+      // loop through ranks
       for (let rank = 0; rank < ranks.length; rank++) {
+        
         let temp = [];
+
+        // loop through files (letter (piece) or number (num of empty spaces))
         for (let file = 0; file < ranks[rank].length; file++) {
-          if (isNaN(ranks[rank][file])) {
-            temp.push(ranks[rank][file]);
-          } else {
-            for (let i = 0; i < parseInt(ranks[rank][file]); i++) {
-              temp.push(false);
+          
+          if (isNaN(ranks[rank][file])) {// is the string a letter
+
+            temp.push(ranks[rank][file]); // push to temp
+
+          } else { // string is a number
+            for (let i = 0; i < parseInt(ranks[rank][file]); i++) { // add false for each empty space
+              temp.push(false); // think about changing false to empty string, keep array type the same.
             }
           }
         }
-
+        // squares gets pushed each rank (letters or false for each square on board) ==> 2D array
         squares.push(temp);
       }
 
@@ -80,11 +86,11 @@ const Board = ({ size, fen, setFen }) => {
 
     const { squares } = parseFEN(fen);
 
-    //console.log(squares);
+    
 
     setBoardLayout(squares);
 
-    //console.log(pieceClicked);
+    
   }, [fen]);
 
   return (
