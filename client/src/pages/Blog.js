@@ -1,11 +1,28 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
-import { Text, Skeleton, SkeletonText, Box, useColorModeValue } from "@chakra-ui/react";
+import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGrid, HStack } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
 import * as helper from "../utils/helpers"
+
+const CustomSkeleton = () => {
+    return (
+        <SimpleGrid columns={2} spacing={2} >
+            <Box>
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w='50%' />
+                <Skeleton height="30vh" my={2} />
+                <Skeleton height="30vh" my={2} />
+            </Box>
+            <Box>
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w="50%"/>
+                <Skeleton height="30vh" my={2} />
+                <Skeleton height="30vh" my={2} />
+            </Box>
+        </SimpleGrid>
+    )
+}
 
 const Blog = ({ match }) => {
     console.log("page", match)
@@ -13,18 +30,22 @@ const Blog = ({ match }) => {
     const GET_BLOG_INFO = gql`
         query {
             BlogInfo{
-                id
-                name
-                description
-                published
-                readTime
+                category
+                posts{
+                    id
+                    name
+                    description
+                    published
+                    readTime
+                    category
+                }
             }
+            
         }
     `
 
     const { data, loading, error } = useQuery(GET_BLOG_INFO);
 
-    
 
     const styleProps = {
         title : {
@@ -36,6 +57,11 @@ const Blog = ({ match }) => {
             as: "span",
             color: useColorModeValue("primaryLight", "primaryDark")
         },
+        category: {
+            as: "h3",
+            fontSize: "3xl",
+            fontFamily: "heading"
+        },
         info: {
             fontSize: "lg"
         },
@@ -45,7 +71,8 @@ const Blog = ({ match }) => {
             fontWeight: "semibold"
         },
         postDescription: {
-            my: 0
+            my: 0,
+            fontSize: "sm"
         },
         postInfo: {
             fontSize: "sm",
@@ -55,6 +82,19 @@ const Blog = ({ match }) => {
     }
 
     
+    // Sorts BlogInfo array by date
+    const sortByDate = (array) => {
+        return [...array].sort( ( a, b ) => Date.parse(b.published) - Date.parse(a.published))
+    }
+
+    // Sorts BlogCategory array by number of posts in descending order
+    const sortBySize = (array) => {
+        return [...array].sort( ( a, b ) => b.posts.length - a.posts.length);
+    }
+
+    const hyphenate = string => {
+        return string.toLowerCase().split(" ").join("-");
+    }
 
     return (
         <>
@@ -62,27 +102,34 @@ const Blog = ({ match }) => {
             <PageContent>
                 <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
                 <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
+                <HStack  spacing={5} align="baseline">                
                 {
-                     data && [...data.BlogInfo].sort((a, b) => Date.parse(b.published) - Date.parse(a.published)).map( (item, idx) => {
+                    data && sortBySize(data.BlogInfo).map( (categoryPosts, catIdx) => {
+                        const { category, posts } = categoryPosts;
                         return (
-                            
-                            <Card isLink to={{pathname: `/blog/${item.name.toLowerCase().split(" ").join("-")}`, state: {id: item.id}}} key={idx}>
-                                <Text {...styleProps.postTitle} >{item.name}</Text>
-                                <Text {...styleProps.postInfo} >{helper.displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
-                                <Text {...styleProps.postDescription} >{item.description}</Text>
-                            </Card>
-                            
+                            <Box  key={catIdx} width="50%" >
+                                <Text {...styleProps.category} >{category}</Text>
+                                {
+                                    sortByDate(posts).map( (post, postIdx) => {
+                                        const { name, id, readTime, description, published } = post;
+                                        return (
+                                            <Card isLink to={{pathname: `/blog/${hyphenate(name)}`, state: { id }}} key={postIdx} >
+                                                <Text {...styleProps.postTitle} >{name}</Text>
+                                                <Text {...styleProps.postInfo} >{helper.displayTimeSince(published)} &bull; {readTime} min read</Text>
+                                                <Text {...styleProps.postDescription} >{description}</Text>
+                                            </Card>
+                                        )
+                                    })
+                                }
+                                
+
+                            </Box>
                         )
                     })
                 }
+                </HStack>
                 {
-                    loading && [1,2].map((item, idx) => {
-                        return (
-                            
-                            <Skeleton height="20vh" my={4} key={idx}/>
-                            
-                        )
-                    })
+                    loading && <CustomSkeleton />
                 }
             </PageContent>
             <Footer />

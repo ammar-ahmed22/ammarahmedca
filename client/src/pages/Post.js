@@ -28,9 +28,11 @@ const Post = ({ history }) => {
     const GET_BLOG_INFO = gql`
         query($id: String!){
             BlogInfo(id: $id){
-                name
-                readTime
-                published
+                posts{
+                    name
+                    readTime
+                    published
+                }   
             }
         }
     `
@@ -61,7 +63,7 @@ const Post = ({ history }) => {
             <PageContent>
                 
                 {
-                    !loading && data && data.BlogInfo.map( item => {
+                    !loading && data && data.BlogInfo[0].posts.map( item => {
                         //console.log(item)
                         return (
                         <Box my={5}>
