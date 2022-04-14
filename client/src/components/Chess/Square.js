@@ -67,11 +67,11 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-            borderLeft: boardIndices.file === 0 ? "solid 1px" : "",
-            borderRight: boardIndices.file === 7 ? "solid 1px" : "",
-            borderTop: boardIndices.rank === 0 ? "solid 1px" : "",
-            borderBottom: boardIndices.rank === 7 ? "solid 1px" : "",
-            borderColor: primary
+            // borderLeft: boardIndices.file === 0 ? "solid 1px" : "",
+            // borderRight: boardIndices.file === 7 ? "solid 1px" : "",
+            // borderTop: boardIndices.rank === 0 ? "solid 1px" : "",
+            // borderBottom: boardIndices.rank === 7 ? "solid 1px" : "",
+            // borderColor: "transparent"
         }
     }
 
