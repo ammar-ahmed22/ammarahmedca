@@ -1,6 +1,6 @@
 import React from 'react';
-import pieceSprites from '../utils/pieceSprites';
-import MoveChecker from '../utils/MoveChecker';
+import pieceSprites from './utils/pieceSprites';
+import MoveChecker from './utils/MoveChecker';
 
 const Piece = ({ color, piece, rank, file, boardIndices, boardLayout, setBoardLayout, setPieceClicked }) => {
 
