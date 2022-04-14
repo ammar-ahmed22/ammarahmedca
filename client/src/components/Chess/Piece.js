@@ -1,8 +1,23 @@
 import React from 'react';
 import pieceSprites from './utils/pieceSprites';
 import MoveChecker from './utils/MoveChecker';
+import { Box, Image } from "@chakra-ui/react" 
 
 const Piece = ({ color, piece, rank, file, boardIndices, boardLayout, setBoardLayout, setPieceClicked }) => {
+
+    const styles = {
+        main: {
+            width: "75%", 
+            height: "75%", 
+            _hover: {
+                cursor: "pointer"
+            }
+        },
+        image: {
+            width: "100%",
+            height: "100%",
+        }
+    }
 
     // Handles logic for dragging piece
     const handleDragStart = (e) => {
@@ -42,9 +57,9 @@ const Piece = ({ color, piece, rank, file, boardIndices, boardLayout, setBoardLa
 
     }
     return (
-        <div style={{width: "75%", height: "75%", _hover: {cursor: "pointer"}}} draggable onDragStart={handleDragStart} onClick={handleClick}>
-            <img src={pieceSprites[color][piece]} style={{width: "100%", height: "100%"}}></img>
-        </div>
+        <Box {...styles.main} draggable onDragStart={handleDragStart} onClick={handleClick}>
+            <Image src={pieceSprites[color][piece]} {...styles.image} />
+        </Box>
     );
 }
 
