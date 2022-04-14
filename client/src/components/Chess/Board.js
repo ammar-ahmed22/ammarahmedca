@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Square from "./Square";
 import { Box } from "@chakra-ui/react"
+import FENParser from "./utils/FENParser";
 
 const Board = ({ size, fen, setFen }) => {
   const styles = {
@@ -42,51 +43,9 @@ const Board = ({ size, fen, setFen }) => {
   const [pieceClicked, setPieceClicked] = useState({});
 
   useEffect(() => {
-    const parseFEN = (fen) => {
-      const designations = fen.split(" ");
-      const ranks = designations[0].split("/");
-      const colorToMove = designations[1];
-      const castlingAbility = designations[2];
-      const enPassant = designations[3];
-      const halfMove = designations[4];
-      const fullMove = designations[5];
+    const parser = new FENParser(fen);
 
-      const squares = [];
-      // loop through ranks
-      for (let rank = 0; rank < ranks.length; rank++) {
-        
-        let temp = [];
-
-        // loop through files (letter (piece) or number (num of empty spaces))
-        for (let file = 0; file < ranks[rank].length; file++) {
-          
-          if (isNaN(ranks[rank][file])) {// is the string a letter
-
-            temp.push(ranks[rank][file]); // push to temp
-
-          } else { // string is a number
-            for (let i = 0; i < parseInt(ranks[rank][file]); i++) { // add false for each empty space
-              temp.push(false); // think about changing false to empty string, keep array type the same.
-            }
-          }
-        }
-        // squares gets pushed each rank (letters or false for each square on board) ==> 2D array
-        squares.push(temp);
-      }
-
-      return {
-        squares,
-        colorToMove,
-        castlingAbility,
-        enPassant,
-        halfMove,
-        fullMove,
-      };
-    };
-
-    const { squares } = parseFEN(fen);
-
-    
+    const squares = parser.squaresFromFEN()
 
     setBoardLayout(squares);
 
@@ -111,6 +70,7 @@ const Board = ({ size, fen, setFen }) => {
                           pieceID={pieceID}
                           boardLayout={boardLayout}
                           setBoardLayout={setBoardLayout}
+                          setFen={setFen}
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
                           showMoveIdentifier={false} // don't show move identifier
@@ -135,6 +95,7 @@ const Board = ({ size, fen, setFen }) => {
                           pieceID={pieceID}
                           boardLayout={boardLayout}
                           setBoardLayout={setBoardLayout}
+                          setFen={setFen}
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
                           showMoveIdentifier={valid} // show move identifier accordingly
