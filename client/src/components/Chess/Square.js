@@ -56,7 +56,7 @@ const MoveIdentifier = () => {
     )
 }
 
-const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen, boardIndices, pieceClicked, setPieceClicked, showMoveIdentifier }) => {
+const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen, boardIndices, pieceClicked, setPieceClicked, showMoveIdentifier, isFirstMove }) => {
 
     const primary = useColorModeValue("primaryLight", "primaryDark");
 
@@ -135,7 +135,8 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen
 
     const updateFENonMove = (prevFen, removePiece, addPiece) => {
         const parser = new FENParser(prevFen);
-        const prevLayout = parser.squaresFromFEN()
+        const openingFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        const prevLayout = parser.squaresFromFEN();
 
         addPiece.piece = prevLayout[removePiece.rank][removePiece.file]
 
@@ -143,7 +144,18 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen
         newLayout[removePiece.rank][removePiece.file] = false;
         newLayout[addPiece.rank][addPiece.file] = addPiece.piece;
 
-        return parser.fenFromSquares(newLayout, { colorToMove: parser.colorToMove === "w" ? "b" : "w" })
+        const newColorToMove = parser.colorToMove === "w" ? "b" : "w";
+
+        const prevFullMoveCount = parser.fullMoveCount;
+        let newFullMoveCount = prevFullMoveCount;
+        
+        if (parser.colorToMove === "b" && prevFen !== openingFEN){
+            newFullMoveCount = parseInt(prevFullMoveCount) + 1;
+        }
+        
+        
+
+        return parser.fenFromSquares(newLayout, { colorToMove: newColorToMove, fullMoveCount: newFullMoveCount })
 
     }
 

@@ -10,6 +10,10 @@ class FENParser{
         this.fullMoveCount = this.designations[5];
     }
 
+    fen = () => {
+        return `${this.boardString} ${this.colorToMove} ${this.castlingAbility} ${this.enPassant} ${this.halfMoveCount} ${this.fullMoveCount}`
+    }
+
     squaresFromFEN = () => {
         const ranks = this.boardString.split("/");
 
@@ -70,6 +74,7 @@ class FENParser{
         }
 
         const boardString = ranks.join("/");
+        this.boardString = boardString;
 
         const designations = []
 
@@ -82,9 +87,11 @@ class FENParser{
         }
         
 
-        return `${boardString} ${this.colorToMove} ${this.castlingAbility} ${this.enPassant} ${this.halfMoveCount} ${this.fullMoveCount}`
+        return `${this.boardString} ${this.colorToMove} ${this.castlingAbility} ${this.enPassant} ${this.halfMoveCount} ${this.fullMoveCount}`
 
     }
+
+    
 }
 
 export default FENParser

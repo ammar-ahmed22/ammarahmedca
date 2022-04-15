@@ -3,7 +3,7 @@ import Square from "./Square";
 import { Box } from "@chakra-ui/react"
 import FENParser from "./utils/FENParser";
 
-const Board = ({ size, fen, setFen }) => {
+const Board = ({ size, fen, setFen, isFirstMove }) => {
   const styles = {
     board: {
       display: "grid",
@@ -74,6 +74,7 @@ const Board = ({ size, fen, setFen }) => {
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
                           showMoveIdentifier={false} // don't show move identifier
+                          isFirstMove={isFirstMove}
                           key={`${rankNum}-${fileNum}`}
                         />
                       );
@@ -99,6 +100,7 @@ const Board = ({ size, fen, setFen }) => {
                           pieceClicked={pieceClicked}
                           setPieceClicked={setPieceClicked}
                           showMoveIdentifier={valid} // show move identifier accordingly
+                          isFirstMove={isFirstMove}
                           key={`${rankNum}-${fileNum}`}
                         />
                     )
