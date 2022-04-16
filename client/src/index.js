@@ -33,7 +33,7 @@ const shadows = {
 const theme = extendTheme({ fonts, config, colors, shadows })
 
 const httpLink = new HttpLink({
-  uri: "http://localhost:8080/graphql"
+  uri: `${process.env.MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
 })
 
 const client = new ApolloClient({
