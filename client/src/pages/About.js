@@ -34,7 +34,7 @@ const About = () => {
         <>
             <NavBar active="about" />
             <PageContent>
-                <Box marginTop="10vh">
+                <Box>
                     <Text {...styleProps.title} ><Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Who</Text> Am I?</Text>
                     <Text {...styleProps.body}>I'm a second year student at the University of Waterloo studying Nanotechnology Engineering. 
                         As most others who hear about this field of engineering, you're probably very confused. Nanotechnology engineering is engineering from the bottom-up rather than the traditional top-down approach. 
