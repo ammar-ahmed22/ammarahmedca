@@ -9,12 +9,12 @@ const About = () => {
 
     const styleProps = {
         title: {
-            fontSize: "6xl",
+            fontSize: { base: "5xl", lg: "6xl"},
             as: "h3",
             fontFamily: "heading"
         },
         body: {
-            fontSize: "lg",
+            fontSize: { base: "sm", lg: "md"},
             mb: 4
         },
         image: {
