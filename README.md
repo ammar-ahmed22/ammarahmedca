@@ -1,33 +1,52 @@
 
 <p align="center">
-    <img width="30"  alt="ammarahmed.ca Website Logo" src="https://user-images.githubusercontent.com/68879139/134760810-76d0733d-eafb-4783-a760-52f7d8ebb229.png">
+    <img width="30"  alt="ammarahmed.ca Website Logo" src="./images/LogoIcon.png?raw=true">
 </p>
 <h1 align="center">ammarahmed.ca</h1>
 <p align="center">
-    <img width="1423" alt="ammarahmed.ca landing page" src="https://user-images.githubusercontent.com/68879139/134760758-15d9f6ce-f01e-43a8-a798-a39defadc7c1.png">
+    <img width="1423" alt="ammarahmed.ca landing page" src="./images/HomePage.png?raw=true">
 </p>
 <p align="center">After re-making and re-designing my personal website hundreds of times, I have finally arrived at a design which I quite enjoy. Take a scroll at <a href="https://ammarahmed.ca">ammarahmed.ca</a></p>
 
-## Technologies
-- React.js (Functionality)
-- THREE.js (Landing page 3D rendering)
-- react-spring (Animations)
-- react-typist (Typewriter animations)
-- Bootstrap (Design)
+
+## Tech Stack
+
+**Client:** React, Apollo, Chakra-UI
+
+**Server:** Node, Express, GraphQL, Notion API
+
+**Database:** Notion
 
 
-## How To Run Locally
-Using `npm`:
-1. Change directory to `client`
-```bash
-cd client
-```
-2. Install dependencies
-```bash
-npm install
-```
-3. Run locally
-```bash
-npm start
-```
+## Features
+
+- Light/dark mode toggle
+- Projects, blogs and work experience data persisted in Notion
+- Add new information to site right from Notion
+
+
+## Roadmap
+
+- 1 day time-limit Chess game playable against me
+
+## Color Reference
+
+| Color             | Hex                                                                |
+| ----------------- | ------------------------------------------------------------------ |
+| Light Mode Primary | ![#a10010](https://via.placeholder.com/10/a10010?text=+) #a10010 |
+| Dark Mode Primary | ![#9c414a](https://via.placeholder.com/10/9c414a?text=+) #9c414a |
+| Dark Color | ![#1a202c](https://via.placeholder.com/10/1a202c?text=+) #1a202c |
+| Light Color| ![#ffffff](https://via.placeholder.com/10/ffffff?text=+) #ffffff |
+
+
+## Feedback
+
+If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+
 
