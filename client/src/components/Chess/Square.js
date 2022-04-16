@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Piece from './Piece';
 import { Text, Box, useColorModeValue } from "@chakra-ui/react"
+import FENParser from './utils/FENParser';
 
 const SquareIdentifier = ({ type, identifier }) => {
     const styles = {
@@ -55,7 +56,7 @@ const MoveIdentifier = () => {
     )
 }
 
-const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardIndices, pieceClicked, setPieceClicked, showMoveIdentifier }) => {
+const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, setFen, boardIndices, pieceClicked, setPieceClicked, showMoveIdentifier, isFirstMove }) => {
 
     const primary = useColorModeValue("primaryLight", "primaryDark");
 
@@ -124,14 +125,38 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
             setPieceParams({})
         }
 
-        
-       
 
     }, [pieceID, showMoveIdentifier])
 
     const handleDragOver = e => {
         e.preventDefault()
         e.dataTransfer.dropEffect = 'move';
+    }
+
+    const updateFENonMove = (prevFen, removePiece, addPiece) => {
+        const parser = new FENParser(prevFen);
+        const openingFEN = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+        const prevLayout = parser.squaresFromFEN();
+
+        addPiece.piece = prevLayout[removePiece.rank][removePiece.file]
+
+        const newLayout = [...prevLayout];
+        newLayout[removePiece.rank][removePiece.file] = false;
+        newLayout[addPiece.rank][addPiece.file] = addPiece.piece;
+
+        const newColorToMove = parser.colorToMove === "w" ? "b" : "w";
+
+        const prevFullMoveCount = parser.fullMoveCount;
+        let newFullMoveCount = prevFullMoveCount;
+        
+        if (parser.colorToMove === "b" && prevFen !== openingFEN){
+            newFullMoveCount = parseInt(prevFullMoveCount) + 1;
+        }
+        
+        
+
+        return parser.fenFromSquares(newLayout, { colorToMove: newColorToMove, fullMoveCount: newFullMoveCount })
+
     }
 
     const handleDrop = e => {
@@ -154,21 +179,16 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
             e.dataTransfer.effectAllowed = "none"
         }else{
             e.dataTransfer.effectAllowed = "all"
-            setBoardLayout( prevBoardLayout => { // TODO: make this a function as it is used below as well
+            setFen( prevFen => {
+                
+                const removePiece = { rank: data.rank, file: data.file }
+                const addPiece = { rank: boardIndices.rank, file: boardIndices.file }
+
+                return updateFENonMove(prevFen, removePiece, addPiece)
+
+                
+            })
             
-                // indices of piece to remove
-                const removePiece = { rank: data.rank, file: data.file};
-                // indicies of piece to add, and piece
-                const addPiece = {rank: boardIndices.rank, file: boardIndices.file, piece: prevBoardLayout[removePiece.rank][removePiece.file]}
-                
-                // modifiying a copy (not necessary, refactor)
-                const copy = [...prevBoardLayout];
-                copy[removePiece.rank][removePiece.file] = false
-                copy[addPiece.rank][addPiece.file] = addPiece.piece
-    
-                
-                return copy
-            }, [data, boardIndices])
         }
         
 
@@ -178,19 +198,19 @@ const Square = ({ rank, file, size, pieceID, boardLayout, setBoardLayout, boardI
     const handleClick = e => {
         if (showMoveIdentifier && Object.keys(pieceClicked).length > 0){
 
-            setBoardLayout( prevBoardLayout => {
-
+            setFen( prevFen => {
                 const removePiece = pieceClicked.clickedPiece;
-                const addPiece = {rank: boardIndices.rank, file: boardIndices.file, piece: prevBoardLayout[removePiece.rank][removePiece.file]}
+                const addPiece = { rank: boardIndices.rank, file: boardIndices.file };
 
-                const copy = [...prevBoardLayout];
-                copy[removePiece.rank][removePiece.file] = false;
-                copy[addPiece.rank][addPiece.file] = addPiece.piece;
-
-                return copy
-
+                return updateFENonMove(prevFen, removePiece, addPiece)
             })
 
+            
+
+            setPieceClicked({})
+        }
+
+        if (!showMoveIdentifier && Object.keys(pieceClicked).length > 0){
             setPieceClicked({})
         }
     }
