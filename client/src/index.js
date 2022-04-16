@@ -31,9 +31,9 @@ const shadows = {
 }
 
 const theme = extendTheme({ fonts, config, colors, shadows })
-
+console.log(process.env.REACT_APP_MOBILE)
 const httpLink = new HttpLink({
-  uri: `${process.env.MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
+  uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
 })
 
 const client = new ApolloClient({

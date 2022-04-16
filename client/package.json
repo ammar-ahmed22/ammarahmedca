@@ -32,7 +32,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "testing": "node src/test/test.js"
+    "testing": "node src/test/test.js",
+    "mobile": "REACT_APP_MOBILE=true react-scripts start"
   },
   "eslintConfig": {
     "extends": [
