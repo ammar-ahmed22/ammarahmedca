@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Container, useMediaQuery } from "@chakra-ui/react"
+import React from 'react';
+import { Container } from "@chakra-ui/react"
 
 const PageContent = ({children}) => {
 
