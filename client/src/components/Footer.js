@@ -26,14 +26,15 @@ const Footer = () => {
         iconLink: {
             p: 2,
             borderRadius: "md",
-            fontSize: "xl",
+            fontSize: { base: "lg", lg: 'xl'},
             _hover: {
                 color: "gray.500"
             }
         },
         text: {
             align: "center",
-            fontWeight: "bold"
+            fontWeight: "bold",
+            fontSize: { base: "sm", lg: "md"}
         }
     }
 

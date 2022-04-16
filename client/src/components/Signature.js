@@ -3,7 +3,7 @@ import { Box, useMediaQuery } from "@chakra-ui/react"
 import '../assets/css/Signature.css'
 
 const Signature = ({ color }) => {
-    
+
     const [largerThanBase, largerThanMd, largerThanLg] = useMediaQuery([
         "(min-width: 0em)",
         "(min-width: 48em)",

@@ -53,7 +53,7 @@ const NavBar = ({ active }) => {
       //variant: "ghost",
       fontWeight: "bold",
       fontFamily: "body",
-      fontSize: "md",
+      fontSize: { base: "sm", lg: 'md'},
       px: 4,
       py: 2,
       borderRadius: "base",
