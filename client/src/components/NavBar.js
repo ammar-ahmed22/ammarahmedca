@@ -30,7 +30,7 @@ const NavBar = ({ active }) => {
     main: {
       p: 4,
       position: "fixed",
-      w: "container.md",
+      w: { base: "100%", md: "container.sm", lg: "container.md" },
       bg: useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(26, 32, 44, 0.8)"),
       top: 0,
       left: "50%",
@@ -41,12 +41,12 @@ const NavBar = ({ active }) => {
       zIndex: 200,
     },
     topBar: {
-        position: "fixed",
-        w: "100%",
-        h: "2vh",
-        top: 0,
-        zIndex: 500,
-        bg: useColorModeValue("primaryLight", "primaryDark")
+      position: "fixed",
+      w: "100%",
+      h: "2vh",
+      top: 0,
+      zIndex: 500,
+      bg: useColorModeValue("primaryLight", "primaryDark")
     },
     navButton: {
       colorScheme: "blackAlpha",
