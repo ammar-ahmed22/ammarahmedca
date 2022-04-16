@@ -102,12 +102,12 @@ const Blog = ({ match }) => {
             <PageContent>
                 <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
                 <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
-                <HStack  spacing={5} align="baseline">                
+                <HStack  spacing={{ base: 0, md: 5 }} align="baseline" display={{base: "block", md: "flex"}}>                
                 {
                     data && sortBySize(data.BlogInfo).map( (categoryPosts, catIdx) => {
                         const { category, posts } = categoryPosts;
                         return (
-                            <Box  key={catIdx} width="50%" >
+                            <Box  key={catIdx} width={{ base: "100%", md: "50%"}} >
                                 <Text {...styleProps.category} >{category}</Text>
                                 {
                                     sortByDate(posts).map( (post, postIdx) => {
