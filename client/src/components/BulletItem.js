@@ -33,7 +33,7 @@ const BulletItem = ({ children,  listLength, idx }) => {
             <Text {...styleProps.bullet} >
                 <FontAwesomeIcon icon="circle"/>
             </Text>
-            <Box ml={3} maxW="container.md">
+            <Box ml={3} minW={0}>
                 {
                     children
                 }
