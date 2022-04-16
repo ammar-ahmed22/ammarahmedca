@@ -35,7 +35,7 @@ const Projects = () => {
             minH: "100vh"
         },
         title: {
-            fontSize: "6xl",
+            fontSize: { base: "5xl", lg: "6xl"},
             fontFamily: "heading",
             as: "h3",
         },
@@ -76,7 +76,7 @@ const Projects = () => {
             
             {
                 data && projects && (
-                    <SimpleGrid columns={2} spacing={5}>
+                    <SimpleGrid columns={{ base: 1, md: 2}} spacing={5}>
                         {
                             projects.slice(0, projectsToDisplay).map( project => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />

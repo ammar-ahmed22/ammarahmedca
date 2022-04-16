@@ -44,20 +44,24 @@ const Experience = () => {
         },
         title: {
             as: "h3",
-            fontSize: '6xl',
+            fontSize: { base: "5xl", lg: "6xl"},
             fontFamily: "heading"
         },
         company: {
-            fontSize: "3xl",
+            fontSize: { base: "2xl", lg: "3xl"},
             fontWeight: "bold",
             fontFamily: "heading"
         },
         role: {
-            fontSize: "xl",
+            fontSize: { base: "lg", lg: "xl"},
             color: useColorModeValue("primaryLight", "primaryDark")
         },
         timeframe: {
-            color: "gray.500"
+            color: "gray.500",
+            fontSize: { base: "sm", lg: "md"}
+        },
+        description: {
+            fontSize: { base: "sm", lg: "md"}
         }
     }
     return (
@@ -75,15 +79,15 @@ const Experience = () => {
                                     <Text {...styleProps.timeframe} >{timeframe.start} - {timeframe.end}</Text>
                                     <Tag textTransform="uppercase" fontWeight="bold" size="md" my={2}>{type}</Tag>
                                     
-                                    <Text>
+                                    <Text {...styleProps.description}>
                                         {
                                             description.map( (text, idx) => (<RichText idx={idx} {...text.annotations}>{text.plain_text}</RichText>))
                                         }
                                     </Text>
-                                    <HStack my={2} >
+                                    <HStack my={2} wrap="wrap" >
                                         {
                                             skills.map( (skill, skillIdx) => {
-                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="red" >{skill}</Tag>
+                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="red" my={2} key={skillIdx} >{skill}</Tag>
                                             })
                                         }
                                     </HStack>

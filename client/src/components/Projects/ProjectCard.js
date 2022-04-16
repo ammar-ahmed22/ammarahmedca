@@ -12,13 +12,6 @@ const ProjectCard = ({ project, id, loading }) => {
             h: "100%",
             bg: useColorModeValue("white", 'gray.800'),
             p: 4,
-            // _hover: {
-            //     _after: {
-            //         display: "none",
-            //     },
-            //     transition: "all .35s ease",
-            //     cursor: "pointer"
-            // }
         },
         afterBox: {
             position: "absolute",

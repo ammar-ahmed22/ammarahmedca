@@ -30,7 +30,7 @@ const NavBar = ({ active }) => {
     main: {
       p: 4,
       position: "fixed",
-      w: "container.md",
+      w: { base: "100%", md: "container.sm", lg: "container.md" },
       bg: useColorModeValue("rgba(255, 255, 255, 0.8)", "rgba(26, 32, 44, 0.8)"),
       top: 0,
       left: "50%",
@@ -41,19 +41,19 @@ const NavBar = ({ active }) => {
       zIndex: 200,
     },
     topBar: {
-        position: "fixed",
-        w: "100%",
-        h: "2vh",
-        top: 0,
-        zIndex: 500,
-        bg: useColorModeValue("primaryLight", "primaryDark")
+      position: "fixed",
+      w: "100%",
+      h: "2vh",
+      top: 0,
+      zIndex: 500,
+      bg: useColorModeValue("primaryLight", "primaryDark")
     },
     navButton: {
       colorScheme: "blackAlpha",
       //variant: "ghost",
       fontWeight: "bold",
       fontFamily: "body",
-      fontSize: "md",
+      fontSize: { base: "sm", lg: 'md'},
       px: 4,
       py: 2,
       borderRadius: "base",
@@ -95,7 +95,7 @@ const NavBar = ({ active }) => {
         <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/"><FontAwesomeIcon icon="home"/><Text>Home</Text></Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon="user"/><Text>About Me</Text></Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon="pen"/><Text>Blog</Text></Link>
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "experience" ? primary : regular} to="/experience" ><FontAwesomeIcon icon="briefcase"/><Text>Experience</Text></Link>
+       
         
         {/* <Link {...styleProps.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link> */}
 

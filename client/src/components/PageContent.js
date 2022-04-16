@@ -3,10 +3,12 @@ import { Container } from "@chakra-ui/react"
 
 const PageContent = ({children}) => {
 
+    
+
     const styleProps = {
         container: {
             minH: "100vh",
-            maxW: "container.md",
+            maxW: { base: "100%", md: "container.sm", lg: "container.md" },
             marginTop: "10vh",
             p: 4
         }
