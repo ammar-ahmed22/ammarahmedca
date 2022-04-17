@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Text, useColorModeValue, Flex, Tag, HStack } from "@chakra-ui/react"
+import { Box, Text, useColorModeValue, Flex, Tag, HStack, SkeletonText, SkeletonCircle, Skeleton } from "@chakra-ui/react"
 import { useQuery, gql } from "@apollo/client"
 import BulletItem from './BulletItem';
 import DisplayLimiter from './DisplayLimiter';
 import RichText from './RichText';
+
+const CustomSkeleton = () => {
+    return (
+        <Box mb={16}>
+            <SkeletonText skeletonHeight={10} noOfLines={1} mb="4" w="50%"/>
+            <SkeletonText skeletonHeight={4} noOfLines={1} mb="4" w="25%"/>
+            <SkeletonText skeletonHeight={2} noOfLines={1} mb="4" w="25%"/>
+            <SkeletonText noOfLines={7} mb="4"/>
+        </Box>
+    )
+}
 
 const Experience = () => {
 
@@ -94,6 +105,11 @@ const Experience = () => {
                                 </Box>
                             </BulletItem>
                         )
+                    })
+                }
+                {
+                    loading && [1, 2, 3].map( () => {
+                        return <CustomSkeleton />
                     })
                 }
                 <Flex justify="center">
