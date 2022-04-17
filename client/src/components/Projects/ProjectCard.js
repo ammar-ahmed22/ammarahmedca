@@ -59,7 +59,7 @@ const ProjectCard = ({ project, id, loading }) => {
                  }
                 <Text fontSize="sm">{project.description}</Text>
                 {
-                    project.isBlog && <Link fontSize="sm" mt="2" color="primaryLight" fontWeight="bold" >Read more</Link>
+                    project.isBlog && <Link fontSize="sm" mt="2" color={primary} fontWeight="bold" >Read more</Link>
                 }
                 {project.frameworks.length > 0 && <Text fontSize="md" fontFamily="heading">Frameworks:</Text>}
                 {
