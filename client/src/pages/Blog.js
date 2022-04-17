@@ -9,16 +9,16 @@ import * as helper from "../utils/helpers"
 
 const CustomSkeleton = () => {
     return (
-        <SimpleGrid columns={2} spacing={2} >
+        <SimpleGrid columns={{ base: 1, md: 2}} spacing={2} >
             <Box>
-                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w='50%' />
-                <Skeleton height="30vh" my={2} />
-                <Skeleton height="30vh" my={2} />
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w='50%' mx={{base: 2, md: 0}} mt={2} />
+                <Skeleton height="30vh" my={2} mx={{base: 2, md: 0}}/>
+                <Skeleton height="30vh" my={2} mx={{base: 2, md: 0}}/>
             </Box>
             <Box>
-                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w="50%"/>
-                <Skeleton height="30vh" my={2} />
-                <Skeleton height="30vh" my={2} />
+                <SkeletonText mb={2} skeletonHeight={6} noOfLines={1} w="50%" mx={{base: 2, md: 0}} mt={2}/>
+                <Skeleton height="30vh" my={2} mx={{base: 2, md: 0}}/>
+                <Skeleton height="30vh" my={2} mx={{base: 2, md: 0}}/>
             </Box>
         </SimpleGrid>
     )
