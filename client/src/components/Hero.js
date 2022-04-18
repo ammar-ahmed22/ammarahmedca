@@ -5,28 +5,7 @@ import Signature from './Signature';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Hero = () => {
-    const [largerThanBase, largerThanMd, largerThanLg] = useMediaQuery([
-        "(min-width: 0em)",
-        "(min-width: 48em)",
-        "(min-width: 62em)"
-    ])
-
-    const determineSignatureSize = () => {
-        const base = { height: 328, width: 602};
-        const aspectRatio = base.width / base.height
-        
-        if (largerThanBase && !largerThanMd){
-            return { height: base.height * 0.6, width: (base.height * 0.6) * aspectRatio}
-        }
-
-        if (largerThanMd && !largerThanLg){
-            return {height: base.height * 0.75, width: (base.height * 0.75) * aspectRatio}
-        }
-
-        if (largerThanLg){
-            return base
-        }
-    }
+    
     const styleProps = {
         mainText: {
             fontSize: {base: "6xl", lg: "8xl"},
@@ -54,12 +33,12 @@ const Hero = () => {
                 <Text {...styleProps.subText}>Engineering student at the <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
                 <Text {...styleProps.subText}>QA Engineer at <Link href="https://hire.company" {...styleProps.subTextLink}>HIRE Technologies</Link></Text>
             </Box>
-            <Signature color={useColorModeValue("black", "white")} width={determineSignatureSize().width} height={determineSignatureSize().height}/>
+            <Signature color={useColorModeValue("black", "white")} />
             {/* <Flex  align="end"  direction="column" >
                 <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Works</Text></Text> <ChevronDownIcon /></Button>
                 <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Experiences</Text></Text> <ChevronDownIcon /></Button>
             </Flex> */}
-            <Flex justify="center" mt="calc(328px - 20%)" >
+            <Flex justify="center" position="absolute" bottom={{ base: "30vh", lg: "25vh"}} width="100%">
                 <Button variant="ghost" display="flex" flexDirection="column" color="primaryLight" colorScheme="red" ><Text>Scroll</Text> <ChevronDownIcon /></Button>
             </Flex>
         </Box>
