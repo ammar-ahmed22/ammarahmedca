@@ -1,5 +1,6 @@
 import React from "react";
 import { useColorModeValue, Skeleton, Box, Flex, Tag, Text, Link, } from "@chakra-ui/react"
+import { Link as ReactLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 
@@ -34,6 +35,10 @@ const ProjectCard = ({ project, id, loading }) => {
     }
 
     const primary = useColorModeValue("primaryLight", "primaryDark");
+
+    const hyphenate = string => {
+        return string.toLowerCase().split(" ").join("-");
+    }
     
     return (
         <Skeleton isLoaded={!loading} >
@@ -59,7 +64,7 @@ const ProjectCard = ({ project, id, loading }) => {
                  }
                 <Text fontSize="sm">{project.description}</Text>
                 {
-                    project.isBlog && <Link fontSize="sm" mt="2" color={primary} fontWeight="bold" >Read more</Link>
+                    project.isBlog && <Link fontSize="sm" mt="2" color={primary} fontWeight="bold" as={ReactLink} to={{pathname: `/blog/${hyphenate(project.name)}`, state: { id: project.id }}} >Read more</Link>
                 }
                 {project.frameworks.length > 0 && <Text fontSize="md" fontFamily="heading">Frameworks:</Text>}
                 {
