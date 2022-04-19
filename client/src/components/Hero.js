@@ -24,29 +24,6 @@ const Hero = () => {
             isExternal: true,
             color: useColorModeValue("primaryLight", "primaryDark")
         },
-        scrollInd: {
-            height: "25px",
-            width: "15px",
-            bg: "transparent",
-            border: "2px solid",
-            borderColor: useColorModeValue("primaryLight", "primaryDark"),
-            borderRadius: "full",
-            position: "relative",
-            _hover: {
-                cursor: "pointer",
-                
-            }
-        },
-        scrollIndCircle: {
-            position: "absolute", 
-            top: "1px", 
-            left: "50%", 
-            transform: "translate(-50%, 0)", 
-            bg: useColorModeValue("primaryLight", "primaryDark"), 
-            height: "5px", 
-            width: "5px", 
-            borderRadius: "full"
-        }
     }
 
     
