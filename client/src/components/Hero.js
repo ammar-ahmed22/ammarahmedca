@@ -1,8 +1,10 @@
-import React from 'react';
-import {  Text, Box, useColorModeValue, Link, Button, Flex, useMediaQuery } from '@chakra-ui/react';
-import { ChevronDownIcon } from "@chakra-ui/icons"
+import React, { useRef, useEffect, useState } from 'react';
+import {  Text, Box, useColorModeValue, Link, Button, Flex, useColorMode } from '@chakra-ui/react';
+import { ChevronDownIcon, ArrowDownIcon } from "@chakra-ui/icons"
 import Signature from './Signature';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import ScrollIndicator from './ScrollIndicator';
+import "../assets/css/ScrollIndicator.css"
 
 const Hero = () => {
     
@@ -23,11 +25,47 @@ const Hero = () => {
             fontWeight: "bold",
             isExternal: true,
             color: useColorModeValue("primaryLight", "primaryDark")
+        },
+        scrollInd: {
+            height: "25px",
+            width: "15px",
+            bg: "transparent",
+            border: "2px solid",
+            borderColor: useColorModeValue("primaryLight", "primaryDark"),
+            borderRadius: "full",
+            position: "relative",
+            _hover: {
+                cursor: "pointer",
+                
+            }
+            // _after: { 
+            //     content: "' '", 
+            //     position: "absolute", 
+            //     top: "1px", 
+            //     left: "50%", 
+            //     transform: "translate(-50%, 0)", 
+            //     bg: "primaryLight", 
+            //     height: "5px", 
+            //     width: "5px", 
+            //     borderRadius: "full"
+            // }
+        },
+        scrollIndCircle: {
+            position: "absolute", 
+            top: "1px", 
+            left: "50%", 
+            transform: "translate(-50%, 0)", 
+            bg: useColorModeValue("primaryLight", "primaryDark"), 
+            height: "5px", 
+            width: "5px", 
+            borderRadius: "full"
         }
     }
 
+    
+
     return (
-        <Box minH="100vh" position="relative" >
+        <Box minH="90vh" position="relative" >
             <Box marginTop={"10vh"} zIndex={10} >
                 <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text color={useColorModeValue("primaryLight", "primaryDark")} as="span">Ammar</Text></Text>
                 <Text {...styleProps.subText}>Engineering student at the <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
@@ -38,9 +76,7 @@ const Hero = () => {
                 <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Works</Text></Text> <ChevronDownIcon /></Button>
                 <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Experiences</Text></Text> <ChevronDownIcon /></Button>
             </Flex> */}
-            <Flex justify="center" position="absolute" bottom={{ base: "30vh", lg: "25vh"}} width="100%">
-                <Button variant="ghost" display="flex" flexDirection="column" color="primaryLight" colorScheme="red" ><Text>Scroll</Text> <ChevronDownIcon /></Button>
-            </Flex>
+            <ScrollIndicator scrollToId="projects"/>
         </Box>
     );
 }
