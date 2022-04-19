@@ -1,8 +1,6 @@
-import React, { useRef, useEffect, useState } from 'react';
-import {  Text, Box, useColorModeValue, Link, Button, Flex, useColorMode } from '@chakra-ui/react';
-import { ChevronDownIcon, ArrowDownIcon } from "@chakra-ui/icons"
+import React from 'react';
+import {  Text, Box, useColorModeValue, Link,} from '@chakra-ui/react';
 import Signature from './Signature';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import ScrollIndicator from './ScrollIndicator';
 import "../assets/css/ScrollIndicator.css"
 
@@ -38,17 +36,6 @@ const Hero = () => {
                 cursor: "pointer",
                 
             }
-            // _after: { 
-            //     content: "' '", 
-            //     position: "absolute", 
-            //     top: "1px", 
-            //     left: "50%", 
-            //     transform: "translate(-50%, 0)", 
-            //     bg: "primaryLight", 
-            //     height: "5px", 
-            //     width: "5px", 
-            //     borderRadius: "full"
-            // }
         },
         scrollIndCircle: {
             position: "absolute", 
@@ -72,10 +59,7 @@ const Hero = () => {
                 <Text {...styleProps.subText}>QA Engineer at <Link href="https://hire.company" {...styleProps.subTextLink}>HIRE Technologies</Link></Text>
             </Box>
             <Signature color={useColorModeValue("black", "white")} />
-            {/* <Flex  align="end"  direction="column" >
-                <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Works</Text></Text> <ChevronDownIcon /></Button>
-                <Button variant="ghost" display="flex" flexDirection="column"  ><Text>My <Text as="span" color="primaryLight">Experiences</Text></Text> <ChevronDownIcon /></Button>
-            </Flex> */}
+            
             <ScrollIndicator scrollToId="projects"/>
         </Box>
     );
