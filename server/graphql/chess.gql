@@ -1,0 +1,39 @@
+type Name {
+    first: String!
+    middle: String
+    last: String!
+}
+
+type GameHistory {
+    gameID: String!
+    won: Boolean!
+    tie: Boolean!
+}
+
+type Opponent{
+    _id: ID!
+    email: String!
+    name: Name!
+    signedupAt: String!
+    currentGameID: String
+    gameHistory: [GameHistory] 
+}
+
+type Move {
+    fen: String!
+    playedAt: String,
+    _id: ID!
+}
+
+type Game{
+    _id: ID!
+    oppID: ID!
+    moves: [Move]!
+    oppToMove: Boolean!
+    oppWon: Boolean!
+    tied: Boolean!
+}
+
+type Mutation {
+    createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!): Game!
+}
