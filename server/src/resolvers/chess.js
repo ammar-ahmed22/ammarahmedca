@@ -45,7 +45,7 @@ const chessQueries = {
 const chessMutations = {
         createOpponent: async (_, { firstName, lastName, middleName, email }) => {
 
-            //console.log(firstName, lastName, middleName, email)
+            
 
             const existingOpp = await Opponent.find({ email })
 
