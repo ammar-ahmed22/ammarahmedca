@@ -69,7 +69,6 @@ type Experience {
 }
 
 type Query{
-    hello: String!
     ProjectInfo: [BlogInfo]!
     BlogInfo(id: String): [BlogCategory]!
     FilterBy: FilterParams!

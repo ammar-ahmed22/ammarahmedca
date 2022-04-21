@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
 import Post from "./pages/Post";
+import Chess from "./pages/Chess";
 
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -18,6 +19,7 @@ const App = () => {
                 <Route path="/about" exact component={About}/>
                 <Route path="/blog" exact component={Blog}/>
                 <Route path="/blog/:postName" component={Post}/>
+                <Route path="/chess" exact component={Chess}/>
             </Switch>
         </Router>
     )

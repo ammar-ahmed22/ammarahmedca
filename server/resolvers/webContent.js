@@ -12,7 +12,6 @@ const helper = new DataHelper(notionWrapper);
 
 const resolver = {
   Query: {
-    hello: () => "hello world!!!!",
     ProjectInfo: async () => {
       // Returns info for all projects
 
