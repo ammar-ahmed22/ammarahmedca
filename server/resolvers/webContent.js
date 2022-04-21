@@ -2,28 +2,35 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-require("dotenv").config({
-  path: "../config.env"
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
+var _Notion = _interopRequireDefault(require("../models/Notion"));
+
+var _DataHelper = _interopRequireDefault(require("../utils/DataHelper"));
+
+_dotenv["default"].config({
+  path: "./config.env"
 });
-
-var Notion = require("../models/Notion");
-
-var DataHelper = require("../utils/DataHelper");
 
 var _process$env = process.env,
     NOTION_INTEGRATION_KEY = _process$env.NOTION_INTEGRATION_KEY,
     NOTION_BLOG_DB_ID = _process$env.NOTION_BLOG_DB_ID,
     NOTION_EXP_DB_ID = _process$env.NOTION_EXP_DB_ID; // Custom Notion API wrapper
 
-var notionWrapper = new Notion(NOTION_INTEGRATION_KEY); // Methods to help with data parsing from Notion
+var notionWrapper = new _Notion["default"](NOTION_INTEGRATION_KEY); // Methods to help with data parsing from Notion
 
-var helper = new DataHelper(notionWrapper);
+var helper = new _DataHelper["default"](notionWrapper);
 var resolver = {
   Query: {
     ProjectInfo: function () {
@@ -325,4 +332,5 @@ var resolver = {
     }
   }
 };
-module.exports = resolver;
+var _default = resolver;
+exports["default"] = _default;

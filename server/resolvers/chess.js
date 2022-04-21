@@ -2,16 +2,20 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var Opponent = require("../models/Opponent");
+var _Opponent = _interopRequireDefault(require("../models/Opponent"));
 
-var Game = require("../models/Game");
+var _Game = _interopRequireDefault(require("../models/Game"));
 
-var _require = require("apollo-server-express"),
-    UserInputError = _require.UserInputError;
+var _apolloServerExpress = require("apollo-server-express");
 
 var resolvers = {
   Query: {
@@ -23,7 +27,7 @@ var resolvers = {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return Opponent.find({});
+                return _Opponent["default"].find({});
 
               case 2:
                 opps = _context.sent;
@@ -36,7 +40,7 @@ var resolvers = {
                 return _context.abrupt("return", opps);
 
               case 7:
-                throw new UserInputError("No opponents found");
+                throw new _apolloServerExpress.UserInputError("No opponents found");
 
               case 8:
               case "end":
@@ -61,7 +65,7 @@ var resolvers = {
               case 0:
                 email = _ref.email;
                 _context2.next = 3;
-                return Opponent.find({
+                return _Opponent["default"].find({
                   email: email
                 });
 
@@ -76,7 +80,7 @@ var resolvers = {
                 return _context2.abrupt("return", opps[0]);
 
               case 8:
-                throw new UserInputError("No opponents found with email", {
+                throw new _apolloServerExpress.UserInputError("No opponents found with email", {
                   email: email
                 });
 
@@ -103,7 +107,7 @@ var resolvers = {
               case 0:
                 id = _ref2.id;
                 _context3.next = 3;
-                return Opponent.findById(id);
+                return _Opponent["default"].findById(id);
 
               case 3:
                 opp = _context3.sent;
@@ -116,7 +120,7 @@ var resolvers = {
                 return _context3.abrupt("return", opp);
 
               case 8:
-                throw new UserInputError("No opponent found with id", {
+                throw new _apolloServerExpress.UserInputError("No opponent found with id", {
                   id: id
                 });
 
@@ -143,7 +147,7 @@ var resolvers = {
               case 0:
                 id = _ref3.id;
                 _context4.next = 3;
-                return Game.findById(id);
+                return _Game["default"].findById(id);
 
               case 3:
                 game = _context4.sent;
@@ -153,7 +157,7 @@ var resolvers = {
                   break;
                 }
 
-                throw new UserInputError("No game found with id", {
+                throw new _apolloServerExpress.UserInputError("No game found with id", {
                   id: id
                 });
 
@@ -185,7 +189,7 @@ var resolvers = {
               case 0:
                 firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email;
                 _context5.next = 3;
-                return Opponent.find({
+                return _Opponent["default"].find({
                   email: email
                 });
 
@@ -199,7 +203,7 @@ var resolvers = {
 
                 console.log("OPPONENT WITH EMAIL: ".concat(email, " ALREADY EXISTS"));
                 console.log(existingOpp);
-                throw new UserInputError("Opponent with email already exists", {
+                throw new _apolloServerExpress.UserInputError("Opponent with email already exists", {
                   email: email
                 });
 
@@ -210,7 +214,7 @@ var resolvers = {
                   last: lastName
                 };
                 _context5.next = 11;
-                return Opponent.create({
+                return _Opponent["default"].create({
                   name: name,
                   email: email,
                   signedupAt: new Date(),
@@ -227,7 +231,7 @@ var resolvers = {
                 }
 
                 _context5.next = 15;
-                return Game.create({
+                return _Game["default"].create({
                   oppID: opp.id,
                   moves: [{
                     fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
@@ -276,7 +280,7 @@ var resolvers = {
               case 0:
                 gameID = _ref5.gameID, fen = _ref5.fen;
                 _context6.next = 3;
-                return Game.findById(gameID);
+                return _Game["default"].findById(gameID);
 
               case 3:
                 game = _context6.sent;
@@ -286,7 +290,7 @@ var resolvers = {
                   break;
                 }
 
-                throw new UserInputError("No game found with id", {
+                throw new _apolloServerExpress.UserInputError("No game found with id", {
                   gameID: gameID
                 });
 
@@ -317,4 +321,5 @@ var resolvers = {
     }()
   }
 };
-module.exports = resolvers;
+var _default = resolvers;
+exports["default"] = _default;

@@ -1,6 +1,7 @@
-const Opponent = require("../models/Opponent");
-const Game = require("../models/Game");
-const { UserInputError } = require("apollo-server-express")
+import Opponent from "../models/Opponent";
+import Game from "../models/Game";
+import { UserInputError } from "apollo-server-express";
+
 
 const resolvers = {
     Query: {
@@ -107,4 +108,4 @@ const resolvers = {
     
 }
 
-module.exports = resolvers;
+export default resolvers;

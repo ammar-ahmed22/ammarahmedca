@@ -1,6 +1,7 @@
-require("dotenv").config({ path: "../config.env" });
-const Notion = require("../models/Notion");
-const DataHelper = require("../utils/DataHelper");
+import dotenv from "dotenv";
+dotenv.config({ path: "./config.env" });
+import Notion from "../models/Notion";
+import DataHelper from "../utils/DataHelper";
 
 
 const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID, NOTION_EXP_DB_ID } = process.env;
@@ -182,4 +183,4 @@ const resolver = {
   },
 };
 
-module.exports = resolver;
+export default resolver;
