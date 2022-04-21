@@ -38,8 +38,10 @@ type Query{
     getOpponentByEmail(email: String!) : Opponent!
     getOpponentById(id: String!): Opponent!
     getAllOpponents: [Opponent]!
+    getGame(id: String!) : Game!
 }
 
 type Mutation {
     createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!): Game!
+    addMove(gameID: String!, fen: String!): Game!
 }

@@ -30,6 +30,15 @@ const resolvers = {
             }else{
                 throw new UserInputError("No opponent found with id", { id })
             }
+        },
+        getGame: async (_, { id }) => {
+            const game = await Game.findById(id);
+
+            if (!game){
+                throw new UserInputError("No game found with id", { id });
+            }
+
+            return game;
         }
     },
     Mutation: {
@@ -66,7 +75,7 @@ const resolvers = {
             if (opp){
                 game = await Game.create({
                     oppID: opp.id,
-                    moves: [{fen: 'opening', playedAt: null}],
+                    moves: [{fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', playedAt: null}],
                     oppToMove: true,
                     oppWon: false,
                     tied: false
@@ -78,13 +87,21 @@ const resolvers = {
                 }
             }
 
-            
-            
-            
-            
-
             return game
             
+        },
+        addMove: async (_, { gameID, fen }) => {
+            const game = await Game.findById(gameID);
+
+            if (!game){
+                throw new UserInputError("No game found with id", { gameID })
+            }
+
+            game.moves.push({ fen, playedAt: new Date()})
+
+            await game.save();
+
+            return game
         }
     }
     
