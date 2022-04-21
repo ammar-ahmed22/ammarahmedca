@@ -2,11 +2,16 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var mongoose = require("mongoose");
+var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var connectDB = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(URI) {
@@ -15,7 +20,7 @@ var connectDB = /*#__PURE__*/function () {
         switch (_context.prev = _context.next) {
           case 0:
             _context.next = 2;
-            return mongoose.connect(URI, {
+            return _mongoose["default"].connect(URI, {
               useNewUrlParser: true,
               useUnifiedTopology: true
             });
@@ -36,4 +41,5 @@ var connectDB = /*#__PURE__*/function () {
   };
 }();
 
-module.exports = connectDB;
+var _default = connectDB;
+exports["default"] = _default;

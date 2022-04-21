@@ -1,8 +1,15 @@
 "use strict";
 
-var mongoose = require("mongoose");
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var GameSchema = new mongoose.Schema({
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _mongoose = _interopRequireDefault(require("mongoose"));
+
+var GameSchema = new _mongoose["default"].Schema({
   oppID: {
     type: String,
     required: true
@@ -26,5 +33,8 @@ var GameSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-var Game = mongoose.model("Game", GameSchema);
-module.exports = Game;
+
+var Game = _mongoose["default"].model("Game", GameSchema);
+
+var _default = Game;
+exports["default"] = _default;

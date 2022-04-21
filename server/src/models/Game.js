@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const GameSchema = new mongoose.Schema({
     oppID: { type: String, required: true},
@@ -10,4 +10,4 @@ const GameSchema = new mongoose.Schema({
 
 const Game = mongoose.model("Game", GameSchema);
 
-module.exports = Game;
+export default Game;

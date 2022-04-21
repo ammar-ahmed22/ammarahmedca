@@ -193,4 +193,4 @@ class DataHelper {
     }
 }
 
-module.exports = DataHelper
+export default DataHelper;

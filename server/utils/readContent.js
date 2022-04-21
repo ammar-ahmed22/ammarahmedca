@@ -1,12 +1,15 @@
 "use strict";
 
-var _require = require("fs"),
-    readFileSync = _require.readFileSync;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-var fs = require("fs");
+var _fs = require("fs");
 
 var readContent = function readContent(file) {
-  return readFileSync(file).toString("utf-8");
+  return (0, _fs.readFileSync)(file).toString("utf-8");
 };
 
-module.exports = readContent;
+var _default = readContent;
+exports["default"] = _default;

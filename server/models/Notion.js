@@ -2,6 +2,11 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
@@ -12,8 +17,7 @@ var _classCallCheck2 = _interopRequireDefault(require("@babel/runtime/helpers/cl
 
 var _defineProperty2 = _interopRequireDefault(require("@babel/runtime/helpers/defineProperty"));
 
-var _require = require("@notionhq/client"),
-    Client = _require.Client;
+var _client = require("@notionhq/client");
 
 var Notion = /*#__PURE__*/(0, _createClass2["default"])(function Notion(integrationKey) {
   var _this = this;
@@ -101,7 +105,7 @@ var Notion = /*#__PURE__*/(0, _createClass2["default"])(function Notion(integrat
       return _ref2.apply(this, arguments);
     };
   }());
-  this.notion = new Client({
+  this.notion = new _client.Client({
     auth: integrationKey
   });
   this.db = {
@@ -163,4 +167,5 @@ var Notion = /*#__PURE__*/(0, _createClass2["default"])(function Notion(integrat
     }()
   };
 });
-module.exports = Notion;
+var _default = Notion;
+exports["default"] = _default;

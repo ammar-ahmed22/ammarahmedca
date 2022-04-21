@@ -2,6 +2,11 @@
 
 var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
 var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
@@ -256,4 +261,5 @@ var DataHelper = /*#__PURE__*/(0, _createClass2["default"])(function DataHelper(
   this.notion = notion;
 } // Reads content from notion property
 );
-module.exports = DataHelper;
+var _default = DataHelper;
+exports["default"] = _default;

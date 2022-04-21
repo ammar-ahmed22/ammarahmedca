@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const OpponentSchema = new mongoose.Schema({
     name: {
@@ -14,5 +14,4 @@ const OpponentSchema = new mongoose.Schema({
 
 const Opponent = mongoose.model("Opponent", OpponentSchema);
 
-
-module.exports = Opponent;
+export default Opponent;

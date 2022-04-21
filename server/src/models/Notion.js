@@ -1,4 +1,4 @@
-const { Client } =  require("@notionhq/client")
+import { Client } from "@notionhq/client";
 
 class Notion{
     constructor(integrationKey){
@@ -44,4 +44,4 @@ class Notion{
     
 }
 
-module.exports = Notion
+export default Notion;

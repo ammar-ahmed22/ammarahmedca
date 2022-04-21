@@ -1,8 +1,15 @@
 "use strict";
 
-var mongoose = require("mongoose");
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-var OpponentSchema = new mongoose.Schema({
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _mongoose = _interopRequireDefault(require("mongoose"));
+
+var OpponentSchema = new _mongoose["default"].Schema({
   name: {
     first: {
       type: String,
@@ -31,5 +38,8 @@ var OpponentSchema = new mongoose.Schema({
 }, {
   timestamps: true
 });
-var Opponent = mongoose.model("Opponent", OpponentSchema);
-module.exports = Opponent;
+
+var Opponent = _mongoose["default"].model("Opponent", OpponentSchema);
+
+var _default = Opponent;
+exports["default"] = _default;
