@@ -7,9 +7,11 @@ import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
-import { faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faChessPawn } from "@fortawesome/free-solid-svg-icons"
 
-library.add(fab, faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faChessPawn)
+import { faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse } from "@fortawesome/free-solid-svg-icons"
+
+library.add(fab, faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse)
+
 
 const fonts = {
   body: "Manrope, sans-serif",
@@ -31,9 +33,9 @@ const shadows = {
 }
 
 const theme = extendTheme({ fonts, config, colors, shadows })
-
+console.log(process.env.REACT_APP_MOBILE)
 const httpLink = new HttpLink({
-  uri: "http://localhost:8080/graphql"
+  uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
 })
 
 const client = new ApolloClient({

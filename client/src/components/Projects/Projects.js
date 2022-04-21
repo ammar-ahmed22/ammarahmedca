@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Text, Box, SimpleGrid, useColorModeValue, HStack, Button } from "@chakra-ui/react"
+import { Text, Box, SimpleGrid, useColorModeValue, HStack, Button, Skeleton, SkeletonText } from "@chakra-ui/react"
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"
 import ProjectCard from './ProjectCard';
 import Search from './Search';
@@ -8,7 +8,23 @@ import Filter from './Filter';
 import DisplayLimiter from '../DisplayLimiter';
 
 
-
+const CustomSkeleton = () => {
+    return (
+        <>
+        <SkeletonText mb={2} skeletonHeight={10} noOfLines={1} />
+        <SimpleGrid columns={{ base: 1, md: 2 }} spacing={5} >
+            <Box>
+                <Skeleton height="30vh" my={5}/>
+                <Skeleton height="30vh" my={5}/>
+            </Box>
+            <Box>
+                <Skeleton height="30vh" my={5}/>
+                <Skeleton height="30vh" my={5} />
+            </Box>
+        </SimpleGrid>
+        </>
+    )
+}
 
 const PROJECT_INFO = gql`
     query {
@@ -35,7 +51,7 @@ const Projects = () => {
             minH: "100vh"
         },
         title: {
-            fontSize: "6xl",
+            fontSize: { base: "5xl", lg: "6xl"},
             fontFamily: "heading",
             as: "h3",
         },
@@ -76,7 +92,7 @@ const Projects = () => {
             
             {
                 data && projects && (
-                    <SimpleGrid columns={2} spacing={5}>
+                    <SimpleGrid columns={{ base: 1, md: 2}} spacing={5}>
                         {
                             projects.slice(0, projectsToDisplay).map( project => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />
@@ -87,6 +103,9 @@ const Projects = () => {
             }
             {
                 error && <Text>Error</Text>
+            }
+            {
+                loading && <CustomSkeleton />
             }
             
                 

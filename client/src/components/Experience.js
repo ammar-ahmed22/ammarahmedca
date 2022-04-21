@@ -1,9 +1,20 @@
 import React, { useState } from 'react';
-import { Box, Text, useColorModeValue, Flex, Tag, HStack } from "@chakra-ui/react"
+import { Box, Text, useColorModeValue, Flex, Tag, HStack, SkeletonText, SkeletonCircle, Skeleton } from "@chakra-ui/react"
 import { useQuery, gql } from "@apollo/client"
 import BulletItem from './BulletItem';
 import DisplayLimiter from './DisplayLimiter';
 import RichText from './RichText';
+
+const CustomSkeleton = () => {
+    return (
+        <Box mb={16}>
+            <SkeletonText skeletonHeight={10} noOfLines={1} mb="4" w="50%"/>
+            <SkeletonText skeletonHeight={4} noOfLines={1} mb="4" w="25%"/>
+            <SkeletonText skeletonHeight={2} noOfLines={1} mb="4" w="25%"/>
+            <SkeletonText noOfLines={7} mb="4"/>
+        </Box>
+    )
+}
 
 const Experience = () => {
 
@@ -44,20 +55,24 @@ const Experience = () => {
         },
         title: {
             as: "h3",
-            fontSize: '6xl',
+            fontSize: { base: "5xl", lg: "6xl"},
             fontFamily: "heading"
         },
         company: {
-            fontSize: "3xl",
+            fontSize: { base: "2xl", lg: "3xl"},
             fontWeight: "bold",
             fontFamily: "heading"
         },
         role: {
-            fontSize: "xl",
+            fontSize: { base: "lg", lg: "xl"},
             color: useColorModeValue("primaryLight", "primaryDark")
         },
         timeframe: {
-            color: "gray.500"
+            color: "gray.500",
+            fontSize: { base: "sm", lg: "md"}
+        },
+        description: {
+            fontSize: { base: "sm", lg: "md"}
         }
     }
     return (
@@ -75,21 +90,26 @@ const Experience = () => {
                                     <Text {...styleProps.timeframe} >{timeframe.start} - {timeframe.end}</Text>
                                     <Tag textTransform="uppercase" fontWeight="bold" size="md" my={2}>{type}</Tag>
                                     
-                                    <Text>
+                                    <Text {...styleProps.description}>
                                         {
                                             description.map( (text, idx) => (<RichText idx={idx} {...text.annotations}>{text.plain_text}</RichText>))
                                         }
                                     </Text>
-                                    <HStack my={2} >
+                                    <HStack my={2} wrap="wrap" >
                                         {
                                             skills.map( (skill, skillIdx) => {
-                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="red" >{skill}</Tag>
+                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="red" my={2} key={skillIdx} >{skill}</Tag>
                                             })
                                         }
                                     </HStack>
                                 </Box>
                             </BulletItem>
                         )
+                    })
+                }
+                {
+                    loading && [1, 2, 3].map( () => {
+                        return <CustomSkeleton />
                     })
                 }
                 <Flex justify="center">
