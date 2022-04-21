@@ -1,0 +1,77 @@
+type BlogInfo {
+    id: String!
+    lastEdited: String!
+    name: String!
+    timeline: String
+    type: [String]
+    languages: [String]
+    frameworks: [String]
+    github: String
+    external: String
+    description: String
+    published: String
+    isBlog: Boolean
+    isProject: Boolean
+    readTime: Int
+    category: String
+}
+
+type BlogCategory{
+    category: String
+    posts: [BlogInfo]!
+}
+
+type FilterParams {
+    frameworks: [String]!
+    type: [String]!
+    languages: [String]!
+}
+
+type Annotations {
+    bold: Boolean!
+    underline: Boolean!
+    strikethrough: Boolean!
+    code: Boolean!
+    italic: Boolean!
+    color: String!
+    language: String
+}
+
+type Text {
+    plain_text: String!
+    annotations: Annotations!
+}
+
+type Image {
+    caption: String!
+    url: String!
+}
+
+union TextOrImage = Text | Image
+
+type ContentBlock {
+    type: String!
+    content: [TextOrImage]!
+}
+
+type Timeframe {
+    start: String!
+    end: String
+}
+
+type Experience {
+    company: String!
+    role: String!
+    description: [Text]!
+    type: String!
+    skills: [String]
+    timeframe: Timeframe!
+}
+
+type Query{
+    ProjectInfo: [BlogInfo]!
+    BlogInfo(id: String): [BlogCategory]!
+    FilterBy: FilterParams!
+    BlogContent(id: String!): [ContentBlock]!
+    ExperienceInfo: [Experience]!
+}

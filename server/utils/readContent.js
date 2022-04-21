@@ -1,8 +1,12 @@
-const { readFileSync } = require("fs");
-const fs = require("fs");
+"use strict";
 
-const readContent = ( file ) => {
-    return readFileSync(file).toString("utf-8")
-}
+var _require = require("fs"),
+    readFileSync = _require.readFileSync;
 
-module.exports = readContent
+var fs = require("fs");
+
+var readContent = function readContent(file) {
+  return readFileSync(file).toString("utf-8");
+};
+
+module.exports = readContent;
