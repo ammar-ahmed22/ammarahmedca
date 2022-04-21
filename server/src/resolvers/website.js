@@ -11,8 +11,7 @@ const notionWrapper = new Notion(NOTION_INTEGRATION_KEY);
 // Methods to help with data parsing from Notion
 const helper = new DataHelper(notionWrapper);
 
-const resolver = {
-  Query: {
+const webQueries = {
     ProjectInfo: async () => {
       // Returns info for all projects
 
@@ -168,19 +167,8 @@ const resolver = {
 
       return result;
     },
-  },
-  TextOrImage: {
-    __resolveType(obj, context, info) {
+  }
 
-      if (obj.annotations) {
-        return "Text";
-      } else if (obj.url) {
-        return "Image";
-      } else {
-        return null;
-      }
-    },
-  },
-};
+  
 
-export default resolver;
+export { webQueries };

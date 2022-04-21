@@ -18,9 +18,11 @@ var _connectDB = _interopRequireDefault(require("./utils/connectDB"));
 
 var _readContent = _interopRequireDefault(require("./utils/readContent"));
 
-var _webContent = _interopRequireDefault(require("./resolvers/webContent"));
+var _website = require("./resolvers/website");
 
-var _chess = _interopRequireDefault(require("./resolvers/chess"));
+var _chess = require("./resolvers/chess");
+
+var _resolveType = _interopRequireDefault(require("./resolvers/resolveType"));
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -35,20 +37,24 @@ var MONGO_URI = process.env.MONGO_URI;
 
 var startServer = /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-    var app, server;
+    var app, resolver, server;
     return _regenerator["default"].wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             app = (0, _express["default"])();
+            resolver = _objectSpread({
+              Query: _objectSpread(_objectSpread({}, _website.webQueries), _chess.chessQueries),
+              Mutation: _objectSpread({}, _chess.chessMutations)
+            }, _resolveType["default"]);
             server = new _apolloServerExpress.ApolloServer({
               typeDefs: (0, _readContent["default"])("./graphql/webContent.gql") + (0, _readContent["default"])("./graphql/chess.gql"),
-              resolvers: _objectSpread(_objectSpread({}, _webContent["default"]), _chess["default"])
+              resolvers: resolver
             });
-            _context.next = 4;
+            _context.next = 5;
             return server.start();
 
-          case 4:
+          case 5:
             server.applyMiddleware({
               app: app
             });
@@ -57,7 +63,7 @@ var startServer = /*#__PURE__*/function () {
               return console.log("Server ready at http://localhost:".concat(PORT).concat(server.graphqlPath, " \uD83D\uDE80"));
             });
 
-          case 7:
+          case 8:
           case "end":
             return _context.stop();
         }

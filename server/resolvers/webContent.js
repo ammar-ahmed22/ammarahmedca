@@ -40,7 +40,10 @@ var resolver = {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                _context.next = 2;
+                // Returns info for all projects
+                console.log(notionWrapper); // All blog pages with isProject checked
+
+                _context.next = 3;
                 return notionWrapper.db.get({
                   dbId: NOTION_BLOG_DB_ID,
                   filter: {
@@ -53,16 +56,16 @@ var resolver = {
                   }
                 });
 
-              case 2:
+              case 3:
                 projectPages = _context.sent;
-                _context.next = 5;
+                _context.next = 6;
                 return helper.parseBlogInfo(projectPages);
 
-              case 5:
+              case 6:
                 res = _context.sent;
                 return _context.abrupt("return", res);
 
-              case 7:
+              case 8:
               case "end":
                 return _context.stop();
             }

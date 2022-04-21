@@ -3,8 +3,8 @@ import Game from "../models/Game";
 import { UserInputError } from "apollo-server-express";
 
 
-const resolvers = {
-    Query: {
+
+const chessQueries = {
         getAllOpponents: async () => {
             const opps = await Opponent.find({});
 
@@ -41,8 +41,8 @@ const resolvers = {
 
             return game;
         }
-    },
-    Mutation: {
+    }
+const chessMutations = {
         createOpponent: async (_, { firstName, lastName, middleName, email }) => {
 
             //console.log(firstName, lastName, middleName, email)
@@ -106,6 +106,6 @@ const resolvers = {
         }
     }
     
-}
 
-export default resolvers;
+
+export { chessQueries, chessMutations };

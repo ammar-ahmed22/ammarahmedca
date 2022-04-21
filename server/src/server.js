@@ -8,13 +8,9 @@ import connectDB from "./utils/connectDB";
 import readContent from "./utils/readContent";
 
 // Resolvers
-import webContent from "./resolvers/webContent";
-import chess from "./resolvers/chess";
-
-
-
-
-
+import { webQueries } from "./resolvers/website";
+import { chessQueries, chessMutations } from "./resolvers/chess";
+import typeResolver from "./resolvers/resolveType";
 
 
 const PORT = process.env.PORT || 5000
@@ -24,10 +20,17 @@ const { MONGO_URI } = process.env;
 const startServer = async () => {
     const app = express();
 
+    const resolver = {
+        Query: {...webQueries, ...chessQueries},
+        Mutation: {...chessMutations},
+        ...typeResolver
+    }
+    
+    
 
     const server = new ApolloServer({
         typeDefs: readContent("./graphql/webContent.gql") + readContent("./graphql/chess.gql"),
-        resolvers: {...webContent, ...chess}
+        resolvers: resolver
     });
 
     
