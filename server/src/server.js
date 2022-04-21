@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 5000
 const { MONGO_URI } = process.env;
 
 
-const startServer = async () => {
+(async () => {
     const app = express();
 
     const resolver = {
@@ -40,9 +40,5 @@ const startServer = async () => {
 
     connectDB(MONGO_URI);
     app.listen(PORT, () => console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath} 🚀`))
-
-
-};
-
-startServer()
+})();
 
