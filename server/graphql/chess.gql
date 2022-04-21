@@ -34,6 +34,12 @@ type Game{
     tied: Boolean!
 }
 
+type Query{
+    getOpponentByEmail(email: String!) : Opponent!
+    getOpponentById(id: String!): Opponent!
+    getAllOpponents: [Opponent]!
+}
+
 type Mutation {
     createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!): Game!
 }

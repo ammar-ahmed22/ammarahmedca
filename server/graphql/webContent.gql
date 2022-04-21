@@ -74,5 +74,4 @@ type Query{
     FilterBy: FilterParams!
     BlogContent(id: String!): [ContentBlock]!
     ExperienceInfo: [Experience]!
-    getOpponent: Opponent!
 }
