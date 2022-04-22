@@ -1,8 +1,15 @@
-const { readFileSync } = require("fs");
-const fs = require("fs");
+"use strict";
 
-const readContent = ( file ) => {
-    return readFileSync(file).toString("utf-8")
-}
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-module.exports = readContent
+var _fs = require("fs");
+
+var readContent = function readContent(file) {
+  return (0, _fs.readFileSync)(file).toString("utf-8");
+};
+
+var _default = readContent;
+exports["default"] = _default;

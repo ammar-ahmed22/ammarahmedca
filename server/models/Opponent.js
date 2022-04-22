@@ -1,18 +1,45 @@
-const mongoose = require("mongoose");
+"use strict";
 
-const OpponentSchema = new mongoose.Schema({
-    name: {
-        first: { type: String, required: true },
-        last: { type: String, required: true },
-        middle: String
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
+var _mongoose = _interopRequireDefault(require("mongoose"));
+
+var OpponentSchema = new _mongoose["default"].Schema({
+  name: {
+    first: {
+      type: String,
+      required: true
     },
-    email: {type: String, required: true},
-    signedupAt: { type: Date, required: true},
-    currentGameID: String,
-    gameHistory: [{ gameID: String, won: Boolean, tie: Boolean}],
-}, { timestamps: true })
+    last: {
+      type: String,
+      required: true
+    },
+    middle: String
+  },
+  email: {
+    type: String,
+    required: true
+  },
+  signedupAt: {
+    type: Date,
+    required: true
+  },
+  currentGameID: String,
+  gameHistory: [{
+    gameID: String,
+    won: Boolean,
+    tie: Boolean
+  }]
+}, {
+  timestamps: true
+});
 
-const Opponent = mongoose.model("Opponent", OpponentSchema);
+var Opponent = _mongoose["default"].model("Opponent", OpponentSchema);
 
-
-module.exports = Opponent;
+var _default = Opponent;
+exports["default"] = _default;

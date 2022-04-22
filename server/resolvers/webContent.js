@@ -1,176 +1,330 @@
-require("dotenv").config({ path: "../config.env" });
-const Notion = require("../models/Notion");
-const DataHelper = require("../utils/DataHelper");
+"use strict";
 
+var _interopRequireDefault = require("@babel/runtime/helpers/interopRequireDefault");
 
-const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID, NOTION_EXP_DB_ID } = process.env;
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
 
-// Custom Notion API wrapper
-const notionWrapper = new Notion(NOTION_INTEGRATION_KEY);
-// Methods to help with data parsing from Notion
-const helper = new DataHelper(notionWrapper);
+var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"));
 
-const resolver = {
+var _toConsumableArray2 = _interopRequireDefault(require("@babel/runtime/helpers/toConsumableArray"));
+
+var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
+
+var _dotenv = _interopRequireDefault(require("dotenv"));
+
+var _Notion = _interopRequireDefault(require("../models/Notion"));
+
+var _DataHelper = _interopRequireDefault(require("../utils/DataHelper"));
+
+_dotenv["default"].config({
+  path: "./config.env"
+});
+
+var _process$env = process.env,
+    NOTION_INTEGRATION_KEY = _process$env.NOTION_INTEGRATION_KEY,
+    NOTION_BLOG_DB_ID = _process$env.NOTION_BLOG_DB_ID,
+    NOTION_EXP_DB_ID = _process$env.NOTION_EXP_DB_ID; // Custom Notion API wrapper
+
+var notionWrapper = new _Notion["default"](NOTION_INTEGRATION_KEY); // Methods to help with data parsing from Notion
+
+var helper = new _DataHelper["default"](notionWrapper);
+var resolver = {
   Query: {
-    ProjectInfo: async () => {
-      // Returns info for all projects
+    ProjectInfo: function () {
+      var _ProjectInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+        var projectPages, res;
+        return _regenerator["default"].wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                // Returns info for all projects
+                console.log(notionWrapper); // All blog pages with isProject checked
 
-      // All blog pages with isProject checked
-      const projectPages = await notionWrapper.db.get({
-        dbId: NOTION_BLOG_DB_ID,
-        filter: {
-          or: [
-            {
-              property: "isProject",
-              checkbox: {
-                equals: true,
-              },
-            },
-          ],
-        },
-      });
+                _context.next = 3;
+                return notionWrapper.db.get({
+                  dbId: NOTION_BLOG_DB_ID,
+                  filter: {
+                    or: [{
+                      property: "isProject",
+                      checkbox: {
+                        equals: true
+                      }
+                    }]
+                  }
+                });
 
-      // parses into BlogInfo GraphQL type
-      const res = await helper.parseBlogInfo(projectPages);
+              case 3:
+                projectPages = _context.sent;
+                _context.next = 6;
+                return helper.parseBlogInfo(projectPages);
 
-      return res;
-    },
-    FilterBy: async () => {
-      // Returns all options to filter projects by
-      const allBlogPages = await notionWrapper.db.get({
-        dbId: NOTION_BLOG_DB_ID,
-      });
+              case 6:
+                res = _context.sent;
+                return _context.abrupt("return", res);
 
-      const result = {
-        frameworks: [],
-        languages: [],
-        type: [],
-      };
-
-      allBlogPages.forEach((page) => {
-        const { Frameworks, Languages, Type } = page.properties;
-
-        result.frameworks.push(...helper.readPropertyContent(Frameworks));
-        result.type.push(...helper.readPropertyContent(Type));
-        result.languages.push(...helper.readPropertyContent(Languages));
-      });
-
-      // removing duplicates
-      return {
-        frameworks: [...new Set(result.frameworks)],
-        type: [...new Set(result.type)],
-        languages: [...new Set(result.languages)],
-      };
-    },
-    BlogInfo: async (_, { id }) => {
-      const blogPages = await notionWrapper.db.get({
-        dbId: NOTION_BLOG_DB_ID,
-        filter: {
-          or: [
-            {
-              property: "isBlog",
-              checkbox: {
-                equals: true,
-              },
-            },
-          ],
-        },
-      });
-
-      let categories = [];
-      
-      // getting all categories
-      blogPages.forEach( page => {
-        const { Category } = page.properties
-        categories.push(helper.readPropertyContent(Category))
-      })
-
-      // removing duplicates
-      categories = [... new Set(categories)];
-      
-
-      const posts = await helper.parseBlogInfo(blogPages);
-
-      if (id){
-        return [
-          {
-            category: null,
-            posts: posts.filter( post => post.id === id)
+              case 8:
+              case "end":
+                return _context.stop();
+            }
           }
-        ]
+        }, _callee);
+      }));
+
+      function ProjectInfo() {
+        return _ProjectInfo.apply(this, arguments);
       }
 
-      return categories.map( category => {
-        return {
-          category,
-          posts: posts.filter( post => post.category === category)
-        }
-      })
-    },
-    BlogContent: async (_, { id }) => {
-      const allBlocks = await notionWrapper.blocks.get({ blockId: id });
-      
-      // Reads block content into correct GraphQL type, filters out non-read types
-      let parsedBlocks = allBlocks
-        .map((block) => helper.readBlockContent(block))
-        .filter((block) => block !== undefined);
-      
-      // Merges list item blocks into a single object 
-      parsedBlocks = helper.mergeListItems(parsedBlocks, "numbered_list_item", "ordered_list")
-      parsedBlocks = helper.mergeListItems(parsedBlocks, "bulleted_list_item", "unordered_list")
+      return ProjectInfo;
+    }(),
+    FilterBy: function () {
+      var _FilterBy = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2() {
+        var allBlogPages, result;
+        return _regenerator["default"].wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return notionWrapper.db.get({
+                  dbId: NOTION_BLOG_DB_ID
+                });
 
-      // Filtering out any empty blocks
-      return parsedBlocks.filter( block => block.content.length > 0)
-    },
-    ExperienceInfo: async () => {
-      const expPages = await notionWrapper.db.get({
-          dbId: NOTION_EXP_DB_ID,
-          sorts: [
-              {
-                  property: "Timeframe",
-                  direction: "descending"
-              }
-          ]
-      });
+              case 2:
+                allBlogPages = _context2.sent;
+                result = {
+                  frameworks: [],
+                  languages: [],
+                  type: []
+                };
+                allBlogPages.forEach(function (page) {
+                  var _result$frameworks, _result$type, _result$languages;
 
-      const result = expPages.map( exp => {
-        const { Name, Timeframe, Role, Description, Type, Skills } = exp.properties;
+                  var _page$properties = page.properties,
+                      Frameworks = _page$properties.Frameworks,
+                      Languages = _page$properties.Languages,
+                      Type = _page$properties.Type;
 
-        
-        const description = Description.rich_text.map( text => {
-            const { plain_text, annotations } = text;
+                  (_result$frameworks = result.frameworks).push.apply(_result$frameworks, (0, _toConsumableArray2["default"])(helper.readPropertyContent(Frameworks)));
 
-            return {
-                plain_text,
-                annotations
+                  (_result$type = result.type).push.apply(_result$type, (0, _toConsumableArray2["default"])(helper.readPropertyContent(Type)));
+
+                  (_result$languages = result.languages).push.apply(_result$languages, (0, _toConsumableArray2["default"])(helper.readPropertyContent(Languages)));
+                }); // removing duplicates
+
+                return _context2.abrupt("return", {
+                  frameworks: (0, _toConsumableArray2["default"])(new Set(result.frameworks)),
+                  type: (0, _toConsumableArray2["default"])(new Set(result.type)),
+                  languages: (0, _toConsumableArray2["default"])(new Set(result.languages))
+                });
+
+              case 6:
+              case "end":
+                return _context2.stop();
             }
-        })
+          }
+        }, _callee2);
+      }));
 
-        const company = helper.readPropertyContent(Name);
-        const role = helper.readPropertyContent(Role)
-        const type = helper.readPropertyContent(Type)
-        const skills = helper.readPropertyContent(Skills)
-        const { start, end } = helper.readPropertyContent(Timeframe, { includeDateEnd: true });
+      function FilterBy() {
+        return _FilterBy.apply(this, arguments);
+      }
 
-        return {
-            company,
-            description,
-            role,
-            type,
-            skills,
-            timeframe: {
-                start: helper.monthYearFromISO(start),
-                end: end ? helper.monthYearFromISO(end) : "Present"
+      return FilterBy;
+    }(),
+    BlogInfo: function () {
+      var _BlogInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref) {
+        var id, blogPages, categories, posts;
+        return _regenerator["default"].wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                id = _ref.id;
+                _context3.next = 3;
+                return notionWrapper.db.get({
+                  dbId: NOTION_BLOG_DB_ID,
+                  filter: {
+                    or: [{
+                      property: "isBlog",
+                      checkbox: {
+                        equals: true
+                      }
+                    }]
+                  }
+                });
+
+              case 3:
+                blogPages = _context3.sent;
+                categories = []; // getting all categories
+
+                blogPages.forEach(function (page) {
+                  var Category = page.properties.Category;
+                  categories.push(helper.readPropertyContent(Category));
+                }); // removing duplicates
+
+                categories = (0, _toConsumableArray2["default"])(new Set(categories));
+                _context3.next = 9;
+                return helper.parseBlogInfo(blogPages);
+
+              case 9:
+                posts = _context3.sent;
+
+                if (!id) {
+                  _context3.next = 12;
+                  break;
+                }
+
+                return _context3.abrupt("return", [{
+                  category: null,
+                  posts: posts.filter(function (post) {
+                    return post.id === id;
+                  })
+                }]);
+
+              case 12:
+                return _context3.abrupt("return", categories.map(function (category) {
+                  return {
+                    category: category,
+                    posts: posts.filter(function (post) {
+                      return post.category === category;
+                    })
+                  };
+                }));
+
+              case 13:
+              case "end":
+                return _context3.stop();
             }
-        }
-      })
+          }
+        }, _callee3);
+      }));
 
-      return result;
-    },
+      function BlogInfo(_x, _x2) {
+        return _BlogInfo.apply(this, arguments);
+      }
+
+      return BlogInfo;
+    }(),
+    BlogContent: function () {
+      var _BlogContent = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref2) {
+        var id, allBlocks, parsedBlocks;
+        return _regenerator["default"].wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                id = _ref2.id;
+                _context4.next = 3;
+                return notionWrapper.blocks.get({
+                  blockId: id
+                });
+
+              case 3:
+                allBlocks = _context4.sent;
+                // Reads block content into correct GraphQL type, filters out non-read types
+                parsedBlocks = allBlocks.map(function (block) {
+                  return helper.readBlockContent(block);
+                }).filter(function (block) {
+                  return block !== undefined;
+                }); // Merges list item blocks into a single object 
+
+                parsedBlocks = helper.mergeListItems(parsedBlocks, "numbered_list_item", "ordered_list");
+                parsedBlocks = helper.mergeListItems(parsedBlocks, "bulleted_list_item", "unordered_list"); // Filtering out any empty blocks
+
+                return _context4.abrupt("return", parsedBlocks.filter(function (block) {
+                  return block.content.length > 0;
+                }));
+
+              case 8:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }));
+
+      function BlogContent(_x3, _x4) {
+        return _BlogContent.apply(this, arguments);
+      }
+
+      return BlogContent;
+    }(),
+    ExperienceInfo: function () {
+      var _ExperienceInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5() {
+        var expPages, result;
+        return _regenerator["default"].wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return notionWrapper.db.get({
+                  dbId: NOTION_EXP_DB_ID,
+                  sorts: [{
+                    property: "Timeframe",
+                    direction: "descending"
+                  }]
+                });
+
+              case 2:
+                expPages = _context5.sent;
+                result = expPages.map(function (exp) {
+                  var _exp$properties = exp.properties,
+                      Name = _exp$properties.Name,
+                      Timeframe = _exp$properties.Timeframe,
+                      Role = _exp$properties.Role,
+                      Description = _exp$properties.Description,
+                      Type = _exp$properties.Type,
+                      Skills = _exp$properties.Skills;
+                  var description = Description.rich_text.map(function (text) {
+                    var plain_text = text.plain_text,
+                        annotations = text.annotations;
+                    return {
+                      plain_text: plain_text,
+                      annotations: annotations
+                    };
+                  });
+                  var company = helper.readPropertyContent(Name);
+                  var role = helper.readPropertyContent(Role);
+                  var type = helper.readPropertyContent(Type);
+                  var skills = helper.readPropertyContent(Skills);
+
+                  var _helper$readPropertyC = helper.readPropertyContent(Timeframe, {
+                    includeDateEnd: true
+                  }),
+                      start = _helper$readPropertyC.start,
+                      end = _helper$readPropertyC.end;
+
+                  return {
+                    company: company,
+                    description: description,
+                    role: role,
+                    type: type,
+                    skills: skills,
+                    timeframe: {
+                      start: helper.monthYearFromISO(start),
+                      end: end ? helper.monthYearFromISO(end) : "Present"
+                    }
+                  };
+                });
+                return _context5.abrupt("return", result);
+
+              case 5:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5);
+      }));
+
+      function ExperienceInfo() {
+        return _ExperienceInfo.apply(this, arguments);
+      }
+
+      return ExperienceInfo;
+    }()
   },
   TextOrImage: {
-    __resolveType(obj, context, info) {
-
+    __resolveType: function __resolveType(obj, context, info) {
       if (obj.annotations) {
         return "Text";
       } else if (obj.url) {
@@ -178,8 +332,8 @@ const resolver = {
       } else {
         return null;
       }
-    },
-  },
+    }
+  }
 };
-
-module.exports = resolver;
+var _default = resolver;
+exports["default"] = _default;
