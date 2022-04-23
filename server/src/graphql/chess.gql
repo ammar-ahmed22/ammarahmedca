@@ -16,7 +16,11 @@ type Opponent{
     name: Name!
     signedupAt: String!
     currentGameID: String
-    gameHistory: [GameHistory] 
+    gameHistory: [GameHistory]
+    permissions: [String]!
+    allGameIDs: [String]
+    resetPasswordExpire: String
+    resetPasswordToken: String
 }
 
 type Move {
@@ -27,21 +31,29 @@ type Move {
 
 type Game{
     _id: ID!
-    oppID: ID!
+    playerID: ID!
     moves: [Move]!
-    oppToMove: Boolean!
-    oppWon: Boolean!
+    playerToMove: Boolean!
+    playerWon: Boolean!
     tied: Boolean!
 }
 
+type LoginResponse {
+    token: String
+    message: String
+}
+
 type Query{
-    getOpponentByEmail(email: String!) : Opponent!
-    getOpponentById(id: String!): Opponent!
-    getAllOpponents: [Opponent]!
-    getGame(id: String!) : Game!
+    getPlayerById(id: String!): Opponent!
+    getAllPlayers: [Opponent]!
+    getGame(gameID: String!) : Game!
+    testAuth: String!
 }
 
 type Mutation {
-    createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!): Game!
+    register(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): LoginResponse! #JWT
     addMove(gameID: String!, fen: String!): Game!
+    login(email: String!, password: String!): LoginResponse! #JWT
+    forgotPassword(email: String!) : String # Reset token (for now)
+    resetPassword(newPassword: String!, resetToken: String!) : String # Success message
 }

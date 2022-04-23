@@ -19,9 +19,7 @@ var _jsonwebtoken = _interopRequireDefault(require("jsonwebtoken"));
 
 var _crypto = _interopRequireDefault(require("crypto"));
 
-var _vm = require("vm");
-
-var OpponentSchema = new _mongoose["default"].Schema({
+var PlayerSchema = new _mongoose["default"].Schema({
   name: {
     first: {
       type: String,
@@ -64,7 +62,7 @@ var OpponentSchema = new _mongoose["default"].Schema({
 }); // Called before saved to DB
 // Checks if password was modified and hashes it 
 
-OpponentSchema.pre("save", /*#__PURE__*/function () {
+PlayerSchema.pre("save", /*#__PURE__*/function () {
   var _ref = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee(next) {
     var salt;
     return _regenerator["default"].wrap(function _callee$(_context) {
@@ -99,7 +97,7 @@ OpponentSchema.pre("save", /*#__PURE__*/function () {
   };
 }()); // Checks password on login
 
-OpponentSchema.methods.matchPasswords = /*#__PURE__*/function () {
+PlayerSchema.methods.matchPasswords = /*#__PURE__*/function () {
   var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(password) {
     return _regenerator["default"].wrap(function _callee2$(_context2) {
       while (1) {
@@ -125,22 +123,25 @@ OpponentSchema.methods.matchPasswords = /*#__PURE__*/function () {
 }(); // Provides signed JWT
 
 
-OpponentSchema.methods.getSignedJWT = function () {
+PlayerSchema.methods.getSignedJWT = function () {
   return _jsonwebtoken["default"].sign({
     id: this._id,
-    permissions: this.permissions
+    permissions: this.permissions,
+    allGameIDs: this.allGameIDs
   }, process.env.JWT_SECRET);
 }; // Creates reset token and expiry date
 
 
-OpponentSchema.methods.getResetPasswordToken = function () {
+PlayerSchema.methods.getResetPasswordToken = function () {
   var resetToken = _crypto["default"].randomBytes(20).toString("hex");
 
-  this.resetPasswordToken = _crypto["default"].crypto.createHash("sha256").update(resetToken).digest("hex");
+  this.resetPasswordToken = _crypto["default"].createHash("sha256").update(resetToken).digest("hex");
   this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // 10 mins
+
+  return resetToken;
 };
 
-var Opponent = _mongoose["default"].model("Opponent", OpponentSchema);
+var Player = _mongoose["default"].model("Player", PlayerSchema);
 
-var _default = Opponent;
+var _default = Player;
 exports["default"] = _default;

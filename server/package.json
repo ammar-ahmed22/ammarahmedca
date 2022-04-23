@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
-    "dev": "nodemon --exec babel-node ./src/server.js",
+    "dev": "NODE_ENV=development nodemon --exec babel-node ./src/server.js",
     "build": "babel src -d . --copy-files",
     "test-notion-v2": "nodemon ./models/Notionv2.test.js",
     "push-heroku": "git add . && git commit -m \"deploying to heroku\" && cd .. && git subtree push --prefix server heroku master"
@@ -16,12 +16,22 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "@graphql-tools/schema": "^8.3.10",
     "@notionhq/client": "^0.4.13",
+    "@sendgrid/mail": "^7.6.2",
     "apollo-server-express": "^3.6.3",
+    "bcryptjs": "^2.4.3",
+    "crypto": "^1.0.1",
     "dotenv": "^16.0.0",
     "express": "^4.17.2",
+    "express-jwt": "^7.4.3",
     "graphql": "^16.3.0",
-    "mongoose": "^6.3.0"
+    "graphql-middleware": "^6.1.25",
+    "graphql-shield": "^7.5.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.3.0",
+    "nodemailer": "^6.7.3",
+    "nodemailer-sendgrid-transport": "^0.2.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.17.6",

@@ -10,7 +10,7 @@ exports["default"] = void 0;
 var _mongoose = _interopRequireDefault(require("mongoose"));
 
 var GameSchema = new _mongoose["default"].Schema({
-  oppID: {
+  playerID: {
     type: String,
     required: true
   },
@@ -18,11 +18,11 @@ var GameSchema = new _mongoose["default"].Schema({
     fen: String,
     playedAt: Date
   }],
-  oppToMove: {
+  playerToMove: {
     type: Boolean,
     required: true
   },
-  oppWon: {
+  playerWon: {
     type: Boolean,
     required: true
   },
