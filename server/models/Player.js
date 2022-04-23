@@ -135,8 +135,10 @@ PlayerSchema.methods.getSignedJWT = function () {
 PlayerSchema.methods.getResetPasswordToken = function () {
   var resetToken = _crypto["default"].randomBytes(20).toString("hex");
 
-  this.resetPasswordToken = _crypto["default"].crypto.createHash("sha256").update(resetToken).digest("hex");
+  this.resetPasswordToken = _crypto["default"].createHash("sha256").update(resetToken).digest("hex");
   this.resetPasswordExpire = Date.now() + 10 * (60 * 1000); // 10 mins
+
+  return resetToken;
 };
 
 var Player = _mongoose["default"].model("Player", PlayerSchema);

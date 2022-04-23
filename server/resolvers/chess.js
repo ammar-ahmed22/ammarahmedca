@@ -17,6 +17,14 @@ var _Game = _interopRequireDefault(require("../models/Game"));
 
 var _apolloServerExpress = require("apollo-server-express");
 
+var _crypto = _interopRequireDefault(require("crypto"));
+
+var _sendEmail = _interopRequireDefault(require("../utils/sendEmail"));
+
+var _readContent = _interopRequireDefault(require("../utils/readContent"));
+
+var _helpers = require("../utils/helpers");
+
 // RENAME EVERYTHING WITH OPP TO PLAYER
 var chessQueries = {
   getAllPlayers: function () {
@@ -340,6 +348,136 @@ var chessMutations = {
     }
 
     return login;
+  }(),
+  forgotPassword: function () {
+    var _forgotPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref7) {
+      var email, player, resetToken, resetLink, emailHTML;
+      return _regenerator["default"].wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              email = _ref7.email;
+              _context7.next = 3;
+              return _Player["default"].findOne({
+                email: email
+              });
+
+            case 3:
+              player = _context7.sent;
+
+              if (player) {
+                _context7.next = 6;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("No player found!", {
+                email: email
+              });
+
+            case 6:
+              _context7.next = 8;
+              return player.getResetPasswordToken();
+
+            case 8:
+              resetToken = _context7.sent;
+              _context7.next = 11;
+              return player.save();
+
+            case 11:
+              _context7.prev = 11;
+              resetLink = "".concat(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://ammarahmed.ca", "/chess/resetpassword?token=").concat(resetToken);
+              emailHTML = (0, _readContent["default"])("".concat((0, _helpers.getPathPrefix)(process.env.NODE_ENV), "emails/resetPassword.html")).replace("RESET_LINK", resetLink);
+              _context7.next = 16;
+              return (0, _sendEmail["default"])({
+                to: email,
+                subject: "Reset password for ammarahmed.ca",
+                html: emailHTML
+              });
+
+            case 16:
+              _context7.next = 26;
+              break;
+
+            case 18:
+              _context7.prev = 18;
+              _context7.t0 = _context7["catch"](11);
+              player.resetPasswordToken = undefined;
+              player.resetPasswordExpire = undefined;
+              _context7.next = 24;
+              return player.save();
+
+            case 24:
+              console.log(_context7.t0);
+              throw new _apolloServerExpress.UserInputError("Error sending email");
+
+            case 26:
+              return _context7.abrupt("return", resetToken);
+
+            case 27:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7, null, [[11, 18]]);
+    }));
+
+    function forgotPassword(_x11, _x12) {
+      return _forgotPassword.apply(this, arguments);
+    }
+
+    return forgotPassword;
+  }(),
+  resetPassword: function () {
+    var _resetPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(_, _ref8) {
+      var newPassword, resetToken, resetPasswordToken, player;
+      return _regenerator["default"].wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              newPassword = _ref8.newPassword, resetToken = _ref8.resetToken;
+              resetPasswordToken = _crypto["default"].createHash("sha256").update(resetToken).digest("hex");
+              _context8.next = 4;
+              return _Player["default"].findOne({
+                resetPasswordToken: resetPasswordToken,
+                resetPasswordExpire: {
+                  $gt: Date.now()
+                }
+              });
+
+            case 4:
+              player = _context8.sent;
+
+              if (player) {
+                _context8.next = 7;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("Invalid reset token");
+
+            case 7:
+              console.log(player);
+              player.password = newPassword;
+              player.resetPasswordToken = undefined;
+              player.resetPasswordExpire = undefined;
+              _context8.next = 13;
+              return player.save();
+
+            case 13:
+              return _context8.abrupt("return", "Success");
+
+            case 14:
+            case "end":
+              return _context8.stop();
+          }
+        }
+      }, _callee8);
+    }));
+
+    function resetPassword(_x13, _x14) {
+      return _resetPassword.apply(this, arguments);
+    }
+
+    return resetPassword;
   }()
 };
 exports.chessMutations = chessMutations;

@@ -20,6 +20,9 @@ var isAuthenticated = (0, _graphqlShield.rule)()(function (p, a, _ref) {
   var auth = _ref.auth;
   return auth !== null;
 });
+var anyone = (0, _graphqlShield.rule)()(function () {
+  return true;
+});
 var canReadAnyUser = (0, _graphqlShield.rule)()(function (p, a, _ref2) {
   var auth = _ref2.auth;
   return checkPermission(auth, "read:any_user");
@@ -60,6 +63,8 @@ var _default = (0, _graphqlShield.shield)({
   Mutation: {
     addMove: (0, _graphqlShield.or)(isSuperUser, isAccessingOwnGame)
   }
+}, {
+  debug: true
 });
 
 exports["default"] = _default;

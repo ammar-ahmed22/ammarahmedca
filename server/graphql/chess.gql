@@ -49,4 +49,6 @@ type Mutation {
     createPlayer(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): String #JWT
     addMove(gameID: String!, fen: String!): Game!
     login(email: String!, password: String!): String #JWT
+    forgotPassword(email: String!) : String # Reset token (for now)
+    resetPassword(newPassword: String!, resetToken: String!) : String # Success message
 }

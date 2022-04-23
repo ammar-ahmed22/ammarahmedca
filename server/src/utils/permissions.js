@@ -1,4 +1,4 @@
-import { and, or, rule, shield } from "graphql-shield"
+import { and, or, rule, shield, allow } from "graphql-shield"
 
 const checkPermission = (auth, permission) => {
     if (auth && auth.permissions){
@@ -11,6 +11,10 @@ const checkPermission = (auth, permission) => {
 
 const isAuthenticated = rule()((p, a, { auth }) => {
     return auth !== null
+})
+
+const anyone = rule()(() => {
+    return true;
 })
 
 const canReadAnyUser = rule()(( p, a, { auth }) => {
@@ -48,8 +52,12 @@ export default shield({
         getGame: or(isSuperUser, isAccessingOwnGame)
     },
     Mutation: {
-        addMove: or(isSuperUser, isAccessingOwnGame)
+        addMove: or(isSuperUser, isAccessingOwnGame),
     }
-})
+},
+{
+    debug: true
+}
+)
 
 

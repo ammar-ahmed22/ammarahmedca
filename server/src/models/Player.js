@@ -46,8 +46,10 @@ PlayerSchema.methods.getSignedJWT = function(){
 // Creates reset token and expiry date
 PlayerSchema.methods.getResetPasswordToken = function(){
     const resetToken = crypto.randomBytes(20).toString("hex");
-    this.resetPasswordToken = crypto.crypto.createHash("sha256").update(resetToken).digest("hex");
+    this.resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
     this.resetPasswordExpire = Date.now() + 10 * (60 * 1000) // 10 mins
+
+    return resetToken;
 
 }
 

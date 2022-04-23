@@ -6,6 +6,7 @@ import { applyMiddleware } from "graphql-middleware";
 import express from "express";
 import { expressjwt } from "express-jwt";
 import connectDB from "./utils/connectDB";
+import { getPathPrefix } from "./utils/helpers";
 
 // Simple gql file loader
 import readContent from "./utils/readContent";
@@ -14,9 +15,13 @@ import readContent from "./utils/readContent";
 import { webQueries } from "./resolvers/website";
 import { chessQueries, chessMutations } from "./resolvers/chess";
 import typeResolver from "./resolvers/resolveType";
+import sendEmail from "./utils/sendEmail";
 
 // Permissions
 import permissions from "./utils/permissions";
+
+// testing email
+//sendEmail({ to: "a353ahme@uwaterloo.ca", subject: "Test", html: "<p>test</p>" });
 
 
 const PORT = process.env.PORT || 5000
@@ -40,8 +45,10 @@ const { MONGO_URI } = process.env;
 
         ...typeResolver
     }
+
+
     
-    const schema = makeExecutableSchema({ typeDefs: readContent("./graphql/webContent.gql") + readContent("./graphql/chess.gql"), resolvers: resolver })
+    const schema = makeExecutableSchema({ typeDefs: readContent(`${getPathPrefix(process.env.NODE_ENV)}graphql/webContent.gql`) + readContent(`${getPathPrefix(process.env.NODE_ENV)}graphql/chess.gql`), resolvers: resolver })
     
 
     const server = new ApolloServer({

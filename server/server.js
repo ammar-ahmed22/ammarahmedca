@@ -22,6 +22,8 @@ var _expressJwt = require("express-jwt");
 
 var _connectDB = _interopRequireDefault(require("./utils/connectDB"));
 
+var _helpers = require("./utils/helpers");
+
 var _readContent = _interopRequireDefault(require("./utils/readContent"));
 
 var _website = require("./resolvers/website");
@@ -29,6 +31,8 @@ var _website = require("./resolvers/website");
 var _chess = require("./resolvers/chess");
 
 var _resolveType = _interopRequireDefault(require("./resolvers/resolveType"));
+
+var _sendEmail = _interopRequireDefault(require("./utils/sendEmail"));
 
 var _permissions = _interopRequireDefault(require("./utils/permissions"));
 
@@ -40,6 +44,8 @@ _dotenv["default"].config({
   path: "./config.env"
 });
 
+// testing email
+//sendEmail({ to: "a353ahme@uwaterloo.ca", subject: "Test", html: "<p>test</p>" });
 var PORT = process.env.PORT || 5000;
 var MONGO_URI = process.env.MONGO_URI;
 (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
@@ -58,17 +64,14 @@ var MONGO_URI = process.env.MONGO_URI;
             Query: _objectSpread(_objectSpread({}, _website.webQueries), _chess.chessQueries),
             Mutation: _objectSpread({}, _chess.chessMutations)
           }, _resolveType["default"]);
-          schema = (0, _schema.makeExecuteableSchema)({
-            typeDefs: (0, _readContent["default"])("./graphql/webContent.gql") + (0, _readContent["default"])("./graphql/chess.gql"),
+          schema = (0, _schema.makeExecutableSchema)({
+            typeDefs: (0, _readContent["default"])("".concat((0, _helpers.getPathPrefix)(process.env.NODE_ENV), "graphql/webContent.gql")) + (0, _readContent["default"])("".concat((0, _helpers.getPathPrefix)(process.env.NODE_ENV), "graphql/chess.gql")),
             resolvers: resolver
           });
           server = new _apolloServerExpress.ApolloServer({
-            // typeDefs: readContent("./graphql/webContent.gql") + readContent("./graphql/chess.gql"),
-            // resolvers: resolver,
             schema: (0, _graphqlMiddleware.applyMiddleware)(schema, _permissions["default"]),
             context: function context(_ref2) {
               var req = _ref2.req;
-              //console.log(req)
               var auth = req.auth || null;
               return {
                 auth: auth
@@ -81,8 +84,7 @@ var MONGO_URI = process.env.MONGO_URI;
         case 7:
           server.applyMiddleware({
             app: app
-          }); // server.applyMiddleware({ permissions })
-
+          });
           (0, _connectDB["default"])(MONGO_URI);
           app.listen(PORT, function () {
             return console.log("Server ready at http://localhost:".concat(PORT).concat(server.graphqlPath, " \uD83D\uDE80"));

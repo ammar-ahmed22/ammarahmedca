@@ -1,6 +1,10 @@
 import Player from "../models/Player";
 import Game from "../models/Game";
 import { UserInputError } from "apollo-server-express";
+import crypto from "crypto";
+import sendEmail from "../utils/sendEmail";
+import readContent from "../utils/readContent";
+import { getPathPrefix } from "../utils/helpers";
 
 // RENAME EVERYTHING WITH OPP TO PLAYER
 
@@ -116,6 +120,57 @@ const chessMutations = {
             }
 
             return player.getSignedJWT();
+        },
+        forgotPassword: async (_, { email }) => {
+            const player = await Player.findOne({ email });
+
+            if (!player){
+                throw new UserInputError("No player found!", { email })
+            }
+
+            const resetToken = await player.getResetPasswordToken();
+
+            await player.save();
+
+            try {
+                const resetLink = `${process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://ammarahmed.ca"}/chess/resetpassword?token=${resetToken}`
+                const emailHTML = readContent(`${getPathPrefix(process.env.NODE_ENV)}emails/resetPassword.html`).replace("RESET_LINK", resetLink);
+                
+                
+                await sendEmail({ to: email, subject: "Reset password for ammarahmed.ca", html: emailHTML});
+            } catch (error) {
+                player.resetPasswordToken = undefined;
+                player.resetPasswordExpire = undefined;
+
+                await player.save();
+
+                console.log(error)
+                throw new UserInputError("Error sending email")
+            }
+            
+            return resetToken;
+
+        },
+        resetPassword: async (_, { newPassword, resetToken }) => {
+            const resetPasswordToken = crypto.createHash("sha256").update(resetToken).digest("hex");
+
+            const player = await Player.findOne({
+                resetPasswordToken,
+                resetPasswordExpire: { $gt: Date.now() }
+            })
+
+            if (!player){
+                throw new UserInputError("Invalid reset token")
+            }
+
+            console.log(player)
+            player.password = newPassword;
+            player.resetPasswordToken = undefined;
+            player.resetPasswordExpire = undefined;
+
+            await player.save();
+
+            return "Success"
         }
     }
     
