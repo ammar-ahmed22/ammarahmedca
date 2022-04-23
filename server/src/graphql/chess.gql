@@ -38,6 +38,11 @@ type Game{
     tied: Boolean!
 }
 
+type LoginResponse {
+    token: String
+    message: String
+}
+
 type Query{
     getPlayerById(id: String!): Opponent!
     getAllPlayers: [Opponent]!
@@ -46,9 +51,9 @@ type Query{
 }
 
 type Mutation {
-    createPlayer(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): String #JWT
+    register(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): LoginResponse! #JWT
     addMove(gameID: String!, fen: String!): Game!
-    login(email: String!, password: String!): String #JWT
+    login(email: String!, password: String!): LoginResponse! #JWT
     forgotPassword(email: String!) : String # Reset token (for now)
     resetPassword(newPassword: String!, resetToken: String!) : String # Success message
 }

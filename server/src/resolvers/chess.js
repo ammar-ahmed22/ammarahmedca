@@ -43,7 +43,7 @@ const chessQueries = {
         }
     }
 const chessMutations = {
-        createPlayer: async (_, { firstName, lastName, middleName, email, password }) => {
+        register: async (_, { firstName, lastName, middleName, email, password }) => {
 
             const existingOpp = await Player.find({ email })
 
@@ -90,7 +90,7 @@ const chessMutations = {
                 }
             }
 
-            return player.getSignedJWT();
+            return {token: player.getSignedJWT(), message: "Player created!"};
             
         },
         addMove: async (_, { gameID, fen }) => {
@@ -119,7 +119,7 @@ const chessMutations = {
                 throw new UserInputError("Invalid credentials");
             }
 
-            return player.getSignedJWT();
+            return {token: player.getSignedJWT(), message: "Logged in!"};
         },
         forgotPassword: async (_, { email }) => {
             const player = await Player.findOne({ email });
