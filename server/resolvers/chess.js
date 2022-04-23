@@ -152,8 +152,8 @@ var chessQueries = {
 };
 exports.chessQueries = chessQueries;
 var chessMutations = {
-  createPlayer: function () {
-    var _createPlayer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref4) {
+  register: function () {
+    var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref4) {
       var firstName, lastName, middleName, email, password, existingOpp, name, game, player;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
@@ -231,7 +231,10 @@ var chessMutations = {
               return player.save();
 
             case 21:
-              return _context4.abrupt("return", player.getSignedJWT());
+              return _context4.abrupt("return", {
+                token: player.getSignedJWT(),
+                message: "Player created!"
+              });
 
             case 22:
             case "end":
@@ -241,11 +244,11 @@ var chessMutations = {
       }, _callee4);
     }));
 
-    function createPlayer(_x5, _x6) {
-      return _createPlayer.apply(this, arguments);
+    function register(_x5, _x6) {
+      return _register.apply(this, arguments);
     }
 
-    return createPlayer;
+    return register;
   }(),
   addMove: function () {
     var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref5) {
@@ -333,7 +336,10 @@ var chessMutations = {
               throw new _apolloServerExpress.UserInputError("Invalid credentials");
 
             case 11:
-              return _context6.abrupt("return", player.getSignedJWT());
+              return _context6.abrupt("return", {
+                token: player.getSignedJWT(),
+                message: "Logged in!"
+              });
 
             case 12:
             case "end":
