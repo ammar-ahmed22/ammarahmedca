@@ -14,15 +14,6 @@ const chessQueries = {
                 throw new UserInputError("No opponents found")
             }
         },
-        getPlayerByEmail: async (_, { email }) => {
-            const players = await Player.find({ email });
-
-            if (players.length){
-                return players[0]
-            }else{
-                throw new UserInputError("No opponents found with email", { email })
-            }
-        },
         getPlayerById: async (_, { id }) => {
             const opp = await Player.findById(id);
 
@@ -32,17 +23,17 @@ const chessQueries = {
                 throw new UserInputError("No opponent found with id", { id })
             }
         },
-        getGame: async (_, { id }) => {
-            const game = await Game.findById(id);
+        getGame: async (_, { gameID }) => {
+            const game = await Game.findById(gameID);
 
             if (!game){
-                throw new UserInputError("No game found with id", { id });
+                throw new UserInputError("No game found with id", { gameID });
             }
 
             return game;
         },
-        testAuth: (_, args, context) => {
-            console.log(context);
+        testAuth: (_, args, { auth }) => {
+            console.log(auth);
 
             return "testing auth"
         }
@@ -115,7 +106,7 @@ const chessMutations = {
             const player = await Player.findOne({ email }).select("+password");
 
             if (!player){
-                throw new UserInputError("Invalid credentials")
+                throw new UserInputError("User not found")
             }
 
             const isMatched = await player.matchPasswords(password);

@@ -56,32 +56,30 @@ var chessQueries = {
 
     return getAllPlayers;
   }(),
-  getPlayerByEmail: function () {
-    var _getPlayerByEmail = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(_, _ref) {
-      var email, players;
+  getPlayerById: function () {
+    var _getPlayerById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(_, _ref) {
+      var id, opp;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              email = _ref.email;
+              id = _ref.id;
               _context2.next = 3;
-              return _Player["default"].find({
-                email: email
-              });
+              return _Player["default"].findById(id);
 
             case 3:
-              players = _context2.sent;
+              opp = _context2.sent;
 
-              if (!players.length) {
+              if (!opp) {
                 _context2.next = 8;
                 break;
               }
 
-              return _context2.abrupt("return", players[0]);
+              return _context2.abrupt("return", opp);
 
             case 8:
-              throw new _apolloServerExpress.UserInputError("No opponents found with email", {
-                email: email
+              throw new _apolloServerExpress.UserInputError("No opponent found with id", {
+                id: id
               });
 
             case 9:
@@ -92,39 +90,39 @@ var chessQueries = {
       }, _callee2);
     }));
 
-    function getPlayerByEmail(_x, _x2) {
-      return _getPlayerByEmail.apply(this, arguments);
+    function getPlayerById(_x, _x2) {
+      return _getPlayerById.apply(this, arguments);
     }
 
-    return getPlayerByEmail;
+    return getPlayerById;
   }(),
-  getPlayerById: function () {
-    var _getPlayerById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref2) {
-      var id, opp;
+  getGame: function () {
+    var _getGame = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref2) {
+      var gameID, game;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              id = _ref2.id;
+              gameID = _ref2.gameID;
               _context3.next = 3;
-              return _Player["default"].findById(id);
+              return _Game["default"].findById(gameID);
 
             case 3:
-              opp = _context3.sent;
+              game = _context3.sent;
 
-              if (!opp) {
-                _context3.next = 8;
+              if (game) {
+                _context3.next = 6;
                 break;
               }
 
-              return _context3.abrupt("return", opp);
-
-            case 8:
-              throw new _apolloServerExpress.UserInputError("No opponent found with id", {
-                id: id
+              throw new _apolloServerExpress.UserInputError("No game found with id", {
+                gameID: gameID
               });
 
-            case 9:
+            case 6:
+              return _context3.abrupt("return", game);
+
+            case 7:
             case "end":
               return _context3.stop();
           }
@@ -132,77 +130,38 @@ var chessQueries = {
       }, _callee3);
     }));
 
-    function getPlayerById(_x3, _x4) {
-      return _getPlayerById.apply(this, arguments);
-    }
-
-    return getPlayerById;
-  }(),
-  getGame: function () {
-    var _getGame = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref3) {
-      var id, game;
-      return _regenerator["default"].wrap(function _callee4$(_context4) {
-        while (1) {
-          switch (_context4.prev = _context4.next) {
-            case 0:
-              id = _ref3.id;
-              _context4.next = 3;
-              return _Game["default"].findById(id);
-
-            case 3:
-              game = _context4.sent;
-
-              if (game) {
-                _context4.next = 6;
-                break;
-              }
-
-              throw new _apolloServerExpress.UserInputError("No game found with id", {
-                id: id
-              });
-
-            case 6:
-              return _context4.abrupt("return", game);
-
-            case 7:
-            case "end":
-              return _context4.stop();
-          }
-        }
-      }, _callee4);
-    }));
-
-    function getGame(_x5, _x6) {
+    function getGame(_x3, _x4) {
       return _getGame.apply(this, arguments);
     }
 
     return getGame;
   }(),
-  testAuth: function testAuth(_, args, context) {
-    console.log(context);
+  testAuth: function testAuth(_, args, _ref3) {
+    var auth = _ref3.auth;
+    console.log(auth);
     return "testing auth";
   }
 };
 exports.chessQueries = chessQueries;
 var chessMutations = {
   createPlayer: function () {
-    var _createPlayer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref4) {
+    var _createPlayer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref4) {
       var firstName, lastName, middleName, email, password, existingOpp, name, game, player;
-      return _regenerator["default"].wrap(function _callee5$(_context5) {
+      return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email, password = _ref4.password;
-              _context5.next = 3;
+              _context4.next = 3;
               return _Player["default"].find({
                 email: email
               });
 
             case 3:
-              existingOpp = _context5.sent;
+              existingOpp = _context4.sent;
 
               if (!existingOpp.length) {
-                _context5.next = 8;
+                _context4.next = 8;
                 break;
               }
 
@@ -218,7 +177,7 @@ var chessMutations = {
                 middle: middleName,
                 last: lastName
               };
-              _context5.next = 11;
+              _context4.next = 11;
               return _Player["default"].create({
                 name: name,
                 email: email,
@@ -231,14 +190,14 @@ var chessMutations = {
               });
 
             case 11:
-              player = _context5.sent;
+              player = _context4.sent;
 
               if (!player) {
-                _context5.next = 21;
+                _context4.next = 21;
                 break;
               }
 
-              _context5.next = 15;
+              _context4.next = 15;
               return _Game["default"].create({
                 playerID: player.id,
                 moves: [{
@@ -251,51 +210,51 @@ var chessMutations = {
               });
 
             case 15:
-              game = _context5.sent;
+              game = _context4.sent;
 
               if (!game) {
-                _context5.next = 21;
+                _context4.next = 21;
                 break;
               }
 
               player.currentGameID = game.id;
               player.allGameIDs.push(game.id);
-              _context5.next = 21;
+              _context4.next = 21;
               return player.save();
 
             case 21:
-              return _context5.abrupt("return", player.getSignedJWT());
+              return _context4.abrupt("return", player.getSignedJWT());
 
             case 22:
             case "end":
-              return _context5.stop();
+              return _context4.stop();
           }
         }
-      }, _callee5);
+      }, _callee4);
     }));
 
-    function createPlayer(_x7, _x8) {
+    function createPlayer(_x5, _x6) {
       return _createPlayer.apply(this, arguments);
     }
 
     return createPlayer;
   }(),
   addMove: function () {
-    var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref5) {
+    var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref5) {
       var gameID, fen, game;
-      return _regenerator["default"].wrap(function _callee6$(_context6) {
+      return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context5.prev = _context5.next) {
             case 0:
               gameID = _ref5.gameID, fen = _ref5.fen;
-              _context6.next = 3;
+              _context5.next = 3;
               return _Game["default"].findById(gameID);
 
             case 3:
-              game = _context6.sent;
+              game = _context5.sent;
 
               if (game) {
-                _context6.next = 6;
+                _context5.next = 6;
                 break;
               }
 
@@ -308,13 +267,67 @@ var chessMutations = {
                 fen: fen,
                 playedAt: new Date()
               });
-              _context6.next = 9;
+              _context5.next = 9;
               return game.save();
 
             case 9:
-              return _context6.abrupt("return", game);
+              return _context5.abrupt("return", game);
 
             case 10:
+            case "end":
+              return _context5.stop();
+          }
+        }
+      }, _callee5);
+    }));
+
+    function addMove(_x7, _x8) {
+      return _addMove.apply(this, arguments);
+    }
+
+    return addMove;
+  }(),
+  login: function () {
+    var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref6) {
+      var email, password, player, isMatched;
+      return _regenerator["default"].wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              email = _ref6.email, password = _ref6.password;
+              _context6.next = 3;
+              return _Player["default"].findOne({
+                email: email
+              }).select("+password");
+
+            case 3:
+              player = _context6.sent;
+
+              if (player) {
+                _context6.next = 6;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("User not found");
+
+            case 6:
+              _context6.next = 8;
+              return player.matchPasswords(password);
+
+            case 8:
+              isMatched = _context6.sent;
+
+              if (isMatched) {
+                _context6.next = 11;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("Invalid credentials");
+
+            case 11:
+              return _context6.abrupt("return", player.getSignedJWT());
+
+            case 12:
             case "end":
               return _context6.stop();
           }
@@ -322,61 +335,7 @@ var chessMutations = {
       }, _callee6);
     }));
 
-    function addMove(_x9, _x10) {
-      return _addMove.apply(this, arguments);
-    }
-
-    return addMove;
-  }(),
-  login: function () {
-    var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref6) {
-      var email, password, player, isMatched;
-      return _regenerator["default"].wrap(function _callee7$(_context7) {
-        while (1) {
-          switch (_context7.prev = _context7.next) {
-            case 0:
-              email = _ref6.email, password = _ref6.password;
-              _context7.next = 3;
-              return _Player["default"].findOne({
-                email: email
-              }).select("+password");
-
-            case 3:
-              player = _context7.sent;
-
-              if (player) {
-                _context7.next = 6;
-                break;
-              }
-
-              throw new _apolloServerExpress.UserInputError("Invalid credentials");
-
-            case 6:
-              _context7.next = 8;
-              return player.matchPasswords(password);
-
-            case 8:
-              isMatched = _context7.sent;
-
-              if (isMatched) {
-                _context7.next = 11;
-                break;
-              }
-
-              throw new _apolloServerExpress.UserInputError("Invalid credentials");
-
-            case 11:
-              return _context7.abrupt("return", player.getSignedJWT());
-
-            case 12:
-            case "end":
-              return _context7.stop();
-          }
-        }
-      }, _callee7);
-    }));
-
-    function login(_x11, _x12) {
+    function login(_x9, _x10) {
       return _login.apply(this, arguments);
     }
 

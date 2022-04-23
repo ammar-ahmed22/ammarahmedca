@@ -16,6 +16,7 @@
   "license": "ISC",
   "dependencies": {
     "@babel/runtime": "^7.17.9",
+    "@graphql-tools/schema": "^8.3.10",
     "@notionhq/client": "^0.4.13",
     "apollo-server-express": "^3.6.3",
     "bcryptjs": "^2.4.3",
@@ -24,6 +25,8 @@
     "express": "^4.17.2",
     "express-jwt": "^7.4.3",
     "graphql": "^16.3.0",
+    "graphql-middleware": "^6.1.25",
+    "graphql-shield": "^7.5.0",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.3.0"
   },

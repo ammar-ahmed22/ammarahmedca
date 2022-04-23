@@ -39,10 +39,9 @@ type Game{
 }
 
 type Query{
-    getPlayerByEmail(email: String!) : Opponent!
     getPlayerById(id: String!): Opponent!
     getAllPlayers: [Opponent]!
-    getGame(id: String!) : Game!
+    getGame(gameID: String!) : Game!
     testAuth: String!
 }
 

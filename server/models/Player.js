@@ -126,7 +126,8 @@ PlayerSchema.methods.matchPasswords = /*#__PURE__*/function () {
 PlayerSchema.methods.getSignedJWT = function () {
   return _jsonwebtoken["default"].sign({
     id: this._id,
-    permissions: this.permissions
+    permissions: this.permissions,
+    allGameIDs: this.allGameIDs
   }, process.env.JWT_SECRET);
 }; // Creates reset token and expiry date
 

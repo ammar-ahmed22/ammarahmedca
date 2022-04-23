@@ -40,7 +40,7 @@ PlayerSchema.methods.matchPasswords = async function(password){
 
 // Provides signed JWT
 PlayerSchema.methods.getSignedJWT = function(){
-    return jwt.sign({ id: this._id, permissions: this.permissions }, process.env.JWT_SECRET)
+    return jwt.sign({ id: this._id, permissions: this.permissions, allGameIDs: this.allGameIDs }, process.env.JWT_SECRET)
 }
 
 // Creates reset token and expiry date
