@@ -1,30 +1,30 @@
-import Opponent from "../models/Opponent";
+import Player from "../models/Player";
 import Game from "../models/Game";
 import { UserInputError } from "apollo-server-express";
 
-
+// RENAME EVERYTHING WITH OPP TO PLAYER
 
 const chessQueries = {
-        getAllOpponents: async () => {
-            const opps = await Opponent.find({});
+        getAllPlayers: async () => {
+            const players = await Player.find({});
 
-            if (opps.length){
-                return opps;
+            if (players.length){
+                return players;
             }else{
                 throw new UserInputError("No opponents found")
             }
         },
-        getOpponentByEmail: async (_, { email }) => {
-            const opps = await Opponent.find({ email });
+        getPlayerByEmail: async (_, { email }) => {
+            const players = await Player.find({ email });
 
-            if (opps.length){
-                return opps[0]
+            if (players.length){
+                return players[0]
             }else{
                 throw new UserInputError("No opponents found with email", { email })
             }
         },
-        getOpponentById: async (_, { id }) => {
-            const opp = await Opponent.findById(id);
+        getPlayerById: async (_, { id }) => {
+            const opp = await Player.findById(id);
 
             if (opp){
                 return opp
@@ -48,12 +48,12 @@ const chessQueries = {
         }
     }
 const chessMutations = {
-        createOpponent: async (_, { firstName, lastName, middleName, email, password }) => {
+        createPlayer: async (_, { firstName, lastName, middleName, email, password }) => {
 
-            const existingOpp = await Opponent.find({ email })
+            const existingOpp = await Player.find({ email })
 
             if (existingOpp.length){
-                console.log(`OPPONENT WITH EMAIL: ${email} ALREADY EXISTS`)
+                console.log(`PLAYER WITH EMAIL: ${email} ALREADY EXISTS`)
                 console.log(existingOpp)
                 throw new UserInputError("Opponent with email already exists", {
                     email
@@ -68,7 +68,7 @@ const chessMutations = {
 
             let game;
 
-            const opp = await Opponent.create({
+            const player = await Player.create({
                 name,
                 email,
                 password,
@@ -79,23 +79,23 @@ const chessMutations = {
                 allGameIDs: [],
             })
 
-            if (opp){
+            if (player){
                 game = await Game.create({
-                    oppID: opp.id,
+                    playerID: player.id,
                     moves: [{fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1', playedAt: null}],
-                    oppToMove: true,
-                    oppWon: false,
+                    playerToMove: true,
+                    playerWon: false,
                     tied: false
                 })
 
                 if (game){
-                    opp.currentGameID = game.id;
-                    opp.allGameIDs.push(game.id);
-                    await opp.save();
+                    player.currentGameID = game.id;
+                    player.allGameIDs.push(game.id);
+                    await player.save();
                 }
             }
 
-            return opp.getSignedJWT();
+            return player.getSignedJWT();
             
         },
         addMove: async (_, { gameID, fen }) => {
@@ -112,19 +112,19 @@ const chessMutations = {
             return game
         },
         login: async (_, { email, password }) => {
-            const opp = await Opponent.findOne({ email }).select("+password");
+            const player = await Player.findOne({ email }).select("+password");
 
-            if (!opp){
+            if (!player){
                 throw new UserInputError("Invalid credentials")
             }
 
-            const isMatched = await opp.matchPasswords(password);
+            const isMatched = await player.matchPasswords(password);
 
             if (!isMatched){
                 throw new UserInputError("Invalid credentials");
             }
 
-            return opp.getSignedJWT();
+            return player.getSignedJWT();
         }
     }
     

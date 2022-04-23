@@ -11,32 +11,33 @@ var _regenerator = _interopRequireDefault(require("@babel/runtime/regenerator"))
 
 var _asyncToGenerator2 = _interopRequireDefault(require("@babel/runtime/helpers/asyncToGenerator"));
 
-var _Opponent = _interopRequireDefault(require("../models/Opponent"));
+var _Player = _interopRequireDefault(require("../models/Player"));
 
 var _Game = _interopRequireDefault(require("../models/Game"));
 
 var _apolloServerExpress = require("apollo-server-express");
 
+// RENAME EVERYTHING WITH OPP TO PLAYER
 var chessQueries = {
-  getAllOpponents: function () {
-    var _getAllOpponents = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
-      var opps;
+  getAllPlayers: function () {
+    var _getAllPlayers = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee() {
+      var players;
       return _regenerator["default"].wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
               _context.next = 2;
-              return _Opponent["default"].find({});
+              return _Player["default"].find({});
 
             case 2:
-              opps = _context.sent;
+              players = _context.sent;
 
-              if (!opps.length) {
+              if (!players.length) {
                 _context.next = 7;
                 break;
               }
 
-              return _context.abrupt("return", opps);
+              return _context.abrupt("return", players);
 
             case 7:
               throw new _apolloServerExpress.UserInputError("No opponents found");
@@ -49,34 +50,34 @@ var chessQueries = {
       }, _callee);
     }));
 
-    function getAllOpponents() {
-      return _getAllOpponents.apply(this, arguments);
+    function getAllPlayers() {
+      return _getAllPlayers.apply(this, arguments);
     }
 
-    return getAllOpponents;
+    return getAllPlayers;
   }(),
-  getOpponentByEmail: function () {
-    var _getOpponentByEmail = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(_, _ref) {
-      var email, opps;
+  getPlayerByEmail: function () {
+    var _getPlayerByEmail = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(_, _ref) {
+      var email, players;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
               email = _ref.email;
               _context2.next = 3;
-              return _Opponent["default"].find({
+              return _Player["default"].find({
                 email: email
               });
 
             case 3:
-              opps = _context2.sent;
+              players = _context2.sent;
 
-              if (!opps.length) {
+              if (!players.length) {
                 _context2.next = 8;
                 break;
               }
 
-              return _context2.abrupt("return", opps[0]);
+              return _context2.abrupt("return", players[0]);
 
             case 8:
               throw new _apolloServerExpress.UserInputError("No opponents found with email", {
@@ -91,14 +92,14 @@ var chessQueries = {
       }, _callee2);
     }));
 
-    function getOpponentByEmail(_x, _x2) {
-      return _getOpponentByEmail.apply(this, arguments);
+    function getPlayerByEmail(_x, _x2) {
+      return _getPlayerByEmail.apply(this, arguments);
     }
 
-    return getOpponentByEmail;
+    return getPlayerByEmail;
   }(),
-  getOpponentById: function () {
-    var _getOpponentById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref2) {
+  getPlayerById: function () {
+    var _getPlayerById = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref2) {
       var id, opp;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) {
@@ -106,7 +107,7 @@ var chessQueries = {
             case 0:
               id = _ref2.id;
               _context3.next = 3;
-              return _Opponent["default"].findById(id);
+              return _Player["default"].findById(id);
 
             case 3:
               opp = _context3.sent;
@@ -131,11 +132,11 @@ var chessQueries = {
       }, _callee3);
     }));
 
-    function getOpponentById(_x3, _x4) {
-      return _getOpponentById.apply(this, arguments);
+    function getPlayerById(_x3, _x4) {
+      return _getPlayerById.apply(this, arguments);
     }
 
-    return getOpponentById;
+    return getPlayerById;
   }(),
   getGame: function () {
     var _getGame = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref3) {
@@ -176,20 +177,24 @@ var chessQueries = {
     }
 
     return getGame;
-  }()
+  }(),
+  testAuth: function testAuth(_, args, context) {
+    console.log(context);
+    return "testing auth";
+  }
 };
 exports.chessQueries = chessQueries;
 var chessMutations = {
-  createOpponent: function () {
-    var _createOpponent = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref4) {
-      var firstName, lastName, middleName, email, password, existingOpp, name, game, opp;
+  createPlayer: function () {
+    var _createPlayer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref4) {
+      var firstName, lastName, middleName, email, password, existingOpp, name, game, player;
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email, password = _ref4.password;
               _context5.next = 3;
-              return _Opponent["default"].find({
+              return _Player["default"].find({
                 email: email
               });
 
@@ -201,7 +206,7 @@ var chessMutations = {
                 break;
               }
 
-              console.log("OPPONENT WITH EMAIL: ".concat(email, " ALREADY EXISTS"));
+              console.log("PLAYER WITH EMAIL: ".concat(email, " ALREADY EXISTS"));
               console.log(existingOpp);
               throw new _apolloServerExpress.UserInputError("Opponent with email already exists", {
                 email: email
@@ -214,7 +219,7 @@ var chessMutations = {
                 last: lastName
               };
               _context5.next = 11;
-              return _Opponent["default"].create({
+              return _Player["default"].create({
                 name: name,
                 email: email,
                 password: password,
@@ -226,22 +231,22 @@ var chessMutations = {
               });
 
             case 11:
-              opp = _context5.sent;
+              player = _context5.sent;
 
-              if (!opp) {
+              if (!player) {
                 _context5.next = 21;
                 break;
               }
 
               _context5.next = 15;
               return _Game["default"].create({
-                oppID: opp.id,
+                playerID: player.id,
                 moves: [{
                   fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
                   playedAt: null
                 }],
-                oppToMove: true,
-                oppWon: false,
+                playerToMove: true,
+                playerWon: false,
                 tied: false
               });
 
@@ -253,13 +258,13 @@ var chessMutations = {
                 break;
               }
 
-              opp.currentGameID = game.id;
-              opp.allGameIDs.push(game.id);
+              player.currentGameID = game.id;
+              player.allGameIDs.push(game.id);
               _context5.next = 21;
-              return opp.save();
+              return player.save();
 
             case 21:
-              return _context5.abrupt("return", opp.getSignedJWT());
+              return _context5.abrupt("return", player.getSignedJWT());
 
             case 22:
             case "end":
@@ -269,11 +274,11 @@ var chessMutations = {
       }, _callee5);
     }));
 
-    function createOpponent(_x7, _x8) {
-      return _createOpponent.apply(this, arguments);
+    function createPlayer(_x7, _x8) {
+      return _createPlayer.apply(this, arguments);
     }
 
-    return createOpponent;
+    return createPlayer;
   }(),
   addMove: function () {
     var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref5) {
@@ -325,21 +330,21 @@ var chessMutations = {
   }(),
   login: function () {
     var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref6) {
-      var email, password, opp, isMatched;
+      var email, password, player, isMatched;
       return _regenerator["default"].wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
               email = _ref6.email, password = _ref6.password;
               _context7.next = 3;
-              return _Opponent["default"].findOne({
+              return _Player["default"].findOne({
                 email: email
               }).select("+password");
 
             case 3:
-              opp = _context7.sent;
+              player = _context7.sent;
 
-              if (opp) {
+              if (player) {
                 _context7.next = 6;
                 break;
               }
@@ -348,7 +353,7 @@ var chessMutations = {
 
             case 6:
               _context7.next = 8;
-              return opp.matchPasswords(password);
+              return player.matchPasswords(password);
 
             case 8:
               isMatched = _context7.sent;
@@ -361,7 +366,7 @@ var chessMutations = {
               throw new _apolloServerExpress.UserInputError("Invalid credentials");
 
             case 11:
-              return _context7.abrupt("return", opp.getSignedJWT());
+              return _context7.abrupt("return", player.getSignedJWT());
 
             case 12:
             case "end":

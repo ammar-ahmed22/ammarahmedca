@@ -57,9 +57,10 @@ var MONGO_URI = process.env.MONGO_URI;
             resolvers: resolver,
             context: function context(_ref2) {
               var req = _ref2.req;
-              var user = req.user || null;
+              //console.log(req)
+              var auth = req.auth || null;
               return {
-                user: user
+                auth: auth
               };
             }
           });
