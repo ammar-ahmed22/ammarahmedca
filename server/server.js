@@ -14,6 +14,8 @@ var _apolloServerExpress = require("apollo-server-express");
 
 var _express = _interopRequireDefault(require("express"));
 
+var _expressJwt = require("express-jwt");
+
 var _connectDB = _interopRequireDefault(require("./utils/connectDB"));
 
 var _readContent = _interopRequireDefault(require("./utils/readContent"));
@@ -41,18 +43,30 @@ var MONGO_URI = process.env.MONGO_URI;
       switch (_context.prev = _context.next) {
         case 0:
           app = (0, _express["default"])();
+          app.use((0, _expressJwt.expressjwt)({
+            secret: process.env.JWT_SECRET,
+            algorithms: ["HS256"],
+            credentialsRequired: false
+          }));
           resolver = _objectSpread({
             Query: _objectSpread(_objectSpread({}, _website.webQueries), _chess.chessQueries),
             Mutation: _objectSpread({}, _chess.chessMutations)
           }, _resolveType["default"]);
           server = new _apolloServerExpress.ApolloServer({
             typeDefs: (0, _readContent["default"])("./graphql/webContent.gql") + (0, _readContent["default"])("./graphql/chess.gql"),
-            resolvers: resolver
+            resolvers: resolver,
+            context: function context(_ref2) {
+              var req = _ref2.req;
+              var user = req.user || null;
+              return {
+                user: user
+              };
+            }
           });
-          _context.next = 5;
+          _context.next = 6;
           return server.start();
 
-        case 5:
+        case 6:
           server.applyMiddleware({
             app: app
           });
@@ -61,7 +75,7 @@ var MONGO_URI = process.env.MONGO_URI;
             return console.log("Server ready at http://localhost:".concat(PORT).concat(server.graphqlPath, " \uD83D\uDE80"));
           });
 
-        case 8:
+        case 9:
         case "end":
           return _context.stop();
       }

@@ -182,12 +182,12 @@ exports.chessQueries = chessQueries;
 var chessMutations = {
   createOpponent: function () {
     var _createOpponent = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref4) {
-      var firstName, lastName, middleName, email, existingOpp, name, game, opp;
+      var firstName, lastName, middleName, email, password, existingOpp, name, game, opp;
       return _regenerator["default"].wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email;
+              firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email, password = _ref4.password;
               _context5.next = 3;
               return _Opponent["default"].find({
                 email: email
@@ -217,16 +217,19 @@ var chessMutations = {
               return _Opponent["default"].create({
                 name: name,
                 email: email,
+                password: password,
                 signedupAt: new Date(),
                 currentGameID: null,
-                gameHistory: []
+                permissions: ["read:own_user", "write:own_user"],
+                gameHistory: [],
+                allGameIDs: []
               });
 
             case 11:
               opp = _context5.sent;
 
               if (!opp) {
-                _context5.next = 20;
+                _context5.next = 21;
                 break;
               }
 
@@ -246,18 +249,19 @@ var chessMutations = {
               game = _context5.sent;
 
               if (!game) {
-                _context5.next = 20;
+                _context5.next = 21;
                 break;
               }
 
               opp.currentGameID = game.id;
-              _context5.next = 20;
+              opp.allGameIDs.push(game.id);
+              _context5.next = 21;
               return opp.save();
 
-            case 20:
-              return _context5.abrupt("return", game);
-
             case 21:
+              return _context5.abrupt("return", opp.getSignedJWT());
+
+            case 22:
             case "end":
               return _context5.stop();
           }
@@ -318,6 +322,60 @@ var chessMutations = {
     }
 
     return addMove;
+  }(),
+  login: function () {
+    var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref6) {
+      var email, password, opp, isMatched;
+      return _regenerator["default"].wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              email = _ref6.email, password = _ref6.password;
+              _context7.next = 3;
+              return _Opponent["default"].findOne({
+                email: email
+              }).select("+password");
+
+            case 3:
+              opp = _context7.sent;
+
+              if (opp) {
+                _context7.next = 6;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("Invalid credentials");
+
+            case 6:
+              _context7.next = 8;
+              return opp.matchPasswords(password);
+
+            case 8:
+              isMatched = _context7.sent;
+
+              if (isMatched) {
+                _context7.next = 11;
+                break;
+              }
+
+              throw new _apolloServerExpress.UserInputError("Invalid credentials");
+
+            case 11:
+              return _context7.abrupt("return", opp.getSignedJWT());
+
+            case 12:
+            case "end":
+              return _context7.stop();
+          }
+        }
+      }, _callee7);
+    }));
+
+    function login(_x11, _x12) {
+      return _login.apply(this, arguments);
+    }
+
+    return login;
   }()
 };
 exports.chessMutations = chessMutations;

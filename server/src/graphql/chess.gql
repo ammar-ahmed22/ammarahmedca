@@ -39,9 +39,11 @@ type Query{
     getOpponentById(id: String!): Opponent!
     getAllOpponents: [Opponent]!
     getGame(id: String!) : Game!
+    testAuth: String!
 }
 
 type Mutation {
-    createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!): Game!
+    createOpponent(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): String #JWT
     addMove(gameID: String!, fen: String!): Game!
+    login(email: String!, password: String!): String #JWT
 }

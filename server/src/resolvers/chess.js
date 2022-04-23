@@ -40,10 +40,15 @@ const chessQueries = {
             }
 
             return game;
+        },
+        testAuth: (_, args, context) => {
+            console.log(context);
+
+            return "testing auth"
         }
     }
 const chessMutations = {
-        createOpponent: async (_, { firstName, lastName, middleName, email }) => {
+        createOpponent: async (_, { firstName, lastName, middleName, email, password }) => {
 
             const existingOpp = await Opponent.find({ email })
 
@@ -66,9 +71,12 @@ const chessMutations = {
             const opp = await Opponent.create({
                 name,
                 email,
+                password,
                 signedupAt: new Date(),
                 currentGameID: null,
-                gameHistory: []
+                permissions: ["read:own_user", "write:own_user"],
+                gameHistory: [],
+                allGameIDs: [],
             })
 
             if (opp){
@@ -81,12 +89,13 @@ const chessMutations = {
                 })
 
                 if (game){
-                    opp.currentGameID = game.id
+                    opp.currentGameID = game.id;
+                    opp.allGameIDs.push(game.id);
                     await opp.save();
                 }
             }
 
-            return game
+            return opp.getSignedJWT();
             
         },
         addMove: async (_, { gameID, fen }) => {
@@ -101,6 +110,21 @@ const chessMutations = {
             await game.save();
 
             return game
+        },
+        login: async (_, { email, password }) => {
+            const opp = await Opponent.findOne({ email }).select("+password");
+
+            if (!opp){
+                throw new UserInputError("Invalid credentials")
+            }
+
+            const isMatched = await opp.matchPasswords(password);
+
+            if (!isMatched){
+                throw new UserInputError("Invalid credentials");
+            }
+
+            return opp.getSignedJWT();
         }
     }
     

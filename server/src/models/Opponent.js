@@ -13,11 +13,12 @@ const OpponentSchema = new mongoose.Schema({
     email: {type: String, required: [true, "Please provide an e-mail"], unique: true, match: [/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/, "Please provide a valid e-mail"]},
     password: {type: String, required: [true, "Please provide a password"], minlength: 6, select: false},
     signedupAt: { type: Date, required: true},
-    permissions: { type: Array},
+    permissions: Array,
     currentGameID: String,
     resetPasswordExpire: Date,
     resetPasswordToken: String,
     gameHistory: [{ gameID: String, won: Boolean, tie: Boolean}],
+    allGameIDs: Array
 }, { timestamps: true })
 
 // Called before saved to DB
@@ -38,11 +39,12 @@ OpponentSchema.methods.matchPasswords = async function(password){
     return await bcrypt.compare(password, this.password);
 }
 
-//Provides signed JWT
+// Provides signed JWT
 OpponentSchema.methods.getSignedJWT = function(){
     return jwt.sign({ id: this._id, permissions: this.permissions }, process.env.JWT_SECRET)
 }
 
+// Creates reset token and expiry date
 OpponentSchema.methods.getResetPasswordToken = function(){
     const resetToken = crypto.randomBytes(20).toString("hex");
     this.resetPasswordToken = crypto.crypto.createHash("sha256").update(resetToken).digest("hex");

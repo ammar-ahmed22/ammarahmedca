@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config({ path: "./config.env"});
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
+import { expressjwt } from "express-jwt";
 import connectDB from "./utils/connectDB";
 
 // Simple gql file loader
@@ -20,6 +21,14 @@ const { MONGO_URI } = process.env;
 (async () => {
     const app = express();
 
+    app.use(
+        expressjwt({
+            secret: process.env.JWT_SECRET,
+            algorithms: ["HS256"],
+            credentialsRequired: false
+        })
+    )
+
     const resolver = {
         Query: {...webQueries, ...chessQueries},
         Mutation: {...chessMutations},
@@ -30,7 +39,12 @@ const { MONGO_URI } = process.env;
 
     const server = new ApolloServer({
         typeDefs: readContent("./graphql/webContent.gql") + readContent("./graphql/chess.gql"),
-        resolvers: resolver
+        resolvers: resolver,
+        context: ({ req }) => {
+            //console.log(req)
+            const auth = req.auth || null;
+            return { auth }
+        }
     });
 
     
