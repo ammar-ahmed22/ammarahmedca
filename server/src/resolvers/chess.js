@@ -43,7 +43,7 @@ const chessQueries = {
         }
     }
 const chessMutations = {
-        register: async (_, { firstName, lastName, middleName, email, password }) => {
+        register: async (_, { firstName, lastName, email, password, company, position, foundFrom }) => {
 
             const existingOpp = await Player.find({ email })
 
@@ -57,7 +57,6 @@ const chessMutations = {
 
             const name = {
                 first: firstName,
-                middle: middleName,
                 last: lastName,
             }
 
@@ -66,6 +65,9 @@ const chessMutations = {
             const player = await Player.create({
                 name,
                 email,
+                company,
+                position,
+                foundFrom,
                 password,
                 signedupAt: new Date(),
                 currentGameID: null,

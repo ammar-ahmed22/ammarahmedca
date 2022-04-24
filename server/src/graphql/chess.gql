@@ -51,7 +51,7 @@ type Query{
 }
 
 type Mutation {
-    register(firstName: String!, lastName: String!, middleName: String, email: String!, password: String!): LoginResponse! #JWT
+    register(firstName: String!, lastName: String!, email: String!, password: String!, company: String, position: String, foundFrom: String): LoginResponse! #JWT
     addMove(gameID: String!, fen: String!): Game!
     login(email: String!, password: String!): LoginResponse! #JWT
     forgotPassword(email: String!) : String # Reset token (for now)

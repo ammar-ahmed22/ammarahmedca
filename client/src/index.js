@@ -8,9 +8,9 @@ import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
 
-import { faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse } from "@fortawesome/free-solid-svg-icons"
+import { faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse, faChessPawn } from "@fortawesome/free-solid-svg-icons"
 
-library.add(fab, faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse)
+library.add(fab, faFileDownload, faCircle, faExternalLinkAlt, faSearch, faEnvelope, faHome, faUser, faBriefcase, faFileAlt, faPen, faMouse, faChessPawn)
 
 
 const fonts = {
@@ -40,7 +40,11 @@ const httpLink = new HttpLink({
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
-  link: ApolloLink.from([httpLink])
+  link: ApolloLink.from([httpLink]),
+  onError: ({ networkError, graphQLErrors }) => {
+    console.log('grapQLErrors', graphQLErrors);
+    console.log('networkError', networkError)
+  }
 })
 
 
