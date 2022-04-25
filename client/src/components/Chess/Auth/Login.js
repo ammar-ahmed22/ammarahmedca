@@ -4,7 +4,7 @@ import PageContent from '../../PageContent';
 import Footer from '../../Footer';
 import { Flex, Text, FormControl, FormLabel, Input, InputRightElement, InputGroup, Button, Link, Box, Alert, AlertTitle, AlertDescription, AlertIcon } from "@chakra-ui/react"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
-import { Link as ReactLink } from "react-router-dom";
+import { Link as ReactLink, Redirect } from "react-router-dom";
 import { useMutation, gql } from '@apollo/client';
 
 const Login = () => {
@@ -98,10 +98,7 @@ const Login = () => {
                             }
                             {
                                 data && (
-                                    <Alert status="success">
-                                        <AlertIcon />
-                                        Logged in!
-                                    </Alert>
+                                    <Redirect to={{pathname: "/chess/play", state: { token: data.login.token }}} />
                                 )
                             }
                             <Text fontSize="sm" color="gray.500" textAlign="center" >Don't have an account yet? <Link as={ReactLink} to="/chess/register" color="primaryLight">Sign up</Link> </Text>
