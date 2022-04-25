@@ -32,6 +32,7 @@ const Chess = () => {
                     <Board size={400} fen={fen} setFen={setFen} isFirstMove={movesDb.length === 1}/>
                 </Flex> */}
                 <Text mt="10vh">What is this?</Text>
+                <Link as={ReactLink} to="/chess/login" color="primaryLight">Login</Link>
             </PageContent>
             <Footer />
         </>
