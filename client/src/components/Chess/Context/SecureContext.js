@@ -30,7 +30,7 @@ const SecureProvider = ({ children }) => {
         if (!ChessAuth){
             localStorage.setItem("ChessAuth", JSON.stringify(state))
         }
-    })
+    }, [])
 
     return (
         <SecureContext.Provider value={state}>

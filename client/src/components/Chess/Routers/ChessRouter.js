@@ -5,6 +5,7 @@ import Login from '../Auth/Login';
 import Register from '../Auth/Register';
 import ResetPassword from '../Auth/ResetPassword';
 import Play from '../Auth/Play';
+import Logout from '../Auth/Logout';
 
 const ChessRouter = ({ match }) => {
 
@@ -15,6 +16,7 @@ const ChessRouter = ({ match }) => {
         <Route path={`${url}/login`} component={Login}/>
         <Route path={`${url}/register`} component={Register}/>
         <Route path={`${url}/resetpassword`} component={ResetPassword}/>
+        <Route path={`${url}/logout`} component={Logout}/>
        </>
     );
 }
