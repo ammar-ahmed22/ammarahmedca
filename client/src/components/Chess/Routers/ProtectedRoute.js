@@ -1,16 +1,12 @@
-import React, { useEffect, useContext, useState } from 'react';
-import { Route, useLocation, Redirect } from "react-router-dom"
-import { SecureProvider } from '../Context/SecureContext';
-import SecureContext from '../Context/SecureContext';
-import Auth from '../utils/auth';
+import React, { useEffect, useState } from 'react';
+import { Route, Redirect } from "react-router-dom"
 import { useAuthToken } from '../../../hooks/authToken';
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
 
-    // const { state } = useLocation();
-    // const auth = new Auth();
+    
     const [isAuthenticated, setIsAuthenticated] = useState(true);
-    // const [token, setToken] = useState("");
+    
     const [ authToken ] = useAuthToken();
 
     useEffect(() => {

@@ -3,17 +3,12 @@ import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
 import { Box, Text, Button } from "@chakra-ui/react"
-import { useLocation } from "react-router-dom"
-import SecureContext from '../Context/SecureContext';
 import { useQuery, gql } from '@apollo/client';
-import Auth from '../utils/auth';
 import { useAuthToken } from '../../../hooks/authToken';
 import { useApolloClient } from '@apollo/client';
 
 const Play = ({ history }) => {
 
-    // const { state } = useLocation();
-    // const { token, tokenAddedAt, setProperty } = useContext(SecureContext);
 
     const GET_PLAYER = gql`
         query{
@@ -31,7 +26,7 @@ const Play = ({ history }) => {
         }
     `
 
-    //const [ authToken ] = useAuthToken();
+    
     const [authToken, setAuthToken, removeAuthToken] = useAuthToken();
     const apolloClient = useApolloClient();
 

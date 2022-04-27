@@ -3,7 +3,6 @@ import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
 import { FormControl, FormLabel, Input, SimpleGrid, Select, Flex, Text, Box, Button } from "@chakra-ui/react"
-import SecureContext from '../Context/SecureContext';
 import { useMutation, gql } from '@apollo/client';
 import { Redirect } from "react-router-dom"
 import { useAuthToken } from '../../../hooks/authToken';
@@ -31,18 +30,10 @@ const CompleteProfile = () => {
           [ position, setPosition ] = useState(""),
           [ foundFrom, setFoundFrom ] = useState(""),
           [ foundFromOther, setFoundFromOther ] = useState("");
-        //   { token } = useContext(SecureContext);
 
     const [ authToken, setAuthToken ] = useAuthToken();
     const [ completeProfile, { data, loading, error }] = useMutation(COMP_PROF);
-    
-    // useEffect(() => {
-    //     console.log({ token })
-    // }, [token])
 
-    const authorization = token => {
-        return `Bearer ${token}`;
-    }
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -101,9 +92,9 @@ const CompleteProfile = () => {
                     </FormControl>
                 )
             }
-            {/* <Flex w="100%" justify="end" mt="2"> */}
-                <Button colorScheme="red" bg="primaryLight" color="white" mt="2" width="100%" onClick={handleSubmit} isLoading={loading} >Continue</Button>
-            {/* </Flex> */}
+            
+            <Button colorScheme="red" bg="primaryLight" color="white" mt="2" width="100%" onClick={handleSubmit} isLoading={loading} >Continue</Button>
+            
             {
                 data && authToken && <Redirect to={{pathname: "/chess/secure", state: { token: data.completeProfile.token }}} />
             }
