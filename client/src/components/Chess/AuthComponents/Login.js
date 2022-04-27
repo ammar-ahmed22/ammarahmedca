@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
-import { Flex, Text, FormControl, FormLabel, Input, InputRightElement, InputGroup, Button, Link, Box, Alert, AlertTitle, AlertDescription, AlertIcon, CloseButton } from "@chakra-ui/react"
+import { Flex, Text, FormControl, Input, InputRightElement, InputGroup, Button, Link, Box, Alert, AlertIcon, CloseButton, useColorModeValue } from "@chakra-ui/react"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactLink, Redirect } from "react-router-dom";
 import { useMutation, gql } from '@apollo/client';
@@ -18,7 +18,7 @@ const Login = () => {
             }
         }
     `
-
+    const primary = useColorModeValue("primaryLight", "primaryDark");
     const styleProps = {
         main: {
             align: "center",
@@ -31,6 +31,25 @@ const Login = () => {
             fontSize: "4xl",
             fontWeight: "bold",
             fontFamily: "heading"
+        },
+        loginBtn: {
+            width: "100%",
+            my: 3,
+            bg: primary,
+            color: "white",
+            colorScheme: "red",
+        },
+        forgotPass: {
+            color: primary,
+            fontSize: "sm",
+            textAlign: "end",
+            width: "100%",
+        },
+        alert: {
+            status: "error",
+            fontSize: "sm",
+            borderRadius: "md",
+            mb: 2
         }
     }
 
@@ -95,13 +114,13 @@ const Login = () => {
                                 </InputRightElement>
                             </InputGroup>
                             <Box display="flex" justifyContent="end" my="2">
-                                <Link color="primaryLight" to="/chess/forgotpassword" fontSize="sm" textAlign="end" width="100%" as={ReactLink} >Forgot password?</Link>
+                                <Link {...styleProps.forgotPass} to="/chess/forgotpassword"  as={ReactLink} >Forgot password?</Link>
                             </Box>
                             
-                            <Button width="100%" my="3" bg="primaryLight" color="white" colorScheme="red" onClick={handleLogin} isLoading={loading && !error} >Login</Button>
+                            <Button {...styleProps.loginBtn} onClick={handleLogin} isLoading={loading && !error} >Login</Button>
                             {
                                 errorMessage && (
-                                <Alert status='error' fontSize="sm" borderRadius="md" mb="2" >
+                                <Alert {...styleProps.alert} >
                                     <AlertIcon />
                                     {errorMessage}
                                     <CloseButton position="absolute" top="8px" right="8px" onClick={() => setErrorMessage("")}/>
@@ -113,7 +132,7 @@ const Login = () => {
                                     <Redirect to={{pathname: "/chess/secure", state: { token: data.login.token }}} />
                                 )
                             }
-                            <Text fontSize="sm" color="gray.500" textAlign="center" >Don't have an account yet? <Link as={ReactLink} to="/chess/register" color="primaryLight">Sign up</Link> </Text>
+                            <Text fontSize="sm" color="gray.500" textAlign="center" >Don't have an account yet? <Link as={ReactLink} to="/chess/register" color={primary} >Sign up</Link> </Text>
                             
                             
                         </FormControl>

@@ -1,10 +1,9 @@
 import React from 'react';
-import { useParams, Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Chess from '../../../pages/Chess';
 import Login from '../AuthComponents/Login';
 import Register from '../AuthComponents/Register';
 import ResetPassword from '../AuthComponents/ResetPassword';
-import Play from '../AuthComponents/Play';
 import Logout from '../AuthComponents/Logout';
 import SecureRouter from './SecureRouter';
 

@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
-import { Flex, FormControl, Text, HStack, FormLabel, Input, SimpleGrid, Select, FormHelperText, FormErrorMessage, Button, Link, Alert, AlertIcon, CloseButton } from "@chakra-ui/react";
+import { Flex, FormControl, Text, FormLabel, Input, SimpleGrid, Select, FormHelperText, FormErrorMessage, Button, Link, Alert, AlertIcon, CloseButton, useColorModeValue } from "@chakra-ui/react";
 import { Link as ReactLink, Redirect } from "react-router-dom"
 import { useMutation, gql } from '@apollo/client';
 import { useAuthToken } from '../../../hooks/authToken';
 
 const Register = () => {
+    const primary = useColorModeValue("primaryLight", "primaryDark");
+
     const styleProps = {
         main: {
             justify: "center",
@@ -19,6 +21,21 @@ const Register = () => {
             fontSize: "4xl",
             fontFamily: "heading",
             textAlign: "center"
+        },
+        formLabel: {
+            fontSize: "sm"
+        },
+        signupBtn: {
+            bg: primary,
+            colorScheme: "red",
+            width: "100%",
+            color: "white",
+            mt: 4
+        },
+        alert: {
+            status: "error",
+            borderRadius: "md",
+            my: 2
         }
     }
 
@@ -58,9 +75,6 @@ const Register = () => {
           [ email, setEmail ] = useState(""),
           [ password, setPassword ] = useState(""),
           [ confirmPass, setConfirmPass ] = useState(""),
-          [ company, setCompany ] = useState(""),
-          [ position, setPosition ] = useState(""),
-          [ foundFrom, setFoundFrom ] = useState(""),
           [ errors, setErrors ] = useState({
               passMatchErr: false,
               passReqMet: false,
@@ -138,43 +152,40 @@ const Register = () => {
                     <Text {...styleProps.title}>Let's play Chess.</Text>
                     <Text textAlign="center" >Create an account to play a game of Chess with me!</Text>
 
-                    
-                    {/* <Text fontFamily="heading" fontSize="xl" mt="2">Account details:</Text> */}
                     <SimpleGrid columns={2} spacing={2} w="100%" mt="2">
                         <FormControl isRequired>
-                            <FormLabel fontSize="sm">First Name</FormLabel>
+                            <FormLabel {...styleProps.formLabel} >First Name</FormLabel>
                             <Input type="text" placeholder="First name" value={firstName} onChange={e => setFirstName(e.target.value)}/>
                         </FormControl>
                         <FormControl isRequired >
-                            <FormLabel fontSize="sm">Last Name</FormLabel>
+                            <FormLabel {...styleProps.formLabel} >Last Name</FormLabel>
                             <Input type="text" placeholder="Last name" value={lastName} onChange={e => setLastName(e.target.value)}/>
                         </FormControl>
                     </SimpleGrid>
                     <FormControl mt="2" isRequired isInvalid={!errors.validEmail}>
-                            <FormLabel fontSize="sm">Email</FormLabel>
+                            <FormLabel {...styleProps.formLabel} >Email</FormLabel>
                             <Input type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
                             {
                                 errors.validEmail ? <FormHelperText></FormHelperText> : <FormErrorMessage>Please provide a valid e-mail address.</FormErrorMessage>
                             }
                     </FormControl>
                     <FormControl mt="2" isRequired isInvalid={!errors.passReqMet}>
-                            <FormLabel fontSize="sm">Password</FormLabel>
+                            <FormLabel {...styleProps.formLabel} >Password</FormLabel>
                             <Input type="password" placeholder="Password" value={password} onChange={handlePassChange}/>
                             { errors.passReqMet ? <FormHelperText>At least 6 characters, 1 letter, 1 number and 1 special character.</FormHelperText> : <FormErrorMessage>Must contain 6 characters, 1 letter and 1 number</FormErrorMessage>}
                     </FormControl>
                     <FormControl mt="2" isRequired isInvalid={errors.passMatchErr}>
-                            <FormLabel fontSize="sm">Confirm password</FormLabel>
+                            <FormLabel {...styleProps.formLabel} >Confirm password</FormLabel>
                             <Input type="password" placeholder="Confirm password" value={confirmPass} onChange={handleConfirmPassChange} />
                             {
                                 !errors.passMatchErr ? (<FormHelperText></FormHelperText>) : (<FormErrorMessage>Passwords must match</FormErrorMessage>)
                             }
                     </FormControl>
-                    {/* <Text fontFamily="heading" fontSize="xl" mt="2">A little bit about you:</Text> */}
                     
-                    <Button colorScheme="red" bg="primaryLight" color="white" mt="4" onClick={handleSignup} isLoading={loading}>Sign up</Button>
+                    <Button {...styleProps.signupBtn} onClick={handleSignup} isLoading={loading}>Sign up</Button>
                     {
                         submitError && (
-                            <Alert status='error' borderRadius="md" my="2" >
+                            <Alert {...styleProps.alert} >
                                 <AlertIcon />
                                 {
                                     submitError
@@ -183,9 +194,9 @@ const Register = () => {
                             </Alert>
                         )
                     }
-                    <Text fontSize="sm" color="gray.500" mt="2" textAlign="center">Already have an account? <Link color="primaryLight" to="/chess/login" as={ReactLink}>Log in</Link></Text>
+                    <Text fontSize="sm" color="gray.500" mt="2" textAlign="center">Already have an account? <Link color={primary} to="/chess/login" as={ReactLink}>Log in</Link></Text>
                     {
-                        data && authToken && <Redirect to={{pathname: "/chess/secure/completeprofile", state: { token: data.register.token }}}/>
+                        data && authToken && <Redirect to={"/chess/secure/completeprofile"}/>
                     }
                 </Flex>
             </PageContent>
