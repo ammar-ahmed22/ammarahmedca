@@ -21,6 +21,9 @@ type Opponent{
     allGameIDs: [String]
     resetPasswordExpire: String
     resetPasswordToken: String
+    company: String,
+    position: String,
+    foundFrom: String
 }
 
 type Move {
@@ -38,22 +41,24 @@ type Game{
     tied: Boolean!
 }
 
-type LoginResponse {
+type AuthResponse {
     token: String
     message: String
 }
 
 type Query{
     getPlayerById(id: String!): Opponent!
+    getPlayer: Opponent!
     getAllPlayers: [Opponent]!
     getGame(gameID: String!) : Game!
     testAuth: String!
 }
 
 type Mutation {
-    register(firstName: String!, lastName: String!, email: String!, password: String!, company: String, position: String, foundFrom: String): LoginResponse! #JWT
+    register(email: String!, password: String!, firstName: String!, lastName: String!): AuthResponse! #JWT
+    completeProfile(company: String, position: String, foundFrom: String) : AuthResponse!
     addMove(gameID: String!, fen: String!): Game!
-    login(email: String!, password: String!): LoginResponse! #JWT
+    login(email: String!, password: String!): AuthResponse! #JWT
     forgotPassword(email: String!) : String # Reset token (for now)
     resetPassword(newPassword: String!, resetToken: String!) : String # Success message
 }

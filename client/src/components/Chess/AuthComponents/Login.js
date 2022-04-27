@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
-import { Flex, Text, FormControl, FormLabel, Input, InputRightElement, InputGroup, Button, Link, Box, Alert, AlertTitle, AlertDescription, AlertIcon } from "@chakra-ui/react"
+import { Flex, Text, FormControl, FormLabel, Input, InputRightElement, InputGroup, Button, Link, Box, Alert, AlertTitle, AlertDescription, AlertIcon, CloseButton } from "@chakra-ui/react"
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 import { Link as ReactLink, Redirect } from "react-router-dom";
 import { useMutation, gql } from '@apollo/client';
+import { useAuthToken } from '../../../hooks/authToken';
 
 const Login = () => {
 
@@ -36,8 +37,18 @@ const Login = () => {
     const [showPass, setShowPass] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
-    const [ attemptLogin, { data, loading, error }] = useMutation(LOGIN_MUT);
+    const [authToken, setAuthToken] = useAuthToken();
+
+    const [ attemptLogin, { data, loading, error }] = useMutation(
+        LOGIN_MUT,
+        {
+            onCompleted: (data) => {
+                setAuthToken(data.login.token);
+            }
+        }
+        );
 
     const handleLogin = async e => {
         e.preventDefault();
@@ -54,7 +65,7 @@ const Login = () => {
 
     useEffect(() => {
         if (error){
-            console.log(error.message)
+            setErrorMessage(error.message);
         }
     }, [error])
     
@@ -89,16 +100,17 @@ const Login = () => {
                             
                             <Button width="100%" my="3" bg="primaryLight" color="white" colorScheme="red" onClick={handleLogin} isLoading={loading && !error} >Login</Button>
                             {
-                                error && (
-                                <Alert status='error' fontSize="sm">
+                                errorMessage && (
+                                <Alert status='error' fontSize="sm" borderRadius="md" mb="2" >
                                     <AlertIcon />
-                                    {error.message}
+                                    {errorMessage}
+                                    <CloseButton position="absolute" top="8px" right="8px" onClick={() => setErrorMessage("")}/>
                                 </Alert>
                               )
                             }
                             {
-                                data && (
-                                    <Redirect to={{pathname: "/chess/play", state: { token: data.login.token }}} />
+                                data && authToken && (
+                                    <Redirect to={{pathname: "/chess/secure", state: { token: data.login.token }}} />
                                 )
                             }
                             <Text fontSize="sm" color="gray.500" textAlign="center" >Don't have an account yet? <Link as={ReactLink} to="/chess/register" color="primaryLight">Sign up</Link> </Text>

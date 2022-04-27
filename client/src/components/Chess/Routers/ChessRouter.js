@@ -1,11 +1,12 @@
 import React from 'react';
 import { useParams, Router, Switch, Route, useLocation, useHistory } from 'react-router-dom';
 import Chess from '../../../pages/Chess';
-import Login from '../Auth/Login';
-import Register from '../Auth/Register';
-import ResetPassword from '../Auth/ResetPassword';
-import Play from '../Auth/Play';
-import Logout from '../Auth/Logout';
+import Login from '../AuthComponents/Login';
+import Register from '../AuthComponents/Register';
+import ResetPassword from '../AuthComponents/ResetPassword';
+import Play from '../AuthComponents/Play';
+import Logout from '../AuthComponents/Logout';
+import SecureRouter from './SecureRouter';
 
 const ChessRouter = ({ match }) => {
 
@@ -17,6 +18,7 @@ const ChessRouter = ({ match }) => {
         <Route path={`${url}/register`} component={Register}/>
         <Route path={`${url}/resetpassword`} component={ResetPassword}/>
         <Route path={`${url}/logout`} component={Logout}/>
+        <Route path={`${url}/secure`} component={SecureRouter} />
        </>
     );
 }

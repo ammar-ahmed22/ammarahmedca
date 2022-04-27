@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import NavBar from '../../NavBar';
 import PageContent from '../../PageContent';
 import Footer from '../../Footer';
-import { Flex, FormControl, Text, HStack, FormLabel, Input, SimpleGrid, Select, FormHelperText, FormErrorMessage, Button, Link } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom"
+import { Flex, FormControl, Text, HStack, FormLabel, Input, SimpleGrid, Select, FormHelperText, FormErrorMessage, Button, Link, Alert, AlertIcon, CloseButton } from "@chakra-ui/react";
+import { Link as ReactLink, Redirect } from "react-router-dom"
 import { useMutation, gql } from '@apollo/client';
+import { useAuthToken } from '../../../hooks/authToken';
 
 const Register = () => {
     const styleProps = {
@@ -27,26 +28,30 @@ const Register = () => {
             $lastName: String!
             $email: String!
             $password: String!,
-            $company: String,
-            $position: String,
-            $foundFrom: String
+            
         ){
             register(
                 firstName: $firstName,
                 lastName: $lastName,
                 email: $email,
                 password: $password,
-                company: $company,
-                position: $position,
-                foundFrom: $foundFrom
             ){
                 token
                 message
             }
         }
     `
+    
+    const [authToken, setAuthToken] = useAuthToken();
 
-    const [ signUp, { data, loading, error }] = useMutation(REGISTER);
+    const [ signUp, { data, loading, error }] = useMutation(
+        REGISTER,
+        {
+            onCompleted: (data) => {
+                setAuthToken(data.register.token)
+            }
+        }
+    );
 
     const [ firstName, setFirstName ] = useState(""),
           [ lastName, setLastName ] = useState(""),
@@ -85,14 +90,9 @@ const Register = () => {
 
     const handleEmailChange = e => {
         setEmail(e.target.value);
-        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+        const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,}$/
         console.log("validEmail:", emailRegex.test(e.target.value))
         setErrors( prev => ({...prev, validEmail: emailRegex.test(e.target.value)}))
-    }
-
-    const handleFoundFromChange = e => {
-        console.log(e.target.value);
-        setFoundFrom(e.target.value);
     }
 
     const handleSignup = e => {
@@ -100,23 +100,17 @@ const Register = () => {
         
         if (!errors.validEmail || !errors.passReqMet || errors.passMatchErr){
             setSubmitError("Please correct errors above.")
-        }
-
-        if (email === "" || password === "" || firstName === "" || lastName === ""){
+        }else if (email === "" || password === "" || firstName === "" || lastName === ""){
             setSubmitError("Please provide values for all required fields.")
-        }
-
-        if (!submitError){
+        }else{
             signUp({
                 variables: {
                     firstName,
                     lastName,
                     email,
                     password,
-                    company,
-                    position,
-                    foundFrom
-                }
+                },
+                errorPolicy: "all"
             })
         }
 
@@ -130,7 +124,11 @@ const Register = () => {
         if (password === ""){
             setErrors(prev => ({...prev, passReqMet: true}))
         }
-    }, [email, password])
+
+        if (error){
+            setSubmitError(error.message);
+        }
+    }, [email, password, error])
 
     return (
         <>
@@ -141,7 +139,17 @@ const Register = () => {
                     <Text textAlign="center" >Create an account to play a game of Chess with me!</Text>
 
                     
-                    <Text fontFamily="heading" fontSize="xl" mt="2">Account details:</Text>
+                    {/* <Text fontFamily="heading" fontSize="xl" mt="2">Account details:</Text> */}
+                    <SimpleGrid columns={2} spacing={2} w="100%" mt="2">
+                        <FormControl isRequired>
+                            <FormLabel fontSize="sm">First Name</FormLabel>
+                            <Input type="text" placeholder="First name" value={firstName} onChange={e => setFirstName(e.target.value)}/>
+                        </FormControl>
+                        <FormControl isRequired >
+                            <FormLabel fontSize="sm">Last Name</FormLabel>
+                            <Input type="text" placeholder="Last name" value={lastName} onChange={e => setLastName(e.target.value)}/>
+                        </FormControl>
+                    </SimpleGrid>
                     <FormControl mt="2" isRequired isInvalid={!errors.validEmail}>
                             <FormLabel fontSize="sm">Email</FormLabel>
                             <Input type="email" placeholder="Email" value={email} onChange={handleEmailChange}/>
@@ -152,7 +160,7 @@ const Register = () => {
                     <FormControl mt="2" isRequired isInvalid={!errors.passReqMet}>
                             <FormLabel fontSize="sm">Password</FormLabel>
                             <Input type="password" placeholder="Password" value={password} onChange={handlePassChange}/>
-                            { errors.passReqMet ? <FormHelperText>At least 6 characters, 1 letter and 1 number</FormHelperText> : <FormErrorMessage>Must contain 6 characters, 1 letter and 1 number</FormErrorMessage>}
+                            { errors.passReqMet ? <FormHelperText>At least 6 characters, 1 letter, 1 number and 1 special character.</FormHelperText> : <FormErrorMessage>Must contain 6 characters, 1 letter and 1 number</FormErrorMessage>}
                     </FormControl>
                     <FormControl mt="2" isRequired isInvalid={errors.passMatchErr}>
                             <FormLabel fontSize="sm">Confirm password</FormLabel>
@@ -161,50 +169,23 @@ const Register = () => {
                                 !errors.passMatchErr ? (<FormHelperText></FormHelperText>) : (<FormErrorMessage>Passwords must match</FormErrorMessage>)
                             }
                     </FormControl>
-                    <Text fontFamily="heading" fontSize="xl" mt="2">A little bit about you:</Text>
-                    <SimpleGrid columns={2} spacing={2} w="100%" mt="2">
-                        <FormControl isRequired>
-                            <FormLabel fontSize="sm">First Name</FormLabel>
-                            <Input type="text" placeholder="First name" value={firstName} onChange={e => setFirstName(e.target.value)}/>
-                        </FormControl>
-                        <FormControl isRequired >
-                            <FormLabel fontSize="sm">Last Name</FormLabel>
-                            <Input type="text" placeholder="Last name" value={lastName} onChange={e => setLastName(e.target.value)}/>
-                        </FormControl>
-                        <FormControl >
-                            <FormLabel fontSize="sm">Where do you work?</FormLabel>
-                            <Input type="text" placeholder="Company" value={company} onChange={e => setCompany(e.target.value)}/>
-                        </FormControl>
-                        <FormControl >
-                            <FormLabel fontSize="sm">What's your position?</FormLabel>
-                            <Input type="text" placeholder="Position" value={position} onChange={e => setPosition(e.target.value)} />
-                        </FormControl>
-                    </SimpleGrid>
-                    <FormControl mt="2">
-                        <FormLabel fontSize="sm">Where did you find this website?</FormLabel>
-                        <Select placeholder="Choose an option" color={foundFrom === "" ? "gray.400" : "gray.800"} onChange={handleFoundFromChange}>
-                            <option>LinkedIn</option>
-                            <option>Resume</option>
-                            <option>Search engine</option>
-                            <option>Word of mouth</option>
-                            <option>Other</option>
-                        </Select>
-                    </FormControl>
+                    {/* <Text fontFamily="heading" fontSize="xl" mt="2">A little bit about you:</Text> */}
+                    
+                    <Button colorScheme="red" bg="primaryLight" color="white" mt="4" onClick={handleSignup} isLoading={loading}>Sign up</Button>
                     {
-                        foundFrom === "Other" && (
-                            <FormControl mt="2">
-                                <FormLabel>Other:</FormLabel>
-                                <Input type="text" placeholder="Please provide an answer"/>
-                            </FormControl>
+                        submitError && (
+                            <Alert status='error' borderRadius="md" my="2" >
+                                <AlertIcon />
+                                {
+                                    submitError
+                                }
+                                <CloseButton position="absolute" top="8px" right="8px"/>
+                            </Alert>
                         )
                     }
-                    <Button colorScheme="red" bg="primaryLight" color="white" mt="4" onClick={handleSignup} isLoading={loading}>Sign up</Button>
                     <Text fontSize="sm" color="gray.500" mt="2" textAlign="center">Already have an account? <Link color="primaryLight" to="/chess/login" as={ReactLink}>Log in</Link></Text>
                     {
-                        data && <Text>{data.register.message}</Text>
-                    }
-                    {
-                        error && <Text>network error</Text>
+                        data && authToken && <Redirect to={{pathname: "/chess/secure/completeprofile", state: { token: data.register.token }}}/>
                     }
                 </Flex>
             </PageContent>
