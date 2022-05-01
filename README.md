@@ -43,10 +43,18 @@
 
 If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca
 
-## Articles
+## Articles/References
+
+#### Docs
+- [Chakra UI](https://chakra-ui.com/docs/components/overview)
+- [Apollo GraphQL](https://www.apollographql.com/docs/)
+- [Notion API](https://developers.notion.com/reference/intro)
+
+#### Chess
 
 - [JWT Frontend Token Authentication](https://medium.com/ovrsea/token-authentication-with-react-and-apollo-client-a-detailed-example-a3cc23760e9)
 - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
+- [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 
 
 ## License
