@@ -7,7 +7,6 @@ import Post from "./pages/Post";
 import Chess from "./pages/Chess";
 import ChessRouter from "./components/Chess/Routers/ChessRouter";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { SecureProvider } from "./components/Chess/Context/SecureContext";
 import SecureRouter from "./components/Chess/Routers/SecureRouter";
 import { ApolloProvider } from "@apollo/client"
 import { useAuthorizedApolloClient } from "./hooks/authorizedApolloClient";

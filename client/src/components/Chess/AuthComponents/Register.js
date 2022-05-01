@@ -65,7 +65,7 @@ const Register = () => {
         REGISTER,
         {
             onCompleted: (data) => {
-                setAuthToken(data.register.token)
+                data && setAuthToken(data.register.token)
             }
         }
     );
