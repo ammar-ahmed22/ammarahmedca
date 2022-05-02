@@ -58,10 +58,12 @@ var _default = (0, _graphqlShield.shield)({
   Query: {
     getPlayerById: (0, _graphqlShield.or)((0, _graphqlShield.and)(canReadOwnUser, isReadingOwnUser), canReadAnyUser),
     getAllPlayers: canReadAnyUser,
-    getGame: (0, _graphqlShield.or)(isSuperUser, isAccessingOwnGame)
+    getGame: (0, _graphqlShield.or)(isSuperUser, isAccessingOwnGame),
+    getPlayer: (0, _graphqlShield.and)(isAuthenticated, canReadOwnUser)
   },
   Mutation: {
-    addMove: (0, _graphqlShield.or)(isSuperUser, isAccessingOwnGame)
+    addMove: (0, _graphqlShield.or)(isSuperUser, isAccessingOwnGame),
+    completeProfile: (0, _graphqlShield.or)(canWriteOwnUser, isSuperUser)
   }
 }, {
   debug: true
