@@ -40,24 +40,28 @@ const chessQueries = {
             console.log(auth);
 
             return "testing auth"
+        },
+        getPlayer: async (_, args, { auth: { id }}) => {
+            const player = await Player.findById(id);
+            
+            return player;
         }
     }
 const chessMutations = {
-        register: async (_, { firstName, lastName, middleName, email, password }) => {
+        register: async (_, { firstName, lastName, email, password }) => {
 
             const existingOpp = await Player.find({ email })
 
             if (existingOpp.length){
                 console.log(`PLAYER WITH EMAIL: ${email} ALREADY EXISTS`)
                 console.log(existingOpp)
-                throw new UserInputError("Opponent with email already exists", {
+                throw new UserInputError("Player with email already exists", {
                     email
                 })
             }
 
             const name = {
                 first: firstName,
-                middle: middleName,
                 last: lastName,
             }
 
@@ -92,6 +96,17 @@ const chessMutations = {
 
             return {token: player.getSignedJWT(), message: "Player created!"};
             
+        },
+        completeProfile: async (_, { company, position, foundFrom }, { auth: { id } }) => {
+            const player = await Player.findById(id);
+
+            player.company = company;
+            player.position = position;
+            player.foundFrom = foundFrom;
+
+            await player.save();
+
+            return { token: player.getSignedJWT(), message: "Player profile updated." }
         },
         addMove: async (_, { gameID, fen }) => {
             const game = await Game.findById(gameID);

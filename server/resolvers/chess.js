@@ -148,44 +148,72 @@ var chessQueries = {
     var auth = _ref3.auth;
     console.log(auth);
     return "testing auth";
-  }
-};
-exports.chessQueries = chessQueries;
-var chessMutations = {
-  register: function () {
-    var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, _ref4) {
-      var firstName, lastName, middleName, email, password, existingOpp, name, game, player;
+  },
+  getPlayer: function () {
+    var _getPlayer = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee4(_, args, _ref4) {
+      var id, player;
       return _regenerator["default"].wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              firstName = _ref4.firstName, lastName = _ref4.lastName, middleName = _ref4.middleName, email = _ref4.email, password = _ref4.password;
+              id = _ref4.auth.id;
               _context4.next = 3;
+              return _Player["default"].findById(id);
+
+            case 3:
+              player = _context4.sent;
+              return _context4.abrupt("return", player);
+
+            case 5:
+            case "end":
+              return _context4.stop();
+          }
+        }
+      }, _callee4);
+    }));
+
+    function getPlayer(_x5, _x6, _x7) {
+      return _getPlayer.apply(this, arguments);
+    }
+
+    return getPlayer;
+  }()
+};
+exports.chessQueries = chessQueries;
+var chessMutations = {
+  register: function () {
+    var _register = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref5) {
+      var firstName, lastName, email, password, existingOpp, name, game, player;
+      return _regenerator["default"].wrap(function _callee5$(_context5) {
+        while (1) {
+          switch (_context5.prev = _context5.next) {
+            case 0:
+              firstName = _ref5.firstName, lastName = _ref5.lastName, email = _ref5.email, password = _ref5.password;
+              _context5.next = 3;
               return _Player["default"].find({
                 email: email
               });
 
             case 3:
-              existingOpp = _context4.sent;
+              existingOpp = _context5.sent;
 
               if (!existingOpp.length) {
-                _context4.next = 8;
+                _context5.next = 8;
                 break;
               }
 
               console.log("PLAYER WITH EMAIL: ".concat(email, " ALREADY EXISTS"));
               console.log(existingOpp);
-              throw new _apolloServerExpress.UserInputError("Opponent with email already exists", {
+              throw new _apolloServerExpress.UserInputError("Player with email already exists", {
                 email: email
               });
 
             case 8:
               name = {
                 first: firstName,
-                middle: middleName,
                 last: lastName
               };
-              _context4.next = 11;
+              _context5.next = 11;
               return _Player["default"].create({
                 name: name,
                 email: email,
@@ -198,14 +226,14 @@ var chessMutations = {
               });
 
             case 11:
-              player = _context4.sent;
+              player = _context5.sent;
 
               if (!player) {
-                _context4.next = 21;
+                _context5.next = 21;
                 break;
               }
 
-              _context4.next = 15;
+              _context5.next = 15;
               return _Game["default"].create({
                 playerID: player.id,
                 moves: [{
@@ -218,54 +246,94 @@ var chessMutations = {
               });
 
             case 15:
-              game = _context4.sent;
+              game = _context5.sent;
 
               if (!game) {
-                _context4.next = 21;
+                _context5.next = 21;
                 break;
               }
 
               player.currentGameID = game.id;
               player.allGameIDs.push(game.id);
-              _context4.next = 21;
+              _context5.next = 21;
               return player.save();
 
             case 21:
-              return _context4.abrupt("return", {
+              return _context5.abrupt("return", {
                 token: player.getSignedJWT(),
                 message: "Player created!"
               });
 
             case 22:
             case "end":
-              return _context4.stop();
+              return _context5.stop();
           }
         }
-      }, _callee4);
+      }, _callee5);
     }));
 
-    function register(_x5, _x6) {
+    function register(_x8, _x9) {
       return _register.apply(this, arguments);
     }
 
     return register;
   }(),
-  addMove: function () {
-    var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee5(_, _ref5) {
-      var gameID, fen, game;
-      return _regenerator["default"].wrap(function _callee5$(_context5) {
+  completeProfile: function () {
+    var _completeProfile = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref6, _ref7) {
+      var company, position, foundFrom, id, player;
+      return _regenerator["default"].wrap(function _callee6$(_context6) {
         while (1) {
-          switch (_context5.prev = _context5.next) {
+          switch (_context6.prev = _context6.next) {
             case 0:
-              gameID = _ref5.gameID, fen = _ref5.fen;
-              _context5.next = 3;
+              company = _ref6.company, position = _ref6.position, foundFrom = _ref6.foundFrom;
+              id = _ref7.auth.id;
+              _context6.next = 4;
+              return _Player["default"].findById(id);
+
+            case 4:
+              player = _context6.sent;
+              player.company = company;
+              player.position = position;
+              player.foundFrom = foundFrom;
+              _context6.next = 10;
+              return player.save();
+
+            case 10:
+              return _context6.abrupt("return", {
+                token: player.getSignedJWT(),
+                message: "Player profile updated."
+              });
+
+            case 11:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    function completeProfile(_x10, _x11, _x12) {
+      return _completeProfile.apply(this, arguments);
+    }
+
+    return completeProfile;
+  }(),
+  addMove: function () {
+    var _addMove = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref8) {
+      var gameID, fen, game;
+      return _regenerator["default"].wrap(function _callee7$(_context7) {
+        while (1) {
+          switch (_context7.prev = _context7.next) {
+            case 0:
+              gameID = _ref8.gameID, fen = _ref8.fen;
+              _context7.next = 3;
               return _Game["default"].findById(gameID);
 
             case 3:
-              game = _context5.sent;
+              game = _context7.sent;
 
               if (game) {
-                _context5.next = 6;
+                _context7.next = 6;
                 break;
               }
 
@@ -278,101 +346,101 @@ var chessMutations = {
                 fen: fen,
                 playedAt: new Date()
               });
-              _context5.next = 9;
+              _context7.next = 9;
               return game.save();
 
             case 9:
-              return _context5.abrupt("return", game);
+              return _context7.abrupt("return", game);
 
             case 10:
             case "end":
-              return _context5.stop();
+              return _context7.stop();
           }
         }
-      }, _callee5);
+      }, _callee7);
     }));
 
-    function addMove(_x7, _x8) {
+    function addMove(_x13, _x14) {
       return _addMove.apply(this, arguments);
     }
 
     return addMove;
   }(),
   login: function () {
-    var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref6) {
+    var _login = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(_, _ref9) {
       var email, password, player, isMatched;
-      return _regenerator["default"].wrap(function _callee6$(_context6) {
+      return _regenerator["default"].wrap(function _callee8$(_context8) {
         while (1) {
-          switch (_context6.prev = _context6.next) {
+          switch (_context8.prev = _context8.next) {
             case 0:
-              email = _ref6.email, password = _ref6.password;
-              _context6.next = 3;
+              email = _ref9.email, password = _ref9.password;
+              _context8.next = 3;
               return _Player["default"].findOne({
                 email: email
               }).select("+password");
 
             case 3:
-              player = _context6.sent;
+              player = _context8.sent;
 
               if (player) {
-                _context6.next = 6;
+                _context8.next = 6;
                 break;
               }
 
               throw new _apolloServerExpress.UserInputError("User not found");
 
             case 6:
-              _context6.next = 8;
+              _context8.next = 8;
               return player.matchPasswords(password);
 
             case 8:
-              isMatched = _context6.sent;
+              isMatched = _context8.sent;
 
               if (isMatched) {
-                _context6.next = 11;
+                _context8.next = 11;
                 break;
               }
 
               throw new _apolloServerExpress.UserInputError("Invalid credentials");
 
             case 11:
-              return _context6.abrupt("return", {
+              return _context8.abrupt("return", {
                 token: player.getSignedJWT(),
                 message: "Logged in!"
               });
 
             case 12:
             case "end":
-              return _context6.stop();
+              return _context8.stop();
           }
         }
-      }, _callee6);
+      }, _callee8);
     }));
 
-    function login(_x9, _x10) {
+    function login(_x15, _x16) {
       return _login.apply(this, arguments);
     }
 
     return login;
   }(),
   forgotPassword: function () {
-    var _forgotPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee7(_, _ref7) {
+    var _forgotPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee9(_, _ref10) {
       var email, player, resetToken, resetLink, emailHTML;
-      return _regenerator["default"].wrap(function _callee7$(_context7) {
+      return _regenerator["default"].wrap(function _callee9$(_context9) {
         while (1) {
-          switch (_context7.prev = _context7.next) {
+          switch (_context9.prev = _context9.next) {
             case 0:
-              email = _ref7.email;
-              _context7.next = 3;
+              email = _ref10.email;
+              _context9.next = 3;
               return _Player["default"].findOne({
                 email: email
               });
 
             case 3:
-              player = _context7.sent;
+              player = _context9.sent;
 
               if (player) {
-                _context7.next = 6;
+                _context9.next = 6;
                 break;
               }
 
@@ -381,19 +449,19 @@ var chessMutations = {
               });
 
             case 6:
-              _context7.next = 8;
+              _context9.next = 8;
               return player.getResetPasswordToken();
 
             case 8:
-              resetToken = _context7.sent;
-              _context7.next = 11;
+              resetToken = _context9.sent;
+              _context9.next = 11;
               return player.save();
 
             case 11:
-              _context7.prev = 11;
+              _context9.prev = 11;
               resetLink = "".concat(process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://ammarahmed.ca", "/chess/resetpassword?token=").concat(resetToken);
               emailHTML = (0, _readContent["default"])("".concat((0, _helpers.getPathPrefix)(process.env.NODE_ENV), "emails/resetPassword.html")).replace("RESET_LINK", resetLink);
-              _context7.next = 16;
+              _context9.next = 16;
               return (0, _sendEmail["default"])({
                 to: email,
                 subject: "Reset password for ammarahmed.ca",
@@ -401,48 +469,48 @@ var chessMutations = {
               });
 
             case 16:
-              _context7.next = 26;
+              _context9.next = 26;
               break;
 
             case 18:
-              _context7.prev = 18;
-              _context7.t0 = _context7["catch"](11);
+              _context9.prev = 18;
+              _context9.t0 = _context9["catch"](11);
               player.resetPasswordToken = undefined;
               player.resetPasswordExpire = undefined;
-              _context7.next = 24;
+              _context9.next = 24;
               return player.save();
 
             case 24:
-              console.log(_context7.t0);
+              console.log(_context9.t0);
               throw new _apolloServerExpress.UserInputError("Error sending email");
 
             case 26:
-              return _context7.abrupt("return", resetToken);
+              return _context9.abrupt("return", resetToken);
 
             case 27:
             case "end":
-              return _context7.stop();
+              return _context9.stop();
           }
         }
-      }, _callee7, null, [[11, 18]]);
+      }, _callee9, null, [[11, 18]]);
     }));
 
-    function forgotPassword(_x11, _x12) {
+    function forgotPassword(_x17, _x18) {
       return _forgotPassword.apply(this, arguments);
     }
 
     return forgotPassword;
   }(),
   resetPassword: function () {
-    var _resetPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee8(_, _ref8) {
+    var _resetPassword = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee10(_, _ref11) {
       var newPassword, resetToken, resetPasswordToken, player;
-      return _regenerator["default"].wrap(function _callee8$(_context8) {
+      return _regenerator["default"].wrap(function _callee10$(_context10) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context10.prev = _context10.next) {
             case 0:
-              newPassword = _ref8.newPassword, resetToken = _ref8.resetToken;
+              newPassword = _ref11.newPassword, resetToken = _ref11.resetToken;
               resetPasswordToken = _crypto["default"].createHash("sha256").update(resetToken).digest("hex");
-              _context8.next = 4;
+              _context10.next = 4;
               return _Player["default"].findOne({
                 resetPasswordToken: resetPasswordToken,
                 resetPasswordExpire: {
@@ -451,10 +519,10 @@ var chessMutations = {
               });
 
             case 4:
-              player = _context8.sent;
+              player = _context10.sent;
 
               if (player) {
-                _context8.next = 7;
+                _context10.next = 7;
                 break;
               }
 
@@ -465,21 +533,21 @@ var chessMutations = {
               player.password = newPassword;
               player.resetPasswordToken = undefined;
               player.resetPasswordExpire = undefined;
-              _context8.next = 13;
+              _context10.next = 13;
               return player.save();
 
             case 13:
-              return _context8.abrupt("return", "Success");
+              return _context10.abrupt("return", "Success");
 
             case 14:
             case "end":
-              return _context8.stop();
+              return _context10.stop();
           }
         }
-      }, _callee8);
+      }, _callee10);
     }));
 
-    function resetPassword(_x13, _x14) {
+    function resetPassword(_x19, _x20) {
       return _resetPassword.apply(this, arguments);
     }
 

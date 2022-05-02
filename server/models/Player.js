@@ -28,9 +28,11 @@ var PlayerSchema = new _mongoose["default"].Schema({
     last: {
       type: String,
       required: true
-    },
-    middle: String
+    }
   },
+  company: String,
+  position: String,
+  foundFrom: String,
   email: {
     type: String,
     required: [true, "Please provide an e-mail"],

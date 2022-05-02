@@ -49,10 +49,12 @@ export default shield({
     Query: {
         getPlayerById: or(and(canReadOwnUser, isReadingOwnUser), canReadAnyUser),
         getAllPlayers: canReadAnyUser,
-        getGame: or(isSuperUser, isAccessingOwnGame)
+        getGame: or(isSuperUser, isAccessingOwnGame),
+        getPlayer: and(isAuthenticated, canReadOwnUser)
     },
     Mutation: {
         addMove: or(isSuperUser, isAccessingOwnGame),
+        completeProfile: or(canWriteOwnUser, isSuperUser)
     }
 },
 {
