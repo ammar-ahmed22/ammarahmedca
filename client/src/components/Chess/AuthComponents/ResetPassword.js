@@ -108,7 +108,7 @@ const ResetPassword = () => {
             <PageContent>
                 <Flex {...styleProps.main}>
                     {
-                        !invalid && !data && !data.resetPassword && (
+                        !invalid && !data && (
                             <>
                             <Text {...styleProps.title}>Reset your password</Text>
                             <Text>Enter your new password below.</Text>
