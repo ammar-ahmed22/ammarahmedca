@@ -96,7 +96,7 @@ const NavBar = ({ active }) => {
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon="user"/><Text>About Me</Text></Link>
         <Link {...styleProps.navButton} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon="pen"/><Text>Blog</Text></Link>
 
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "chess" ? primary : regular} to="/chess" ><FontAwesomeIcon icon="chess-pawn"/><Text>Chess</Text></Link> 
+        {/* <Link {...styleProps.navButton} as={ReactLink} color={ active === "chess" ? primary : regular} to="/chess" ><FontAwesomeIcon icon="chess-pawn"/><Text>Chess</Text></Link>  */}
 
         
         {/* <Link {...styleProps.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link> */}
