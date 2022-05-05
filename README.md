@@ -54,6 +54,8 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca
 
 - [JWT Frontend Token Authentication](https://medium.com/ovrsea/token-authentication-with-react-and-apollo-client-a-detailed-example-a3cc23760e9)
 - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
+- [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth)
+- [Google Sign-In Button Style Guide](https://developers.google.com/identity/branding-guidelines)
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 
 
