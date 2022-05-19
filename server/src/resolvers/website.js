@@ -66,13 +66,19 @@ const webQueries = {
       const blogPages = await notionWrapper.db.get({
         dbId: NOTION_BLOG_DB_ID,
         filter: {
-          or: [
+          and: [
             {
               property: "isBlog",
               checkbox: {
                 equals: true,
               },
             },
+            {
+              property: "Publish",
+              checkbox: {
+                equals: true
+              }
+            }
           ],
         },
       });
