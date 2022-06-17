@@ -86,9 +86,9 @@ const NavBar = ({ active }) => {
     <>
     <Box {...styleProps.topBar}></Box>
     <Flex as="header" {...styleProps.main}>
-      <Box>
+      <Link as={ReactLink} to="/" _focus={{}}>
         <LogoIcon boxSize={20} />
-      </Box>
+      </Link>
       <Spacer />
       <Flex align="center">
 
