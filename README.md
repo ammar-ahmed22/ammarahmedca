@@ -60,9 +60,6 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
 
 
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
 
 
 
