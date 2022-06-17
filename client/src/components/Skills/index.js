@@ -1,14 +1,15 @@
-import React from "react"
-import { Box, Text, useColorModeValue, SimpleGrid } from "@chakra-ui/react"
+import React, { useState } from "react"
+import { Box, Text, useColorModeValue, SimpleGrid, Button, Tabs, TabList, Tab } from "@chakra-ui/react"
 import SkillChart from "./SkillChart"
 import SkillTreeMap from "./SkillTreeMap"
 
 
 const Skills = () => {
-
+    const [typeIdx, setTypeIdx] = useState(0);
+    const types = ["Language", "Framework", "Developer Tool", "Other"]
     const styleProps = {
         mainBox: {
-            minH: "100vh"
+            // minH: "100vh"
         },
         title: {
             fontSize: { base: "5xl", lg: "6xl"},
@@ -19,27 +20,17 @@ const Skills = () => {
     return (
         <Box {...styleProps.mainBox}>
             <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Skills</Text></Text>
-            <Text fontWeight="bold" fontSize="2xl">Languages</Text>
-            {/* <Box width="100%" height="40vh">
-                <SkillChart />
-            </Box> */}
-            <SimpleGrid columns={2} spacing={2}>
-                <Box h="40vh">
-                    <SkillChart type="Language"/>
-                </Box>
-                <Box h="40vh">
-                    <SkillChart type="Framework"/>
-                </Box>
-                <Box h="40vh">
-                    <SkillChart type="Developer Tool"/>
-                </Box>
-                <Box h="40vh">
-                    <SkillChart type="Other"/>
-                </Box>
-            </SimpleGrid>
-            {/* <Box h="50vh">
-                <SkillTreeMap />
-            </Box> */}
+            <Tabs variant="soft-rounded" colorScheme="red" onChange={(idx) => setTypeIdx(idx)}>
+                <TabList>
+                    <Tab>Languages</Tab>
+                    <Tab>Frameworks</Tab>
+                    <Tab>Developer Tools</Tab>
+                    <Tab>Other</Tab>
+                </TabList>
+            </Tabs>
+            <Box width="100%" height="60vh">
+                <SkillChart type={types[typeIdx]} />
+            </Box>
             
         </Box>
     )

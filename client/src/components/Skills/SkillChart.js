@@ -99,7 +99,7 @@ const SkillChart = ({ type }) => {
     if (!loading && data){
         return (
             <ResponsiveContainer width={"100%"} height="100%">
-                <RadarChart outerRadius="50%" data={data.SkillData}>
+                <RadarChart outerRadius="75%" data={data.SkillData} cy="50%">
                     <PolarGrid />
                     <PolarAngleAxis dataKey="name" tick={props => renderPolarAngleAxis(props)} />
                     <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => renderPolarRadiusAxis(props)}/>
