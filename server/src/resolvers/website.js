@@ -4,7 +4,7 @@ import Notion from "../models/Notion";
 import DataHelper from "../utils/DataHelper";
 
 
-const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID, NOTION_EXP_DB_ID } = process.env;
+const { NOTION_INTEGRATION_KEY, NOTION_BLOG_DB_ID, NOTION_EXP_DB_ID, NOTION_SKILL_DB_ID } = process.env;
 
 // Custom Notion API wrapper
 const notionWrapper = new Notion(NOTION_INTEGRATION_KEY);
@@ -173,6 +173,37 @@ const webQueries = {
 
       return result;
     },
+    SkillData: async (_, { type }) => {
+      const allSkills = await notionWrapper.db.get({
+        dbId: NOTION_SKILL_DB_ID,
+      })
+
+      console.log(allSkills[0].properties.Competency)
+
+      const res = allSkills
+      .map( page => {
+        const { Type, Name, Competency } = page.properties;
+
+        const name = helper.readPropertyContent(Name)
+        const type = helper.readPropertyContent(Type)
+        const value = helper.readPropertyContent(Competency)
+
+        return {
+          name,
+          type,
+          value
+        }
+      })
+      .filter( item => {
+        if (type){
+          return item.type === type
+        }else{
+          return true
+        }
+      })
+
+      return res;
+    }
   }
 
   

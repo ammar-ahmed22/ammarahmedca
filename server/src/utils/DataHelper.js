@@ -26,6 +26,7 @@ class DataHelper {
                 }else{
                     return value.start
                 }
+            case "number":
             case "checkbox":
                 return value
             default:
