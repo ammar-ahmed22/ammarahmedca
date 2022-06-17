@@ -113,7 +113,7 @@ const ScrollIndicator = ({ scrollToId }) => {
 
 
     return (
-        <Flex align="center" position="absolute" bottom={{ base: "25vh", md: "15vh"}} width="100%" direction="column" ref={scrollInd}>
+        <Flex align="center" position="absolute" bottom={{ base: "25vh", md: "20vh"}} width="100%" direction="column" ref={scrollInd}>
             <Box {...styleProps.scrollIndEllipse} onMouseOver={handleScrollIndOver} onMouseOut={handleScrollIndOut} onClick={handleClick} ref={scrollIndEllipse}>
                 <Box {...styleProps.scrollIndCircle} ref={scrollIndCircle} ></Box>
             </Box>
