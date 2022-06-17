@@ -34,7 +34,7 @@ const Signature = ({ color }) => {
         box: {
             position: "absolute",
             //transform: "translate(-50%, 0)",
-            top: { base: '30%', md: "20%" },
+            top: "30%",
             left: "0",
             zIndex: -1,
         }
@@ -59,7 +59,6 @@ const Signature = ({ color }) => {
                 }
             }else if (scrollPos !== -1 && scrollPos > 0){
                 // Play the animation backwards
-                console.log("REVERSE")
                 for (let i = 0; i < paths.length; i++){
                     const path = paths[i]
                     // keyframe defined in css

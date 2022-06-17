@@ -32,8 +32,8 @@ const Hero = () => {
         <Box minH="90vh" position="relative" >
             <Box marginTop={"10vh"} zIndex={10} >
                 <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text color={useColorModeValue("primaryLight", "primaryDark")} as="span">Ammar</Text></Text>
-                <Text {...styleProps.subText}>Engineering student at the <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
-                <Text {...styleProps.subText}>QA Engineer at <Link href="https://hire.company" {...styleProps.subTextLink}>HIRE Technologies</Link></Text>
+                <Text {...styleProps.subText}>Engineering student <Text as="span" fontWeight="bold">@</Text> <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
+                <Text {...styleProps.subText}>Data Analyst <Text as="span" fontWeight="bold">@</Text> <Link href="https://fragrancebuy.ca/" {...styleProps.subTextLink}>FragranceBuy</Link></Text>
             </Box>
             <Signature color={useColorModeValue("black", "white")} />
             
