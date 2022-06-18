@@ -68,10 +68,17 @@ type Experience {
     timeframe: Timeframe!
 }
 
+type Skill{
+    name: String!
+    type: String!
+    value: Int!
+}
+
 type Query{
     ProjectInfo: [BlogInfo]!
     BlogInfo(id: String): [BlogCategory]!
     FilterBy: FilterParams!
     BlogContent(id: String!): [ContentBlock]!
     ExperienceInfo: [Experience]!
+    SkillData(type: String): [Skill]!
 }
