@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Text as RechartsText, ResponsiveContainer } from 'recharts'
-import { useColorModeValue  } from '@chakra-ui/react';
+import { useColorModeValue, Spinner, Flex } from '@chakra-ui/react';
 import { useQuery, gql } from "@apollo/client"
 
 const fakeData = [
@@ -52,11 +52,16 @@ const SkillChart = ({ type }) => {
         type
     }})
 
+    const primary = useColorModeValue("var(--chakra-colors-primaryLight)", "var(--chakra-colors-primaryDark)")
+    const foreground = useColorModeValue("var(--chakra-colors-gray-800)", "var(--chakra-colors-white)")
+    const lightForeground = useColorModeValue("var(--chakra-colors-gray-600)", "var(--chakra-colors-gray-400)")
+
     const renderPolarAngleAxis = ({ payload, x, y, cx, cy, ...rest }) => {
         return (
           <RechartsText
             {...rest}
             fontFamily="var(--chakra-fonts-body)"
+            fill={foreground}
             verticalAnchor="middle"
             y={y + (y - cy) / 10}
             x={x + (x - cx) / 10}
@@ -86,7 +91,7 @@ const SkillChart = ({ type }) => {
                 verticalAnchor='middle'
                 textAnchor='middle'
                 fontSize={8}
-                fill="var(--chakra-colors-gray-600)"
+                fill={lightForeground}
                 x={x}
                 y={y}
             >
@@ -95,7 +100,7 @@ const SkillChart = ({ type }) => {
         )
     }
 
-    const primary = useColorModeValue("var(--chakra-colors-primaryLight)", "var(--chakra-colors-primaryDark)")
+    
     if (!loading && data){
         return (
             <ResponsiveContainer width={"100%"} height="100%">
@@ -103,18 +108,17 @@ const SkillChart = ({ type }) => {
                     <PolarGrid />
                     <PolarAngleAxis dataKey="name" tick={props => renderPolarAngleAxis(props)} />
                     <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => renderPolarRadiusAxis(props)}/>
-                    <Radar name="Languages" dataKey="value" stroke={primary} fill={primary} fillOpacity={0.6} />
-                    {/* <Radar name="Lily" dataKey="B" stroke="#82ca9d" fill="#82ca9d" fillOpacity={0.6} /> */}
-                    {/* <Legend /> */}
+                    <Radar name="Skills" dataKey="value" stroke={primary} fill={primary} fillOpacity={0.6} />
                 </RadarChart>
             </ResponsiveContainer>
             
         );
     }else{
         return (
-            <div>
-                LOADING...
-            </div>
+            <Flex justify="center" align="center" w="100%" h="100%">
+                <Spinner thickness='4px' speed="0.65s" emptyColor='gray.200' color={primary} size="xl" />
+            </Flex>
+            
         )
     }
     

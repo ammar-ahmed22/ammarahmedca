@@ -8,9 +8,6 @@ const Skills = () => {
     const [typeIdx, setTypeIdx] = useState(0);
     const types = ["Language", "Framework", "Developer Tool", "Other"]
     const styleProps = {
-        mainBox: {
-            // minH: "100vh"
-        },
         title: {
             fontSize: { base: "5xl", lg: "6xl"},
             fontFamily: "heading",
@@ -18,14 +15,13 @@ const Skills = () => {
         },
     }
     return (
-        <Box {...styleProps.mainBox}>
+        <Box >
             <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Skills</Text></Text>
-            <Tabs variant="soft-rounded" colorScheme="red" onChange={(idx) => setTypeIdx(idx)}>
+            <Tabs variant="line" colorScheme="red" onChange={(idx) => setTypeIdx(idx)} size="sm" >
                 <TabList>
-                    <Tab>Languages</Tab>
-                    <Tab>Frameworks</Tab>
-                    <Tab>Developer Tools</Tab>
-                    <Tab>Other</Tab>
+                    {
+                        types.map( type => <Tab _focus={{}}>{type}{type === "Other" ? "" : "s"}</Tab>)
+                    }
                 </TabList>
             </Tabs>
             <Box width="100%" height="60vh">
