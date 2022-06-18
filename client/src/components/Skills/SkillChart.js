@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Text as RechartsText, ResponsiveContainer } from 'recharts'
-import { useColorModeValue, Spinner, Flex } from '@chakra-ui/react';
+import { useColorModeValue, Spinner, Flex, useMediaQuery } from '@chakra-ui/react';
 import { useQuery, gql } from "@apollo/client"
 
 const fakeData = [
@@ -52,6 +52,12 @@ const SkillChart = ({ type }) => {
         type
     }})
 
+    const [isLargerThan30em] = useMediaQuery(['(min-width: 30em)'])
+
+    useEffect(() => {
+        console.log("Larger than 30em:", isLargerThan30em)
+    }, [isLargerThan30em])
+
     const primary = useColorModeValue("var(--chakra-colors-primaryLight)", "var(--chakra-colors-primaryDark)")
     const foreground = useColorModeValue("var(--chakra-colors-gray-800)", "var(--chakra-colors-white)")
     const lightForeground = useColorModeValue("var(--chakra-colors-gray-600)", "var(--chakra-colors-gray-400)")
@@ -75,7 +81,7 @@ const SkillChart = ({ type }) => {
 
         const { payload, x, y, cx, cy, ...rest } = props
 
-        console.log(props)
+        //console.log(props)
         const labels = {
             0: "Unaware",
             25: "Aware",
@@ -104,7 +110,7 @@ const SkillChart = ({ type }) => {
     if (!loading && data){
         return (
             <ResponsiveContainer width={"100%"} height="100%">
-                <RadarChart outerRadius="75%" data={data.SkillData} cy="50%">
+                <RadarChart outerRadius={isLargerThan30em ? "75%" : "55%"} data={data.SkillData} cy="50%">
                     <PolarGrid />
                     <PolarAngleAxis dataKey="name" tick={props => renderPolarAngleAxis(props)} />
                     <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => renderPolarRadiusAxis(props)}/>

@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { Box, Text, useColorModeValue, SimpleGrid, Button, Tabs, TabList, Tab } from "@chakra-ui/react"
+import { Box, Text, useColorModeValue, SimpleGrid, Button, Tabs, TabList, Tab, Flex } from "@chakra-ui/react"
 import SkillChart from "./SkillChart"
 import SkillTreeMap from "./SkillTreeMap"
 
@@ -24,9 +24,9 @@ const Skills = () => {
                     }
                 </TabList>
             </Tabs>
-            <Box width="100%" height="60vh">
+            <Flex width="100%" height="60vh" justify="center" align="center">
                 <SkillChart type={types[typeIdx]} />
-            </Box>
+            </Flex>
             
         </Box>
     )
