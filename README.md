@@ -35,6 +35,7 @@ A high-level overview of the tech stack this website uses:
 | ------- | ----------- |
 | **Content Management** | Web content such as blog posts, project content, skills etc. are written, edited and persisted in Notion. Automatically updated whenever changed in Notion |
 | **Light/Dark Mode** | Switching between light and dark mode. Default is set according to your system settings. |
+| **Continous deployment** | Client-side and server-side deployment is set-up automatically with `master` branch pushes. |
 | **Skill Charts** | Aesthetic radar charts created for skills using [recharts](https://recharts.org/en-US). |
 
 
@@ -42,7 +43,7 @@ A high-level overview of the tech stack this website uses:
 
 | Feature | Description | Current Progress | 
 | ------- | ----------- | ---------------- |
-| 1-day time limit Chess game | <ul><li>Play a game of 1-day time limit Chess against me</li><li>Players create an account and are notified by e-mail when it is their turn to play. </li><li>All game logic and functionality written myself as a learning exercise.</li><li>Player and game data persisted in MongoDB database</li><li>Chess game state is sent and persisted as FEN string</li><li>Players can register and login with Google as well as custom authentication flow.</li></ul> | <ul><li>Custom authentication flow implemented.</li><li>Google OAuth2 flow implemented.</li><li>Chess game board can be rendered using FEN strings</li><li>Simple pieces such as pawn, bishop, queen and rook can move with the correct rules.</li><li>Game state can be converted to FEN string</li><li>Server can send e-mails for forgetten and reset password</li></ul> |
+| **Chess game** | <ul><li>Play a game of 1-day time limit Chess against me</li><li>Players create an account and are notified by e-mail when it is their turn to play. </li><li>All game logic and functionality written myself as a learning exercise.</li><li>Player and game data persisted in MongoDB database</li><li>Chess game state is sent and persisted as FEN string</li><li>Players can register and login with Google as well as custom authentication flow.</li></ul> | <ul><li>Custom authentication flow implemented.</li><li>Google OAuth2 flow implemented.</li><li>Chess game board can be rendered using FEN strings</li><li>Simple pieces such as pawn, bishop, queen and rook can move with the correct rules.</li><li>Game state can be converted to FEN string</li><li>Server can send e-mails for forgetten and reset password</li></ul> |
 
 ## 🎨 Design Reference
 #### Colors
