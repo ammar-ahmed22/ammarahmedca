@@ -64,7 +64,7 @@ const ProjectCard = ({ project, id, loading }) => {
                  }
                 <Text fontSize="sm">{project.description}</Text>
                 {
-                    project.isBlog && <Link fontSize="sm" mt="2" color={primary} fontWeight="bold" as={ReactLink} to={{pathname: `/blog/${hyphenate(project.name)}`, state: { id: project.id }}} >Read more</Link>
+                    project.isBlog && <Link fontSize="sm" mt="2" color="brand.purple.500" fontWeight="bold" as={ReactLink} to={{pathname: `/blog/${hyphenate(project.name)}`, state: { id: project.id }}} >Read more</Link>
                 }
                 {project.frameworks.length > 0 && <Text fontSize="md" fontFamily="heading">Frameworks:</Text>}
                 {
@@ -72,7 +72,7 @@ const ProjectCard = ({ project, id, loading }) => {
                         <Flex wrap="wrap" mt={1} >
                             {
                                 project.frameworks.map( (framework, idx) => {
-                                    return <Tag key={idx} {...styleProps.tag} colorScheme="red" >{framework}</Tag>
+                                    return <Tag key={idx} {...styleProps.tag} colorScheme="brand.purple" >{framework}</Tag>
                                 })
                             }
                         </Flex>
@@ -84,7 +84,7 @@ const ProjectCard = ({ project, id, loading }) => {
                         <Flex wrap="wrap" mt="1">
                             {
                                 project.languages.map( (language, idx) => {
-                                    return <Tag key={idx} {...styleProps.tag} colorScheme="red">{language}</Tag>
+                                    return <Tag key={idx} {...styleProps.tag} colorScheme="brand.purple">{language}</Tag>
                                 })
                             }
                         </Flex>

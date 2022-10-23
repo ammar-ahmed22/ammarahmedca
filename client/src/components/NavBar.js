@@ -18,7 +18,7 @@ import Logo from "./Logo";
 const LogoIcon = (props) => {
   return (
     <Icon {...props} viewBox="0 0 602 328">
-      <Logo color1={useColorModeValue("#A10010", "#9c414a")} color2="transparent" strokeWidth={8} />
+      <Logo color1="var(--ammar-colors-brand-purple-500)" color2="transparent" strokeWidth={8} />
     </Icon>
   );
 };
@@ -46,7 +46,8 @@ const NavBar = ({ active }) => {
       h: "2vh",
       top: 0,
       zIndex: 500,
-      bg: useColorModeValue("primaryLight", "primaryDark")
+      // bg: useColorModeValue("primaryLight", "primaryDark"),
+      bgGradient: "linear(to-r, brand.purple.500, brand.blue.500)"
     },
     navButton: {
       colorScheme: "blackAlpha",
@@ -79,7 +80,7 @@ const NavBar = ({ active }) => {
     },
   };
 
-  const primary = useColorModeValue("primaryLight", "primaryDark");
+  const primary = "brand.purple.500";
   const regular = useColorModeValue("black", "white");
 
   return (

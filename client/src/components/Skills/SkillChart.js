@@ -58,15 +58,15 @@ const SkillChart = ({ type }) => {
         console.log("Larger than 30em:", isLargerThan30em)
     }, [isLargerThan30em])
 
-    const primary = useColorModeValue("var(--chakra-colors-primaryLight)", "var(--chakra-colors-primaryDark)")
-    const foreground = useColorModeValue("var(--chakra-colors-gray-800)", "var(--chakra-colors-white)")
-    const lightForeground = useColorModeValue("var(--chakra-colors-gray-600)", "var(--chakra-colors-gray-400)")
+    const primary = "var(--ammar-colors-brand-purple-500)";
+    const foreground = useColorModeValue("var(--ammar-colors-gray-800)", "var(--ammar-colors-white)")
+    const lightForeground = useColorModeValue("var(--ammar-colors-gray-600)", "var(--ammar-colors-gray-400)")
 
     const renderPolarAngleAxis = ({ payload, x, y, cx, cy, ...rest }) => {
         return (
           <RechartsText
             {...rest}
-            fontFamily="var(--chakra-fonts-body)"
+            fontFamily="var(--ammar-fonts-body)"
             fill={foreground}
             verticalAnchor="middle"
             y={y + (y - cy) / 10}

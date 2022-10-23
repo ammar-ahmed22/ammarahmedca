@@ -22,7 +22,8 @@ const Hero = () => {
         subTextLink: {
             fontWeight: "bold",
             isExternal: true,
-            color: useColorModeValue("primaryLight", "primaryDark")
+            variant: "gradient"
+            // color: useColorModeValue("primaryLight", "primaryDark")
         },
     }
 
@@ -31,7 +32,7 @@ const Hero = () => {
     return (
         <Box minH="90vh" position="relative" >
             <Box marginTop={"10vh"} zIndex={10} >
-                <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text color={useColorModeValue("primaryLight", "primaryDark")} as="span">Ammar</Text></Text>
+                <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text variant="gradient" as="span">Ammar</Text></Text>
                 <Text {...styleProps.subText}>Engineering student <Text as="span" fontWeight="bold">@</Text> <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
                 <Text {...styleProps.subText}>Frontend Developer <Text as="span" fontWeight="bold">@</Text> <Link href="https://docs.aiarena.io/" {...styleProps.subTextLink}>AI Arena</Link></Text>
             </Box>

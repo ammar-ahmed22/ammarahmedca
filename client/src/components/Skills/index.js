@@ -16,8 +16,8 @@ const Skills = () => {
     }
     return (
         <Box >
-            <Text {...styleProps.title}>My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Skills</Text></Text>
-            <Tabs variant="line" colorScheme="red" onChange={(idx) => setTypeIdx(idx)} size="sm" >
+            <Text {...styleProps.title}>My <Text as="span" variant="gradient" >Skills</Text></Text>
+            <Tabs variant="line" colorScheme="brand.purple.500" onChange={(idx) => setTypeIdx(idx)} size="sm" >
                 <TabList>
                     {
                         types.map( type => <Tab _focus={{}}>{type}{type === "Other" ? "" : "s"}</Tab>)

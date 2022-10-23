@@ -27,7 +27,7 @@ const DisplayLimiter = ({ numDisplaying, setNumDisplaying, initial, total, incre
             display: "flex",
             flexDirection: "column",
             _hover: {
-                color: "primaryLight"
+                color: "brand.purple.500"
             },
             _focus: {}
         }
