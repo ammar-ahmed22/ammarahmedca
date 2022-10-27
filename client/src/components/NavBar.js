@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Flex,
   Icon,
@@ -15,6 +15,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link as ReactLink } from "react-router-dom"
 import Logo from "./Logo";
 
+
 const LogoIcon = (props) => {
   return (
     <Icon {...props} viewBox="0 0 602 328">
@@ -25,6 +26,7 @@ const LogoIcon = (props) => {
 
 const NavBar = ({ active }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+
 
   const styleProps = {
     main: {
@@ -80,13 +82,15 @@ const NavBar = ({ active }) => {
     },
   };
 
+  
+
   const primary = "brand.purple.500";
   const regular = useColorModeValue("black", "white");
 
   return (
     <>
     <Box {...styleProps.topBar}></Box>
-    <Flex as="header" {...styleProps.main}>
+    <Flex as="header" {...styleProps.main}  >
       <Link as={ReactLink} to="/" _focus={{}}>
         <LogoIcon boxSize={20} />
       </Link>
@@ -110,6 +114,7 @@ const NavBar = ({ active }) => {
 
       </Flex>
     </Flex>
+    
     </>
   );
 };

@@ -3,7 +3,7 @@ import { Box, Text, useColorModeValue, Flex, Tag, HStack, SkeletonText, Skeleton
 import { useQuery, gql } from "@apollo/client"
 import BulletItem from './BulletItem';
 import DisplayLimiter from './DisplayLimiter';
-import RichText from './RichText';
+import RichText from './Blog/RichText';
 
 const CustomSkeleton = () => {
     return (

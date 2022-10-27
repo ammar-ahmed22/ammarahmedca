@@ -41,7 +41,7 @@ const BlogContent = ({ pageId, infoLoaded }) => {
             <>
                 {
                     data.BlogContent.map((block, idx) => {
-                        return <BlogBlock type={block.type} content={block.content} idx={idx}/>
+                        return <BlogBlock type={block.type} content={block.content} idx={idx} key={idx} />
                     })
                 }
 

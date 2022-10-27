@@ -26,7 +26,8 @@ _dotenv["default"].config({
 var _process$env = process.env,
     NOTION_INTEGRATION_KEY = _process$env.NOTION_INTEGRATION_KEY,
     NOTION_BLOG_DB_ID = _process$env.NOTION_BLOG_DB_ID,
-    NOTION_EXP_DB_ID = _process$env.NOTION_EXP_DB_ID; // Custom Notion API wrapper
+    NOTION_EXP_DB_ID = _process$env.NOTION_EXP_DB_ID,
+    NOTION_SKILL_DB_ID = _process$env.NOTION_SKILL_DB_ID; // Custom Notion API wrapper
 
 var notionWrapper = new _Notion["default"](NOTION_INTEGRATION_KEY); // Methods to help with data parsing from Notion
 
@@ -131,18 +132,23 @@ var webQueries = {
   }(),
   BlogInfo: function () {
     var _BlogInfo = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee3(_, _ref) {
-      var id, blogPages, categories, posts;
+      var name, blogPages, categories, posts, hyphenate;
       return _regenerator["default"].wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
-              id = _ref.id;
+              name = _ref.name;
               _context3.next = 3;
               return notionWrapper.db.get({
                 dbId: NOTION_BLOG_DB_ID,
                 filter: {
-                  or: [{
+                  and: [{
                     property: "isBlog",
+                    checkbox: {
+                      equals: true
+                    }
+                  }, {
+                    property: "Publish",
                     checkbox: {
                       equals: true
                     }
@@ -166,19 +172,23 @@ var webQueries = {
             case 9:
               posts = _context3.sent;
 
-              if (!id) {
-                _context3.next = 12;
+              hyphenate = function hyphenate(string) {
+                return string.toLowerCase().split(" ").join("-");
+              };
+
+              if (!name) {
+                _context3.next = 13;
                 break;
               }
 
               return _context3.abrupt("return", [{
                 category: null,
                 posts: posts.filter(function (post) {
-                  return post.id === id;
+                  return hyphenate(post.name) === name;
                 })
               }]);
 
-            case 12:
+            case 13:
               return _context3.abrupt("return", categories.map(function (category) {
                 return {
                   category: category,
@@ -188,7 +198,7 @@ var webQueries = {
                 };
               }));
 
-            case 13:
+            case 14:
             case "end":
               return _context3.stop();
           }
@@ -317,6 +327,57 @@ var webQueries = {
     }
 
     return ExperienceInfo;
+  }(),
+  SkillData: function () {
+    var _SkillData = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee6(_, _ref3) {
+      var type, allSkills, res;
+      return _regenerator["default"].wrap(function _callee6$(_context6) {
+        while (1) {
+          switch (_context6.prev = _context6.next) {
+            case 0:
+              type = _ref3.type;
+              _context6.next = 3;
+              return notionWrapper.db.get({
+                dbId: NOTION_SKILL_DB_ID
+              });
+
+            case 3:
+              allSkills = _context6.sent;
+              res = allSkills.map(function (page) {
+                var _page$properties2 = page.properties,
+                    Type = _page$properties2.Type,
+                    Name = _page$properties2.Name,
+                    Competency = _page$properties2.Competency;
+                var name = helper.readPropertyContent(Name);
+                var type = helper.readPropertyContent(Type);
+                var value = helper.readPropertyContent(Competency);
+                return {
+                  name: name,
+                  type: type,
+                  value: value
+                };
+              }).filter(function (item) {
+                if (type) {
+                  return item.type === type;
+                } else {
+                  return true;
+                }
+              });
+              return _context6.abrupt("return", res);
+
+            case 6:
+            case "end":
+              return _context6.stop();
+          }
+        }
+      }, _callee6);
+    }));
+
+    function SkillData(_x5, _x6) {
+      return _SkillData.apply(this, arguments);
+    }
+
+    return SkillData;
   }()
 };
 exports.webQueries = webQueries;

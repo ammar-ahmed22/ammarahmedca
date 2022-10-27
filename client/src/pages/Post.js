@@ -3,10 +3,10 @@ import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
 import BlogContent from '../components/Blog/BlogContent';
-import { Text, Box, useColorModeValue, Link, Button, IconButton } from "@chakra-ui/react"
-import { ChevronLeftIcon, ArrowBackIcon } from "@chakra-ui/icons"
-import { Link as ReactLink } from "react-router-dom"
-import { useParams, useLocation} from "react-router-dom"
+import { Text, Box, Button, SkeletonText } from "@chakra-ui/react"
+import { ArrowBackIcon } from "@chakra-ui/icons"
+
+import { useParams } from "react-router-dom"
 import { useQuery, gql } from "@apollo/client"
 import * as helper from "../utils/helpers"
 
@@ -14,21 +14,17 @@ const Post = ({ history }) => {
     
 
     const { postName } = useParams();
-    const { state } = useLocation();
 
     const handleBackClick = e => {
         e.preventDefault()
         history.push("/blog")
     }
 
-    
-
-    
-
     const GET_BLOG_INFO = gql`
-        query($id: String!){
-            BlogInfo(id: $id){
+        query($name: String!){
+            BlogInfo(name: $name){
                 posts{
+                    id
                     name
                     readTime
                     published
@@ -39,10 +35,10 @@ const Post = ({ history }) => {
 
     const styleProps = {
         title: {
-            fontSize: "7xl",
+            fontSize: "5xl",
             fontFamily: "heading",
             fontWeight: "bold",
-            color: useColorModeValue("primaryLight", "primaryDark"),
+            variant: "gradient",
             as: "h1"
         },
         info: {
@@ -53,28 +49,36 @@ const Post = ({ history }) => {
     }
 
     
-    const { data, loading, error } = useQuery(GET_BLOG_INFO, { variables: {id: state.id}});
+    const { data, loading, error } = useQuery(GET_BLOG_INFO, { variables: {name: decodeURIComponent(postName)}});
 
+    
     
 
     return (
         <>
             <NavBar active="blog"/>
             <PageContent>
-                
                 {
-                    !loading && data && data.BlogInfo[0].posts.map( item => {
-                        //console.log(item)
-                        return (
+                    loading && (
+                        <Box mt="5vh">
+                            <SkeletonText skeletonHeight={20} noOfLines={1} mb="4"/>
+                            <SkeletonText skeletonHeight={4} noOfLines={1} mb="12"/>
+                        </Box>
+                    )
+                }
+                {
+                    !loading && data && (
                         <Box my={5}>
                             <Button leftIcon={<ArrowBackIcon />} mt={4} variant="ghost" onClick={handleBackClick}>Back</Button>
-                            <Text {...styleProps.title}>{item.name}</Text>
-                            <Text {...styleProps.info}>{helper.displayTimeSince(item.published)} &bull; {item.readTime} min read</Text>
+                            <Text {...styleProps.title}>{data.BlogInfo[0].posts[0].name}</Text>
+                            <Text {...styleProps.info}>{helper.displayTimeSince(data.BlogInfo[0].posts[0].published)} &bull; {data.BlogInfo[0].posts[0].readTime} min read</Text>
 
-                        </Box>)
-                    })
+                        </Box>
+                    )
                 }
-                <BlogContent pageId={state.id} infoLoaded={!loading && data}/>
+                {
+                   !loading && data && <BlogContent pageId={data.BlogInfo[0].posts[0].id} infoLoaded={!loading && data}/>
+                }
                 
 
             </PageContent>

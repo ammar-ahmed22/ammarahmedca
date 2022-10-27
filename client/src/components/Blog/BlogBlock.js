@@ -1,11 +1,27 @@
 import React from 'react';
-import { Text, UnorderedList, OrderedList, ListItem, Box, Flex, Image, Spinner, useColorModeValue } from "@chakra-ui/react"
+import { 
+    Text, 
+    UnorderedList, 
+    OrderedList, 
+    ListItem, 
+    Box, 
+    Flex, 
+    Image, 
+    Spinner, 
+    useColorModeValue,
+    Modal,
+    ModalOverlay,
+    ModalContent,
+    useDisclosure 
+} from "@chakra-ui/react"
 import SyntaxHighlighter from "react-syntax-highlighter";
 import { atelierCaveDark, atelierCaveLight } from "react-syntax-highlighter/dist/esm/styles/hljs"
-import RichText from '../RichText';
+import RichText from './RichText';
 
 // Renders blog blocks from API
 const BlogBlock = ({ type, content, idx }) => {
+
+    const { isOpen, onClose, onOpen } = useDisclosure();
 
     const styleProps = {
         heading_1: {
@@ -30,12 +46,12 @@ const BlogBlock = ({ type, content, idx }) => {
             mb: 2
         },
         p: {
-            fontSize: "md",
+            fontSize: { base: "md", md: "lg" },
             mb: 4,
             as: "p"
         },
         list: {
-            fontSize: "md",
+            fontSize: "lg",
             mb: 4,
             pl: 2
         },
@@ -50,19 +66,15 @@ const BlogBlock = ({ type, content, idx }) => {
             borderRadius: "md",
             boxShadow: "lg",
             mb: 2,
+            _hover: {
+                cursor: "pointer"
+            },
             fallback: <Spinner thickness='4px' speed="0.65s" emptyColor='gray.200' color={useColorModeValue("primaryLight", "primaryDark")} size="xl" />
         },
         imageCaption:{
             fontSize: "sm",
-            color: "gray.500"
-        },
-        inlineCode: {
-            as: "kbd",
-            bg: useColorModeValue("gray.200", "gray.900"),
-            color: useColorModeValue("primaryDark", "gray.200"),
-            px: 1,
-            py: 0.5,
-            borderRadius: "md"
+            color: "gray.500",
+            textAlign: "center"
         },
         codeBlock: {
             bg: useColorModeValue("gray.200", "gray.900"),
@@ -75,52 +87,13 @@ const BlogBlock = ({ type, content, idx }) => {
 
     const codeBlockStyle = useColorModeValue(atelierCaveLight, atelierCaveDark)
 
-    const renderRichText = (textBlock, key) => {
-        const { bold, underline, strikethrough, code, color, italic } = textBlock.annotations;
-
-        let richTextStyles = {
-            fontWeight: "normal",
-            as: "span"
-        }
-
-        if (bold){
-            richTextStyles.fontWeight = "bold"
-        }
-
-        if (underline){
-            if (richTextStyles.decoration){
-                richTextStyles.decoration += " underline"
-            }else{
-                richTextStyles.decoration = "underline"
-            }
-        }
-
-        if (strikethrough){
-            if (richTextStyles.decoration){
-                richTextStyles.decoration += " line-through"
-            }else{
-                richTextStyles.decoration = "line-through"
-            }
-        }
-
-        if (italic){
-            richTextStyles.fontStyle = 'italic'
-        }
-        
-        if (code){
-            richTextStyles = styleProps.inlineCode
-        }
-
-        return <Text {...richTextStyles} key={key} >{textBlock.plain_text}</Text>
-    }
-
     if (type === "heading_1" || type === "heading_2" || type === "heading_3"){
         return <Text key={idx} {...styleProps[type]}>{content[0].plain_text}</Text>
     }else if (type === "paragraph"){
         return (
             <Text key={idx} {...styleProps.p}>
                 {
-                    content.map( (text, textIdx) => (<RichText idx={textIdx} {...text.annotations} >{text.plain_text}</RichText>))
+                    content.map( (text, textIdx) => (<RichText idx={textIdx} key={textIdx} {...text.annotations} >{text.plain_text}</RichText>))
                 }
             </Text>
         )
@@ -160,8 +133,19 @@ const BlogBlock = ({ type, content, idx }) => {
                 <Image
                     {...styleProps.image}
                     src={content[0].url}
+                    onClick={onOpen}
                 />
                 <Text {...styleProps.imageCaption}>{content[0].caption}</Text>
+                <Modal isOpen={isOpen} onClose={onClose} isCentered  >
+                    <ModalOverlay backdropFilter="blur(10px)" />
+                    <ModalContent maxW="75vw" bg="transparent" backdropFilter="blur(10px)" boxShadow="none" >
+                        <Image
+                            {...styleProps.image}
+                            src={content[0].url}
+                        />
+                        <Text {...styleProps.imageCaption}>{content[0].caption}</Text>
+                    </ModalContent>
+                </Modal>
             </Flex>
         )
     }else{

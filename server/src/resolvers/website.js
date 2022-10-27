@@ -62,7 +62,7 @@ const webQueries = {
         languages: [...new Set(result.languages)],
       };
     },
-    BlogInfo: async (_, { id }) => {
+    BlogInfo: async (_, { name }) => {
       const blogPages = await notionWrapper.db.get({
         dbId: NOTION_BLOG_DB_ID,
         filter: {
@@ -97,11 +97,15 @@ const webQueries = {
 
       const posts = await helper.parseBlogInfo(blogPages);
 
-      if (id){
+      const hyphenate = string => {
+        return string.toLowerCase().split(" ").join("-");
+      }
+
+      if (name){
         return [
           {
             category: null,
-            posts: posts.filter( post => post.id === id)
+            posts: posts.filter( post => hyphenate(post.name) === name)
           }
         ]
       }

@@ -1,8 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
 import App from './App';
-import { ChakraProvider, extendTheme, ColorModeScript } from "@chakra-ui/react"
+import { ChakraProvider, ColorModeScript, Box } from "@chakra-ui/react"
 import { library } from "@fortawesome/fontawesome-svg-core"
 import { fab } from "@fortawesome/free-brands-svg-icons"
 import { CookiesProvider } from "react-cookie"

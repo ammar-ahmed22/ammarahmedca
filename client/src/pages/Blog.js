@@ -3,7 +3,7 @@ import NavBar from '../components/NavBar';
 import PageContent from '../components/PageContent';
 import Footer from '../components/Footer';
 import Card from '../components/Card';
-import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGrid, HStack } from "@chakra-ui/react";
+import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGrid, HStack, VStack } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
 import * as helper from "../utils/helpers"
 
@@ -55,12 +55,13 @@ const Blog = ({ match }) => {
         },
         titleSpan: {
             as: "span",
-            color: useColorModeValue("primaryLight", "primaryDark")
+            variant: "gradient"
         },
         category: {
             as: "h3",
             fontSize: "3xl",
-            fontFamily: "heading"
+            fontFamily: "heading",
+            // variant: "gradient"
         },
         info: {
             fontSize: "lg"
@@ -102,18 +103,18 @@ const Blog = ({ match }) => {
             <PageContent>
                 <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
                 <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
-                <HStack  spacing={{ base: 0, md: 5 }} align="baseline" display={{base: "block", md: "flex"}}>                
+                <VStack  spacing={{ base: 0, md: 5 }} align="baseline" >                
                 {
                     data && sortBySize(data.BlogInfo).map( (categoryPosts, catIdx) => {
                         const { category, posts } = categoryPosts;
                         return (
-                            <Box  key={catIdx} width={{ base: "100%", md: "50%"}} >
+                            <Box  key={catIdx} width={"100%"} >
                                 <Text {...styleProps.category} >{category}</Text>
                                 {
                                     sortByDate(posts).map( (post, postIdx) => {
                                         const { name, id, readTime, description, published } = post;
                                         return (
-                                            <Card isLink to={{pathname: `/blog/${hyphenate(name)}`, state: { id }}} key={postIdx} >
+                                            <Card isLink to={{pathname: `/blog/${encodeURIComponent(hyphenate(name))}`, state: { id }}} key={postIdx} >
                                                 <Text {...styleProps.postTitle} >{name}</Text>
                                                 <Text {...styleProps.postInfo} >{helper.displayTimeSince(published)} &bull; {readTime} min read</Text>
                                                 <Text {...styleProps.postDescription} >{description}</Text>
@@ -121,13 +122,12 @@ const Blog = ({ match }) => {
                                         )
                                     })
                                 }
-                                
-
+                                <Divider mt="10" />
                             </Box>
                         )
                     })
                 }
-                </HStack>
+                </VStack>
                 {
                     loading && <CustomSkeleton />
                 }

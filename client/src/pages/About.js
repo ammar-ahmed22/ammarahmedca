@@ -25,7 +25,7 @@ const About = () => {
         imageCaption: {
             fontSize: "sm",
             textAlign: "center",
-            color: "gray.600",
+            color: "gray.500",
             mb: 2
         }
     }
@@ -35,7 +35,7 @@ const About = () => {
             <NavBar active="about" />
             <PageContent>
                 <Box>
-                    <Text {...styleProps.title} ><Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Who</Text> Am I?</Text>
+                    <Text {...styleProps.title} ><Text as="span" variant="gradient" >Who</Text> Am I?</Text>
                     <Text {...styleProps.body}>I'm a second year student at the University of Waterloo studying Nanotechnology Engineering. 
                         As most others who hear about this field of engineering, you're probably very confused. Nanotechnology engineering is engineering from the bottom-up rather than the traditional top-down approach. 
                         We engineer devices and systems at the nano-scale such as computer processors, medical robotics, drug delivery systems etc.  
@@ -53,13 +53,13 @@ const About = () => {
                         software and nanotechnology intersect. 
                     </Text>
 
-                    <Text {...styleProps.title}>How Do I <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Spend My Time</Text>?</Text>
+                    <Text {...styleProps.title}>How Do I <Text as="span" variant="gradient" >Spend My Time</Text>?</Text>
                     <Text {...styleProps.body}>
                         While it may sound extremely nerdy, what I love to do most in my free-time is code. As I've never been very talented in traditional forms of art, coding is my way of expressing myself. Whether 
                         that be through creating websites to help me with productivity or creating algorithm simulations, code helps me express my creativity of creating things with logic and mathematics. 
                     </Text>
                     <Text {...styleProps.body}>
-                        When I'm not coding you can find me watching Netflix. I tend to enjoy shows that have a good, thrilling storyline such as Breaking Bad, The Ozarks and Narcos. 
+                        When I'm not coding you can find me watching Netflix. I tend to enjoy shows that have a good, thrilling storyline such as Breaking Bad, Ozark and Narcos. 
                         I also enjoy reality-style comedy shows like The Office, Parks and Recreation and Brooklyn Nine Nine. Aside from movies and TV shows, the rest of my time goes to 
                         spending time with my lovely wife, whom I married at the young age of 20 years old. We like to explore new halal restaurants around the GTA or watch movies together. 
                     </Text>

@@ -33,6 +33,14 @@ const colors = {
     },
   },
 }
+
+const styles = {
+  global: {
+    'html, body': {
+      cursor: "auto"
+    },
+  },
+}
   
 const config = {
   initialColorMode: "system",
@@ -65,7 +73,7 @@ const components = {
   }
 }
   
-const theme = extendTheme({ fonts, config, colors, shadows, components })
+const theme = extendTheme({ fonts, config, colors, shadows, components, styles })
 
 
 export default theme

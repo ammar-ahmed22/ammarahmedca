@@ -12,8 +12,9 @@ const RichText = ({ idx, bold, italic, code, color, strikethrough, underline, ch
 
     const inlineCode = {
         as: "kbd",
-        bg: useColorModeValue("gray.200", "gray.900"),
-        color: useColorModeValue("primaryDark", "gray.200"),
+        // bg: useColorModeValue("gray.200", "gray.900"),
+        bg: useColorModeValue("gray.200", "brand.purple.700"),
+        color: useColorModeValue("brand.purple.700", "gray.200"),
         px: 1,
         py: 0.5,
         borderRadius: "md"

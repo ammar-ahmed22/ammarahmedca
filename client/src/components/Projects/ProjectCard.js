@@ -13,17 +13,25 @@ const ProjectCard = ({ project, id, loading }) => {
             h: "100%",
             bg: useColorModeValue("white", 'gray.800'),
             p: 4,
-        },
-        afterBox: {
-            position: "absolute",
-            h: "100%",
-            w: "100%",
-            left: ".25rem",
-            top: ".25rem",
-            zIndex: -1,
-            bg: useColorModeValue("gray.800", "white"),
-            content: "' '",
-            display: "block"
+            // transition: "transform .35s ease-out",
+            // _hover: {
+            //     _after: {
+            //         opacity: 0
+            //     },
+            //     transform: "scale(1.05)",
+            //     boxShadow: "dark-lg"
+            // },
+            _after: {
+                position: "absolute",
+                h: "100%",
+                w: "100%",
+                left: ".5rem",
+                top: ".5rem",
+                zIndex: -10,
+                bgGradient: "linear(to-tr, brand.blue.500, brand.purple.500)",
+                content: "' '",
+                opacity: 1,
+            }
         },
         tag: {
             size: "sm",
@@ -42,7 +50,7 @@ const ProjectCard = ({ project, id, loading }) => {
     
     return (
         <Skeleton isLoaded={!loading} >
-            <Box {...styleProps.mainBox} _after={{...styleProps.afterBox}} key={id} >
+            <Box sx={styleProps.mainBox} key={id} >
                 <Flex justify="space-between" align="baseline">
                     <Text fontSize="2xl" fontFamily="heading">{project.name}</Text>
                     <Flex>
