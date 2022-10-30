@@ -227,7 +227,8 @@ var webQueries = {
 
             case 3:
               allBlocks = _context4.sent;
-              // Reads block content into correct GraphQL type, filters out non-read types
+              console.log(allBlocks.length); // Reads block content into correct GraphQL type, filters out non-read types
+
               parsedBlocks = allBlocks.map(function (block) {
                 return helper.readBlockContent(block);
               }).filter(function (block) {
@@ -241,7 +242,7 @@ var webQueries = {
                 return block.content.length > 0;
               }));
 
-            case 8:
+            case 9:
             case "end":
               return _context4.stop();
           }

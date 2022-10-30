@@ -119,6 +119,8 @@ const webQueries = {
     },
     BlogContent: async (_, { id }) => {
       const allBlocks = await notionWrapper.blocks.get({ blockId: id });
+
+      console.log(allBlocks.length);
       
       // Reads block content into correct GraphQL type, filters out non-read types
       let parsedBlocks = allBlocks
