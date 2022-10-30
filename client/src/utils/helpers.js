@@ -1,5 +1,5 @@
 export const displayTimeSince = (prev) => {
-    console.log(prev)
+
     const nowDate = new Date();
     const prevDate = Date.parse(prev)
 
@@ -22,7 +22,6 @@ export const displayTimeSince = (prev) => {
         delta -= result[key] * s[key]
     })
 
-    console.log(result)
     
     const pluralize = val => {
         return val === 1 ? "" : "s";

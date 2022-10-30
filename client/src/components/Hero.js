@@ -1,11 +1,13 @@
-import React from 'react';
-import {  Text, Box, useColorModeValue, Link,} from '@chakra-ui/react';
+import React, { useState, useEffect } from 'react';
+import {  Text, Box, useColorModeValue, Link, keyframes } from '@chakra-ui/react';
 import Signature from './Signature';
 import ScrollIndicator from './ScrollIndicator';
 import "../assets/css/ScrollIndicator.css"
 
 const Hero = () => {
+       
     
+
     const styleProps = {
         mainText: {
             fontSize: {base: "6xl", lg: "8xl"},
@@ -13,6 +15,8 @@ const Hero = () => {
             textAlign: "right",
             lineHeight: "none",
             fontFamily: "heading",
+            position: "relative",
+            mb: 1,
         },
         subText: {
             as: "h4",
@@ -22,7 +26,17 @@ const Hero = () => {
         subTextLink: {
             fontWeight: "bold",
             isExternal: true,
-            color: useColorModeValue("primaryLight", "primaryDark")
+            variant: "gradient",
+            isExternal: true,
+            _hover: {
+                borderColor: "brand.purple.500",
+                borderBottomWidth: "1px",
+                borderBottomStyle: "solid"
+            }
+        },
+        typeText: {
+            variant: "gradient",
+            as: "span",
         },
     }
 
@@ -31,9 +45,9 @@ const Hero = () => {
     return (
         <Box minH="90vh" position="relative" >
             <Box marginTop={"10vh"} zIndex={10} >
-                <Text {...styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text color={useColorModeValue("primaryLight", "primaryDark")} as="span">Ammar</Text></Text>
-                <Text {...styleProps.subText}>Engineering student <Text as="span" fontWeight="bold">@</Text> <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
-                <Text {...styleProps.subText}>Frontend Developer <Text as="span" fontWeight="bold">@</Text> <Link href="https://docs.aiarena.io/" {...styleProps.subTextLink}>AI Arena</Link></Text>
+                <Text sx={styleProps.mainText} as="h1">Hello <Text as="span" fontSize={{ base: "5xl", lg: "7xl"}}>👋🏽</Text><br />I'm <Text {...styleProps.typeText}>Ammar</Text></Text>
+                <Text sx={styleProps.subText} >Engineering student <Text as="span" fontWeight="bold">@</Text> <Link href="https://uwaterloo.ca/" {...styleProps.subTextLink}>University of Waterloo</Link></Text>
+                <Text sx={styleProps.subText} >Frontend Developer <Text as="span" fontWeight="bold">@</Text> <Link href="https://docs.aiarena.io/" {...styleProps.subTextLink}>AI Arena</Link></Text>
             </Box>
             <Signature color={useColorModeValue("black", "white")} />
             

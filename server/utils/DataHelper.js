@@ -62,6 +62,7 @@ var DataHelper = /*#__PURE__*/(0, _createClass2["default"])(function DataHelper(
           return value.start;
         }
 
+      case "number":
       case "checkbox":
         return value;
 

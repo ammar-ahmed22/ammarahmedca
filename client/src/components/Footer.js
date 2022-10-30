@@ -6,13 +6,17 @@ const Footer = () => {
 
     const styleProps = {
         main: {
-            borderBottom: "solid 2vh",
-            borderBottomColor: useColorModeValue("primaryLight", "primaryDark"),
             borderTop: "solid 1px",
             borderTopColor: useColorModeValue("gray.300", "gray.700"),
             w: "100%",
             mt: 5,
-            justify: "center"
+            align: "center",
+            direction: "column"
+        },
+        bottomBar: {
+            w: "100%",
+            h: "2vh",
+            bgGradient: "linear(to-r, brand.purple.500, brand.blue.500)"
         },
         contentBox: {
             w: "container.md",
@@ -56,6 +60,7 @@ const Footer = () => {
                 <Text {...styleProps.crText} mt="2" >Built and Designed by Ammar Ahmed</Text>
                 <Text {...styleProps.crText} >All Rights Reserved &copy;</Text>
             </Box>
+            <Box {...styleProps.bottomBar} />
         </Flex>
     );
 }

@@ -11,7 +11,8 @@ const ScrollIndicator = ({ scrollToId }) => {
             width: "15px",
             bg: "transparent",
             border: "2px solid",
-            borderColor: useColorModeValue("primaryLight", "primaryDark"),
+            // borderColor: useColorModeValue("primaryLight", "primaryDark"),
+            borderColor: "brand.purple.500",
             borderRadius: "full",
             position: "relative",
             _hover: {
@@ -35,7 +36,8 @@ const ScrollIndicator = ({ scrollToId }) => {
             top: "1px", 
             left: "50%", 
             transform: "translate(-50%, 0)", 
-            bg: useColorModeValue("primaryLight", "primaryDark"), 
+            //bg: useColorModeValue("primaryLight", "primaryDark"), 
+            bg: "brand.purple.500",
             height: "5px", 
             width: "5px", 
             borderRadius: "full"
@@ -80,7 +82,7 @@ const ScrollIndicator = ({ scrollToId }) => {
             }
 
             console.log(colorMode)
-            scrollIndEllipse.current.style.background = primary[colorMode];
+            scrollIndEllipse.current.style.background = "var(--ammar-colors-brand-purple-500)";
             scrollIndCircle.current.style.background = bg[colorMode];
         }
     }
@@ -96,7 +98,7 @@ const ScrollIndicator = ({ scrollToId }) => {
 
             console.log(colorMode)
             scrollIndEllipse.current.style.background = "transparent";
-            scrollIndCircle.current.style.background = primary[colorMode];
+            scrollIndCircle.current.style.background = "var(--ammar-colors-brand-purple-500)";
         }
     }
 
@@ -117,7 +119,7 @@ const ScrollIndicator = ({ scrollToId }) => {
             <Box {...styleProps.scrollIndEllipse} onMouseOver={handleScrollIndOver} onMouseOut={handleScrollIndOut} onClick={handleClick} ref={scrollIndEllipse}>
                 <Box {...styleProps.scrollIndCircle} ref={scrollIndCircle} ></Box>
             </Box>
-            <Text fontSize="xs" color={useColorModeValue("primaryLight", "primaryDark")}>Scroll</Text>
+            <Text fontSize="xs" color="brand.purple.500">Scroll</Text>
         </Flex>
     );
 }

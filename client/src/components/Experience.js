@@ -3,7 +3,7 @@ import { Box, Text, useColorModeValue, Flex, Tag, HStack, SkeletonText, Skeleton
 import { useQuery, gql } from "@apollo/client"
 import BulletItem from './BulletItem';
 import DisplayLimiter from './DisplayLimiter';
-import RichText from './RichText';
+import RichText from './Blog/RichText';
 
 const CustomSkeleton = () => {
     return (
@@ -65,7 +65,9 @@ const Experience = () => {
         },
         role: {
             fontSize: { base: "lg", lg: "xl"},
-            color: useColorModeValue("primaryLight", "primaryDark")
+            fontWeight: "bold",
+            // color: useColorModeValue("primaryLight", "primaryDark")
+            variant: "gradient"
         },
         timeframe: {
             color: "gray.500",
@@ -77,7 +79,7 @@ const Experience = () => {
     }
     return (
         <Box {...styleProps.mainBox} id="experience">
-            <Text {...styleProps.title} >My <Text as="span" color={useColorModeValue("primaryLight", "primaryDark")}>Experiences</Text></Text>
+            <Text {...styleProps.title} >My <Text as="span" variant="gradient" >Experiences</Text></Text>
             <Box>
                 {
                     data && data.ExperienceInfo.slice(0, experiencesToDisplay).map( (exp, idx) => {
@@ -98,7 +100,7 @@ const Experience = () => {
                                     <HStack my={2} wrap="wrap" >
                                         {
                                             skills.map( (skill, skillIdx) => {
-                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="red" my={2} key={skillIdx} >{skill}</Tag>
+                                                return <Tag size="sm" fontWeight="bold" textTransform="uppercase" colorScheme="brand.purple" my={2} key={skillIdx} >{skill}</Tag>
                                             })
                                         }
                                     </HStack>

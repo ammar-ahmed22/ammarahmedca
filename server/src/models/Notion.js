@@ -38,8 +38,21 @@ class Notion{
     }
 
     blocksGet = async (blockId) => {
-        const response = await this.notion.blocks.children.list({ block_id: blockId })
-        return response.results
+        let res = [];
+        let response = await this.notion.blocks.children.list({ block_id: blockId })
+        
+        res = res.concat(response.results);
+
+        while(response.has_more){
+            response = await this.notion.blocks.children.list({
+                block_id: blockId,
+                start_cursor: response.next_cursor
+            });
+            res = res.concat(response.results);
+        }
+        
+
+        return res
     }
     
 }
