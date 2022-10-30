@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { Text, Box, SimpleGrid, useColorModeValue, HStack, Button, Skeleton, SkeletonText } from "@chakra-ui/react"
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"
+import { BlogInfo, ProjectInfo } from '../../../graphql/types';
+import { Text, Box, SimpleGrid, HStack, Skeleton, SkeletonText } from "@chakra-ui/react"
 import ProjectCard from './ProjectCard';
 import Search from './Search';
 import Filter from './Filter';
 import DisplayLimiter from '../../../components/DisplayLimiter';
+import { styles } from './index.styles';
 
 
-const CustomSkeleton = () => {
+const CustomSkeleton : React.FC = () => {
     return (
         <>
         <SkeletonText mb={2} skeletonHeight={10} noOfLines={1} />
@@ -44,31 +45,12 @@ const PROJECT_INFO = gql`
     }
 `
 
-const Projects = () => {
+const Projects : React.FC = () => {
 
-    const styleProps = {
-        mainBox: {
-            minH: "100vh"
-        },
-        title: {
-            fontSize: { base: "5xl", lg: "6xl"},
-            fontFamily: "heading",
-            as: "h3",
-        },
-        showMoreLessBtn: {
-            variant: "ghost",
-            display: "flex",
-            flexDirection: "column",
-            _hover: {
-                color: "primaryLight"
-            }
-        }
-    }
+    const [projects, setProjects] = useState<BlogInfo[]>([]);
+    const [projectsToDisplay, setProjectsToDisplay] = useState<number>(4);
 
-    const [projects, setProjects] = useState([]);
-    const [projectsToDisplay, setProjectsToDisplay] = useState(4);
-
-    const { data, loading, error } = useQuery(PROJECT_INFO);
+    const { data, loading, error } = useQuery<ProjectInfo>(PROJECT_INFO);
     
 
     
@@ -83,8 +65,8 @@ const Projects = () => {
     
     
     return (
-        <Box {...styleProps.mainBox} id="projects">
-            <Text {...styleProps.title}>My <Text variant='gradient' as="span">Works</Text></Text>
+        <Box {...styles.mainBox} id="projects">
+            <Text {...styles.title} >My <Text variant='gradient' as="span">Works</Text></Text>
             <HStack mb={4} spacing={2} >
                {data &&  <Search projects={data.ProjectInfo} setProjects={setProjects} /> }
                {data && <Filter projects={data.ProjectInfo} setProjects={setProjects} /> }

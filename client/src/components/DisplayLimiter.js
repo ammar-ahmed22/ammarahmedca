@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, Text } from "@chakra-ui/react"
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 
-const DisplayLimiter = ({ numDisplaying, setNumDisplaying, initial, total, incrementBy, scrollToId=false}) => {
+const DisplayLimiter = ({ numDisplaying, setNumDisplaying, initial, total, incrementBy, scrollToId=""}) => {
 
     const handleShowMore = e => {
         if (numDisplaying + incrementBy < total){
@@ -37,7 +37,7 @@ const DisplayLimiter = ({ numDisplaying, setNumDisplaying, initial, total, incre
         return (
             <Button {...styleProps.main} onClick={handleShowMore}><Text>Show more</Text><ChevronDownIcon /></Button>
         );
-    }else if (numDisplaying === total){
+    }else{
         return (
             <Button {...styleProps.main} onClick={handleShowLess}><Text>Show less</Text><ChevronUpIcon /></Button>
         )
