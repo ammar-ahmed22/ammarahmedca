@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, Text, useColorModeValue, Flex, Tag, HStack, SkeletonText, SkeletonCircle, Skeleton } from "@chakra-ui/react"
 import { useQuery, gql } from "@apollo/client"
 import BulletItem from './BulletItem';
-import DisplayLimiter from './DisplayLimiter';
-import RichText from './Blog/RichText';
+import DisplayLimiter from '../../../components/DisplayLimiter';
+import RichText from '../../Post/RichText';
 
 const CustomSkeleton = () => {
     return (

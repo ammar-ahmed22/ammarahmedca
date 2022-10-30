@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { InputGroup, Input, InputLeftElement, useColorModeValue } from "@chakra-ui/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 const Search = ({ projects, setProjects }) => {
 
@@ -55,7 +56,7 @@ const Search = ({ projects, setProjects }) => {
 
     return (
         <InputGroup>
-            <InputLeftElement pointerEvents="none" children={<FontAwesomeIcon icon="search" />} color="gray.300"/>
+            <InputLeftElement pointerEvents="none" children={<FontAwesomeIcon icon={faSearch} />} color="gray.300"/>
             <Input type="text" placeholder="Search by name, type, language or framework" focusBorderColor={useColorModeValue("primaryLight", "primaryDark")} onChange={e => setQuery(e.target.value)}/>
         </InputGroup>
     );

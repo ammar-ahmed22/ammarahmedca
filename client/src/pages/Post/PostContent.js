@@ -1,10 +1,10 @@
 import React from 'react';
 import {useQuery, gql} from "@apollo/client"
 import { Box, SkeletonText } from "@chakra-ui/react"
-import BlogBlock from './BlogBlock';
+import BlogBlock from './PostBlock';
 
 // Pulls blocks for a blog post and renders the blog content
-const BlogContent = ({ pageId, infoLoaded }) => {
+const PostContent = ({ pageId, infoLoaded }) => {
 
     const GET_BLOG_POST_CONTENT = gql`
         query($id: String!){
@@ -65,4 +65,4 @@ const BlogContent = ({ pageId, infoLoaded }) => {
 
 }
 
-export default BlogContent;
+export default PostContent;

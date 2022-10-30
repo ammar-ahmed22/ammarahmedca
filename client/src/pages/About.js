@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
-import Footer from '../components/Footer';
-import PageContent from '../components/PageContent';
+import NavBar from '../components/Page/NavBar';
+import Footer from '../components/Page/Footer';
+import PageContent from '../components/Page/PageContent';
 import { Text, Box, Image, useColorModeValue, Flex } from "@chakra-ui/react";
 import Wedding from "../assets/images/Wedding.jpg";
 
@@ -31,9 +31,8 @@ const About = () => {
     }
 
     return (
-        <>
-            <NavBar active="about" />
-            <PageContent>
+
+           
                 <Box>
                     <Text {...styleProps.title} ><Text as="span" variant="gradient" >Who</Text> Am I?</Text>
                     <Text {...styleProps.body}>I'm a second year student at the University of Waterloo studying Nanotechnology Engineering. 
@@ -72,9 +71,8 @@ const About = () => {
                     </Flex>
                     
                 </Box>
-            </PageContent>
-            <Footer />
-        </>
+
+
     );
 }
 

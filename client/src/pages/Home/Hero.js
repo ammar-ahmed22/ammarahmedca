@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import {  Text, Box, useColorModeValue, Link, keyframes } from '@chakra-ui/react';
-import Signature from './Signature';
-import ScrollIndicator from './ScrollIndicator';
-import "../assets/css/ScrollIndicator.css"
+import Signature from '../../components/Signature';
+import ScrollIndicator from '../../components/ScrollIndicator';
+
 
 const Hero = () => {
        

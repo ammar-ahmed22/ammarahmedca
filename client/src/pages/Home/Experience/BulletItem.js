@@ -1,6 +1,7 @@
 import React from 'react';
 import { Flex, Text, Box, useColorModeValue } from "@chakra-ui/react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircle } from '@fortawesome/free-solid-svg-icons';
 
 const BulletItem = ({ children,  listLength, idx }) => {
 
@@ -31,7 +32,7 @@ const BulletItem = ({ children,  listLength, idx }) => {
                 idx !== listLength - 1 && <Box {...styleProps.line} />
             }
             <Text {...styleProps.bullet} >
-                <FontAwesomeIcon icon="circle"/>
+                <FontAwesomeIcon icon={faCircle} />
             </Text>
             <Box ml={3} minW={0}>
                 {

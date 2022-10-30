@@ -1,23 +1,25 @@
 import React from 'react';
-import NavBar from '../components/NavBar';
-import PageContent from '../components/PageContent';
-import Footer from '../components/Footer';
-import BlogContent from '../components/Blog/BlogContent';
+import NavBar from '../../components/Page/NavBar';
+import PageContent from '../../components/Page/PageContent';
+import Footer from '../../components/Page/Footer';
+import PostContent from './PostContent';
 import { Text, Box, Button, SkeletonText } from "@chakra-ui/react"
 import { ArrowBackIcon } from "@chakra-ui/icons"
 
-import { useParams } from "react-router-dom"
+import { useParams, useNavigate, useLoaderData } from "react-router-dom"
 import { useQuery, gql } from "@apollo/client"
-import * as helper from "../utils/helpers"
+import * as helper from "../../utils/helpers"
 
-const Post = ({ history }) => {
+const Post = () => {
     
 
-    const { postName } = useParams();
+    // const { postName } = useParams();
+    const postName = useLoaderData();
+    const navigate = useNavigate();
 
     const handleBackClick = e => {
         e.preventDefault()
-        history.push("/blog")
+        navigate("/blog")
     }
 
     const GET_BLOG_INFO = gql`
@@ -56,8 +58,8 @@ const Post = ({ history }) => {
 
     return (
         <>
-            <NavBar active="blog"/>
-            <PageContent>
+            {/* <NavBar active="blog"/>
+            <PageContent> */}
                 {
                     loading && (
                         <Box mt="5vh">
@@ -77,12 +79,12 @@ const Post = ({ history }) => {
                     )
                 }
                 {
-                   !loading && data && <BlogContent pageId={data.BlogInfo[0].posts[0].id} infoLoaded={!loading && data}/>
+                   !loading && data && <PostContent pageId={data.BlogInfo[0].posts[0].id} infoLoaded={!loading && data}/>
                 }
                 
 
-            </PageContent>
-            <Footer />
+            {/* </PageContent>
+            <Footer /> */}
         </>
     );
 }

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import NavBar from '../components/NavBar';
-import PageContent from '../components/PageContent';
-import Footer from '../components/Footer';
+import NavBar from '../components/Page/NavBar';
+import PageContent from '../components/Page/PageContent';
+import Footer from '../components/Page/Footer';
 import Card from '../components/Card';
 import { Text, Skeleton, SkeletonText, Box, useColorModeValue, Divider, SimpleGrid, HStack, VStack } from "@chakra-ui/react";
 import { useQuery, gql } from "@apollo/client";
@@ -24,8 +24,8 @@ const CustomSkeleton = () => {
     )
 }
 
-const Blog = ({ match }) => {
-    console.log("page", match)
+const Blog = () => {
+    
 
     const GET_BLOG_INFO = gql`
         query {
@@ -99,8 +99,8 @@ const Blog = ({ match }) => {
 
     return (
         <>
-            <NavBar active="blog"/>
-            <PageContent>
+            {/* <NavBar active="blog"/>
+            <PageContent> */}
                 <Text {...styleProps.title} >My <Text {...styleProps.titleSpan} >Journal</Text></Text>
                 <Text {...styleProps.info} >Sometimes I like to write about things I've worked on, my experiences or anything else of interest to me. Check it out!</Text>
                 <VStack  spacing={{ base: 0, md: 5 }} align="baseline" >                
@@ -131,8 +131,8 @@ const Blog = ({ match }) => {
                 {
                     loading && <CustomSkeleton />
                 }
-            </PageContent>
-            <Footer />
+            {/* </PageContent>
+            <Footer /> */}
         </>
     );
 }

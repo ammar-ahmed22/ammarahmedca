@@ -2,6 +2,8 @@ import React from "react";
 import { useColorModeValue, Skeleton, Box, Flex, Tag, Text, Link, } from "@chakra-ui/react"
 import { Link as ReactLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGithub } from "@fortawesome/free-brands-svg-icons";
+import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 
 
 const ProjectCard = ({ project, id, loading }) => {
@@ -54,8 +56,8 @@ const ProjectCard = ({ project, id, loading }) => {
                 <Flex justify="space-between" align="baseline">
                     <Text fontSize="2xl" fontFamily="heading">{project.name}</Text>
                     <Flex>
-                        { project.github && <Link href={project.github} mr={1} isExternal ><FontAwesomeIcon icon={['fab', 'github']}/></Link>}
-                        { project.external && <Link href={project.external} isExternal ><FontAwesomeIcon icon="external-link-alt"/></Link>}
+                        { project.github && <Link href={project.github} mr={1} isExternal ><FontAwesomeIcon icon={faGithub}/></Link>}
+                        { project.external && <Link href={project.external} isExternal ><FontAwesomeIcon icon={faExternalLinkAlt} /></Link>}
                     </Flex>
                 </Flex>
                 {

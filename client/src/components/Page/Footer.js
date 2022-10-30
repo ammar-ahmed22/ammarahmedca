@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, useColorModeValue, Text, Flex, Link } from "@chakra-ui/react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { faGithub, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
 const Footer = () => {
 
@@ -48,13 +50,13 @@ const Footer = () => {
                 <Text {...styleProps.text} >Get in touch with me and follow my journey!</Text>
                 <Flex justify="center">
                     <Link {...styleProps.iconLink} href="https://github.com/ammar-ahmed22" isExternal>
-                        <FontAwesomeIcon icon={["fab", "github"]}/>
+                        <FontAwesomeIcon icon={faGithub}/>
                     </Link>
                     <Link {...styleProps.iconLink} href="https://www.linkedin.com/in/ammarahmed03/" isExternal>
-                        <FontAwesomeIcon icon={["fab", "linkedin"]}/>
+                        <FontAwesomeIcon icon={faLinkedin}/>
                     </Link>
                     <Link {...styleProps.iconLink} href="mailto:ammar.ahmed1@uwaterloo.ca" isExternal>
-                        <FontAwesomeIcon icon={"envelope"}/>
+                        <FontAwesomeIcon icon={faEnvelope}/>
                     </Link>
                 </Flex>
                 <Text {...styleProps.crText} mt="2" >Built and Designed by Ammar Ahmed</Text>

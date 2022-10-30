@@ -13,7 +13,8 @@ import {
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Link as ReactLink } from "react-router-dom"
-import Logo from "./Logo";
+import Logo from "../Logo";
+import { faHome, faPen, faUser } from "@fortawesome/free-solid-svg-icons";
 
 
 const LogoIcon = (props) => {
@@ -97,9 +98,9 @@ const NavBar = ({ active }) => {
       <Spacer />
       <Flex align="center">
 
-        <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/"><FontAwesomeIcon icon="home"/><Text>Home</Text></Link>
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon="user"/><Text>About Me</Text></Link>
-        <Link {...styleProps.navButton} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon="pen"/><Text>Blog</Text></Link>
+        <Link {...styleProps.navButton} color={ active === "home" ? primary : regular} as={ReactLink} to="/"><FontAwesomeIcon icon={faHome}/><Text>Home</Text></Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon={faUser}/><Text>About Me</Text></Link>
+        <Link {...styleProps.navButton} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon={faPen}/><Text>Blog</Text></Link>
 
         {/* <Link {...styleProps.navButton} as={ReactLink} color={ active === "chess" ? primary : regular} to="/chess" ><FontAwesomeIcon icon="chess-pawn"/><Text>Chess</Text></Link>  */}
 

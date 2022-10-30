@@ -5,7 +5,7 @@ import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons"
 import ProjectCard from './ProjectCard';
 import Search from './Search';
 import Filter from './Filter';
-import DisplayLimiter from '../DisplayLimiter';
+import DisplayLimiter from '../../../components/DisplayLimiter';
 
 
 const CustomSkeleton = () => {

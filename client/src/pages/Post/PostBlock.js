@@ -19,7 +19,7 @@ import { atelierCaveDark, atelierCaveLight } from "react-syntax-highlighter/dist
 import RichText from './RichText';
 
 // Renders blog blocks from API
-const BlogBlock = ({ type, content, idx }) => {
+const PostBlock = ({ type, content, idx }) => {
 
     const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -154,4 +154,4 @@ const BlogBlock = ({ type, content, idx }) => {
     
 }
 
-export default BlogBlock;
+export default PostBlock;
