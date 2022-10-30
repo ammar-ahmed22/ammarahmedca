@@ -79,21 +79,43 @@ var Notion = /*#__PURE__*/(0, _createClass2["default"])(function Notion(integrat
   }());
   (0, _defineProperty2["default"])(this, "blocksGet", /*#__PURE__*/function () {
     var _ref2 = (0, _asyncToGenerator2["default"])( /*#__PURE__*/_regenerator["default"].mark(function _callee2(blockId) {
-      var response;
+      var res, response;
       return _regenerator["default"].wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              _context2.next = 2;
+              res = [];
+              _context2.next = 3;
               return _this.notion.blocks.children.list({
                 block_id: blockId
               });
 
-            case 2:
+            case 3:
               response = _context2.sent;
-              return _context2.abrupt("return", response.results);
+              res = res.concat(response.results);
 
-            case 4:
+            case 5:
+              if (!response.has_more) {
+                _context2.next = 12;
+                break;
+              }
+
+              _context2.next = 8;
+              return _this.notion.blocks.children.list({
+                block_id: blockId,
+                start_cursor: response.next_cursor
+              });
+
+            case 8:
+              response = _context2.sent;
+              res = res.concat(response.results);
+              _context2.next = 5;
+              break;
+
+            case 12:
+              return _context2.abrupt("return", res);
+
+            case 13:
             case "end":
               return _context2.stop();
           }

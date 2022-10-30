@@ -16,7 +16,7 @@ const BulletItem = ({ children,  listLength, idx }) => {
             transform: "translate(-6px, 0)"
         },
         bullet: {
-            color: useColorModeValue("primaryLight", "primaryDark")
+            color: "brand.purple.500"
         },
         title: {
             fontSize: "2xl",

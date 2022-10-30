@@ -76,7 +76,7 @@ type Skill{
 
 type Query{
     ProjectInfo: [BlogInfo]!
-    BlogInfo(id: String): [BlogCategory]!
+    BlogInfo(name: String): [BlogCategory]!
     FilterBy: FilterParams!
     BlogContent(id: String!): [ContentBlock]!
     ExperienceInfo: [Experience]!

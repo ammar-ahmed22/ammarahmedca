@@ -69,9 +69,9 @@ const Projects = () => {
     const [projectsToDisplay, setProjectsToDisplay] = useState(4);
 
     const { data, loading, error } = useQuery(PROJECT_INFO);
-    console.log(data)
+    
 
-    const primaryColor = useColorModeValue("primaryLight", "primaryDark");
+    
 
     useEffect(() => {
         if (data && !loading){
@@ -84,7 +84,7 @@ const Projects = () => {
     
     return (
         <Box {...styleProps.mainBox} id="projects">
-            <Text {...styleProps.title}>My <Text color={primaryColor} as="span">Works</Text></Text>
+            <Text {...styleProps.title}>My <Text variant='gradient' as="span">Works</Text></Text>
             <HStack mb={4} spacing={2} >
                {data &&  <Search projects={data.ProjectInfo} setProjects={setProjects} /> }
                {data && <Filter projects={data.ProjectInfo} setProjects={setProjects} /> }
