@@ -38,6 +38,11 @@ interface BlogInfo{
   category?: string
 }
 
+interface BlogCategory{
+  category?: string,
+  posts: BlogInfo[]
+}
+
 
 interface FilterParams{
   frameworks: string[],
@@ -68,4 +73,8 @@ interface FilterBy{
 
 interface ExperienceInfo{
   ExperienceInfo: Experience[]
+}
+
+interface BlogInfo{
+  BlogInfo: BlogCategory[]
 }
