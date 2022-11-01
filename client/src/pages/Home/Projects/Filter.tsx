@@ -1,25 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, MenuButton, MenuList, MenuOptionGroup, MenuItemOption, MenuDivider, MenuItem, Button } from "@chakra-ui/react"
-import { ChevronDownIcon, RepeatIcon } from "@chakra-ui/icons"
-import { useQuery, gql } from "@apollo/client"
+import { ChevronDownIcon } from "@chakra-ui/icons"
+import { useQuery } from "@apollo/client"
+import { FilterByQuery } from '../../../graphql/queries/FilterBy';
 
-const Filter = ({ projects, setProjects }) => {
+const Filter : React.FC<SearchFilterProps> = ({ projects, setProjects }) => {
 
-    const GET_FILTER_BY = gql`
-        query {
-            FilterBy {
-                frameworks
-                languages
-                type
-            }
-        }
-    ` 
-
-    const [filterBy, setFilterBy] = useState("type");
-    const [filterParams, setFilterParams] = useState({});
+    
+    const [filterBy, setFilterBy] = useState<keyof FilterParams>("type");
+    const [filterParams, setFilterParams] = useState<FilterParams | undefined>();
     const [dataLoaded, setDataLoaded] = useState(false);
 
-    const { data, loading, error } = useQuery(GET_FILTER_BY)
+    const { data } = useQuery<FilterBy>(FilterByQuery)
 
     useEffect(() => {
         
@@ -28,19 +20,19 @@ const Filter = ({ projects, setProjects }) => {
             setDataLoaded(true)
         }
 
-        if (Object.keys(filterParams).length !== 0 && filterBy !== ""){
-        setProjects( prevProjects => {
+        if (filterParams){
+        setProjects( (prevProjects : BlogInfo[]) => {
             
             return projects.filter( project => {
                 let match = false;
 
-                project[filterBy].forEach( item => {
+                project[filterBy]?.forEach( item => {
                     if (filterParams[filterBy].indexOf(item) !== -1){
                         match = true
                     }
                 })
 
-                if (project[filterBy].length === 0){
+                if (project[filterBy]?.length === 0){
                     match = false
                 }
 
@@ -51,21 +43,24 @@ const Filter = ({ projects, setProjects }) => {
 
     }, [filterBy, data, filterParams, dataLoaded, setDataLoaded, setProjects, projects])
 
-    const handleFilterParamChange = updatedFilterParams => {
+    const handleFilterParamChange = (updatedFilterParams : string[] | string) => {
         
         setFilterParams( prevFilterParams => {
-            const res = {...prevFilterParams}
-            res[filterBy] = updatedFilterParams;
-            console.log(res)
-            
-            console.log(prevFilterParams)
+            if (prevFilterParams){
+                const res = {...prevFilterParams}
+                if (Array.isArray(updatedFilterParams)){
+                    res[filterBy] = updatedFilterParams;
+                } else {
+                    res[filterBy] = [updatedFilterParams];
+                }
 
-
-            return res
+                return res
+            }
+            return prevFilterParams;
         })
     }
 
-    const handleReset = e => {
+    const handleReset = () => {
         if (data){
             setFilterParams(data.FilterBy)
         }
@@ -79,14 +74,14 @@ const Filter = ({ projects, setProjects }) => {
             </MenuButton>
             <MenuList>
                 
-                <MenuOptionGroup title="Category" type="radio" defaultValue="type" onChange={ value => setFilterBy(value)}>
+                <MenuOptionGroup title="Category" type="radio" defaultValue="type" onChange={ (value) => setFilterBy(value as keyof FilterParams)}>
                     <MenuItemOption value="type">Type</MenuItemOption>
                     <MenuItemOption value="frameworks">Framework</MenuItemOption>
                     <MenuItemOption value="languages">Language</MenuItemOption>
                 </MenuOptionGroup>
                 <MenuDivider />
                 {
-                    data && filterBy && (
+                    data && filterBy && filterParams && (
                         <MenuOptionGroup title={filterBy[0].toUpperCase() + filterBy.substring(1)} type="checkbox" value={filterParams[filterBy]} onChange={handleFilterParamChange}>
                             {
                                 data.FilterBy[filterBy].map( (item, idx) => {

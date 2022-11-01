@@ -1,5 +1,5 @@
 
-export interface BlogInfo{
+interface BlogInfo{
   id: string,
   lastEdited: string,
   name: string,
@@ -17,6 +17,16 @@ export interface BlogInfo{
   category?: string
 }
 
-export interface ProjectInfo{
+interface ProjectInfo{
   ProjectInfo: BlogInfo[]
+}
+
+interface FilterParams{
+  frameworks: string[],
+  type: string[],
+  languages: string[]
+}
+
+interface FilterBy{
+  FilterBy: FilterParams
 }

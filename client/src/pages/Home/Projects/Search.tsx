@@ -1,16 +1,12 @@
-import React, { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { InputGroup, Input, InputLeftElement, useColorModeValue } from "@chakra-ui/react"
-import { BlogInfo } from '../../../graphql/types';
+import React, { useState, useEffect } from 'react';
+import { InputGroup, Input, InputLeftElement } from "@chakra-ui/react"
 import { IconProp } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
-interface SearchProps{
-    projects: BlogInfo[],
-    setProjects: Dispatch<SetStateAction<BlogInfo[]>>
-}
 
-const Search : React.FC<SearchProps> = ({ projects, setProjects }) => {
+
+const Search : React.FC<SearchFilterProps> = ({ projects, setProjects }) => {
 
     const [query, setQuery] = useState("");
 

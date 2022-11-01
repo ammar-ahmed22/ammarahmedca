@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, gql } from "@apollo/client";
-import { BlogInfo, ProjectInfo } from '../../../graphql/types';
 import { Text, Box, SimpleGrid, HStack, Skeleton, SkeletonText } from "@chakra-ui/react"
 import ProjectCard from './ProjectCard';
 import Search from './Search';
