@@ -5,7 +5,7 @@ import ProjectCard from './ProjectCard';
 import Search from './Search';
 import Filter from './Filter';
 import DisplayLimiter from '../../../components/DisplayLimiter';
-import { ProjectInfoQuery } from '../../../graphql/queries/ProjectInfoQuery';
+import { ProjectInfoQuery } from '../../../graphql/queries/ProjectInfo';
 import { styles } from './styles/index.styles';
 
 
