@@ -5,7 +5,8 @@ import ProjectCard from './ProjectCard';
 import Search from './Search';
 import Filter from './Filter';
 import DisplayLimiter from '../../../components/DisplayLimiter';
-import { styles } from './index.styles';
+import { ProjectInfoQuery } from '../../../graphql/queries/ProjectInfoQuery';
+import { styles } from './styles/index.styles';
 
 
 const CustomSkeleton : React.FC = () => {
@@ -26,30 +27,14 @@ const CustomSkeleton : React.FC = () => {
     )
 }
 
-const PROJECT_INFO = gql`
-    query {
-        ProjectInfo {
-            id
-            name
-            lastEdited
-            timeline
-            type
-            languages
-            frameworks
-            github
-            external
-            description
-            isBlog
-        }
-    }
-`
+
 
 const Projects : React.FC = () => {
 
     const [projects, setProjects] = useState<BlogInfo[]>([]);
     const [projectsToDisplay, setProjectsToDisplay] = useState<number>(4);
 
-    const { data, loading, error } = useQuery<ProjectInfo>(PROJECT_INFO);
+    const { data, loading, error } = useQuery<ProjectInfo>(ProjectInfoQuery);
     
 
     
@@ -75,7 +60,7 @@ const Projects : React.FC = () => {
                 data && projects && (
                     <SimpleGrid columns={{ base: 1, md: 2}} spacing={5}>
                         {
-                            projects.slice(0, projectsToDisplay).map( project => {
+                            projects.slice(0, projectsToDisplay).map( (project: BlogInfo) => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />
                             })
                         }
