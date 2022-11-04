@@ -1,13 +1,13 @@
-export const displayTimeSince = (prev) => {
+export const displayTimeSince = (prev: string) : string => {
 
-    const nowDate = new Date();
-    const prevDate = Date.parse(prev)
+    const nowDate : number = new Date().valueOf();
+    const prevDate : number = Date.parse(prev)
 
-    const result = {};
+    const result : Record<string, number> = {};
 
     let delta = Math.abs(nowDate - prevDate) / 1000
 
-    const s = {
+    const durations = {
         year: 31536000,
         month: 2592000,
         week: 604800,
@@ -17,13 +17,14 @@ export const displayTimeSince = (prev) => {
         second: 1
     }
     
-    Object.keys(s).forEach( key => {
-        result[key] = Math.floor( delta / s[key]);
-        delta -= result[key] * s[key]
+    Object.keys(durations).forEach( key => {
+        const k = key as keyof typeof durations;
+        result[k] = Math.floor( delta / durations[k]);
+        delta -= result[k] * durations[k]
     })
 
     
-    const pluralize = val => {
+    const pluralize = (val: number) : string => {
         return val === 1 ? "" : "s";
     }
 
@@ -45,7 +46,7 @@ export const displayTimeSince = (prev) => {
         }
     }
 
-    return "hold up"
+    return "error calculating time"
 
     
 }

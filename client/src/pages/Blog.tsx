@@ -58,7 +58,7 @@ const Blog : React.FC = () => {
                                         return (
                                             <Card isLink to={`/blog/${encodeURIComponent(hyphenate(name))}`} key={postIdx} >
                                                 <Text {...styles.postTitle} >{name}</Text>
-                                                <Text {...styles.postInfo} >{helper.displayTimeSince(published)} &bull; {readTime} min read</Text>
+                                                <Text {...styles.postInfo} >{helper.displayTimeSince(published as string)} &bull; {readTime} min read</Text>
                                                 <Text {...styles.postDescription} >{description}</Text>
                                             </Card>
                                         )

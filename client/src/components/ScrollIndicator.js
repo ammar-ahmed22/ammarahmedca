@@ -11,7 +11,6 @@ const ScrollIndicator = ({ scrollToId }) => {
             width: "15px",
             bg: "transparent",
             border: "2px solid",
-            // borderColor: useColorModeValue("primaryLight", "primaryDark"),
             borderColor: "brand.purple.500",
             borderRadius: "full",
             position: "relative",
@@ -19,24 +18,12 @@ const ScrollIndicator = ({ scrollToId }) => {
                 cursor: "pointer",
                 
             }
-            // _after: { 
-            //     content: "' '", 
-            //     position: "absolute", 
-            //     top: "1px", 
-            //     left: "50%", 
-            //     transform: "translate(-50%, 0)", 
-            //     bg: "primaryLight", 
-            //     height: "5px", 
-            //     width: "5px", 
-            //     borderRadius: "full"
-            // }
         },
         scrollIndCircle: {
             position: "absolute", 
             top: "1px", 
             left: "50%", 
             transform: "translate(-50%, 0)", 
-            //bg: useColorModeValue("primaryLight", "primaryDark"), 
             bg: "brand.purple.500",
             height: "5px", 
             width: "5px", 
@@ -71,17 +58,12 @@ const ScrollIndicator = ({ scrollToId }) => {
 
     const handleScrollIndOver = e => {
         if (scrollIndEllipse && scrollIndCircle){
-            const primary = {
-                light: "#A10010",
-                dark: "#9c414a"
-            }
 
             const bg = {
                 light: "white",
                 dark: "#171923"
             }
 
-            console.log(colorMode)
             scrollIndEllipse.current.style.background = "var(--ammar-colors-brand-purple-500)";
             scrollIndCircle.current.style.background = bg[colorMode];
         }
@@ -89,14 +71,6 @@ const ScrollIndicator = ({ scrollToId }) => {
 
     const handleScrollIndOut = e => {
         if (scrollIndEllipse && scrollIndCircle){
-            const primary = {
-                light: "#A10010",
-                dark: "#9c414a"
-            }
-
-            
-
-            console.log(colorMode)
             scrollIndEllipse.current.style.background = "transparent";
             scrollIndCircle.current.style.background = "var(--ammar-colors-brand-purple-500)";
         }

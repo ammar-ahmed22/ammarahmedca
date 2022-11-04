@@ -15,4 +15,21 @@ export const BlogInfoQuery : DocumentNode = gql`
             }
             
         }
-    `
+`
+
+export interface BlogInfoVariables{
+    name: string
+}
+
+export const BlogInfoVariableQuery : DocumentNode = gql`
+    query($name: String!){
+        BlogInfo(name: $name){
+            posts{
+                id
+                name
+                readTime
+                published
+            }
+        }
+    }
+`

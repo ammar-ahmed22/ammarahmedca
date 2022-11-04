@@ -1,16 +1,19 @@
 import React from 'react';
-import { Text, useColorModeValue } from "@chakra-ui/react"
+import { Text, TextProps, useColorModeValue } from "@chakra-ui/react"
 
-const RichText = ({ idx, bold, italic, code, color, strikethrough, underline, children }) => {
+type RichTextProps = Annotations & {
+    idx: number,
+    children: React.ReactNode
+}
 
-    //const { bold, italic, code, color, strikethrough, underline } = annotations;
+const RichText : React.FC<RichTextProps> = ({ idx, bold, italic, code, color, strikethrough, underline, children }) => {
 
-    let richTextStyles = {
+    let richTextStyles : TextProps = {
         fontWeight: "normal",
         as: "span"
     }
 
-    const inlineCode = {
+    const inlineCode : TextProps = {
         as: "kbd",
         // bg: useColorModeValue("gray.200", "gray.900"),
         bg: useColorModeValue("gray.200", "brand.purple.700"),
@@ -48,8 +51,10 @@ const RichText = ({ idx, bold, italic, code, color, strikethrough, underline, ch
         richTextStyles = inlineCode
     }
 
+    const createKey = (idx: number) => `rich-txt-${idx}`;
+
     return (
-        <Text key={idx} {...richTextStyles} wordBreak="keep-all">{children}</Text>
+        <Text key={createKey(idx)} {...richTextStyles} wordBreak="keep-all">{children}</Text>
     );
 }
 

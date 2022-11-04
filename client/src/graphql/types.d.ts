@@ -14,6 +14,13 @@ interface Text{
   annotations: Annotations
 }
 
+interface Image{
+  caption: string,
+  url: string
+}
+
+type TextOrImage = Text | Image;
+
 interface Timeframe{
   start: string,
   end?: string
@@ -50,6 +57,11 @@ interface FilterParams{
   languages: string[]
 }
 
+interface ContentBlock{
+  type: string,
+  content: TextOrImage[]
+}
+
 // Experience
 interface Experience{
   company: string,
@@ -77,4 +89,8 @@ interface ExperienceInfo{
 
 interface BlogInfo{
   BlogInfo: BlogCategory[]
+}
+
+interface BlogContent{
+  BlogContent: ContentBlock[]
 }
