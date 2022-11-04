@@ -1,54 +1,17 @@
 import React, { useEffect } from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Text as RechartsText, ResponsiveContainer } from 'recharts'
 import { useColorModeValue, Spinner, Flex, useMediaQuery } from '@chakra-ui/react';
-import { useQuery, gql } from "@apollo/client"
+import { useQuery } from "@apollo/client"
+import { SkillDataVariableQuery, SkillDataVariables } from '../../../graphql/queries/SkillData';
 
-const fakeData = [
-    {
-        skill: "JavaScript",
-        value: 90,
-        fullValue: 100
-    },
-    {
-        skill: "Python",
-        value: 75,
-        fullValue: 100
-    },
-    {
-        skill: "HTML/CSS",
-        value: 90,
-        fullValue: 100
-    },
-    {
-        skill: "MATLAB",
-        value: 60,
-        fullValue: 100
-    },
-    {
-        skill: "C++",
-        value: 30,
-        fullValue: 100
-    },
-    {
-        skill: "LaTeX",
-        value: 60,
-        fullValue: 100
-    },
-]
+interface SkillChartProps{
+    type: string
+}
 
-const SkillChart = ({ type }) => {
+const SkillChart : React.FC<SkillChartProps> = ({ type }) => {
 
-    const SKILL_DATA = gql`
-        query SkillData($type: String){
-            SkillData(type: $type){
-                name
-                value
-                type
-            }
-        }
-    `
 
-    const { data, loading, error } = useQuery(SKILL_DATA, { variables: {
+    const { data, loading } = useQuery<SkillData, SkillDataVariables>(SkillDataVariableQuery, { variables: {
         type
     }})
 
@@ -62,7 +25,9 @@ const SkillChart = ({ type }) => {
     const foreground = useColorModeValue("var(--ammar-colors-gray-800)", "var(--ammar-colors-white)")
     const lightForeground = useColorModeValue("var(--ammar-colors-gray-600)", "var(--ammar-colors-gray-400)")
 
-    const renderPolarAngleAxis = ({ payload, x, y, cx, cy, ...rest }) => {
+    
+
+    const CustomPolarAngleAxis : React.FC<any> = ({ payload, x, y, cx, cy, ...rest }) => {
         return (
           <RechartsText
             {...rest}
@@ -77,12 +42,9 @@ const SkillChart = ({ type }) => {
         );
     }
 
-    const renderPolarRadiusAxis = (props) => {
+    const CustomPolarRadiusAxis : React.FC<any> = ({ payload, x, y, cx, cy, ...rest }) => {
 
-        const { payload, x, y, cx, cy, ...rest } = props
-
-        //console.log(props)
-        const labels = {
+        const labels : Record<number, string> = {
             0: "Unaware",
             25: "Aware",
             50: "Learning",
@@ -112,8 +74,8 @@ const SkillChart = ({ type }) => {
             <ResponsiveContainer width={"100%"} height="100%">
                 <RadarChart outerRadius={isLargerThan30em ? "75%" : "55%"} data={data.SkillData} cy="50%">
                     <PolarGrid />
-                    <PolarAngleAxis dataKey="name" tick={props => renderPolarAngleAxis(props)} />
-                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => renderPolarRadiusAxis(props)}/>
+                    <PolarAngleAxis dataKey="name" tick={props => <CustomPolarAngleAxis {...props} />} />
+                    <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => <CustomPolarRadiusAxis {...props} />}/>
                     <Radar name="Skills" dataKey="value" stroke={primary} fill={primary} fillOpacity={0.6} />
                 </RadarChart>
             </ResponsiveContainer>

@@ -72,6 +72,12 @@ interface Experience{
   timeframe: Timeframe
 }
 
+// Skills
+interface Skill{
+  name: string,
+  type: string,
+  value: number
+}
 
 // ========== QUERIES ==========
 interface ProjectInfo{
@@ -93,4 +99,8 @@ interface BlogInfo{
 
 interface BlogContent{
   BlogContent: ContentBlock[]
+}
+
+interface SkillData{
+  SkillData: Skill[]
 }
