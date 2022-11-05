@@ -2,7 +2,11 @@ import React, { useEffect, useState, useRef } from 'react';
 import { Box, useMediaQuery } from "@chakra-ui/react"
 import '../assets/css/Signature.css'
 
-const Signature = ({ color }) => {
+interface SignatureProps{
+    color: string
+}
+
+const Signature : React.FC<SignatureProps> = ({ color }) => {
 
     const [dim, setDim] = useState({ height: 328, width: 602});
 
@@ -12,36 +16,8 @@ const Signature = ({ color }) => {
         "(min-width: 62em)"
     ])
 
-    const determineSignatureSize = () => {
-        const base = { height: 328, width: 602};
-        const aspectRatio = base.width / base.height
-        
-        if (largerThanBase && !largerThanMd){
-            return { height: base.height * 0.6, width: (base.height * 0.6) * aspectRatio}
-        }
-
-        if (largerThanMd && !largerThanLg){
-            return {height: base.height * 0.75, width: (base.height * 0.75) * aspectRatio}
-        }
-
-        if (largerThanLg){
-            return base
-        }
-    }
-
-
-    const styleProps = {
-        box: {
-            position: "absolute",
-            //transform: "translate(-50%, 0)",
-            top: "30%",
-            left: "0",
-            zIndex: -1,
-        }
-    }
-
     const [ scrollPos, setScrollPos ] = useState(-1)
-    const svg = useRef()
+    const svg = useRef<SVGSVGElement>(null)
 
     window.addEventListener("scroll", e => {
         setScrollPos(window.scrollY)
@@ -53,14 +29,14 @@ const Signature = ({ color }) => {
             if (scrollPos === 0){
                 // Play the animation forwards
                 for (let i = 0; i < paths.length; i++){
-                    const path = paths[i]
+                    const path = paths[i] as SVGPathElement
                     // keyframe defined in css
                     path.style.animation = `draw-signature ${i+1}s ease forwards`
                 }
             }else if (scrollPos !== -1 && scrollPos > 0){
                 // Play the animation backwards
                 for (let i = 0; i < paths.length; i++){
-                    const path = paths[i]
+                    const path = paths[i] as SVGPathElement
                     // keyframe defined in css
                     path.style.animation = `reverse-draw-signature-${i+1} ${i+1}s ease forwards`
                 }
@@ -85,6 +61,8 @@ const Signature = ({ color }) => {
             if (largerThanLg){
                 return base
             }
+
+            return base;
         }
         setDim(determineSignatureSize());
     }, [largerThanBase, largerThanMd, largerThanLg])
@@ -92,7 +70,7 @@ const Signature = ({ color }) => {
  
     
     return (
-        <Box {...styleProps.box} >
+        <Box position="absolute" top="30%" left="0" zIndex={-1} >
             {
                dim && (
                     <svg width={dim.width} height={dim.height} viewBox="0 0 602 328" fill="none" xmlns="http://www.w3.org/2000/svg" className='signature' ref={svg}>

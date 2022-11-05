@@ -5,9 +5,9 @@ const httpLink = new HttpLink({
     uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
 })
 
-const authMiddleware = authToken => {
+const authMiddleware = (authToken: string) => {
 
-    const authorization = token => {
+    const authorization = (token: string) => {
         return `Bearer ${token}`
     }
 
@@ -28,6 +28,7 @@ const cache = new InMemoryCache();
 
 export const useAuthorizedApolloClient = () => {
     const [authToken] = useAuthToken();
+    
 
     return new ApolloClient({
         link: authMiddleware(authToken).concat(httpLink),
