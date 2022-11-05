@@ -1,7 +1,7 @@
 import React from 'react';
-import NavBar from '../../NavBar';
-import PageContent from '../../PageContent';
-import Footer from '../../Footer';
+import NavBar from '../../Page/NavBar';
+import PageContent from '../../Page/PageContent';
+import Footer from '../../Page/Footer';
 import { Box, Text, Link } from "@chakra-ui/react"
 import { Link as ReactLink } from "react-router-dom"
 
