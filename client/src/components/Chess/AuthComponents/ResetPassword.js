@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../../NavBar';
-import PageContent from '../../PageContent';
-import Footer from '../../Footer';
+import NavBar from '../../Page/NavBar';
+import PageContent from '../../Page/PageContent';
+import Footer from '../../Page/Footer';
 import { useQuery } from '../../../hooks/query';
 import { Link as ReactLink } from "react-router-dom"; 
 import { Flex, Text, FormControl, FormLabel, Input, Button, Box, FormHelperText, FormErrorMessage, useColorModeValue, Link } from "@chakra-ui/react";

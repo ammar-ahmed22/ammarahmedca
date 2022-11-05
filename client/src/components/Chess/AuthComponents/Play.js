@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
-import NavBar from '../../NavBar';
-import PageContent from '../../PageContent';
-import Footer from '../../Footer';
+import NavBar from '../../Page/NavBar';
+import PageContent from '../../Page/PageContent';
+import Footer from '../../Page/Footer';
 import { Box, Text, Button } from "@chakra-ui/react"
 import { useQuery, gql } from '@apollo/client';
 import { useAuthToken } from '../../../hooks/authToken';

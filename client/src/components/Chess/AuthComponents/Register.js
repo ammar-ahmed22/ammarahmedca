@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../../NavBar';
-import PageContent from '../../PageContent';
-import Footer from '../../Footer';
+import NavBar from '../../Page/NavBar';
+import PageContent from '../../Page/PageContent';
+import Footer from '../../Page/Footer';
 import { Flex, FormControl, Text, FormLabel, Input, SimpleGrid, Select, FormHelperText, FormErrorMessage, Button, Link, Alert, AlertIcon, CloseButton, useColorModeValue } from "@chakra-ui/react";
 import { Link as ReactLink, Redirect } from "react-router-dom"
 import { useMutation, gql } from '@apollo/client';

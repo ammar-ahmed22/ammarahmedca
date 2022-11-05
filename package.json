@@ -1,0 +1,16 @@
+{
+  "name": "ammarahmed.ca",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/ammar-ahmed22/ammarahmed.ca.git",
+  "author": "Ammar Ahmed <ammar.ahmed1@uwaterloo.ca>",
+  "license": "MIT",
+  "scripts": {
+    "client-dev": "cd client && yarn start",
+    "server-dev": "cd server && yarn dev",
+    "start-dev": "yarn client-dev & yarn server-dev",
+    "client-build": "cd client && yarn build",
+    "server-build": "cd server && yarn build",
+    "start-build": "yarn client-build & yarn server-build"
+  }
+}

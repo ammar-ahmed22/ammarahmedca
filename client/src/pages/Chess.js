@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import NavBar from '../components/NavBar';
-import PageContent from '../components/PageContent';
-import Footer from '../components/Footer';
+import NavBar from '../components/Page/NavBar';
+import PageContent from '../components/Page/PageContent';
+import Footer from '../components/Page/Footer';
 import Board from '../components/Chess/Board';
 import { Text, Box, Flex, Link } from "@chakra-ui/react"
 import { Link as ReactLink } from "react-router-dom";
