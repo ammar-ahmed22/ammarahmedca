@@ -4,7 +4,7 @@
 </p>
 <h1 align="center">ammarahmed.ca</h1>
 <p align="center">
-    <img width="1423" alt="ammarahmed.ca landing page" src="./images/HomePage.png?raw=true">
+    <img width="1423" alt="ammarahmed.ca landing page" src="./images/HomePageGIF.gif?raw=true">
 </p>
 <p align="center">After re-making and re-designing my personal website hundreds of times, I have finally arrived at a design which I quite enjoy. Take a scroll at <a href="https://ammarahmed.ca">ammarahmed.ca</a></p>
 
