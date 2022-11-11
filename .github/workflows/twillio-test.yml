@@ -1,9 +1,5 @@
 name: Testing Twilio
-# 'on':
-#   push:
-#     branches:
-#       - backend-redesign
-#     paths: ["client/**"]
+'on':
 defaults:
   run:
     working-directory: client
