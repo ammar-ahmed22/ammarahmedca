@@ -1,8 +1,8 @@
 name: Testing Twilio
 'on':
-defaults:
-  run:
-    working-directory: client
+  push:
+    branches:
+      - backend-redesign
 jobs:
   send_message:
     runs-on: ubuntu-latest
