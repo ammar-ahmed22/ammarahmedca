@@ -14,7 +14,7 @@ const PORT = process.env.PORT || 8080;
 
 (async () => {
   const app = express();
-  
+
   const schema = await buildSchema({
     resolvers: [ BlogResolver, WebsiteResolver ],
     dateScalarMode: "timestamp"
@@ -22,6 +22,7 @@ const PORT = process.env.PORT || 8080;
 
   const server = new ApolloServer({
     schema,
+    introspection: true
   })
 
   console.log();
