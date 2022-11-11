@@ -4,7 +4,7 @@ dotenv.config({ path: "./config.env" })
 import { Client, isFullPage } from "@notionhq/client";
 import { PartialBlockObjectResponse, BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { Arg, Query, Resolver } from "type-graphql";
-import { Content, Metadata } from "../typeDefs/Blog";
+import { Content, FilterOpts, Metadata } from "../typeDefs/Blog";
 // import { NotionAPI } from "notion-client";
 
 import { readProperty, readBlockContent } from "../../utils/Notion";
@@ -13,7 +13,7 @@ import { isText } from "../../types/typeGuards";
 
 
 
-@Resolver(Metadata)
+@Resolver()
 export class BlogResolver{
 
   constructor(
@@ -21,7 +21,7 @@ export class BlogResolver{
     private blogdbID = process.env.NOTION_BLOG_DB_ID,
   ){}
 
-  private getPaginatedBlocks = async (pageId: string) => {
+  private getPaginatedBlocks = async (pageId: string) : Promise<(PartialBlockObjectResponse | BlockObjectResponse)[]> => {
     
     let blocks = await this.notion.blocks.children.list({ block_id: pageId })
     const res = blocks.results;
@@ -31,7 +31,6 @@ export class BlogResolver{
     }
 
     return res;
-    // return blocks;
   }
 
   private calculateReadtime = (content: IContent[], wpm: number = 200) => {
@@ -53,7 +52,7 @@ export class BlogResolver{
   private hyphenate = (str: string) => str.toLowerCase().split(" ").join("-");
 
   private createMetadata = async (page: PageObjectResponse) : Promise<IMetadata> => {
-    // STILL NEED TO FIGURE OUT READTIME!!
+    
 
     const isBlog = readProperty(page.properties.isBlog) as boolean;
     
@@ -92,9 +91,6 @@ export class BlogResolver{
       }
     }
 
-    
-
-
     return {
       id: page.id,
       name: readProperty(page.properties.Name),
@@ -116,30 +112,6 @@ export class BlogResolver{
 
   }
 
-  @Query(returns => String)
-  async test(){
-    if (process.env.NOTION_BLOG_DB_ID){
-      const response = await this.notion.databases.query({
-        database_id: process.env.NOTION_BLOG_DB_ID,
-        filter: {
-          or: []
-        },
-        sorts: []
-      })
-
-      await Promise.all(response.results.map( async result => {
-        if (isFullPage(result)){
-          const metadata = await this.createMetadata(result);
-        }
-      }))
-      
-      return "success"
-    }
-
-    return "failed"
-    
-  }
-
   @Query(returns => [Metadata], { description: "gets all metadata"})
   async allMetadata(){
     if (this.blogdbID){
@@ -156,6 +128,7 @@ export class BlogResolver{
         }
       })
     }
+    throw new Error("error connecting to database.")
   }
 
   @Query(returns => [Metadata], { description: "Gets blog post metadata"})
@@ -205,6 +178,7 @@ export class BlogResolver{
         }
       })
     }
+    throw new Error("error connecting to database.")
   }
 
   @Query(returns => [Metadata], { description: "Gets project post metadata"})
@@ -230,6 +204,8 @@ export class BlogResolver{
         }
       })
     }
+
+    throw new Error("error connecting to database.")
   }
 
   @Query(returns => [Content], { description: "Gets content for blog by pathname."})
@@ -270,6 +246,41 @@ export class BlogResolver{
      const allBlocks = await this.getPaginatedBlocks(page.id);
 
      return readBlockContent(allBlocks);
+    }
+
+    throw new Error("error connecting to database.")
+  }
+
+  @Query(returns => FilterOpts)
+  async filterOpts(){
+    if (this.blogdbID){
+
+      const response = await this.notion.databases.retrieve({ database_id: this.blogdbID });
+
+      const res : IFilterOpts = {
+        frameworks: [],
+        type: [],
+        languages: [],
+        category: []
+      }
+
+      if (response.properties.Frameworks.type === "multi_select"){
+        res.frameworks = response.properties.Frameworks.multi_select.options.map( option => option.name )
+      }
+
+      if (response.properties.Type.type === "multi_select"){
+        res.type = response.properties.Type.multi_select.options.map( option => option.name )
+      }
+
+      if (response.properties.Languages.type === "multi_select"){
+        res.languages = response.properties.Languages.multi_select.options.map( option => option.name )
+      }
+
+      if (response.properties.Category.type === "select"){
+        res.languages = response.properties.Category.select.options.map( option => option.name )
+      }
+
+      return res;
     }
 
     throw new Error("error connecting to database.")

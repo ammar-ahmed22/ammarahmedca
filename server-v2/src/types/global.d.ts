@@ -28,6 +28,13 @@ declare global {
     content: TextOrImageType[] 
   }
 
+  interface IFilterOpts{
+    frameworks: string[],
+    type: string[],
+    languages: string[],
+    category: string[]
+  }
+
   interface IMetadata{
     id: string
     lastEdited: Date
@@ -46,5 +53,29 @@ declare global {
     readTime?: number
     category?: string
     isPublished?: boolean
+  }
+
+
+  
+  // EXPERIENCE
+  interface ITimeframe{
+    start: Date,
+    end?: Date
+  }
+
+  interface IExperience{
+    company: string;
+    role: string;
+    description: IText[];
+    type: string;
+    skills: string[];
+    timeframe: ITimeframe;
+  }
+
+  // SKILLS
+  interface ISkill{
+    name: string;
+    type: string;
+    value: number;
   }
 }

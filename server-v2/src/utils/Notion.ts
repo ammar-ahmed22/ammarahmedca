@@ -1,12 +1,10 @@
 import { isFullBlock } from "@notionhq/client";
-import { BlockObjectResponse, PartialBlockObjectResponse, ImageBlockObjectResponse, RichTextItemResponse, Heading1BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { BlockObjectResponse, PartialBlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { isContentArray } from "../types/typeGuards";
 
-interface ReadPropertyOpts{
-  includeDateEnd?: boolean
-}
 
-export const readProperty = (property: Record<string, any>, opts?: ReadPropertyOpts) => {
+
+export const readProperty = (property: Record<string, any>) => {
   const { type } = property;
   const value = property[type as string]
 
@@ -21,12 +19,8 @@ export const readProperty = (property: Record<string, any>, opts?: ReadPropertyO
     case "url":
       return value
     case "date":
-      if (opts?.includeDateEnd){
-          const { start, end } = value;
-          return { start, end }
-      }else{
-          return value.start
-      }
+      const { start, end } = value;
+      return { start, end }
     case "number":
     case "checkbox":
       return value
@@ -35,9 +29,6 @@ export const readProperty = (property: Record<string, any>, opts?: ReadPropertyO
   }
 
 }
-
-
-
 
 
 export const mergeListItems = (content: IContent[]) : IContent[] => {

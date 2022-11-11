@@ -1,5 +1,6 @@
 import "reflect-metadata"
 import { ObjectType, Field, Int, createUnionType } from "type-graphql"
+import { Text, Image } from "./Global"
 
 @ObjectType({ description: "Metadata model for blog and project posts" })
 export class Metadata implements IMetadata{
@@ -56,48 +57,6 @@ export class Metadata implements IMetadata{
 
 }
 
-@ObjectType()
-class Annotations implements IAnnotations{
-  @Field({ description: "Bold text."})
-  bold: boolean
-
-  @Field({ description: "Underlined text."})
-  underline: boolean
-
-  @Field({ description: "Text with a line through it."})
-  strikethrough: boolean
-
-  @Field({ description: "Inline code text."})
-  code: boolean
-
-  @Field({ description: "Italicized text."})
-  italic: boolean
-
-  @Field({ description: "Colored text."})
-  color: string
-
-  @Field({ nullable: true, description: "Name of language for code block." })
-  language?: string
-}
-
-@ObjectType()
-export class Text implements IText{
-  @Field({ description: "Text content for rich text."})
-  plainText: string
-  
-  @Field(type => Annotations, { description: "Rich text annotations."})
-  annotations: Annotations
-}
-
-@ObjectType()
-export class Image implements IImage{
-  @Field({ description: "Image url."})
-  url: string
-
-  @Field({ description: "Image caption."})
-  caption: string
-}
-
 const TextOrImage = createUnionType({
   name: "TextOrImage",
   description: "Text or Image union type for content blocks.",
@@ -121,5 +80,20 @@ export class Content implements IContent{
 
   @Field(type => [TextOrImage])
   content: TextOrImageType[] 
+}
+
+@ObjectType({ description: "Metadata filter options."})
+export class FilterOpts implements IFilterOpts{
+  @Field(type => [String])
+  frameworks: string[]
+
+  @Field(type => [String])
+  type: string[]
+
+  @Field(type => [String])
+  languages: string[]
+
+  @Field(type => [String])
+  category: string[]
 }
 

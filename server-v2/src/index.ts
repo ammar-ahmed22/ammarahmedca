@@ -5,33 +5,18 @@ import express from "express";
 import * as path from "path";
 import { ApolloServer } from "apollo-server-express";
 
-import { Arg, buildSchema, Field, ObjectType, Query, Resolver } from "type-graphql";
+import { buildSchema } from "type-graphql";
 
 import { BlogResolver } from "./graphql/resolvers/Blog";
-
-const relative = (filePath: string) : string => path.resolve(__dirname, filePath);
-
-
-@Resolver()
-class TestResolver{
-  @Query(returns => String)
-  hello(@Arg("name", { nullable: true }) name?: string){
-    if (name){
-      return "hello " + name + "!";
-    }
-
-    return "hello!"
-  }
-}
+import { WebsiteResolver } from "./graphql/resolvers/Website";
 
 const PORT = process.env.PORT || 8080;
 
 (async () => {
   const app = express();
-
-
+  
   const schema = await buildSchema({
-    resolvers: [TestResolver, BlogResolver],
+    resolvers: [ BlogResolver, WebsiteResolver ],
     dateScalarMode: "timestamp"
   })
 
