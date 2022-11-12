@@ -41,7 +41,7 @@ jobs:
     needs: set_datetime
     runs-on: ubuntu-latest
     env:
-       MESSAGE: "✅ GitHub Action ✅\n\nName: ${{ github.workflow }}\nOn: ${{ needs.set_datetime.outputs.datetime }}\nStatus: Complete\n\Site is live at:\nhttps://ammarahmed.ca"
+       MESSAGE: "✅ GitHub Action ✅\n\nName: ${{ github.workflow }}\nOn: ${{ needs.set_datetime.outputs.datetime }}\nStatus: Complete\nSite is live at:\nhttps://ammarahmed.ca"
     steps:
       - uses: twilio-labs/actions-sms@v1
         with:
