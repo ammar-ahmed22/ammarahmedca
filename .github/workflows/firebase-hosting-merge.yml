@@ -29,13 +29,14 @@ jobs:
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
   send_notification:
+    needs: build_and_deploy
     runs-on: ubuntu-latest
     steps:
       - uses: twilio-labs/actions-sms@v1
         with:
           fromPhoneNumber: ${{ secrets.TWILIO_PHONE_NUMBER }}
           toPhoneNumber: ${{ secrets.MY_PHONE_NUMBER }}
-          message: "GitHub Action: Deploy to Firebase\nComplete ✅\n Site is live at: https://ammarahmed.ca"
+          message: "✅ GitHub Action ✅\n\nName: Deploy to Firebase\nStatus: Complete\n\nSite is live at:\nhttps:/ammarahmed.ca""
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
