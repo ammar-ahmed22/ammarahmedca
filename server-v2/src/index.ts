@@ -32,7 +32,7 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     introspection: true,
     plugins: [
       process.env.NODE_ENV === "production" ? ApolloServerPluginLandingPageProductionDefault({
-        graphRef: "ammarahmedca-api-v2",
+        graphRef: "ammarahmedca-api-v2@production",
         footer: false,
       }) : ApolloServerPluginLandingPageLocalDefault()
     ]
