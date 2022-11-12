@@ -4,11 +4,19 @@ name: Testing Twilio
     branches:
       - development # remove this once everything finalized
 jobs:
+  set_datetime:
+    runs-on: ubuntu-latest
+    outputs:
+      datetime: ${{ steps.datestep.output.datetime }}
+    steps:
+      - id: datestep
+        run: echo "datetime=$(date +'%a %b %d at %r')" >> $GITHUB_OUTPUT
   send_notification:
     name: Send SMS Notification
+    needs: set_datetime
     runs-on: ubuntu-latest
     env:
-       MESSAGE: "✅ GitHub Action ✅\n\nName: ${{ github.workflow }}\nStatus: Complete\n\nAPI is live at:\nhttps://ammarahmedca.fly.dev"
+       MESSAGE: "✅ GitHub Action ✅\n\nName: ${{ github.workflow }}\nOn: ${{ needs.set_datetime.outputs.datetime }}\nStatus: Complete\n\nAPI is live at:\nhttps://ammarahmedca.fly.dev"
     steps:
       - uses: twilio-labs/actions-sms@v1
         with:
