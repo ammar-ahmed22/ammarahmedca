@@ -10,7 +10,7 @@ jobs:
       datetime: ${{ steps.datestep.outputs.datetime }}
     steps:
       - id: datestep
-        run: echo "datetime=$(date +'%a %b %d at %r')" >> $GITHUB_OUTPUT
+        run: echo "datetime=$(TZ=':US/Eastern date +'%a %b %d at %r')" >> $GITHUB_OUTPUT
   send_notification:
     name: Send SMS Notification
     needs: set_datetime
