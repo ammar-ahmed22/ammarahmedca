@@ -7,7 +7,7 @@ jobs:
   send_message:
     runs-on: ubuntu-latest
     env:
-      MESSAGE: "GitHub Action: ${{ env.GITHUB_WORKFLOW }}\nComplete ✅"
+      MESSAGE: "GitHub Action: Testing Twilio\nComplete ✅\nSite is live at: https://ammarahmed.ca"
     steps:
       - uses: twilio-labs/actions-sms@v1
         with:
