@@ -5,7 +5,8 @@
   "main": "./dist/index.js",
   "license": "MIT",
   "dependencies": {
-    "@graphql-tools/schema": "^9.0.8",
+    "@apollo/server": "^4.1.1",
+    "@graphql-tools/schema": "^9.0.9",
     "@notionhq/client": "^2.2.2",
     "@types/jest": "^29.2.2",
     "apollo-server-express": "^3.11.1",
@@ -42,8 +43,9 @@
     "dev": "nodemon --watch './**/*.ts' --exec ts-node ./src/index.ts",
     "test": "jest",
     "clean": "rimraf dist/",
-    "copy-files": "copyfiles -u 1 src/**/*.json dist/",
+    "copy-files": "copyfiles -u 1 src/**/*.json src/**/*.graphql dist/",
     "build": "yarn clean && yarn copy-files && tsc",
-    "start": "node ./dist/index.js"
+    "start": "node ./dist/index.js",
+    "publish-schema": "rover graph publish ammarahmedca-api-v2@production --schema ./src/schema.graphql"
   }
 }

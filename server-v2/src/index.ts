@@ -1,38 +1,47 @@
 import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
-import express from "express";
+import { ApolloServer } from "@apollo/server";
+import { startStandaloneServer } from "@apollo/server/standalone"
+import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
 import * as path from "path";
-import { ApolloServer } from "apollo-server-express";
+import fs from "fs";
 
 import { buildSchema } from "type-graphql";
+import { printSchema } from "graphql";
 
 import { BlogResolver } from "./graphql/resolvers/Blog";
 import { WebsiteResolver } from "./graphql/resolvers/Website";
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 (async () => {
-  const app = express();
 
   const schema = await buildSchema({
     resolvers: [ BlogResolver, WebsiteResolver ],
     dateScalarMode: "timestamp"
   })
 
+  const schemaString = printSchema(schema);
+
+  fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString)
+
+
   const server = new ApolloServer({
     schema,
-    introspection: true
+    introspection: true,
+    plugins: [
+      process.env.NODE_ENV === "production" ? ApolloServerPluginLandingPageProductionDefault({
+        graphRef: "ammarahmedca-api-v2",
+        footer: false,
+      }) : ApolloServerPluginLandingPageLocalDefault()
+    ]
   })
 
-  console.log();
+  const { url } = await startStandaloneServer(server, {
+    listen: { port: PORT }
+  })
 
-  await server.start();
-
-  server.applyMiddleware({ app });
-
-  app.listen(PORT, () => console.log(`Server ready at http://localhost:${PORT}${server.graphqlPath} 🚀`))
-
-  
+  console.log(`🚀  Server ready at: ${url}`)
 
 })()

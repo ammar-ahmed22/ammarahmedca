@@ -7,11 +7,6 @@ processes = []
 
 [env]
   PORT = "8080"
-  NOTION_INTEGRATION_KEY = "secret_fy78ZYazW5PDaV5jpAzDvuGxAntmo2RLuZJFKxPxo6l"
-  NOTION_BLOG_DB_ID = "dd64ab3f95f24e76981566a07c83c671"
-  NOTION_TIMELINE_DB_ID = "7c26f377282944b2a2146aa65fb695d3"
-  NOTION_SKILL_DB_ID = "4457007b2ba24380a53b1510d6760dd8"
-  NOTION_EXP_DB_ID = "6838cdba627c4c42bb919f4c8b0fb5dd"
 
 [experimental]
   allowed_public_ports = []
