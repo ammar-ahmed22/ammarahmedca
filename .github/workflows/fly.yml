@@ -18,3 +18,18 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
+  send_notification:
+    name: Send SMS Notification
+    runs-on: ubuntu-latest
+    env:
+       MESSAGE: "✅ GitHub Action ✅\n\nName: Deploy to Fly.io\nStatus: Complete\n\nAPI is live at:\nhttps://ammarahmedca.fly.dev"
+    steps:
+      - uses: twilio-labs/actions-sms@v1
+        with:
+          fromPhoneNumber: ${{ secrets.TWILIO_PHONE_NUMBER }}
+          toPhoneNumber: ${{ secrets.MY_PHONE_NUMBER }}
+          message: ${{ env.MESSAGE }}
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+          TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}

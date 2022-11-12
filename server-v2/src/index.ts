@@ -41,5 +41,4 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
   })
 
   console.log(`🚀  Server ready at: ${url}`)
-
 })()
