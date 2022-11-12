@@ -5,7 +5,6 @@ name: Testing Twilio
       - development # remove this once everything finalized
 jobs:
   send_notification:
-    needs: deploy
     name: Send SMS Notification
     runs-on: ubuntu-latest
     env:
