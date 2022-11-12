@@ -6,12 +6,14 @@ name: Testing Twilio
 jobs:
   send_message:
     runs-on: ubuntu-latest
+    env:
+      MESSAGE: "GitHub Action: $GITHUB_WORKFLOW\nComplete ✅"
     steps:
       - uses: twilio-labs/actions-sms@v1
         with:
           fromPhoneNumber: ${{ secrets.TWILIO_PHONE_NUMBER }}
           toPhoneNumber: ${{ secrets.MY_PHONE_NUMBER }}
-          message: "GitHub Action: ${{env.GITHUB_WORKFLOW}}\nComplete ✅"
+          message: $MESSAGE
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
