@@ -19,6 +19,7 @@ jobs:
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
   send_notification:
+    needs: deploy
     name: Send SMS Notification
     runs-on: ubuntu-latest
     env:
