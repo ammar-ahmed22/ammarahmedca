@@ -1,0 +1,18 @@
+name: Testing Twilio
+'on':
+  push:
+    branches:
+      - backend-redesign
+jobs:
+  send_message:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: twilio-labs/actions-sms@v1
+        with:
+          fromPhoneNumber: ${{ secrets.TWILIO_PHONE_NUMBER }}
+          toPhoneNumber: ${{ secrets.MY_PHONE_NUMBER }}
+          message: "GitHub Action: Testing Twilio\nComplete ✅"
+        env:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
+          TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
