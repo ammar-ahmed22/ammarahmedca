@@ -1,106 +1,77 @@
-// Generics
-interface Annotations{
+interface IAnnotations{
   bold: boolean
   underline: boolean
   strikethrough: boolean
   code: boolean
   italic: boolean
   color: string
-  language?: string
+  language?: string,
 }
 
-interface Text{
-  plain_text: string,
+interface IText{
+  plainText: string,
   annotations: Annotations
 }
 
-interface Image{
-  caption: string,
-  url: string
+interface IImage{
+  url: string,
+  caption: string
 }
 
-type TextOrImage = Text | Image;
+type TextOrImageType = IText | IImage
 
-interface Timeframe{
-  start: string,
-  end?: string
+interface IContent{
+  type: string,
+  content: TextOrImageType[] 
 }
 
-// Blog / Projects
-interface BlogInfo{
-  id: string,
-  lastEdited: string,
-  name: string,
-  timeline?: string,
-  type?: string[],
-  languages?: string[],
-  frameworks?: string[],
-  github?: string,
-  external?: string,
-  description?: string,
-  published?: string,
-  isBlog?: boolean,
-  isProject?: boolean,
-  readTime?: number,
-  category?: string
-}
-
-interface BlogCategory{
-  category?: string,
-  posts: BlogInfo[]
-}
-
-
-interface FilterParams{
+interface IFilterOpts{
   frameworks: string[],
   type: string[],
-  languages: string[]
+  languages: string[],
+  category: string[]
 }
 
-interface ContentBlock{
-  type: string,
-  content: TextOrImage[]
-}
-
-// Experience
-interface Experience{
-  company: string,
-  role: string,
-  description: Text[]
-  type: string
-  skills: string[],
-  timeframe: Timeframe
-}
-
-// Skills
-interface Skill{
+interface IMetadata{
+  id: string
+  lastEdited: number
   name: string,
-  type: string,
-  value: number
+  pathname?: string,
+  timeline?: string
+  type?: string[]
+  languages?: string[]
+  frameworks?: string[]
+  github?: string
+  external?: string
+  description?: string
+  published?: number
+  isBlog?: boolean
+  isProject?: boolean
+  readTime?: number
+  category?: string
+  isPublished?: boolean
 }
 
-// ========== QUERIES ==========
-interface ProjectInfo{
-  ProjectInfo: BlogInfo[]
+
+
+// EXPERIENCE
+interface ITimeframe{
+  start: number,
+  end?: number
 }
 
-
-interface FilterBy{
-  FilterBy: FilterParams
+interface IExperience{
+  company: string;
+  role: string;
+  description: IText[];
+  type: string;
+  skills: string[];
+  timeframe: ITimeframe;
 }
 
-interface ExperienceInfo{
-  ExperienceInfo: Experience[]
-}
-
-interface BlogInfo{
-  BlogInfo: BlogCategory[]
-}
-
-interface BlogContent{
-  BlogContent: ContentBlock[]
-}
-
-interface SkillData{
-  SkillData: Skill[]
+// SKILLS
+interface ISkill{
+  name: string;
+  type: string;
+  value: number;
 }

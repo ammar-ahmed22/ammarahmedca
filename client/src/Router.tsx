@@ -46,7 +46,7 @@ const Router : React.FC = () => {
           <Post />
         </Page>
       ),
-      loader: ({ params }) => decodeURIComponent(params.postName ? params.postName : "")
+      loader: ({ params }) => params.postName
     },
     // needs complete rework
     // {

@@ -8,7 +8,7 @@ import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { styles } from "./styles/ProjectCard.styles";
 
 interface ProjectCardProps{
-    project: BlogInfo;
+    project: IMetadata;
     id: string;
     loading: boolean;
 }

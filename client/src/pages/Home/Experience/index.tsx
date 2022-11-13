@@ -4,7 +4,7 @@ import { useQuery } from "@apollo/client"
 import BulletItem from './BulletItem';
 import DisplayLimiter from '../../../components/DisplayLimiter';
 import RichText from '../../Post/RichText';
-import { ExperienceInfoQuery } from '../../../graphql/queries/ExperienceInfo';
+import { ExperienceQuery, ExperienceQueryResponse } from '../../../graphql/queries/Experience';
 import { styles } from './styles/index.styles';
 
 const CustomSkeleton : React.FC = () => {
@@ -22,26 +22,38 @@ const Experience : React.FC = () => {
 
     const [experiencesToDisplay, setExperiencesToDisplay] = useState(3);
 
-    const { data, loading } = useQuery<ExperienceInfo>(ExperienceInfoQuery);
+    const { data, loading } = useQuery<ExperienceQueryResponse>(ExperienceQuery);
+
+    const getMonthYear = (ISOStamp?: number) : string => {
+        if (!ISOStamp){
+            return "Present"
+        }
+        const date = new Date(ISOStamp);
+        const month = date.toLocaleString("default", { month: "long" });
+        const year = date.getFullYear();
+
+        return `${month} ${year}`
+
+    }
 
     return (
         <Box {...styles.mainBox} id="experience">
             <Text {...styles.title} >My <Text as="span" variant="gradient" >Experiences</Text></Text>
             <Box>
                 {
-                    data && data.ExperienceInfo.slice(0, experiencesToDisplay).map( (exp, idx) => {
+                    data && data.experiences.slice(0, experiencesToDisplay).map( (exp, idx) => {
                         const { company, role, timeframe, description, type, skills } = exp;
                         return (
-                            <BulletItem idx={idx} listLength={experiencesToDisplay}>
+                            <BulletItem key={idx} idx={idx} listLength={experiencesToDisplay}>
                                 <Text {...styles.company} >{company}</Text>
                                 <Box mb={3}>
                                     <Text {...styles.role} >{role}</Text>
-                                    <Text {...styles.timeframe} >{timeframe.start} - {timeframe.end}</Text>
+                                    <Text {...styles.timeframe} >{getMonthYear(timeframe.start)} - {getMonthYear(timeframe.end)}</Text>
                                     <Tag textTransform="uppercase" fontWeight="bold" size="md" my={2}>{type}</Tag>
                                     
                                     <Text {...styles.description}>
                                         {
-                                            description.map( (text, idx) => (<RichText idx={idx} {...text.annotations}>{text.plain_text}</RichText>))
+                                            description.map( (text, idx) => (<RichText key={idx} idx={idx} {...text.annotations}>{text.plainText}</RichText>))
                                         }
                                     </Text>
                                     <HStack my={2} wrap="wrap" >
@@ -57,13 +69,13 @@ const Experience : React.FC = () => {
                     })
                 }
                 {
-                    loading && [1, 2, 3].map( () => {
-                        return <CustomSkeleton />
+                    loading && [1, 2, 3].map( (val) => {
+                        return <CustomSkeleton key={val} />
                     })
                 }
                 <Flex justify="center">
                     {
-                        data && <DisplayLimiter numDisplaying={experiencesToDisplay} setNumDisplaying={setExperiencesToDisplay} initial={3} total={data.ExperienceInfo.length} incrementBy={2} scrollToId="experience"/>
+                        data && <DisplayLimiter numDisplaying={experiencesToDisplay} setNumDisplaying={setExperiencesToDisplay} initial={3} total={data.experiences.length} incrementBy={2} scrollToId="experience"/>
                     }
                 </Flex>
             </Box>

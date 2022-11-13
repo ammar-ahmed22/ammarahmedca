@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text, TextProps, useColorModeValue } from "@chakra-ui/react"
 
-type RichTextProps = Annotations & {
+type RichTextProps = IAnnotations & {
     idx: number,
     children: React.ReactNode
 }

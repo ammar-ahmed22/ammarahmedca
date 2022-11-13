@@ -21,7 +21,7 @@ import { TextOrImageIsText } from "../../graphql/typeGuards"
 
 interface PostBlockProps{
     type: string,
-    content: TextOrImage[],
+    content: TextOrImageType[],
     idx: number
 }
 // Renders blog blocks from API
@@ -35,7 +35,7 @@ const PostBlock : React.FC<PostBlockProps> = ({ type, content, idx }) => {
     const createKey = (idx: number) => `$post-block-${idx}`;
 
     if ((type === "heading_1" || type === "heading_2" || type === "heading_3") && TextOrImageIsText(content[0])){
-        return <Text key={createKey(idx)} {...styles[type]}>{content[0].plain_text}</Text>
+        return <Text key={createKey(idx)} {...styles[type]}>{content[0].plainText}</Text>
     }else if (type === "paragraph" ){
         return (
             <Text key={createKey(idx)} {...styles.p}>
@@ -43,7 +43,7 @@ const PostBlock : React.FC<PostBlockProps> = ({ type, content, idx }) => {
                     content.map( (text, textIdx) => {
                         if (TextOrImageIsText(text)){
                             return (
-                                <RichText idx={textIdx} key={textIdx} {...text.annotations} >{text.plain_text}</RichText>
+                                <RichText idx={textIdx} key={textIdx} {...text.annotations} >{text.plainText}</RichText>
                             )
                         }
                         return (
@@ -53,13 +53,13 @@ const PostBlock : React.FC<PostBlockProps> = ({ type, content, idx }) => {
                 }
             </Text>
         )
-    }else if (type === "ordered_list"){
+    }else if (type === "numbered_list"){
         return (
             <OrderedList key={createKey(idx)} {...styles.list}>
                 {
                     content.map( (li, liIdx) => {
                         if (TextOrImageIsText(li)){
-                            return <ListItem key={liIdx} >{li.plain_text}</ListItem>
+                            return <ListItem key={liIdx} >{li.plainText}</ListItem>
                         }
                         return (
                             <ListItem  color="red">ERROR: text at PostBlock:{idx}</ListItem>
@@ -68,13 +68,13 @@ const PostBlock : React.FC<PostBlockProps> = ({ type, content, idx }) => {
                 }
             </OrderedList>
         )
-    }else if (type === "unordered_list"){
+    }else if (type === "bulleted_list"){
         return (
             <UnorderedList key={createKey(idx)} {...styles.list}>
                 {
                     content.map( (li, liIdx) => {
                         if (TextOrImageIsText(li)){
-                            return <ListItem key={liIdx} >{li.plain_text}</ListItem>
+                            return <ListItem key={liIdx} >{li.plainText}</ListItem>
                         }
                         return (
                             <ListItem  color="red">ERROR: text at PostBlock:{idx}</ListItem>
@@ -88,7 +88,7 @@ const PostBlock : React.FC<PostBlockProps> = ({ type, content, idx }) => {
             <Box key={createKey(idx)} {...styles.codeBlock} bg={codeBlockBg}>
                 <SyntaxHighlighter language={content[0].annotations.language} style={codeBlockStyle} customStyle={{background: "transparent"}} showLineNumbers >
                     {
-                        content[0].plain_text
+                        content[0].plainText
                     }
                 </SyntaxHighlighter>
             </Box>

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, Text as RechartsText, ResponsiveContainer } from 'recharts'
 import { useColorModeValue, Spinner, Flex, useMediaQuery } from '@chakra-ui/react';
 import { useQuery } from "@apollo/client"
-import { SkillDataVariableQuery, SkillDataVariables } from '../../../graphql/queries/SkillData';
+import { SkillsQuery, SkillsQueryVariables, SkillQueryResponse } from '../../../graphql/queries/Skills';
 
 interface SkillChartProps{
     type: string
@@ -11,8 +11,8 @@ interface SkillChartProps{
 const SkillChart : React.FC<SkillChartProps> = ({ type }) => {
 
 
-    const { data, loading } = useQuery<SkillData, SkillDataVariables>(SkillDataVariableQuery, { variables: {
-        type
+    const { data, loading } = useQuery<SkillQueryResponse, SkillsQueryVariables>(SkillsQuery, { variables: {
+        onlyType: type
     }})
 
     const [isLargerThan30em] = useMediaQuery(['(min-width: 30em)'])
@@ -72,7 +72,7 @@ const SkillChart : React.FC<SkillChartProps> = ({ type }) => {
     if (!loading && data){
         return (
             <ResponsiveContainer width={"100%"} height="100%">
-                <RadarChart outerRadius={isLargerThan30em ? "75%" : "55%"} data={data.SkillData} cy="50%">
+                <RadarChart outerRadius={isLargerThan30em ? "75%" : "55%"} data={data.skills} cy="50%">
                     <PolarGrid />
                     <PolarAngleAxis dataKey="name" tick={props => <CustomPolarAngleAxis {...props} />} />
                     <PolarRadiusAxis angle={90} domain={[0, 100]} tick={props => <CustomPolarRadiusAxis {...props} />}/>
