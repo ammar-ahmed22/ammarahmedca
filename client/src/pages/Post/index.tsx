@@ -5,7 +5,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons"
 
 import { useNavigate, useLoaderData } from "react-router-dom"
 import { useQuery } from "@apollo/client"
-import { BlogInfoVariableQuery, BlogInfoVariables } from '../../graphql/queries/BlogInfo';
+import { MetadataQuery, MetadataQueryResponse, MetadataQueryVariables } from '../../graphql/queries/Metadata';
 import * as helper from "../../utils/helpers"
 import { styles } from "./styles/index.styles";
 
@@ -16,7 +16,7 @@ const Post : React.FC = () => {
 
     const handleBackClick = () => navigate("/blog");
 
-    const { data, loading } = useQuery<BlogInfo, BlogInfoVariables>(BlogInfoVariableQuery, { variables: {name: decodeURIComponent(postName)}});
+    const { data, loading } = useQuery<MetadataQueryResponse, MetadataQueryVariables>(MetadataQuery, { variables: {pathname: postName}});
 
     return (
         <>
@@ -32,14 +32,14 @@ const Post : React.FC = () => {
                     !loading && data && (
                         <Box my={5}>
                             <Button leftIcon={<ArrowBackIcon />} mt={4} variant="ghost" onClick={handleBackClick}>Back</Button>
-                            <Text {...styles.title}>{data.BlogInfo[0].posts[0].name}</Text>
-                            <Text {...styles.info}>{helper.displayTimeSince(data.BlogInfo[0].posts[0].published as string)} &bull; {data.BlogInfo[0].posts[0].readTime} min read</Text>
+                            <Text {...styles.title}>{data.metadata.name}</Text>
+                            <Text {...styles.info}>{helper.displayTimeSince(data.metadata.published as number)} &bull; {data.metadata.readTime} min read</Text>
 
                         </Box>
                     )
                 }
                 {
-                   !loading && data && <PostContent pageId={data.BlogInfo[0].posts[0].id} infoLoaded={!loading && !!data}/>
+                   !loading && data && <PostContent pathname={data.metadata.pathname as string} infoLoaded={!loading && !!data}/>
                 }
         </>
     );

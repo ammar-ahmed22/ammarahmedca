@@ -14,7 +14,7 @@ const Skills : React.FC = () => {
             <Tabs variant="line" colorScheme="brand.purple.500" onChange={(idx) => setTypeIdx(idx)} size="sm" >
                 <TabList>
                     {
-                        tabs.map( tab => <Tab _focus={{}}>{tab}{tab === "Other" ? "" : "s"}</Tab>)
+                        tabs.map( (tab, idx) => <Tab key={`tab-${idx}`} _focus={{}}>{tab}{tab === "Other" ? "" : "s"}</Tab>)
                     }
                 </TabList>
             </Tabs>

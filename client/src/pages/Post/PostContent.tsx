@@ -1,24 +1,24 @@
 import React from 'react';
 import { useQuery } from "@apollo/client"
-import { BlogContentQuery, BlogContentQueryVariables } from '../../graphql/queries/BlogContent';
+import { ContentQuery, ContentQueryResponse, ContentQueryVariables } from '../../graphql/queries/Content';
 import { Box, SkeletonText } from "@chakra-ui/react"
 import PostBlock from './PostBlock';
 
 interface PostContentProps{
-    pageId: string,
+    pathname: string,
     infoLoaded: boolean
 }
 
 // Pulls blocks for a blog post and renders the blog content
-const PostContent : React.FC<PostContentProps> = ({ pageId, infoLoaded }) => {
+const PostContent : React.FC<PostContentProps> = ({ pathname, infoLoaded }) => {
 
-    const { data, loading } = useQuery<BlogContent, BlogContentQueryVariables>(BlogContentQuery, {variables: { id: pageId }})
+    const { data, loading } = useQuery<ContentQueryResponse, ContentQueryVariables>(ContentQuery, {variables: { pathname }})
 
     if (!loading && data && infoLoaded){
         return (
             <>
                 {
-                    data.BlogContent.map((block, idx) => {
+                    data.content.map((block, idx) => {
                         return <PostBlock type={block.type} content={block.content} idx={idx} key={idx} />
                     })
                 }

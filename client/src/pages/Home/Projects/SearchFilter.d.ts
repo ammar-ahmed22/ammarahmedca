@@ -1,4 +1,4 @@
 interface SearchFilterProps{
-  projects: BlogInfo[],
-  setProjects: Dispatch<SetStateAction<BlogInfo[]>>
+  projects: IMetadata[],
+  setProjects: Dispatch<SetStateAction<IMetadata[]>>
 }

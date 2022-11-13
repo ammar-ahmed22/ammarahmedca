@@ -1,7 +1,7 @@
-export const displayTimeSince = (prev: string) : string => {
+export const displayTimeSince = (prevDate: number) : string => {
 
     const nowDate : number = new Date().valueOf();
-    const prevDate : number = Date.parse(prev)
+    
 
     const result : Record<string, number> = {};
 

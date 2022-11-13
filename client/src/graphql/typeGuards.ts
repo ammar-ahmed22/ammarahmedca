@@ -1,6 +1,6 @@
-export const TextOrImageIsText = (val: TextOrImage) : val is Text => {
+export const TextOrImageIsText = (val: TextOrImageType) : val is IText => {
   const keys = Object.keys(val);
-  if (keys.includes("plain_text") && keys.includes("annotations")){
+  if (keys.includes("plainText") && keys.includes("annotations")){
     return true;
   }
 

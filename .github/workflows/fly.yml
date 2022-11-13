@@ -2,12 +2,11 @@ name: Deploy to Fly.io
 'on':
   push:
     branches:
-      - development # remove this once everything finalized
       - production
-    paths: ["server-v2/**"]
+    paths: ["server/**"]
 defaults:
   run:
-    working-directory: server-v2
+    working-directory: server
 env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 jobs:
