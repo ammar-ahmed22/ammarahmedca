@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery, gql } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { Text, Box, SimpleGrid, HStack, Skeleton, SkeletonText } from "@chakra-ui/react"
 import ProjectCard from './ProjectCard';
 import Search from './Search';
 import Filter from './Filter';
 import DisplayLimiter from '../../../components/DisplayLimiter';
-import { ProjectInfoQuery } from '../../../graphql/queries/ProjectInfo';
+import { ProjectMetadataQuery, ProjectMetadataQueryResponse } from '../../../graphql/queries/Metadata';
 import { styles } from './styles/index.styles';
 
 
@@ -31,17 +31,17 @@ const CustomSkeleton : React.FC = () => {
 
 const Projects : React.FC = () => {
 
-    const [projects, setProjects] = useState<BlogInfo[]>([]);
+    const [projects, setProjects] = useState<IMetadata[]>([]);
     const [projectsToDisplay, setProjectsToDisplay] = useState<number>(4);
 
-    const { data, loading, error } = useQuery<ProjectInfo>(ProjectInfoQuery);
+    const { data, loading, error } = useQuery<ProjectMetadataQueryResponse>(ProjectMetadataQuery);
     
 
     
 
     useEffect(() => {
         if (data && !loading){
-            setProjects(data.ProjectInfo);
+            setProjects(data.projectMetadata);
             
         }
     }, [data, loading])
@@ -52,15 +52,15 @@ const Projects : React.FC = () => {
         <Box {...styles.mainBox} id="projects">
             <Text {...styles.title} >My <Text variant='gradient' as="span">Works</Text></Text>
             <HStack mb={4} spacing={2} >
-               {data &&  <Search projects={data.ProjectInfo} setProjects={setProjects} /> }
-               {data && <Filter projects={data.ProjectInfo} setProjects={setProjects} /> }
+               {data &&  <Search projects={data.projectMetadata} setProjects={setProjects} /> }
+               {data && <Filter projects={data.projectMetadata} setProjects={setProjects} /> }
             </HStack>
             
             {
                 data && projects && (
                     <SimpleGrid columns={{ base: 1, md: 2}} spacing={5}>
                         {
-                            projects.slice(0, projectsToDisplay).map( (project: BlogInfo) => {
+                            projects.slice(0, projectsToDisplay).map( (project: IMetadata) => {
                                 return <ProjectCard project={project} id={project.id} key={project.id} loading={loading} />
                             })
                         }
@@ -77,7 +77,7 @@ const Projects : React.FC = () => {
                 
             <HStack justify="center" mt={5}>
                 
-                {data && <DisplayLimiter numDisplaying={projectsToDisplay} setNumDisplaying={setProjectsToDisplay} initial={4} total={data.ProjectInfo.length} incrementBy={2} scrollToId="projects" />}
+                {data && <DisplayLimiter numDisplaying={projectsToDisplay} setNumDisplaying={setProjectsToDisplay} initial={4} total={data.projectMetadata.length} incrementBy={2} scrollToId="projects" />}
                         
             </HStack>
                 

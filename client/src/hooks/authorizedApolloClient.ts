@@ -2,7 +2,7 @@ import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/clien
 import { useAuthToken } from "./authToken";
 
 const httpLink = new HttpLink({
-    uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://api.ammarahmed.ca"}/graphql`
+    uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://ammarahmedca.fly.dev/"}`
 })
 
 const authMiddleware = (authToken: string) => {

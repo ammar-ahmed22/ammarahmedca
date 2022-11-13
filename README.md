@@ -1,4 +1,3 @@
-
 <p align="center">
     <img width="30"  alt="ammarahmed.ca Website Logo" src="./images/LogoIcon.png?raw=true">
 </p>
@@ -14,28 +13,28 @@
 A high-level overview of the tech stack this website uses: 
 
 **Front-end**
-- [React](https://reactjs.org/) is used for the functionality of the website.
+- [React](https://reactjs.org/) with [TypeScript](https://www.typescriptlang.org/) is used for the functionality of the website.
 - [ChakraUI](https://chakra-ui.com/) is used to create the standardized and aesthetic UI. 
-- [Apollo Client](https://www.apollographql.com/docs/react/) is used to simplify making GraphQL requests.
+- [Apollo Client](https://www.apollographql.com/docs/react/) is used to handle making GraphQL requests.
 
 **Back-end**
-- [Node.js](https://nodejs.org/en/) is used for the server environment.
+- [Node.js](https://nodejs.org/en/) with [TypeScript](https://www.typescriptlang.org/) is used for the server environment.
 - [Notion](https://www.notion.so/product?fredir=1) is used to persist web content (database).
-- [Notion API](https://developers.notion.com/) is used to connect the server to Notion 
-- [GraphQL](https://graphql.org/) is used to structure the API for data retrieval
-- [apollo-server-express](https://www.apollographql.com/docs/apollo-server/integrations/middleware/#apollo-server-express) is used to serve the GraphQL API
+- [Notion API](https://developers.notion.com/) is used to connect the server to Notion
+- [TypeGraphQL](https://typegraphql.com/docs/getting-started.html) is used to structure the [GraphQL](https://graphql.org/) API with TypeScript.
+- [Apollo Server](https://www.apollographql.com/docs/apollo-server/) is used to serve the GraphQL API
 
 **Hosting**
 - [Google Firebase](https://firebase.google.com/) is used for the client-side hosting
-- [Heroku](https://www.heroku.com/what) is used for the server-side hosting 
+- [Fly.io](https://fly.io/docs/) is used for the server-side hosting.
 
-## 🔧 Features
+## 🔧 Notable Features
 
 | Feature | Description |
 | ------- | ----------- |
 | **Content Management** | Web content such as blog posts, project content, skills etc. are written, edited and persisted in Notion. Automatically updated whenever changed in Notion |
 | **Light/Dark Mode** | Switching between light and dark mode. Default is set according to your system settings. |
-| **Continous deployment** | Client-side and server-side deployment is set-up automatically with `master` branch pushes. |
+| **Continous deployment** | Client-side and server-side deployment is set-up automatically with `production` branch pushes. SMS Notifications are sent to me after deployment finishes using Twilio.|
 | **Skill Charts** | Aesthetic radar charts created for skills using [recharts](https://recharts.org/en-US). |
 
 
@@ -80,8 +79,3 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca.
 - [Google Sign-In Button Style Guide](https://developers.google.com/identity/branding-guidelines)
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
-
-
-
-
-
