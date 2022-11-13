@@ -6,7 +6,7 @@ import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
 import Post from "./pages/Post";
-import ChessRouter from "./components/Chess/Routers/ChessRouter";
+// import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
 import Page from "./components/Page/Page";
 
@@ -48,11 +48,6 @@ const Router : React.FC = () => {
       ),
       loader: ({ params }) => params.postName
     },
-    // needs complete rework
-    // {
-    //   path: "/chess",
-    //   element: <ChessRouter />
-    // }
   ])
 
   return <RouterProvider router={router} />
