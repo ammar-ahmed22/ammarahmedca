@@ -16,7 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Link as ReactLink } from "react-router-dom"
 import Logo from "../Logo";
-import { faHome, faPen, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faHome, faPen, faUser, faChessPawn } from "@fortawesome/free-solid-svg-icons";
 import { styles } from "./styles/NavBar.styles";
 
 type LogoIconProps = Omit<IconProps, "viewBox">
@@ -53,10 +53,8 @@ const NavBar : React.FC<NavBarProps> = ({ active }) => {
         <Link {...styles.navButton} _hover={{ bg: useColorModeValue("gray.50", "gray.700")}} as={ReactLink} color={ active === "about" ? primary : regular} to="/about" ><FontAwesomeIcon icon={faUser as IconProp}/><Text>About Me</Text></Link>
         <Link {...styles.navButton} _hover={{ bg: useColorModeValue("gray.50", "gray.700")}} as={ReactLink} color={ active === "blog" ? primary : regular} to="/blog" ><FontAwesomeIcon icon={faPen as IconProp}/><Text>Blog</Text></Link>
 
-        {/* <Link {...styles.navButton} as={ReactLink} color={ active === "chess" ? primary : regular} to="/chess" ><FontAwesomeIcon icon="chess-pawn"/><Text>Chess</Text></Link>  */}
+        <Link {...styles.navButton} _hover={{ bg: useColorModeValue("gray.50", "gray.700")}} as={ReactLink} color={ active === "chess" ? primary : regular} to="/chess" ><FontAwesomeIcon icon={faChessPawn as IconProp} /><Text>Chess</Text></Link> 
 
-        
-        {/* <Link {...styles.navButton} ><FontAwesomeIcon icon="file-alt"/><Text>Resume</Text></Link> */}
 
         <IconButton
           icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

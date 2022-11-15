@@ -42,17 +42,17 @@ A high-level overview of the tech stack this website uses:
 
 | Feature | Description | Current Progress | 
 | ------- | ----------- | ---------------- |
-| **Chess game** | <ul><li>Play a game of 1-day time limit Chess against me</li><li>Players create an account and are notified by e-mail when it is their turn to play. </li><li>All game logic and functionality written myself as a learning exercise.</li><li>Player and game data persisted in MongoDB database</li><li>Chess game state is sent and persisted as FEN string</li><li>Players can register and login with Google as well as custom authentication flow.</li></ul> | <ul><li>Custom authentication flow implemented.</li><li>Google OAuth2 flow implemented.</li><li>Chess game board can be rendered using FEN strings</li><li>Simple pieces such as pawn, bishop, queen and rook can move with the correct rules.</li><li>Game state can be converted to FEN string</li><li>Server can send e-mails for forgetten and reset password</li></ul> |
+| **Chess game** | <ul><li>Play a game of 1-day time limit Chess against me</li><li>Players create an account and are notified by e-mail when it is their turn to play. </li><li>All game logic and functionality written myself as a learning exercise.</li><li>Player and game data persisted in MongoDB database</li><li>Chess game state is sent and persisted as FEN string</li><li>Players can register and login with Google as well as custom authentication flow.</li></ul> | <ul><li>Chess game board can be rendered using FEN strings</li><li>Game state can be converted to FEN string</li></ul> |
 
 ## 🎨 Design Reference
 #### Colors
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| Light Mode Primary | ![#a10010](https://via.placeholder.com/10/a10010?text=+) #A10010 |
-| Dark Mode Primary | ![#9c414a](https://via.placeholder.com/10/9c414a?text=+) #9C414A |
-| Dark Color | ![#1a202c](https://via.placeholder.com/10/1a202c?text=+) #1A202C |
-| Light Color| ![#ffffff](https://via.placeholder.com/10/ffffff?text=+) #FFFFFF |
+| Light Mode Primary | ![#a10010](https://via.placeholder.com/10/a10010?text=+&raw=true) #A10010 |
+| Dark Mode Primary | ![#9c414a](https://via.placeholder.com/10/9c414a?text=+&raw=true) #9C414A |
+| Dark Color | ![#1a202c](https://via.placeholder.com/10/1a202c?text=+&raw=true) #1A202C |
+| Light Color| ![#ffffff](https://via.placeholder.com/10/ffffff?text=+&raw=true) #FFFFFF |
 
 #### Fonts
 | Type | Font |
@@ -62,7 +62,7 @@ A high-level overview of the tech stack this website uses:
 
 ## 💬 Feedback
 
-If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca.
+If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca. If you find any bugs/issues with the Chess game, please create an issue or feel free to make a PR with a fix. 
 
 ## 📋 Articles/References
 
@@ -76,6 +76,5 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca.
 - [JWT Frontend Token Authentication](https://medium.com/ovrsea/token-authentication-with-react-and-apollo-client-a-detailed-example-a3cc23760e9)
 - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
 - [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth)
-- [Google Sign-In Button Style Guide](https://developers.google.com/identity/branding-guidelines)
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)

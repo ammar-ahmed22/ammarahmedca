@@ -8,6 +8,12 @@ import Blog from "./pages/Blog";
 import Post from "./pages/Post";
 // import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
+// Chess Pages
+import ChessHome from "./components/Chess/pages/Home";
+
+import ChessRouter from "./components/Chess/ChessRouter";
+import { chessRoutes } from "./components/Chess/ChessRouter";
+
 import Page from "./components/Page/Page";
 
 
@@ -48,6 +54,11 @@ const Router : React.FC = () => {
       ),
       loader: ({ params }) => params.postName
     },
+    {
+      path: "/chess",
+      element: <ChessRouter />,
+      children: chessRoutes
+    }
   ])
 
   return <RouterProvider router={router} />
