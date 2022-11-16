@@ -11,17 +11,6 @@ import { Flex } from "@chakra-ui/react";
 import Square from "../components/Square";
 
 
-interface IParsedFEN{
-  boardString: string[][],
-  colorToMove: string,
-  castling: string,
-  enPassant: string,
-  halfMove: number,
-  fullMove: number
-}
-
-
-
 export class FENHelper{
   static parseFEN = (fen: string) : IParsedFEN => {
     
@@ -66,15 +55,15 @@ export class FENHelper{
 
 export class Board{
 
-  public matrix : (Piece | undefined)[][] = []
+  public matrix : BoardMatrixType[][] = []
   public parsedFEN : IParsedFEN;
   constructor(fen: string){
     this.parsedFEN = FENHelper.parseFEN(fen);
     this.matrix = this.createMatrix(this.parsedFEN.boardString);
   }
 
-  public createMatrix = (boardString: string[][]) => {
-    const matrix : (Piece | undefined)[][] = [];
+  private createMatrix = (boardString: string[][]) => {
+    const matrix : BoardMatrixType[][] = [];
     
     
     for (let i = 0; i < boardString.length; i++){
@@ -109,14 +98,35 @@ export class Board{
     return matrix;
   }
 
-  render = () : JSX.Element[] => {
-    // use which turn it is to move to render the board accordingly.
-    // this.parsedFEN.colorToMove
+  private flipMatrix = (matrix: BoardMatrixType[][]) : BoardMatrixType[][] => {
+    const res : BoardMatrixType[][] = [];
 
-    // THIS IS ASSUMING WHITE TO MOVE
-    return this.matrix.map((row, rIdx) => {
+    for (let i = matrix.length - 1; i >= 0; i--){
+      const tempRow : BoardMatrixType[] = [];
+      for (let j = matrix[i].length - 1; j >= 0; j--){
+        tempRow.push(matrix[i][j])
+      }
+      res.push(tempRow);
+    }
+    
+    return res;
+  }
+
+  render = (validMoves: string[]) : JSX.Element[] => {
+    
+    // this works, however, we only want to switch the board when its the other players turn
+    // as in, players may want to test out moves but only when they "send" it will flip the board for 
+    // the other player 
+
+    // In other words, when they player is making moves, we don't want to update FEN, just let them make their moves
+    // Once they press send, creates a FEN and updates.
+    const toRender = this.parsedFEN.colorToMove === "w" ? this.matrix : this.flipMatrix(this.matrix);
+
+    
+    return toRender.map((row, rIdx) => {
       const rowId = `row-${rIdx + 1}`
-      const rank = 8 - rIdx;
+      // NEED TO UPDATE THIS FOR BLACK MOVE
+      const rank = this.parsedFEN.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
       const rowIsEven = rIdx % 2 === 0;
       return (
         <Flex
@@ -126,9 +136,11 @@ export class Board{
           {
             row.map((piece, pIdx) => {
               const pieceId = `${rowId}-col-${pIdx + 1}`
+              // NEED TO UPDATE THIS FOR BLACK MOVE
               const file = String.fromCharCode(97 + pIdx);
               const colIsEven = pIdx % 2 === 0;
               let isLight = false;
+              
               if (rowIsEven){
                 if (colIsEven){
                   isLight = true
@@ -139,15 +151,26 @@ export class Board{
                 }
               }
 
+              let isValidMove = false;
+              validMoves.forEach(move => {
+                const [moveFile, moveRank]= move.split("");
+
+                if (moveFile === file && parseInt(moveRank) === rank){
+                  isValidMove = true;
+                }
+              })
+
               return (
                 <Square 
                   key={pieceId}
                   id={pieceId}
                   piece={piece}
                   bg={isLight ? "light" : "dark"}
-                  size="8vw"
+                  size="5vw"
                   rank={rank}
                   file={file}
+                  indices={[rIdx, pIdx]}
+                  isValidMove={isValidMove}
                 />
               )
             })

@@ -1,23 +1,24 @@
 import React, { useContext, useEffect } from "react";
 import { Flex } from "@chakra-ui/react";
-import { GameContext, IGameContext } from "../contexts/GameContext";
+import { GameContext } from "../contexts/GameContext";
 
 const Board : React.FC = () => {
 
-  const { board, updateBoard } = useContext(GameContext) as IGameContext;
+  const { board, updateBoard, validMoves, updateValidMoves } = useContext(GameContext) as IGameContext;
 
-  console.log(board.matrix);
+  // console.log(board.matrix);
 
-  // useEffect(() => {
-  //   setTimeout(() => {
-  //     updateBoard("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1")
-  //   }, 2000)
-  // }, [])
+  useEffect(() => {
+    
+      updateBoard("rnbqkbnr/pppp1ppp/8/4p3/3P4/8/PPP1PPPP/RNBQKBNR w KQkq e3 0 1")
+    
+  }, [])
+
 
   return (
     <Flex justify="center" align="center" direction="column" >
       {
-        board.render()
+       board && validMoves && board.render(validMoves)
       }
     </Flex>
   )

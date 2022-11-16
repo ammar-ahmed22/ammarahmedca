@@ -13,9 +13,13 @@ export class Knight extends Piece{
     this.icon = FaChessKnight
   }
 
-  get name(): string {
+  get type(): PieceType {
     return "knight"
   }
 
+  validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
+    
+    return []
+  }
   
 }
