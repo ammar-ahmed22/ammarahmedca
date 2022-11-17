@@ -78,3 +78,4 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca. I
 - [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth)
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
+- [FEN Generator for testing](http://www.netreal.de/Forsyth-Edwards-Notation/index.php)

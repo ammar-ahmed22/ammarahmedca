@@ -1,12 +1,21 @@
-interface IParsedFEN{
-  boardString: string[][],
-  colorToMove: string,
-  castling: string,
-  enPassant: string,
-  halfMove: number,
-  fullMove: number
+import { Piece } from "../game/Pieces/Piece";
+
+declare global {
+  interface IParsedFEN{
+    boardString: string[][],
+    colorToMove: string,
+    castling: string,
+    enPassant: string,
+    halfMove: number,
+    fullMove: number
+  }
+  
+  type BoardMatrixType = Piece | undefined
+  
+  type PieceType = "pawn" | "bishop" | "rook" | "knight" | "king" | "queen"
+  
+  interface IsPieceOpts{
+    onlyOpps?: boolean,
+    noKing?: boolean
+  }
 }
-
-type BoardMatrixType = Piece | undefined
-
-type PieceType = "pawn" | "bishop" | "rook" | "knight" | "king" | "queen"
