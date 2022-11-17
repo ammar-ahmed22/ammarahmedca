@@ -18,8 +18,10 @@ export class Queen extends Piece{
   }
 
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
-    
-    return []
+    return [
+      this.getAllDiagonals(boardMatrix, rank, file),
+      this.getAllPerpendicular(boardMatrix, rank, file)
+    ].flatMap( arr => arr);
   }
   
 }

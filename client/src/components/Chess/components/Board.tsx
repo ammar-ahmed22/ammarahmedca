@@ -10,7 +10,7 @@ const Board : React.FC = () => {
 
   useEffect(() => {
     
-    updateBoard("rnbqkbnr/pppp1ppp/8/4p3/3P1B2/8/PPP1PPPP/RN1QKBNR w KQkq e3 0 1")
+    updateBoard("rnbqkbnr/pppppppp/8/8/3Q4/8/PPPPPPPP/RNB1KBNR w KQkq e3 0 1")
     
   }, [])
 

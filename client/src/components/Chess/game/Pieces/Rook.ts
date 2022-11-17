@@ -18,8 +18,7 @@ export class Rook extends Piece{
   }
 
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
-    
-    return []
+    return this.getAllPerpendicular(boardMatrix, rank, file);
   }
 
   

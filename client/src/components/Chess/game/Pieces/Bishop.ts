@@ -19,33 +19,7 @@ export class Bishop extends Piece{
 
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     
-    const topRight = this.findDiagonalMoves(boardMatrix, rank, file, {
-      incrementRank: true,
-      incrementFile: true
-    })
-
-    const topLeft = this.findDiagonalMoves(boardMatrix, rank, file, {
-      incrementRank: true,
-      incrementFile: false
-    })
-
-    const bottomRight = this.findDiagonalMoves(boardMatrix, rank, file, {
-      incrementRank: false,
-      incrementFile: true
-    })
-
-    const bottomLeft = this.findDiagonalMoves(boardMatrix, rank, file, {
-      incrementRank: false,
-      incrementFile: false
-    })
-
-
-    return [
-      ...topRight,
-      ...topLeft,
-      ...bottomRight,
-      ...bottomLeft
-    ]
+    return this.getAllDiagonals(boardMatrix, rank, file);
   }
 
   

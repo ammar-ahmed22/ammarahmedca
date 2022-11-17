@@ -10,6 +10,12 @@ interface FindDiagonalOpts{
   incrementFile: boolean
 }
 
+interface FindPerpOpts{
+  direction: 1 | -1,
+  horizontal?: boolean,
+  vertical?: boolean
+}
+
 export abstract class Piece {
 
   abstract color : "w" | "b"
@@ -81,6 +87,118 @@ export abstract class Piece {
     }
 
     return res;
+  }
+
+  protected getAllDiagonals = (boardMatrix: BoardMatrixType[][], rank: number, file: string) => {
+    const opts : Record<string, FindDiagonalOpts> = {
+      topRight: {
+        incrementRank: true,
+        incrementFile: true
+      },
+      topLeft: {
+        incrementRank: true,
+        incrementFile: false
+      },
+      bottomRight: {
+        incrementRank: false,
+        incrementFile: true
+      },
+      bottomLeft: {
+        incrementRank: false,
+        incrementFile: false
+      }
+    };
+
+    return Object.keys(opts).flatMap((opt) => {
+      return this.findDiagonalMoves(boardMatrix, rank, file, opts[opt])
+    })
+  }
+
+  protected findPerpendicularMoves = (boardMatrix: BoardMatrixType[][], startRank: number, startFile: string, { direction, horizontal, vertical } : FindPerpOpts) => {
+
+    const optErrorMsg = "horizontal and vertical cannot be the same!"
+    if ((horizontal && vertical) || (!horizontal && !vertical)){
+      throw new Error(optErrorMsg)
+    }
+
+    const res : string[] = []
+
+    const startFileNum = this.fileToNumber(startFile);
+
+    // horizontal: iterate file
+    if (horizontal){
+      for (let pFile = startFileNum + direction; direction === 1 ? pFile <= 8 : pFile >= 1; pFile += direction){
+        const isEmpty = !this.isPiece(boardMatrix, startRank, pFile)
+        const isOpponent = this.isPiece(boardMatrix, startRank, pFile, { onlyOpps: true, noKing: true });
+
+        if (isEmpty){
+          res.push(this.createAlgebraic(startRank, pFile));
+          continue;
+        }
+
+        if (isOpponent){
+          res.push(this.createAlgebraic(startRank, pFile));
+          break;
+        }
+
+        if (!isEmpty && !isOpponent){
+          break;
+        }
+
+      }
+    }
+
+    // vertical: iterate rank
+    if (vertical){
+      for (let pRank = startRank + direction; direction === 1 ? pRank <= 8 : pRank >= 1; pRank += direction){
+        const isEmpty = !this.isPiece(boardMatrix, pRank, startFileNum)
+        const isOpponent = this.isPiece(boardMatrix, pRank, startFileNum, { onlyOpps: true, noKing: true });
+
+        if (isEmpty){
+          res.push(this.createAlgebraic(pRank, startFileNum));
+          continue;
+        }
+
+        if (isOpponent){
+          res.push(this.createAlgebraic(pRank, startFileNum));
+          break;
+        }
+
+        if (!isEmpty && !isOpponent){
+          break;
+        }
+
+      }
+    }
+
+
+    return res;
+
+  }
+
+  protected getAllPerpendicular = (boardMatrix: BoardMatrixType[][], rank: number, file: string) => {
+    const opts : Record<string, FindPerpOpts> = {
+      up: {
+        direction: 1,
+        vertical: true,
+      },
+      down: {
+        direction: -1,
+        vertical: true
+      },
+      right: {
+        direction: 1,
+        horizontal: true
+      },
+      left: {
+        direction: -1,
+        horizontal: true
+      }
+    }
+
+    return Object.keys(opts).flatMap( opt => {
+      return this.findPerpendicularMoves(boardMatrix, rank, file, opts[opt])
+    })
   }
 
 
