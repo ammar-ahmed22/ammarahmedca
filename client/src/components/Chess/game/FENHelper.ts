@@ -8,6 +8,11 @@ import {
   Knight
 } from "./Pieces";
 
+interface MoveExecutionResponse{
+  fen: string,
+  take: BoardMatrixType
+}
+
 export class FENHelper{
     static parseFEN = (fen: string) : BoardMatrixType[][] => {
 
@@ -60,18 +65,35 @@ export class FENHelper{
 
     for (let i = 0; i < matrix.length; i++){
       let row = "";
+      let emptyCounter = 0;
       for (let j = 0; j < matrix[i].length; j++){
         const piece = matrix[i][j];
 
         if (piece){
           row += fenPieceString(piece.type, piece.color);
         } else {
-          
+          if ((j + 1) >= matrix[i].length){
+            emptyCounter++;
+            row += `${emptyCounter}`;
+            emptyCounter = 0;
+            continue;
+          }
+          const next = matrix[i][j + 1];
+          if (!next){
+            emptyCounter++
+            continue;
+          }
+
+          emptyCounter++;
+          row += `${emptyCounter}`;
+          emptyCounter = 0;
         }
       }
+
+      rows.push(row);
     }
 
-    return "";
+    return rows.join("/");
   }
 
   static algebraicToIndex = (algebraic: IAlgebraic) => {
@@ -81,24 +103,19 @@ export class FENHelper{
     }
   }
 
-  static executeMove = (fen: string, toMove: IAlgebraic, moveTo: IAlgebraic) => {
+  static executeMove = (fen: string, toMove: IAlgebraic, moveTo: IAlgebraic) : MoveExecutionResponse => {
     const matrix = FENHelper.parseFEN(fen);
     const toMoveIndex = FENHelper.algebraicToIndex(toMove);
     const moveToIndex = FENHelper.algebraicToIndex(moveTo);
 
-    const pieceAtMoveTo = matrix[moveToIndex.row][moveToIndex.col];
+    const takenPiece = matrix[moveToIndex.row][moveToIndex.col];
 
     matrix[moveToIndex.row][moveToIndex.col] = matrix[toMoveIndex.row][toMoveIndex.col];
-
-    if (!pieceAtMoveTo){
-      return {
-        fen: fen, // updated fen from new matrix (FENHelper.parseMatrix(matrix) => string)
-      }
-    }
+    matrix[toMoveIndex.row][toMoveIndex.col] = undefined;
 
     return {
-      fen: fen, // updated fen from new matrix (FENHelper.parseMatrix(matrix) => string)
-      take: pieceAtMoveTo,
+      fen: FENHelper.parseMatrix(matrix),
+      take: takenPiece
     }
   }
 }

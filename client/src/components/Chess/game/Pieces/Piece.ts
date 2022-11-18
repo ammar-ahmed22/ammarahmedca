@@ -67,8 +67,13 @@ export abstract class Piece {
       const isEmpty = !this.isPiece(boardMatrix, pRank, pFile)
       const isOpponent = this.isPiece(boardMatrix, pRank, pFile, { onlyOpps: true, noKing: true });
 
+      if (pFile <= 0 || pFile >= 9){
+        break;
+      }
+
       // empty, move to next
       if (isEmpty) {
+        if (pFile <= 0) throw new Error("pfile is neg or 0, startFile: " + startFileNum);
         res.push(this.createAlgebraic(pRank, pFile));
         pFile += fileDir;
         continue;
@@ -76,6 +81,7 @@ export abstract class Piece {
 
       // opponent, add and stop
       if (isOpponent) {
+        if (pFile <= 0) throw new Error("pfile is neg or 0")
         res.push(this.createAlgebraic(pRank, pFile));
         break;
       }
@@ -132,11 +138,13 @@ export abstract class Piece {
         const isOpponent = this.isPiece(boardMatrix, startRank, pFile, { onlyOpps: true, noKing: true });
 
         if (isEmpty){
+          if (pFile <= 0) throw new Error("pfile is neg or 0")
           res.push(this.createAlgebraic(startRank, pFile));
           continue;
         }
 
         if (isOpponent){
+          if (pFile <= 0) throw new Error("pfile is neg or 0")
           res.push(this.createAlgebraic(startRank, pFile));
           break;
         }

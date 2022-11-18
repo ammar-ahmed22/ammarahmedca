@@ -1,5 +1,7 @@
 import React,  { createContext, useState, useEffect } from "react";
+import { FENHelper } from "../game/FENHelper";
 import { Board } from "../game/Board";
+import { Piece } from "../game/Pieces/Piece";
 
 const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const GameContext = createContext<IGameContext | null>(null);
@@ -19,6 +21,9 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     toMove: null,
     moveTo: null
   })
+
+  const [whiteTakes, setWhiteTakes] = useState<Piece[]>([]);
+  const [blackTakes, setBlackTakes] = useState<Piece[]>([]);
   
   const [validMoves, setValidMoves] = useState<string[]>([]);
 
@@ -39,9 +44,18 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
   }, [fen, boardOpts])
 
   useEffect(() => {
+    console.log({ whiteTakes, blackTakes });
+  }, [whiteTakes, blackTakes])
+
+  useEffect(() => {
     if (move.moveTo && move.toMove){
       // swap and update fen
-      console.log(move);
+      const response = FENHelper.executeMove(fen, move.toMove, move.moveTo);
+      setFEN(response.fen);
+      if (response.take){
+        if (response.take.color === "w") setWhiteTakes(prev => [...prev, response.take as Piece]);
+        if (response.take.color === "b") setBlackTakes(prev => [...prev, response.take as Piece]);
+      }
     }
   }, [move])
 
@@ -62,7 +76,9 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     setColorToMove,
     move,
     setToMove,
-    setMoveTo
+    setMoveTo,
+    whiteTakes,
+    blackTakes
   }
 
 

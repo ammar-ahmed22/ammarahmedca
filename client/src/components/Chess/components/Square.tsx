@@ -31,16 +31,18 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
       }}
       onClick={() => {
         console.log(validMoves, !validMoves.length);
-        if (piece && !validMoves.length) {
+        if (isValidMove){
+          setMoveTo({ rank, file });
+          return;
+        }
+        
+        if (piece) {
           updateValidMoves(piece.validMoves(rank, file, board.matrix))
           setToMove({ rank, file })
           return;
         }
 
-        if (isValidMove){
-          setMoveTo({ rank, file });
-          return;
-        }
+        
 
       }}
     >

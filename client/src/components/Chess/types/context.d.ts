@@ -1,4 +1,5 @@
 import { Board } from "../game/Board";
+import { Piece } from "../game/Pieces/Piece";
 
 declare global {
   interface IGameContext{
@@ -11,6 +12,8 @@ declare global {
     move: IMove,
     setToMove: (algebraic: IAlgebraic) => void,
     setMoveTo: (algebraic: IAlgebraic) => void,
+    whiteTakes: Piece[],
+    blackTakes: Piece[]
   }
 
   interface IAlgebraic{
