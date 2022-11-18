@@ -22,6 +22,7 @@ export abstract class Piece {
   abstract icon : IconType
 
   abstract get type() : PieceType
+  abstract get points() : number
   
   abstract validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]) : string[]
 

@@ -96,7 +96,7 @@ export class Board{
                   id={pieceId}
                   piece={piece}
                   bg={isLight ? "light" : "dark"}
-                  size="5vw"
+                  size="8vh"
                   rank={rank}
                   file={file}
                   indices={[rIdx, pIdx]}

@@ -73,6 +73,7 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     updateBoard,
     validMoves,
     updateValidMoves,
+    colorToMove: boardOpts.colorToMove ?? "w",
     setColorToMove,
     move,
     setToMove,

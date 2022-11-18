@@ -17,6 +17,10 @@ export class Queen extends Piece{
     return "queen"
   }
 
+  get points(): number {
+    return 9;
+  }
+
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     return [
       this.getAllDiagonals(boardMatrix, rank, file),

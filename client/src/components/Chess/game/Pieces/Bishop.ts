@@ -17,6 +17,10 @@ export class Bishop extends Piece{
     return "bishop"
   }
 
+  get points(): number {
+    return 3;
+  }
+
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     
     return this.getAllDiagonals(boardMatrix, rank, file);

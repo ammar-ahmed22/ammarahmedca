@@ -1,3 +1,4 @@
+import { FlexProps, StackProps } from "@chakra-ui/react"
 import { Piece } from "../game/Pieces/Piece"
 
 declare global {
@@ -10,5 +11,24 @@ declare global {
     file: string,
     indices: [number, number],
     isValidMove: boolean
+  }
+
+  interface TakesDisplayProps{
+    takes: Piece[],
+    color: "w" | "b",
+    size: string,
+    position: "left" | "right",
+    containerProps?: StackProps
+  }
+
+  interface FakePlayer{
+    firstName: string,
+    lastName: string,
+  }
+
+  interface PlayerDisplayProps{
+    player: FakePlayer,
+    takes: Piece[],
+    takesColor: "w" | "b",
   }
 }

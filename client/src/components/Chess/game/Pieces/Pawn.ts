@@ -17,6 +17,10 @@ export class Pawn extends Piece{
     return "pawn"
   }
 
+  get points(): number {
+    return 1  
+  }
+
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     const res = [];
     const numberFile = this.fileToNumber(file)

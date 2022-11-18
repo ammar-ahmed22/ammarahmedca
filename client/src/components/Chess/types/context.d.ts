@@ -7,7 +7,8 @@ declare global {
     updateBoard: (fen: string) => void,
     fen: string,
     validMoves: string[],
-    updateValidMoves: (moves: string[]) => void
+    updateValidMoves: (moves: string[]) => void,
+    colorToMove: "w" | "b",
     setColorToMove: (color: "w" | "b") => void,
     move: IMove,
     setToMove: (algebraic: IAlgebraic) => void,

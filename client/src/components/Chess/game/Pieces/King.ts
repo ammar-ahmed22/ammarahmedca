@@ -17,6 +17,10 @@ export class King extends Piece{
     return "king"
   }
 
+  get points(): number {
+    return Infinity  
+  }
+
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     
     return []

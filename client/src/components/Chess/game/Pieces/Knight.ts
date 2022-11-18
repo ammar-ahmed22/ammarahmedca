@@ -17,6 +17,10 @@ export class Knight extends Piece{
     return "knight"
   }
 
+  get points(): number {
+    return 3
+  }
+
   validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
     const numberFile = this.fileToNumber(file);
     const potentialMoves = [

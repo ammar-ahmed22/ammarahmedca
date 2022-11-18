@@ -7,7 +7,6 @@ const Game : React.FC = () => {
 
   return (
     <Box>
-      <Text>Chess Game</Text>
       <GameProvider>
         <Board />
       </GameProvider>
