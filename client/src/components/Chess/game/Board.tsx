@@ -1,101 +1,27 @@
-import { Piece } from "./Pieces/Piece";
-import { 
-  Pawn,
-  Bishop,
-  King,
-  Queen,
-  Rook,
-  Knight
-} from "./Pieces";
 import { Flex } from "@chakra-ui/react";
 import Square from "../components/Square";
+import { FENHelper } from "./FENHelper";
 
 
-export class FENHelper{
-  static parseFEN = (fen: string) : IParsedFEN => {
-    
-    const [
-      board,
-      colorToMove,
-      castling,
-      enPassant,
-      halfMove,
-      fullMove
-    ] = fen.split(" ");
 
-    const rows = board.split("/");
-    const res : string[][] = [];
 
-    for (let i = 0; i < rows.length; i++){
-      const row  = rows[i];
-      const temp : string[] = [];
-      for (let j = 0; j < row.length; j++){
-        if (isNaN(parseInt(row[j]))){
-          temp.push(row[j])
-        } else {
-          for (let k = 0; k < parseInt(row[j]); k++){
-            temp.push("")
-          }
-        }
-      }
-
-      res.push(temp);
-    }
-
-    return {
-      boardString: res,
-      colorToMove,
-      castling,
-      enPassant,
-      halfMove: parseInt(halfMove),
-      fullMove: parseInt(fullMove)
-    }
-  }
-}
 
 export class Board{
 
   public matrix : BoardMatrixType[][] = []
-  public parsedFEN : IParsedFEN;
-  constructor(fen: string){
-    this.parsedFEN = FENHelper.parseFEN(fen);
-    this.matrix = this.createMatrix(this.parsedFEN.boardString);
-  }
-
-  private createMatrix = (boardString: string[][]) => {
-    const matrix : BoardMatrixType[][] = [];
-    
-    
-    for (let i = 0; i < boardString.length; i++){
-      const row = boardString[i];
-      const tempRow : (Piece | undefined)[] = [];
-      for (let j = 0; j < row.length; j++){
-        const pieceString = row[j];
-        
-        if (pieceString === ""){
-          tempRow.push(undefined);
-          continue;
-        }
-      
-        const isBlack = pieceString === pieceString.toLowerCase();
-        const color : "w" | "b" = isBlack ? "b" : "w"
-
-        const pieceMap : Record<string, Piece> = {
-          p: new Pawn(color),
-          n: new Knight(color),
-          r: new Rook(color),
-          k: new King(color),
-          q: new Queen(color),
-          b: new Bishop(color)
-        }
-
-        tempRow.push(pieceMap[pieceString.toLowerCase()])
-
-      }
-      matrix.push(tempRow);
-    }
-
-    return matrix;
+  public colorToMove: string;
+  public castling: string;
+  public enPassant: string;
+  public halfMove: number;
+  public fullMove: number
+  // public parsedFEN : IParsedFEN;
+  constructor(fen: string, opts?: BoardOpts){
+    this.colorToMove = opts?.colorToMove ?? "w";
+    this.castling = opts?.castling ?? "KQkq";
+    this.enPassant = opts?.enPassant ?? "-";
+    this.halfMove = opts?.halfMove ?? 0;
+    this.fullMove = opts?.fullMove ?? 1;
+    this.matrix = FENHelper.parseFEN(fen);
   }
 
   private flipMatrix = (matrix: BoardMatrixType[][]) : BoardMatrixType[][] => {
@@ -120,13 +46,17 @@ export class Board{
 
     // In other words, when they player is making moves, we don't want to update FEN, just let them make their moves
     // Once they press send, creates a FEN and updates.
-    const toRender = this.parsedFEN.colorToMove === "w" ? this.matrix : this.flipMatrix(this.matrix);
+
+    // Adding to above, now we have state for colorToMove so this is solved. Only when we update
+    // the state for colorToMove will this render the other way. (i.e. updating colorToMove option)
+    // this can be set when loaded from backend request.
+    const toRender = this.colorToMove === "w" ? this.matrix : this.flipMatrix(this.matrix);
 
     
     return toRender.map((row, rIdx) => {
       const rowId = `row-${rIdx + 1}`
       // NEED TO UPDATE THIS FOR BLACK MOVE
-      const rank = this.parsedFEN.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
+      const rank = this.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
       const rowIsEven = rIdx % 2 === 0;
       return (
         <Flex

@@ -9,7 +9,7 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
   const darkColor = "gray.700"
   const lightColor = useColorModeValue("gray.200", "gray.400")
 
-  const { board, updateValidMoves } = useContext(GameContext) as IGameContext;
+  const { board, updateValidMoves, validMoves, move, setMoveTo, setToMove } = useContext(GameContext) as IGameContext;
 
   const [row, col] = indices
 
@@ -30,7 +30,18 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
         cursor: "pointer"
       }}
       onClick={() => {
-        if (piece) updateValidMoves(piece.validMoves(rank, file, board.matrix))
+        console.log(validMoves, !validMoves.length);
+        if (piece && !validMoves.length) {
+          updateValidMoves(piece.validMoves(rank, file, board.matrix))
+          setToMove({ rank, file })
+          return;
+        }
+
+        if (isValidMove){
+          setMoveTo({ rank, file });
+          return;
+        }
+
       }}
     >
       {

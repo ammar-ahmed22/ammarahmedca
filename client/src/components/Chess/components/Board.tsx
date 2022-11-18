@@ -4,13 +4,17 @@ import { GameContext } from "../contexts/GameContext";
 
 const Board : React.FC = () => {
 
-  const { board, updateBoard, validMoves, updateValidMoves } = useContext(GameContext) as IGameContext;
+  const { board, updateBoard, validMoves, updateValidMoves, setColorToMove } = useContext(GameContext) as IGameContext;
 
   // console.log(board.matrix);
 
   useEffect(() => {
     
-    updateBoard("rnbqkbnr/pppppppp/8/8/3Q4/8/PPPPPPPP/RNB1KBNR w KQkq e3 0 1")
+    // updateBoard("rnbqkbnr/pppppppp/3N4/8/8/8/PPPPPPPP/R1BQKBNR")
+    // setTimeout(() => {
+    //   setColorToMove("b");
+    //   // alert("color updated!")
+    // }, 3000)
     
   }, [])
 

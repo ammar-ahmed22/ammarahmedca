@@ -1,19 +1,19 @@
-import { Board, FENHelper } from "./Board";
+import { Board } from "./Board";
 
-const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
+// const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1";
 
 
 
-test("Testing FEN parser", () => {
+// test("Testing FEN parser", () => {
 
-  const parsed = FENHelper.parseFEN(starting)
+//   const parsed = FENHelper.parseFEN(starting)
 
-  console.log(parsed.boardString);
+//   console.log(parsed.boardString);
   
-})
+// })
 
-test("Testing Board clas", () => {
-  const board = new Board(starting);
+// test("Testing Board clas", () => {
+//   const board = new Board(starting);
 
-  console.log(board.matrix);
-})
+//   console.log(board.matrix);
+// })

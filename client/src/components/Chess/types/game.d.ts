@@ -18,4 +18,12 @@ declare global {
     onlyOpps?: boolean,
     noKing?: boolean
   }
+
+  interface BoardOpts{
+    colorToMove?: "w" | "b",
+    castling?: string,
+    enPassant?: string,
+    halfMove?: number,
+    fullMove?: number
+  }
 }
