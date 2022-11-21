@@ -16,6 +16,11 @@ interface FindPerpOpts{
   vertical?: boolean
 }
 
+export interface AllMovesOpts{
+  validOnly?: boolean,
+  takesOnly?: boolean
+}
+
 export abstract class Piece {
 
   abstract color : "w" | "b"
@@ -23,8 +28,43 @@ export abstract class Piece {
 
   abstract get type() : PieceType
   abstract get points() : number
-  
-  abstract validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]) : string[]
+
+  /**
+   * Gets all moves including king takes
+   * @param {number} rank - Rank (row) number for chess board
+   * @param {string} file - File (column) letter for chess board (A-H)
+   * @param {BoardMatrixType[][]} boardMatrix - 8 x 8 matrix containing pieces and empty spaces
+   * @param {AllMovesOpts} [opts] - Options
+   */
+  abstract allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts) : string[]
+
+  protected validateOpts = (opts?: AllMovesOpts) => {
+    if (opts?.takesOnly && opts.validOnly){
+      throw new Error("takesOnly and validOnly cannot be the same!");
+    }
+  }
+
+  protected removeKings = (moves: string[], boardMatrix: BoardMatrixType[][]) : string[] => {
+    return moves.filter( move => {
+      const [file, rank] = move.split("");
+      const piece = this.getPiece(boardMatrix, parseInt(rank), this.fileToNumber(file));
+
+      if (piece?.type === "king") return false;
+
+      return true;
+    })
+    
+  }
+
+  protected removeNonTakes = (moves: string[], boardMatrix: BoardMatrixType[][]) : string[] => {
+    return moves.filter( move => {
+      const [file, rank] = move.split("");
+      const piece = this.getPiece(boardMatrix, parseInt(rank), this.fileToNumber(file));
+
+      if (!piece) return false;
+      return true;
+    })
+  }
 
   protected fileToNumber = (file: string) : number => file.charCodeAt(0) - 96 ;
   protected numberToFile = (numberFile: number) : string => String.fromCharCode(numberFile + 96) 
@@ -36,7 +76,7 @@ export abstract class Piece {
     }
   } 
 
-  private getPiece = (boardMatrix: BoardMatrixType[][], rank: number, numberFile: number) : BoardMatrixType => {
+  protected getPiece = (boardMatrix: BoardMatrixType[][], rank: number, numberFile: number) : BoardMatrixType => {
     const row = 8 - rank;
     const col = numberFile - 1;
 
@@ -66,7 +106,7 @@ export abstract class Piece {
     let pFile = startFileNum + fileDir;
     for (let pRank = startRank + rankDir; incrementRank ? pRank <= 8 : pRank >= 1; pRank += rankDir){
       const isEmpty = !this.isPiece(boardMatrix, pRank, pFile)
-      const isOpponent = this.isPiece(boardMatrix, pRank, pFile, { onlyOpps: true, noKing: true });
+      const isOpponent = this.isPiece(boardMatrix, pRank, pFile, { onlyOpps: true });
 
       if (pFile <= 0 || pFile >= 9){
         break;
@@ -136,7 +176,7 @@ export abstract class Piece {
     if (horizontal){
       for (let pFile = startFileNum + direction; direction === 1 ? pFile <= 8 : pFile >= 1; pFile += direction){
         const isEmpty = !this.isPiece(boardMatrix, startRank, pFile)
-        const isOpponent = this.isPiece(boardMatrix, startRank, pFile, { onlyOpps: true, noKing: true });
+        const isOpponent = this.isPiece(boardMatrix, startRank, pFile, { onlyOpps: true });
 
         if (isEmpty){
           if (pFile <= 0) throw new Error("pfile is neg or 0")
@@ -161,7 +201,7 @@ export abstract class Piece {
     if (vertical){
       for (let pRank = startRank + direction; direction === 1 ? pRank <= 8 : pRank >= 1; pRank += direction){
         const isEmpty = !this.isPiece(boardMatrix, pRank, startFileNum)
-        const isOpponent = this.isPiece(boardMatrix, pRank, startFileNum, { onlyOpps: true, noKing: true });
+        const isOpponent = this.isPiece(boardMatrix, pRank, startFileNum, { onlyOpps: true });
 
         if (isEmpty){
           res.push(this.createAlgebraic(pRank, startFileNum));

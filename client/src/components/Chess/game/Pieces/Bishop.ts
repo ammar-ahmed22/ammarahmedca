@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaChessBishop } from "react-icons/fa"
-import { Piece } from "./Piece";
+import { Piece, AllMovesOpts } from "./Piece";
 
 
 export class Bishop extends Piece{
@@ -21,9 +21,14 @@ export class Bishop extends Piece{
     return 3;
   }
 
-  validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
+  allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts): string[] {
+    this.validateOpts(opts);
     
-    return this.getAllDiagonals(boardMatrix, rank, file);
+    const moves = this.getAllDiagonals(boardMatrix, rank, file);
+
+    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+    return moves
   }
 
   

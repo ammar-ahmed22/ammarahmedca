@@ -1,6 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaChessKnight } from "react-icons/fa";
-import { Piece } from "./Piece";
+import { Piece, AllMovesOpts } from "./Piece";
 
 
 export class Knight extends Piece{
@@ -21,7 +21,8 @@ export class Knight extends Piece{
     return 3
   }
 
-  validMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][]): string[] {
+  allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts): string[] {
+    this.validateOpts(opts);
     const numberFile = this.fileToNumber(file);
     const potentialMoves = [
       {
@@ -71,15 +72,19 @@ export class Knight extends Piece{
         return true;
       }
 
-      if (this.isPiece(boardMatrix, move.rank, move.file, { onlyOpps: true, noKing: true })){
+      if (this.isPiece(boardMatrix, move.rank, move.file, { onlyOpps: true })){
         return true;
       }
 
       return false
     })
 
+    const moves = onlyEmptyOrOpp.map(move => this.createAlgebraic(move.rank, move.file))
 
-    return onlyEmptyOrOpp.map(move => this.createAlgebraic(move.rank, move.file))
+    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+
+    return moves
   }
   
 }

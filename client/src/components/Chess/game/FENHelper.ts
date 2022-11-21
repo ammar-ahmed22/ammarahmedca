@@ -10,7 +10,8 @@ import {
 
 interface MoveExecutionResponse{
   fen: string,
-  take: BoardMatrixType
+  take: BoardMatrixType,
+  matrix: BoardMatrixType[][]
 }
 
 export class FENHelper{
@@ -103,7 +104,7 @@ export class FENHelper{
     }
   }
 
-  static executeMove = (fen: string, toMove: IAlgebraic, moveTo: IAlgebraic) : MoveExecutionResponse => {
+  static executeMove = (fen: string, toMove: IAlgebraic, moveTo: IAlgebraic ) : MoveExecutionResponse => {
     const matrix = FENHelper.parseFEN(fen);
     const toMoveIndex = FENHelper.algebraicToIndex(toMove);
     const moveToIndex = FENHelper.algebraicToIndex(moveTo);
@@ -115,7 +116,8 @@ export class FENHelper{
 
     return {
       fen: FENHelper.parseMatrix(matrix),
-      take: takenPiece
+      take: takenPiece,
+      matrix
     }
   }
 }

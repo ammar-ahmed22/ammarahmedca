@@ -37,7 +37,7 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
         }
 
         if (piece) {
-          updateValidMoves(piece.validMoves(rank, file, board.matrix))
+          updateValidMoves(piece.allMoves(rank, file, board.matrix, { validOnly: true }))
           setToMove({ rank, file })
           return;
         }
