@@ -9,7 +9,7 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
   const darkColor = "gray.700"
   const lightColor = useColorModeValue("gray.200", "gray.400")
 
-  const { board, updateValidMoves, validMoves, move, setMoveTo, setToMove } = useContext(GameContext) as IGameContext;
+  const { board, updateValidMoves, validMoves, setMoveTo, setToMove } = useContext(GameContext) as IGameContext;
 
   const [row, col] = indices
 

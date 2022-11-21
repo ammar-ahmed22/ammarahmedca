@@ -1,11 +1,9 @@
 import React, { useContext } from "react";
 import { 
   Box, 
-  Flex, 
   Text, 
   HStack, 
   Icon, 
-  Tag,
   Stat,
   StatLabel,
   StatNumber,
