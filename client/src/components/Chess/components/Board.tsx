@@ -22,13 +22,23 @@ const Board : React.FC = () => {
 
   return (
     <Flex justify="center" align="center" direction="column" >
-      <PlayerDisplay player={{firstName: "Saniya", lastName: "Ahmed" }} takes={blackTakes} takesColor="b" />
+      <PlayerDisplay 
+        player={{firstName: "Saniya", lastName: "Ahmed" }} 
+        takes={{w: whiteTakes, b: blackTakes }} 
+        takesColor="w" 
+        containerProps={{ mb: "1ch" }} 
+      />
       <Flex justify="center" align="center" direction="column" >
         {
           board && validMoves && board.render(validMoves)
         }
       </Flex>
-     
+      <PlayerDisplay 
+        player={{firstName: "Ammar", lastName: "Ahmed" }} 
+        takes={{ w: whiteTakes, b: blackTakes }} 
+        takesColor="b" 
+        containerProps={{ mt: "4ch" }} 
+      />
     </Flex>
   )
 

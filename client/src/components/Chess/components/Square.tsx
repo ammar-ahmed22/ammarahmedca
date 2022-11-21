@@ -35,13 +35,15 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
           setMoveTo({ rank, file });
           return;
         }
-        
+
         if (piece) {
           updateValidMoves(piece.validMoves(rank, file, board.matrix))
           setToMove({ rank, file })
           return;
         }
 
+        updateValidMoves([])
+        // setMoveTo(null)
         
 
       }}

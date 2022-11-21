@@ -14,7 +14,9 @@ declare global {
     setToMove: (algebraic: IAlgebraic) => void,
     setMoveTo: (algebraic: IAlgebraic) => void,
     whiteTakes: Piece[],
-    blackTakes: Piece[]
+    blackTakes: Piece[],
+    squareSize: string,
+    setSquareSize: (val: string) => void
   }
 
   interface IAlgebraic{

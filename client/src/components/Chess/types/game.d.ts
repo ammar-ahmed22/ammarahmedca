@@ -24,6 +24,7 @@ declare global {
     castling?: string,
     enPassant?: string,
     halfMove?: number,
-    fullMove?: number
+    fullMove?: number,
+    squareSize?: string
   }
 }

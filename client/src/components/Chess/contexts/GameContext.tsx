@@ -13,7 +13,8 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     castling: "KQkq",
     enPassant: "-",
     halfMove: 0,
-    fullMove: 1
+    fullMove: 1,
+    squareSize: "7vh"
   });
   const [board, setBoard] = useState<Board>(new Board(starting, boardOpts));
   const [fen, setFEN] = useState<string>(starting);
@@ -67,6 +68,11 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     setMove(prevMove => ({ ...prevMove, moveTo: algebraic }))
   }
 
+  const setSquareSize = (val: string) => {
+    setBoardOpts(prevOpts => ({...prevOpts, squareSize: val }));
+  }
+
+
   const context : IGameContext = {
     board,
     fen,
@@ -79,7 +85,9 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     setToMove,
     setMoveTo,
     whiteTakes,
-    blackTakes
+    blackTakes,
+    squareSize: boardOpts.squareSize ?? "8vh",
+    setSquareSize
   }
 
 

@@ -13,7 +13,8 @@ export class Board{
   public castling: string;
   public enPassant: string;
   public halfMove: number;
-  public fullMove: number
+  public fullMove: number;
+  public squareSize: string;
   // public parsedFEN : IParsedFEN;
   constructor(fen: string, opts?: BoardOpts){
     this.colorToMove = opts?.colorToMove ?? "w";
@@ -22,6 +23,7 @@ export class Board{
     this.halfMove = opts?.halfMove ?? 0;
     this.fullMove = opts?.fullMove ?? 1;
     this.matrix = FENHelper.parseFEN(fen);
+    this.squareSize = opts?.squareSize ?? "8vw";
   }
 
   private flipMatrix = (matrix: BoardMatrixType[][]) : BoardMatrixType[][] => {
@@ -55,7 +57,7 @@ export class Board{
     
     return toRender.map((row, rIdx) => {
       const rowId = `row-${rIdx + 1}`
-      // NEED TO UPDATE THIS FOR BLACK MOVE
+      
       const rank = this.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
       const rowIsEven = rIdx % 2 === 0;
       return (
@@ -66,7 +68,7 @@ export class Board{
           {
             row.map((piece, pIdx) => {
               const pieceId = `${rowId}-col-${pIdx + 1}`
-              // NEED TO UPDATE THIS FOR BLACK MOVE
+             
               const file = String.fromCharCode(97 + pIdx);
               const colIsEven = pIdx % 2 === 0;
               let isLight = false;
@@ -96,7 +98,7 @@ export class Board{
                   id={pieceId}
                   piece={piece}
                   bg={isLight ? "light" : "dark"}
-                  size="8vh"
+                  size={this.squareSize}
                   rank={rank}
                   file={file}
                   indices={[rIdx, pIdx]}

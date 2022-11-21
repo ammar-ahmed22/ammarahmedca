@@ -28,7 +28,11 @@ declare global {
 
   interface PlayerDisplayProps{
     player: FakePlayer,
-    takes: Piece[],
+    takes: {
+      w: Piece[],
+      b: Piece[]
+    },
     takesColor: "w" | "b",
+    containerProps?: StackProps
   }
 }
