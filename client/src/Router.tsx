@@ -9,10 +9,10 @@ import Post from "./pages/Post";
 // import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
 // Chess Pages
-import ChessHome from "./components/Chess/pages/Home";
+import ChessHome from "./chess/pages/Home";
 
-import ChessRouter from "./components/Chess/ChessRouter";
-import { chessRoutes } from "./components/Chess/ChessRouter";
+import ChessRouter from "./chess/ChessRouter";
+import { chessRoutes } from "./chess/ChessRouter";
 
 import Page from "./components/Page/Page";
 

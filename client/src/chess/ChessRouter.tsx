@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 
-import Page from "../Page/Page";
+import Page from "../components/Page/Page";
 
 import Home from "./pages/Home";
 import Game from "./pages/Game";
