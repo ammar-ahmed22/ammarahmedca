@@ -73,41 +73,64 @@ export class King extends Piece{
 
     });
 
-    console.log({ potentiallyValid });
+    
 
     // simulate moves for each of the potentiallyValid
-    // get valid moves for each oppPiece in the simulated matrix
-    // if any valid move can take the king (rank, numberFile), not valid (will cause check)
+    // get potential takes for each opponent piece in the simulated matrix
+    // if any potentially valid move can cause king to be taken: not valid
     const currFen = FENHelper.parseMatrix(boardMatrix);
     const valid = potentiallyValid.filter( move => {
       const simulated = FENHelper.executeMove(currFen, { rank, file }, { rank: move.rank, file: this.numberToFile(move.file)});
-      console.log({ simulated });
+      
       const simulatedMatrix = simulated.matrix;
 
       let canBeTaken = false;
       
-      for (let i = 0; i < simulatedMatrix.length; i++){
+      mainLoop: for (let i = 0; i < simulatedMatrix.length; i++){
         for (let j = 0; j < simulatedMatrix[i].length; j++){
           const sRank = 8 - i;
           const sFile = String.fromCharCode(97 + j);
           const piece = simulatedMatrix[i][j];
+          // if the piece is the opponent king (we don't want to call allMoves as below)
+          if (piece && piece.color !== this.color && piece.type === "king"){
+
+            // find distance between the 2 kings
+            const currKing = { x: move.file, y: move.rank };
+            const otherKing = { x: this.fileToNumber(sFile), y: sRank };
+      
+            const distance = Math.sqrt(Math.pow(currKing.x - otherKing.x, 2) + Math.pow(currKing.y - otherKing.y, 2));
+
+            // if simulated move would cause the kings to be one space away: not valid
+            if (distance === 1 || distance === Math.sqrt(2)){
+              canBeTaken = true;
+              break mainLoop;
+            }
+
+          }
+          // only select non-king, opponent pieces
           if (!piece || piece.color === this.color || piece.type === "king") continue;
           
+          // get all take moves
           const pieceTakes = piece.allMoves(sRank, sFile, simulatedMatrix, { takesOnly: true });
+          
+          // if potentially valid move could be taken, not valid
           canBeTaken = pieceTakes.includes(this.createAlgebraic(move.rank, move.file));
-          if (canBeTaken) console.log(piece.type);
-          if (canBeTaken) break;
+          
+          if (canBeTaken) break mainLoop;
         }
       }
-      console.log("checkingMove:", this.createAlgebraic(move.rank, move.file), { canBeTaken });
+  
       return !canBeTaken;
 
     })
 
-    console.log({ valid });
 
+    const moves = valid.map( move => this.createAlgebraic(move.rank, move.file) );
 
-    return valid.map( move => this.createAlgebraic(move.rank, move.file) );
+    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+
+    return moves;
   }
 
   
