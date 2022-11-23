@@ -1,5 +1,6 @@
 import type { IconType } from "react-icons";
 import { FaChessRook } from "react-icons/fa";
+import { Board } from "../Board";
 import { Piece, AllMovesOpts } from "./Piece";
 
 
@@ -21,12 +22,12 @@ export class Rook extends Piece{
     return 5;
   }
 
-  allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts): string[] {
+  allMoves(rank: number, file: string, board: Board, opts?: AllMovesOpts): string[] {
     this.validateOpts(opts);
-    const moves = this.getAllPerpendicular(boardMatrix, rank, file);
+    const moves = this.getAllPerpendicular(board, rank, file);
 
-    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
-    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+    if (opts?.validOnly) return this.removeKings(moves, board);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, board);
 
     return moves;
   }

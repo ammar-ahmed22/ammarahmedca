@@ -1,9 +1,13 @@
 import { Flex } from "@chakra-ui/react";
 import Square from "../components/Square";
 import { FENHelper } from "./FENHelper";
+import { fileToNumber } from "./utils";
 
 
-
+interface IsPieceOpts{
+  onlyOpps?: boolean,
+  noKing?: boolean
+}
 
 
 export class Board{
@@ -24,6 +28,52 @@ export class Board{
     this.fullMove = opts?.fullMove ?? 1;
     this.matrix = FENHelper.parseFEN(fen);
     this.squareSize = opts?.squareSize ?? "8vw";
+  }
+
+  public getPiece = (rank: number, numberFile: number) : BoardMatrixType => {
+    const row = 8 - rank;
+    const col = numberFile - 1;
+
+    return this.matrix[row][col];
+  }
+
+  public isPiece = (rank: number, numberFile: number, color: "w" | "b", opts?: IsPieceOpts) : boolean => {
+    const piece = this.getPiece( rank, numberFile)
+
+    if (!piece) return false;
+
+    if (opts?.onlyOpps && piece.color === color) return false;
+
+    if (opts?.noKing && piece.type === "king") return false;
+
+    return true;
+    
+  }
+
+  public removeKings = (moves: string[], board: Board) : string[] => {
+    return moves.filter( move => {
+      const [file, rank] = move.split("");
+      const piece = board.getPiece(parseInt(rank), fileToNumber(file));
+
+      if (piece?.type === "king") return false;
+
+      return true;
+    })
+    
+  }
+
+  public removeNonTakes = (moves: string[], board: Board) : string[] => {
+    return moves.filter( move => {
+      const [file, rank] = move.split("");
+      const piece = board.getPiece(parseInt(rank), fileToNumber(file));
+
+      if (!piece) return false;
+      return true;
+    })
+  }
+
+  isInCheck = (color: "w" | "b") => {
+
   }
 
   private flipMatrix = (matrix: BoardMatrixType[][]) : BoardMatrixType[][] => {

@@ -2,6 +2,8 @@ import type { IconType } from "react-icons";
 import { FaChessKing } from "react-icons/fa";
 import { Piece, AllMovesOpts } from "./Piece";
 import { FENHelper } from "../FENHelper";
+import { Board } from "../Board";
+import { createAlgebraic, fileToNumber, numberToFile } from "../utils";
 
 
 export class King extends Piece{
@@ -22,9 +24,9 @@ export class King extends Piece{
     return Infinity  
   }
 
-  allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts): string[] {
+  allMoves(rank: number, file: string, board: Board, opts?: AllMovesOpts): string[] {
     this.validateOpts(opts);
-    const numberFile = this.fileToNumber(file);
+    const numberFile = fileToNumber(file);
     const allPotential = [
       {
         rank: rank + 1,
@@ -66,8 +68,8 @@ export class King extends Piece{
         return false;
       }
 
-      const isEmpty = !this.isPiece(boardMatrix, move.rank, move.file);
-      const isOpp = this.isPiece(boardMatrix, move.rank, move.file, { onlyOpps: true, noKing: true });
+      const isEmpty = !board.isPiece( move.rank, move.file, this.color);
+      const isOpp = board.isPiece(move.rank, move.file, this.color, { onlyOpps: true, noKing: true });
 
       return isEmpty || isOpp;
 
@@ -78,25 +80,25 @@ export class King extends Piece{
     // simulate moves for each of the potentiallyValid
     // get potential takes for each opponent piece in the simulated matrix
     // if any potentially valid move can cause king to be taken: not valid
-    const currFen = FENHelper.parseMatrix(boardMatrix);
+    const currFen = FENHelper.parseMatrix(board.matrix);
     const valid = potentiallyValid.filter( move => {
-      const simulated = FENHelper.executeMove(currFen, { rank, file }, { rank: move.rank, file: this.numberToFile(move.file)});
+      const simulated = FENHelper.executeMove(currFen, { rank, file }, { rank: move.rank, file: numberToFile(move.file)});
       
-      const simulatedMatrix = simulated.matrix;
+      const simulatedBoard = new Board(simulated.fen);
 
       let canBeTaken = false;
       
-      mainLoop: for (let i = 0; i < simulatedMatrix.length; i++){
-        for (let j = 0; j < simulatedMatrix[i].length; j++){
+      mainLoop: for (let i = 0; i < simulatedBoard.matrix.length; i++){
+        for (let j = 0; j < simulatedBoard.matrix[i].length; j++){
           const sRank = 8 - i;
           const sFile = String.fromCharCode(97 + j);
-          const piece = simulatedMatrix[i][j];
+          const piece = simulatedBoard.matrix[i][j];
           // if the piece is the opponent king (we don't want to call allMoves as below)
           if (piece && piece.color !== this.color && piece.type === "king"){
 
             // find distance between the 2 kings
             const currKing = { x: move.file, y: move.rank };
-            const otherKing = { x: this.fileToNumber(sFile), y: sRank };
+            const otherKing = { x: fileToNumber(sFile), y: sRank };
       
             const distance = Math.sqrt(Math.pow(currKing.x - otherKing.x, 2) + Math.pow(currKing.y - otherKing.y, 2));
 
@@ -111,10 +113,10 @@ export class King extends Piece{
           if (!piece || piece.color === this.color || piece.type === "king") continue;
           
           // get all take moves
-          const pieceTakes = piece.allMoves(sRank, sFile, simulatedMatrix, { takesOnly: true });
+          const pieceTakes = piece.allMoves(sRank, sFile, simulatedBoard, { takesOnly: true });
           
           // if potentially valid move could be taken, not valid
-          canBeTaken = pieceTakes.includes(this.createAlgebraic(move.rank, move.file));
+          canBeTaken = pieceTakes.includes(createAlgebraic(move.rank, move.file));
           
           if (canBeTaken) break mainLoop;
         }
@@ -125,10 +127,10 @@ export class King extends Piece{
     })
 
 
-    const moves = valid.map( move => this.createAlgebraic(move.rank, move.file) );
+    const moves = valid.map( move => createAlgebraic(move.rank, move.file) );
 
-    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
-    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+    if (opts?.validOnly) return this.removeKings(moves, board);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, board);
 
     return moves;
   }

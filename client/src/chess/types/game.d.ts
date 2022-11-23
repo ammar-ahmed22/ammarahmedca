@@ -1,4 +1,7 @@
 import { Piece } from "../game/Pieces/Piece";
+import { Board } from "../game/Board";
+
+// import Board from "../components/Board";
 
 declare global {
   interface IParsedFEN{
@@ -27,4 +30,5 @@ declare global {
     fullMove?: number,
     squareSize?: string
   }
+
 }

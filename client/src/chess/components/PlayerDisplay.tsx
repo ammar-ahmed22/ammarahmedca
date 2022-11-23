@@ -101,9 +101,10 @@ const PlayerDisplay : React.FC<PlayerDisplayProps> = ({ player, takes, takesColo
       <HStack spacing={2} >
         
         {
-          countPieces(takes[takesColor]).map( item => {
+          countPieces(takes[takesColor]).map( (item, idx) => {
+            const key = `piece-${takesColor}-${idx}`;
             return (
-              <HStack pos="relative" spacing={1} >
+              <HStack pos="relative" spacing={1} key={key} >
                 <Icon as={item.icon} h="1.25rem" w="1.25rem" color={pieceColors[takesColor]} zIndex={item.count} />
                 {
                   item.count > 1 && <Text fontSize="sm">x {item.count}</Text>

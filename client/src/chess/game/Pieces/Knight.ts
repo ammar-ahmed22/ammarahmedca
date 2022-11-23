@@ -1,6 +1,8 @@
 import type { IconType } from "react-icons";
 import { FaChessKnight } from "react-icons/fa";
 import { Piece, AllMovesOpts } from "./Piece";
+import { Board } from "../Board";
+import { fileToNumber, createAlgebraic } from "../utils";
 
 
 export class Knight extends Piece{
@@ -21,9 +23,9 @@ export class Knight extends Piece{
     return 3
   }
 
-  allMoves(rank: number, file: string, boardMatrix: BoardMatrixType[][], opts?: AllMovesOpts): string[] {
+  allMoves(rank: number, file: string, board: Board, opts?: AllMovesOpts): string[] {
     this.validateOpts(opts);
-    const numberFile = this.fileToNumber(file);
+    const numberFile = fileToNumber(file);
     const potentialMoves = [
       {
         rank: rank + 2,
@@ -68,21 +70,21 @@ export class Knight extends Piece{
     })
 
     const onlyEmptyOrOpp = onlyInBounds.filter( move => {
-      if (!this.isPiece(boardMatrix, move.rank, move.file)){
+      if (!board.isPiece(move.rank, move.file, this.color)){
         return true;
       }
 
-      if (this.isPiece(boardMatrix, move.rank, move.file, { onlyOpps: true })){
+      if (board.isPiece(move.rank, move.file, this.color, { onlyOpps: true })){
         return true;
       }
 
       return false
     })
 
-    const moves = onlyEmptyOrOpp.map(move => this.createAlgebraic(move.rank, move.file))
+    const moves = onlyEmptyOrOpp.map(move => createAlgebraic(move.rank, move.file))
 
-    if (opts?.validOnly) return this.removeKings(moves, boardMatrix);
-    if (opts?.takesOnly) return this.removeNonTakes(moves, boardMatrix);
+    if (opts?.validOnly) return this.removeKings(moves, board);
+    if (opts?.takesOnly) return this.removeNonTakes(moves, board);
 
     return moves
   }
