@@ -2,6 +2,9 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 import { ApolloServer } from "@apollo/server";
+import { expressMiddleware } from '@apollo/server/express4';
+import express from "express";
+import cors from "cors";
 
 import { startStandaloneServer } from "@apollo/server/standalone"
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
@@ -23,6 +26,8 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     dateScalarMode: "timestamp"
   })
 
+  const app = express();
+
   const schemaString = printSchema(schema);
   fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString)
 
@@ -37,9 +42,22 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     ]
   })
 
-  const { url } = await startStandaloneServer(server, {
-    listen: { port: PORT }
-  })
+  await server.start();
 
-  console.log(`🚀  Server ready at: ${url}`);
+  app.use(
+    "/",
+    cors<cors.CorsRequest>(),
+    express.json(),
+    expressMiddleware(server, {
+      
+    })
+  )
+
+  app.listen(PORT, () => console.log(`🚀  Server ready at http://localhost:${PORT}`))
+
+  // const { url } = await startStandaloneServer(server, {
+  //   listen: { port: PORT }
+  // })
+
+  // console.log(`🚀  Server ready at: ${url}`);
 })()
