@@ -1,7 +1,7 @@
 import { Flex } from "@chakra-ui/react";
 import Square from "../components/Square";
 import { FENHelper } from "./FENHelper";
-import { fileToNumber } from "./utils";
+import { fileToNumber, indexToAlgebraic, createAlgebraic } from "./utils";
 
 
 interface IsPieceOpts{
@@ -12,6 +12,7 @@ interface IsPieceOpts{
 
 export class Board{
 
+  public fen: string;
   public matrix : BoardMatrixType[][] = []
   public colorToMove: string;
   public castling: string;
@@ -19,7 +20,7 @@ export class Board{
   public halfMove: number;
   public fullMove: number;
   public squareSize: string;
-  // public parsedFEN : IParsedFEN;
+
   constructor(fen: string, opts?: BoardOpts){
     this.colorToMove = opts?.colorToMove ?? "w";
     this.castling = opts?.castling ?? "KQkq";
@@ -27,6 +28,7 @@ export class Board{
     this.halfMove = opts?.halfMove ?? 0;
     this.fullMove = opts?.fullMove ?? 1;
     this.matrix = FENHelper.parseFEN(fen);
+    this.fen = fen;
     this.squareSize = opts?.squareSize ?? "8vw";
   }
 
@@ -72,8 +74,51 @@ export class Board{
     })
   }
 
-  isInCheck = (color: "w" | "b") => {
+  public findPiecePosition = (type: PieceType,  color: "w" | "b") => {
 
+    const { matrix } = this;
+
+    for (let i = 0; i < matrix.length; i++){
+      for (let j = 0; j < matrix[i].length; j++){
+        const piece = matrix[i][j];
+        if (piece && piece.type === type && piece.color === color){
+          return indexToAlgebraic(i, j);
+        }
+      }
+    }
+
+  }
+
+  public isInCheck = (color: "w" | "b") => {
+    const { matrix } = this;
+
+    const kingPosition = this.findPiecePosition("king", color);
+
+    if (!kingPosition) throw new Error("No king. Invalid FEN.")
+
+    const kingAlgebraic = createAlgebraic(kingPosition.rank, kingPosition.file);
+
+    for (let i = 0; i < matrix.length; i++){
+      for (let j = 0; j < matrix[i].length; j++){
+        const piece = matrix[i][j];
+        if (!piece || piece.color === color || piece.type === "king") continue;
+
+        const pos = indexToAlgebraic(i, j);
+        const takeMoves = piece.allMoves(pos.rank, pos.file, this, { takesOnly: true });
+        if (takeMoves.includes(kingAlgebraic)) return true;
+      }
+    }
+
+    return false;
+  }
+
+  public onlyCheckRemovers = (rank: number, file: string, color: "w" | "b", moves: string[]) : string[] => {
+    return moves.filter( move => {
+      const [moveFile, moveRank] = move.split("");
+      const simulated = FENHelper.executeMove(this.fen, { rank, file }, { rank: parseInt(moveRank), file: moveFile });
+      const simulatedBoard = new Board(simulated.fen);
+      return !simulatedBoard.isInCheck(color);
+    })
   }
 
   private flipMatrix = (matrix: BoardMatrixType[][]) : BoardMatrixType[][] => {

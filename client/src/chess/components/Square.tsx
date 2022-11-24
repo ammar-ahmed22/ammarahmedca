@@ -37,13 +37,20 @@ const Square : React.FC<SquareProps> = ({ piece, size, bg, id, rank, file, indic
         }
 
         if (piece) {
-          updateValidMoves(piece.allMoves(rank, file, board, { validOnly: true }))
+          const moves = piece.allMoves(rank, file, board, { validOnly: true })
+          if (board.isInCheck(piece.color)){
+            // if check removers returns empty array (CHECKMATE!)
+            updateValidMoves(board.onlyCheckRemovers(rank, file, piece.color, moves))
+          } else {
+            updateValidMoves(moves)
+          }
+          
           setToMove({ rank, file })
           return;
         }
 
         updateValidMoves([])
-        // setMoveTo(null)
+       
         
 
       }}

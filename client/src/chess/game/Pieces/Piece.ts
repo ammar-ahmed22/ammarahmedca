@@ -1,12 +1,6 @@
 import type { IconType } from "react-icons";
 import { Board } from "../Board";
-import { indexToAlgebraic, fileToNumber, createAlgebraic } from "../utils"
-
-
-interface IsPieceOpts{
-  onlyOpps?: boolean,
-  noKing?: boolean
-}
+import { fileToNumber, createAlgebraic } from "../utils"
 
 interface FindDiagonalOpts{
   incrementRank: boolean,
@@ -68,10 +62,6 @@ export abstract class Piece {
       return true;
     })
   }
-
-  
-
-  
 
   protected findDiagonalMoves = (board: Board, startRank: number, startFile: string, { incrementFile, incrementRank } : FindDiagonalOpts) => {
     const res : string[] = []
@@ -228,19 +218,7 @@ export abstract class Piece {
   }
 
 
-  protected findPiece = (boardMatrix: BoardMatrixType[][], type: PieceType,  color: "w" | "b") => {
-
-    for (let i = 0; i < boardMatrix.length; i++){
-      for (let j = 0; j < boardMatrix[i].length; j++){
-        const piece = boardMatrix[i][j];
-        if (piece && piece.type === type && piece.color === color){
-          return indexToAlgebraic(i, j);
-        }
-
-      }
-    }
-
-  }
+  
 
 }
 
