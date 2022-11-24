@@ -5,25 +5,31 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from '@apollo/server/express4';
 import express from "express";
 import cors from "cors";
+import jwt, { verify } from "jsonwebtoken";
 
-import { startStandaloneServer } from "@apollo/server/standalone"
+
 import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
 import * as path from "path";
-import fs from "fs";
+import fs, { read } from "fs";
+
+import { connect } from "./utils/connectDB";
+import { authChecker } from "./utils/auth";
 
 import { buildSchema } from "type-graphql";
 import { printSchema } from "graphql";
 
 import { BlogResolver } from "./graphql/resolvers/Blog";
 import { WebsiteResolver } from "./graphql/resolvers/Website";
+import { UserResolver } from "./graphql/resolvers/User";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 (async () => {
 
   const schema = await buildSchema({
-    resolvers: [ BlogResolver, WebsiteResolver ],
-    dateScalarMode: "timestamp"
+    resolvers: [ BlogResolver, WebsiteResolver, UserResolver ],
+    dateScalarMode: "timestamp",
+    authChecker
   })
 
   const app = express();
@@ -31,7 +37,7 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
   const schemaString = printSchema(schema);
   fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString)
 
-  const server = new ApolloServer({
+  const server = new ApolloServer<Context>({
     schema,
     introspection: true,
     plugins: [
@@ -42,22 +48,29 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     ]
   })
 
+  if (process.env.MONGO_URI) await connect(process.env.MONGO_URI);
+
   await server.start();
 
   app.use(
     "/",
     cors<cors.CorsRequest>(),
     express.json(),
-    expressMiddleware(server, {
-      
+    expressMiddleware<Context>(server, {
+      context: async ({ req }) => {
+
+        if (!req.headers.authorization || !req.headers.authorization.split(" ")[1]) return { }
+
+        const token = req.headers.authorization.split(" ")[1];
+
+        const user = <JWTUserPayload>verify(token, process.env.JWT_SECRET as string);
+
+        return {
+          userId: user.id
+        }
+      }
     })
   )
 
-  app.listen(PORT, () => console.log(`🚀  Server ready at http://localhost:${PORT}`))
-
-  // const { url } = await startStandaloneServer(server, {
-  //   listen: { port: PORT }
-  // })
-
-  // console.log(`🚀  Server ready at: ${url}`);
+  app.listen(PORT, () => console.log(`🚀 Server ready at http://localhost:${PORT}`))
 })()

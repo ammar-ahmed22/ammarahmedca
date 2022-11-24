@@ -23,6 +23,7 @@ type Query {
 
   """Gets all types for skills."""
   skillTypes: [String!]!
+  user: User!
 }
 
 """Metadata model for blog and project posts"""
@@ -183,4 +184,57 @@ type Skill {
 
   """Competency in skill out of 100."""
   value: Int!
+}
+
+"""User for chess games"""
+type User {
+  """MongoDB id for user."""
+  _id: ID!
+
+  """Date user was created at."""
+  createdAt: Timestamp!
+  email: String!
+  firstName: String!
+  lastName: String!
+  middleName: String
+  company: String
+  position: String
+  foundBy: String
+  currentGameID: String
+  gameIDs: [String!]!
+  emailConfirmationCode: Int
+  emailConfirmed: Boolean!
+  resetPasswordToken: String
+  resetPasswordExpire: Timestamp
+}
+
+type Mutation {
+  register(data: RegisterInput!): AuthPayload!
+  login(password: String!, email: String!): AuthPayload!
+  updateUser(data: UpdateInput!): AuthPayload!
+}
+
+type AuthPayload {
+  token: String!
+}
+
+input RegisterInput {
+  email: String!
+  password: String!
+  firstName: String!
+  lastName: String!
+  middleName: String
+  company: String
+  position: String
+  foundBy: String
+}
+
+input UpdateInput {
+  email: String
+  firstName: String
+  lastName: String
+  middleName: String
+  company: String
+  position: String
+  foundBy: String
 }
