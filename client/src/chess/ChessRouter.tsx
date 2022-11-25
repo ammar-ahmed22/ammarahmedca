@@ -6,6 +6,7 @@ import Page from "../components/Page/Page";
 
 import Home from "./pages/Home";
 import Game from "./pages/Game";
+import Login from "./pages/Login";
 
 export const chessRoutes : RouteObject[] = [
   {
@@ -15,6 +16,10 @@ export const chessRoutes : RouteObject[] = [
   {
     path: "play",
     element: <Game />
+  },
+  {
+    path: "login",
+    element: <Login />
   }
 ]
 
