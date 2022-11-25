@@ -34,7 +34,7 @@ export class User{
   @prop({ required: true, unique: true, validate: /\S+@\S+\.\S+/ })
   public email: string
 
-  @prop({ required: true, minlength: 6, maxlength: 20, validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/, select: false })
+  @prop({ required: true, minlength: 6, validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/, select: false })
   public password: string
 
   @Field()
@@ -70,33 +70,49 @@ export class User{
   public gameIDs: Types.Array<String>
 
   @Field(returns => Int, { nullable: true })
-  @prop()
+  @prop({ required: false })
   public emailConfirmationCode?: number
+
+  @Field({ nullable: true })
+  @prop({ required: false })
+  public emailConfirmationCodeExpire?: Date
 
   @Field()
   @prop({ required: true, default: false })
   public emailConfirmed: boolean
 
   @Field({ nullable: true })
-  @prop()
+  @prop({ required: false })
   public resetPasswordToken?: string
 
   @Field({ nullable: true })
-  @prop()
-  public resetPasswordExpire: Date
+  @prop({ required: false })
+  public resetPasswordExpire?: Date
 
   public async matchPasswords(this: DocumentType<User>, password: string){
     const match = await bc.compare(password, this.password);
     return match;
   }
 
-  public getResetPasswordToken(this: DocumentType<User>){
+  public async getResetPasswordToken(this: DocumentType<User>){
     const token = crypto.randomBytes(20).toString("hex");
 
     this.resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
     this.resetPasswordExpire = new Date(Date.now() + (10 * (60 * 1000))) // 10 minutes
 
+    await this.save();
+
     return token;
+  }
+
+  public async createEmailConfirmationCode(this: DocumentType<User>){
+    const code = Math.floor(100000 + Math.random() * 900000);
+    this.emailConfirmationCode = code;
+    this.emailConfirmationCodeExpire = new Date(Date.now() + (10 * (60 * 1000))) // 10 minutes
+
+    await this.save();
+
+    return code;
   }
 
   
@@ -116,7 +132,8 @@ type RegisterUser = Omit<
   "resetPasswordToken" | 
   "resetPasswordExpire" | 
   "matchPasswords" | 
-  "getResetPasswordToken"
+  "getResetPasswordToken" |
+  "createEmailConfirmationCode"
 >
 
 @InputType()

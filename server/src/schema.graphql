@@ -23,6 +23,7 @@ type Query {
 
   """Gets all types for skills."""
   skillTypes: [String!]!
+  newEmailCode: AuthPayload!
   user: User!
 }
 
@@ -186,6 +187,10 @@ type Skill {
   value: Int!
 }
 
+type AuthPayload {
+  token: String!
+}
+
 """User for chess games"""
 type User {
   """MongoDB id for user."""
@@ -203,6 +208,7 @@ type User {
   currentGameID: String
   gameIDs: [String!]!
   emailConfirmationCode: Int
+  emailConfirmationCodeExpire: Timestamp
   emailConfirmed: Boolean!
   resetPasswordToken: String
   resetPasswordExpire: Timestamp
@@ -210,12 +216,11 @@ type User {
 
 type Mutation {
   register(data: RegisterInput!): AuthPayload!
+  confirmEmail(code: Int!): AuthPayload!
   login(password: String!, email: String!): AuthPayload!
+  forgotPassword(email: String!): String!
+  resetPassword(token: String!, newPassword: String!): AuthPayload!
   updateUser(data: UpdateInput!): AuthPayload!
-}
-
-type AuthPayload {
-  token: String!
 }
 
 input RegisterInput {
