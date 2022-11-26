@@ -9,19 +9,54 @@ import {
   InputGroup,
   InputRightElement,
   Text, 
-  VStack
+  VStack,
+  Link,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
 import { Formik, Field, FormikProps } from "formik";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa"
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Card from "../../components/Card";
+import { gql } from "@apollo/client"
+import { useAuthMutation } from "../../hooks/auth";
 
 const Login : React.FC = () => {
 
   const [show, setShow] = useState(false);
+  // const [submitted, setSubmitted] = useState(false);
+  const navigate = useNavigate()
+
+  const loginMutation = gql`
+    mutation Login($password: String!, $email: String!) {
+      login(password: $password, email: $email) {
+        token
+      }
+    }
+  `
+
+  const [login, { submitted, loading, error }] = useAuthMutation<{ email: string, password: string }>("login", loginMutation)
+
+  useEffect(() => {
+    if (!loading && !error && submitted){
+      // console.log();
+      navigate("/chess/play")
+    }
+  }, [loading, error, submitted, navigate])
 
   return (
-    <Flex justify="center" align="center" h="80vh" w="100%">
+    <Flex justify="center" align="center" h="80vh" w="100%" direction="column">
+      {
+        error && (
+          <Alert status="error" variant="left-accent" w="60%" >
+            <AlertIcon/>
+            {
+              error.message
+            }
+          </Alert>
+        )
+      }
       <Card w="60%" h="auto" >
         <Text 
           fontSize={{ base: "4xl", lg: "5xl" }} 
@@ -38,7 +73,11 @@ const Login : React.FC = () => {
             password: ""
           }}
           onSubmit={(values) => {
-            alert(JSON.stringify(values, null, 2))
+            login({ variables: {
+              email: values.email,
+              password: values.password
+            }})
+            // setSubmitted(true);
           }}
         >
           {({ handleSubmit, errors, touched } : FormikProps<{email: string, password: string}>) => (
@@ -75,8 +114,10 @@ const Login : React.FC = () => {
                     </InputRightElement>
                   </InputGroup>
                   <FormErrorMessage>{errors.password}</FormErrorMessage>
+                  <Link color="brand.purple.300" fontSize="sm" onClick={() => navigate("/chess/forgot-password")} >Forgot password?</Link>
                 </FormControl>
-                <Button width="full" type="submit" bgGradient="linear(to-tr, brand.purple.500, brand.blue.500)">Login</Button>
+                <Button width="full" type="submit" variant="gradient" isLoading={loading} loadingText="Logging in" >Login</Button>
+                <Text fontSize="sm" textAlign="center" w="100%" >Don't have an account? <Link color="brand.purple.300" onClick={() => navigate("/chess/register")} >Register</Link></Text>
               </VStack>
             </form>
           )}

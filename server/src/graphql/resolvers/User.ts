@@ -60,7 +60,7 @@ export class UserResolver{
   }
 
   @Authorized()
-  @Query(returns => AuthPayload)
+  @Mutation(returns => AuthPayload)
   async newEmailCode(
     @Ctx() ctx: Context
   ){

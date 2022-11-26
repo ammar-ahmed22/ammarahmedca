@@ -75,3 +75,38 @@ interface ISkill{
   type: string;
   value: number;
 }
+
+// Auth
+type User = {
+  _id: string
+ createdAt: number
+ email: string
+ firstName: string
+ lastName: string
+ middleName?: string
+ company?: string
+ position?: string
+ foundBy?: string
+ currentGameID?: string
+ gameIDs: string[]
+ emailConfirmed: boolean
+}
+
+interface AuthPayload{
+  token: string
+}
+
+type RegisterData = {
+  email: string,
+  password: string,
+  firstName: string,
+  lastName: string,
+  middleName: string,
+  company: string,
+  position: string,
+  foundBy: string
+}
+
+type RegisterInput = {
+  data: RegisterData
+}

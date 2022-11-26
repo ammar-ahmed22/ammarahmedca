@@ -3,10 +3,15 @@ import { Outlet } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
 
 import Page from "../components/Page/Page";
+import AuthorizedRoute from "./components/AuthorizedRoute";
 
 import Home from "./pages/Home";
 import Game from "./pages/Game";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import ConfirmEmail from "./pages/ConfirmEmail"
+import ForgotPassword from "./pages/ForgotPassword";
+import Loading from "./components/Loading";
 
 export const chessRoutes : RouteObject[] = [
   {
@@ -15,11 +20,35 @@ export const chessRoutes : RouteObject[] = [
   },
   {
     path: "play",
-    element: <Game />
+    element: (
+      <AuthorizedRoute>
+        <Game />
+      </AuthorizedRoute>
+    )
   },
   {
     path: "login",
     element: <Login />
+  },
+  {
+    path: "register",
+    element: <Register />
+  },
+  {
+    path: "confirm-email",
+    element: (
+      <AuthorizedRoute>
+        <ConfirmEmail />
+      </AuthorizedRoute>
+    )
+  },
+  {
+    path: "spinner-test",
+    element: <Loading />
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPassword />
   }
 ]
 

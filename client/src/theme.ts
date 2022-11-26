@@ -58,7 +58,7 @@ const components = {
   Text: {
     variants: {
       gradient: {
-        bgGradient: "linear(to-r, brand.purple.500, brand.blue.500)",
+        bgGradient: "linear(to-tr, brand.purple.500, brand.blue.500)",
         bgClip: "text"
       }
     }
@@ -68,6 +68,25 @@ const components = {
       gradient: {
         bgGradient: "linear(to-r, brand.purple.500, brand.blue.500)",
         bgClip: "text"
+      }
+    }
+  },
+  Button: {
+    variants: {
+      gradient: {
+        bgGradient: "linear(to-tr, brand.purple.500, brand.blue.500)",
+        color: "white",
+        _hover: {
+          bgGradient: "linear(to-tr, brand.purple.600, brand.blue.600)"
+        },
+        _loading: {
+          bgGradient: "linear(to-tr, brand.purple.500, brand.blue.500)",
+          opacity: 0.5,
+          color: "white",
+          _hover: {
+            bgGradient: "linear(to-tr, brand.purple.600, brand.blue.600)"
+          }
+        }
       }
     }
   }

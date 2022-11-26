@@ -1,6 +1,6 @@
 import React from "react";
-import { Box, Text, Button, UnorderedList, ListItem, OrderedList, HStack, VStack, Icon} from "@chakra-ui/react";
-import { FaChessPawn, FaChessBoard } from "react-icons/fa"
+import { Box, Text, Button, ListItem, OrderedList, HStack, VStack, Icon} from "@chakra-ui/react";
+import { FaChessBoard } from "react-icons/fa"
 import { useNavigate } from "react-router-dom";
 import { styles } from "./Home.styles";
 
@@ -36,8 +36,8 @@ const Home : React.FC = () => {
           </Box>
           
             <HStack>
-            <Button bgGradient="linear(to-r, brand.purple.500, brand.blue.500)" color="white" _hover={{ bgGradient: "linear(to-r, brand.purple.600, brand.blue.600)" }} >Let's Play!</Button>
-            {/* <Button variant="outline" borderColor="brand.purple.500" color="brand.purple.300" >Register</Button> */}
+            <Button bgGradient="linear(to-r, brand.purple.500, brand.blue.500)" color="white" _hover={{ bgGradient: "linear(to-r, brand.purple.600, brand.blue.600)" }} onClick={() => navigate("/chess/login")} >Let's Play!</Button>
+            {/* <Button variant="outline" borderColor="brand.purple.500" color="brand.purple.300" >Register</Button> */} 
             </HStack>
           
         </VStack>

@@ -69,11 +69,11 @@ export class User{
   @prop({ required: true, default: [], type: String })
   public gameIDs: Types.Array<String>
 
-  @Field(returns => Int, { nullable: true })
+  
   @prop({ required: false })
   public emailConfirmationCode?: number
 
-  @Field({ nullable: true })
+  
   @prop({ required: false })
   public emailConfirmationCodeExpire?: Date
 
@@ -81,11 +81,11 @@ export class User{
   @prop({ required: true, default: false })
   public emailConfirmed: boolean
 
-  @Field({ nullable: true })
+  
   @prop({ required: false })
   public resetPasswordToken?: string
 
-  @Field({ nullable: true })
+  
   @prop({ required: false })
   public resetPasswordExpire?: Date
 
