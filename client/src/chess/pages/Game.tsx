@@ -10,12 +10,12 @@ const Game : React.FC = () => {
   const navigate = useNavigate();
   return (
     <Box>
-      <Button
+      {/* <Button
         onClick={() => {
           removeToken()
           navigate("/chess")
         }}
-      >Logout</Button>
+      >Logout</Button> */}
       <GameProvider>
         <Board />
       </GameProvider>

@@ -104,7 +104,8 @@ type RegisterData = {
   middleName: string,
   company: string,
   position: string,
-  foundBy: string
+  foundBy: string,
+  profilePic: string
 }
 
 type RegisterInput = {

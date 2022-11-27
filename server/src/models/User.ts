@@ -63,6 +63,10 @@ export class User{
 
   @Field({ nullable: true })
   @prop()
+  public profilePic?: string
+
+  @Field({ nullable: true })
+  @prop()
   public currentGameID?: string
 
   @Field(returns => [String])
@@ -161,6 +165,9 @@ export class RegisterInput implements RegisterUser{
 
   @Field({ nullable: true })
   public foundBy?: string
+
+  @Field({ nullable: true })
+  public profilePic?: string
 
 }
 

@@ -200,6 +200,7 @@ type User {
   company: String
   position: String
   foundBy: String
+  profilePic: String
   currentGameID: String
   gameIDs: [String!]!
   emailConfirmed: Boolean!
@@ -228,6 +229,7 @@ input RegisterInput {
   company: String
   position: String
   foundBy: String
+  profilePic: String
 }
 
 input UpdateInput {
