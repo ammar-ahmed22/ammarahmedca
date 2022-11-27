@@ -18,6 +18,7 @@ const AuthorizedRoute : React.FC<AuthorizedRouteProps> = ({ children, redirectPa
   }
 
   if ((!user || error)){
+    console.log(error);
     return <Navigate to={redirectPath ?? "/chess/login"} />
   }
 

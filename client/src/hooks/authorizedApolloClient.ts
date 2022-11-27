@@ -1,5 +1,5 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
-import { useAuthToken } from "./authToken";
+import { useSessionStorage } from "./sessionStorage";
 
 const httpLink = new HttpLink({
     uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://ammarahmedca.fly.dev/"}`
@@ -27,7 +27,7 @@ const authMiddleware = (authToken: string) => {
 const cache = new InMemoryCache();
 
 export const useAuthorizedApolloClient = () => {
-    const [authToken] = useAuthToken();
+    const [authToken] = useSessionStorage("authToken");
     
 
     return new ApolloClient({
