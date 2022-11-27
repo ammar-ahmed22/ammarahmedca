@@ -1,13 +1,62 @@
-import React from "react";
-import { Flex, Text, Input, FormControl, FormLabel, VStack, Button } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { 
+  Flex, 
+  Text, 
+  Input, 
+  FormControl, 
+  FormLabel, 
+  VStack, 
+  Button,
+  Alert,
+  AlertIcon 
+} from "@chakra-ui/react";
 import Card from "../../components/Card";
-import { Formik, Field } from "formik"
+import { Formik, Field } from "formik";
+import { useMutation, gql } from "@apollo/client";
 
 const ForgotPassword : React.FC = () => {
+
+  const [alerts, setAlerts] = useState<{error?: string, success?: string}>({})
+
+  const [forgotPassword, { data, loading, error }] = useMutation<{forgotPassword: string}, { email: string }>(gql`
+    mutation ForgotPassword($email: String!) {
+      forgotPassword(email: $email)
+    }
+  `)
+
+  useEffect(() => {
+    if (!loading && data){
+      setAlerts({ success: data.forgotPassword })
+    }
+
+    if (error){
+      setAlerts({ error: error.message })
+    }
+  }, [data, loading, error])
 
 
   return (
     <Flex h="60vh" w="100%" justify="center" align="center" direction="column" >
+      {
+        alerts.error && (
+          <Alert status="error" w="75%" variant="left-accent">
+            <AlertIcon />
+            {
+              alerts.error
+            }
+          </Alert>
+        )
+      }
+      {
+        alerts.success && (
+          <Alert status="success" w="75%" variant="left-accent">
+            <AlertIcon />
+            {
+              alerts.success
+            }
+          </Alert>
+        )
+      }
       <Card w="75%" h="auto" >
         <Text 
           fontSize={{ base: "4xl", lg: "5xl" }} 
@@ -24,7 +73,10 @@ const ForgotPassword : React.FC = () => {
             email: ""
           }}
           onSubmit={(values) => {
-            alert(JSON.stringify(values, null, 2))
+            // alert(JSON.stringify(values, null, 2))
+            forgotPassword({ variables: {
+              email: values.email
+            }})
           }}
         >
           {({ handleSubmit }) => (
@@ -40,7 +92,7 @@ const ForgotPassword : React.FC = () => {
                     variant="filled"
                   />
                 </FormControl>
-                <Button variant="gradient" type="submit" width="full" loadingText="Sending" >Send Reset Link</Button>
+                <Button variant="gradient" type="submit" width="full" loadingText="Sending" isLoading={loading} >Send Reset Link</Button>
               </VStack>
             </form>
           )}

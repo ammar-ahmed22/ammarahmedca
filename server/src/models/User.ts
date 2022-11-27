@@ -34,7 +34,7 @@ export class User{
   @prop({ required: true, unique: true, validate: /\S+@\S+\.\S+/ })
   public email: string
 
-  @prop({ required: true, minlength: 6, validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z])/, select: false })
+  @prop({ required: true, minlength: 6, validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d])/, select: false })
   public password: string
 
   @Field()

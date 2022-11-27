@@ -126,7 +126,7 @@ export class UserResolver{
   ){
     const user = await UserModel.findOne({ email });
 
-    if (!user) throw new Error("Not found.")
+    if (!user) throw new Error("Account not found.")
 
     const token = await user.getResetPasswordToken();
     await this.sendResetPasswordEmail(token, user.email);
@@ -134,7 +134,7 @@ export class UserResolver{
     return "Reset password email sent to: " + user.email;
   }
 
-  @Mutation(returns => AuthPayload)
+  @Mutation(returns => String)
   async resetPassword(
     @Arg("newPassword") newPassword: string,
     @Arg("token") token: string
@@ -152,7 +152,7 @@ export class UserResolver{
     user.password = newPassword;
     await user.save();
 
-    return new AuthPayload({ id: user._id });
+    return "Password reset successfully."
   }
 
   @Authorized()

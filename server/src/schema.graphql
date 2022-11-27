@@ -211,7 +211,7 @@ type Mutation {
   confirmEmail(code: Int!): AuthPayload!
   login(password: String!, email: String!): AuthPayload!
   forgotPassword(email: String!): String!
-  resetPassword(token: String!, newPassword: String!): AuthPayload!
+  resetPassword(token: String!, newPassword: String!): String!
   updateUser(data: UpdateInput!): AuthPayload!
 }
 
