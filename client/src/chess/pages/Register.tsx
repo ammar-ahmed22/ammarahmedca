@@ -14,17 +14,16 @@ import {
   Select,
   Icon,
   Link,
-  InputLeftElement
 } from "@chakra-ui/react";
 import { Formik, Field, FormikProps } from "formik";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa"
 import { BsArrowLeft } from "react-icons/bs"
-import { FiFile } from "react-icons/fi";
 import React, { useState, useEffect } from "react";
 import Card from "../../components/Card";
 import { useAuthMutation } from "../../hooks/auth";
 import { gql } from "@apollo/client";
 import { useNavigate } from "react-router-dom";
+import ProfileImage from "../components/ProfileImage";
 
 const Register : React.FC = () => {
 
@@ -55,7 +54,6 @@ const Register : React.FC = () => {
   }, [loading, error, submitted, navigate])
 
  
-
   return (
     <Flex justify="center" align="center" w="100%">
       <Card w="80%" h="auto" >
@@ -81,9 +79,7 @@ const Register : React.FC = () => {
                   lastName: data.lastName,
                   middleName: data.middleName,
                 }}
-                onSubmit={(values) => {
-                  // alert(JSON.stringify(values, null, 2))
-                  
+                onSubmit={(values) => {                  
                   setData( prev => ({
                     ...prev,
                     email: values.email,
@@ -241,28 +237,18 @@ const Register : React.FC = () => {
                   fileName: "",
                 }}
                 onSubmit={(values) => {
-                  // register({ variables: {
-                  //   data: {
-                  //     ...data, 
-                  //     company: values.company,
-                  //     position: values.position,
-                  //     foundBy: values.foundBy
-                  //   }
-                  // }})
-                  alert(JSON.stringify(
-                    {
-                      ...data,
+                  register({ variables: {
+                    data: {
+                      ...data, 
                       company: values.company,
                       position: values.position,
                       foundBy: values.foundBy,
                       profilePic: values.profilePic
-                    },
-                    null,
-                    2
-                  ))
+                    }
+                  }})
                 }}
               >
-                {({ handleSubmit, setFieldError, errors, values, setFieldValue, setErrors } : FormikProps<Omit<RegisterData, "email" | "password" | "firstName" | "lastName" | "middleName"> & { fileName: string }>) => (
+                {({ handleSubmit, errors, setFieldValue, values } : FormikProps<Omit<RegisterData, "email" | "password" | "firstName" | "lastName" | "middleName"> & { fileName: string }>) => (
                   <form onSubmit={handleSubmit}>
                     <VStack spacing={4} align="flex-start">
                       <FormControl>
@@ -307,17 +293,17 @@ const Register : React.FC = () => {
 
                       <FormControl isInvalid={!!errors.profilePic}>
                         <FormLabel htmlFor="profilePic">Profile Picture (max. 2 mb)</FormLabel>
-                          
+                        <HStack justify="space-between">
                           <Field 
                             as={Input} 
                             type="file" 
                             name="profilePic"
                             id="profilePic"
+                            w="50%"
                             value={undefined} 
                             variant="ghost" 
                             padding="0"
                             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                             
                               if (!!e.target.files?.length){
                                 const file = e.target.files[0];
                                 console.log(file.size);
@@ -335,6 +321,8 @@ const Register : React.FC = () => {
                                   console.log("Error:", err);
                                 }
 
+                              } else {
+                                setFieldValue("profilePic", "", true)
                               }
                             }}
                             validate={(value: string) => {
@@ -342,6 +330,13 @@ const Register : React.FC = () => {
                               if (size > 2000000) return "File size exceeds 2 mb"
                             }}
                           />
+                          <ProfileImage 
+                            image={values.profilePic === "" ? undefined : values.profilePic} 
+                            letter={values.profilePic === "" ? data.firstName[0].toUpperCase() : undefined} 
+                            size="7vh" 
+                          />
+                        </HStack>
+                          
                       <FormErrorMessage>{errors.profilePic}</FormErrorMessage>
                       </FormControl>
                       <Button type="submit" width="full" variant="gradient" isLoading={loading} >Complete Registration!</Button>

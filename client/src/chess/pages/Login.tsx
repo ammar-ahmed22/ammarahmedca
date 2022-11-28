@@ -69,27 +69,27 @@ const Login : React.FC = () => {
         <Text textAlign="center" mb="2" >Login to play your next move.</Text>
         <Formik
           initialValues={{
-            email: "",
+            username: "",
             password: ""
           }}
           onSubmit={(values) => {
             login({ variables: {
-              email: values.email,
+              email: values.username,
               password: values.password
             }})
             // setSubmitted(true);
           }}
         >
-          {({ handleSubmit, errors, touched } : FormikProps<{email: string, password: string}>) => (
-            <form onSubmit={handleSubmit}>
+          {({ handleSubmit, errors, touched } : FormikProps<{username: string, password: string}>) => (
+            <form onSubmit={handleSubmit} autoComplete="on">
               <VStack spacing={4} align="flex-start">
                 <FormControl>
-                  <FormLabel htmlFor="email">Email Address</FormLabel>
+                  <FormLabel htmlFor="username">Email Address</FormLabel>
                   <Field
                     as={Input}
-                    id="email"
-                    name="email"
-                    type="email"
+                    id="username"
+                    name="username"
+                    type="text"
                     variant="filled"
                   />
                 </FormControl>

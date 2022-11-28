@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 
 export const useSessionStorage = (key: string) : [string, (value: string) => void, () => void] => {
-
-  const [value, setValue] = useState("")
-
   const get = () => sessionStorage.getItem(key) ?? "";
+  const [value, setValue] = useState(get())
+
   const set = (value: string) =>{
     sessionStorage.setItem(key, value);
     dispatchEvent(new Event("session-storage"))

@@ -1,15 +1,18 @@
 import React from "react";
 import { useGetUser } from "../../hooks/auth";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import type { Location } from "react-router-dom";
 import AuthContextProvider from "../contexts/AuthContext";
 import Loading from "../components/Loading";
 import { 
-  Text,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
-  IconButton 
+  MenuGroup,
+  IconButton, 
+  MenuDivider,
+  useToken
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons"
 import { BiLogOut, BiUser } from "react-icons/bi"
@@ -26,6 +29,8 @@ const AuthorizedRoute : React.FC<AuthorizedRouteProps> = ({ children, redirectPa
   const { user, loading, error } = useGetUser();
   const navigate = useNavigate();
   const removeAuthToken = useSessionStorage("authToken")[2];
+  const loc = useLocation()
+  const [size12] = useToken("sizes", ["12"])
 
   if (loading){
     return <Loading />
@@ -46,6 +51,23 @@ const AuthorizedRoute : React.FC<AuthorizedRouteProps> = ({ children, redirectPa
   // }
 
   
+  
+  type Pages = "profile" | "game";
+  const active = (page: "profile" | "game", loc: Location) => {
+    const pathnameMap : Record<Pages, string> = {
+      profile: "/chess/profile",
+      game: "/chess/play"
+    }
+
+    if (pathnameMap[page] === loc.pathname){
+      return {
+        color: "brand.purple.400",
+        fontWeight: "bold"
+      }
+    }
+
+    return {}
+  }
 
   const handleLogout = () => {
     removeAuthToken()
@@ -64,15 +86,18 @@ const AuthorizedRoute : React.FC<AuthorizedRouteProps> = ({ children, redirectPa
           size="lg"
           pos="absolute"
           top="0"
-          left="0"
+          left={`-${size12}`}
         />
         <MenuList>
-          <MenuItem icon={<BiUser />} command="⌘P">
-            Profile
-          </MenuItem>
-          <MenuItem icon={<FaChessPawn />} command="⌘G" onClick={() => navigate("/chess/play")}>
-            Game
-          </MenuItem>
+          <MenuGroup title="Navigation">
+            <MenuItem icon={<BiUser />} command="⌘P" {...active("profile", loc)} disabled onClick={() => navigate("/chess/profile")}>
+              Profile
+            </MenuItem>
+            <MenuItem icon={<FaChessPawn />} command="⌘G" {...active("game", loc)} onClick={() => navigate("/chess/play")}>
+              Game
+            </MenuItem>
+          </MenuGroup>
+          <MenuDivider />
           <MenuItem icon={<BiLogOut />} command="⌘L" onClick={handleLogout}>
             Logout
           </MenuItem>

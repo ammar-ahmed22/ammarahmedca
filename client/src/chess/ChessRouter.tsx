@@ -12,6 +12,7 @@ import Register from "./pages/Register";
 import ConfirmEmail from "./pages/ConfirmEmail"
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
 import Loading from "./components/Loading";
 
 export const chessRoutes : RouteObject[] = [
@@ -54,6 +55,14 @@ export const chessRoutes : RouteObject[] = [
   {
     path: "reset-password/:token",
     element: <ResetPassword />
+  },
+  {
+    path: "profile",
+    element: (
+      <AuthorizedRoute>
+        <Profile />
+      </AuthorizedRoute>
+    )
   }
 ]
 
