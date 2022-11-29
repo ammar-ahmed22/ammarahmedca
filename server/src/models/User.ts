@@ -1,197 +1,195 @@
 import { Field, ID, ObjectType, InputType, Int } from "type-graphql";
-import { getModelForClass, modelOptions, prop, pre, DocumentType } from "@typegoose/typegoose";
+import {
+  getModelForClass,
+  modelOptions,
+  prop,
+  pre,
+  DocumentType,
+} from "@typegoose/typegoose";
 import { Schema, Types } from "mongoose";
 import bc from "bcryptjs";
 import crypto from "crypto";
 
-
-@ObjectType({ description: "User for chess games"})
+@ObjectType({ description: "User for chess games" })
 @modelOptions({
   schemaOptions: {
     timestamps: true,
-    collection: "users"
-  }
+    collection: "users",
+  },
 })
-@pre<User>("save", async function(next){
-  if (!this.isModified("password")){
-    return next()
+@pre<User>("save", async function (next) {
+  if (!this.isModified("password")) {
+    return next();
   }
 
   const salt = await bc.genSalt(10);
 
   this.password = await bc.hash(this.password, salt);
 
-  return next()
+  return next();
 })
-export class User{
-  @Field(returns => ID, { description: "MongoDB id for user."})
-  readonly _id : Schema.Types.ObjectId
+export class User {
+  @Field((returns) => ID, { description: "MongoDB id for user." })
+  readonly _id: Schema.Types.ObjectId;
 
-  @Field({ description: "Date user was created at."})
-  readonly createdAt: Date
+  @Field({ description: "Date user was created at." })
+  readonly createdAt: Date;
 
   @Field()
   @prop({ required: true, unique: true, validate: /\S+@\S+\.\S+/ })
-  public email: string
+  public email: string;
 
-  @prop({ required: true, minlength: 6, validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d])/, select: false })
-  public password: string
+  @prop({
+    required: true,
+    minlength: 6,
+    validate: /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z\d])/,
+    select: false,
+  })
+  public password: string;
 
   @Field()
   @prop({ required: true })
-  public firstName: string
+  public firstName: string;
 
   @Field()
   @prop({ required: true })
-  public lastName: string
+  public lastName: string;
 
   @Field({ nullable: true })
   @prop()
-  public middleName?: string
+  public middleName?: string;
 
   @Field({ nullable: true })
   @prop()
-  public company?: string
+  public company?: string;
 
   @Field({ nullable: true })
   @prop()
-  public position?: string
+  public position?: string;
 
   @Field({ nullable: true })
   @prop()
-  public foundBy?: string
+  public foundBy?: string;
 
   @Field({ nullable: true })
   @prop()
-  public profilePic?: string
+  public profilePic?: string;
 
   @Field({ nullable: true })
   @prop()
-  public currentGameID?: string
+  public currentGameID?: string;
 
-  @Field(returns => [String])
+  @Field((returns) => [String])
   @prop({ required: true, default: [], type: String })
-  public gameIDs: Types.Array<String>
+  public gameIDs: Types.Array<String>;
 
-  
   @prop({ required: false })
-  public emailConfirmationCode?: number
+  public emailConfirmationCode?: number;
 
-  
   @prop({ required: false })
-  public emailConfirmationCodeExpire?: Date
+  public emailConfirmationCodeExpire?: Date;
 
   @Field()
   @prop({ required: true, default: false })
-  public emailConfirmed: boolean
+  public emailConfirmed: boolean;
 
-  
   @prop({ required: false })
-  public resetPasswordToken?: string
+  public resetPasswordToken?: string;
 
-  
   @prop({ required: false })
-  public resetPasswordExpire?: Date
+  public resetPasswordExpire?: Date;
 
-  public async matchPasswords(this: DocumentType<User>, password: string){
+  public async matchPasswords(this: DocumentType<User>, password: string) {
     const match = await bc.compare(password, this.password);
     return match;
   }
 
-  public async getResetPasswordToken(this: DocumentType<User>){
+  public async getResetPasswordToken(this: DocumentType<User>) {
     const token = crypto.randomBytes(20).toString("hex");
 
-    this.resetPasswordToken = crypto.createHash("sha256").update(token).digest("hex");
-    this.resetPasswordExpire = new Date(Date.now() + (10 * (60 * 1000))) // 10 minutes
+    this.resetPasswordToken = crypto
+      .createHash("sha256")
+      .update(token)
+      .digest("hex");
+    this.resetPasswordExpire = new Date(Date.now() + 10 * (60 * 1000)); // 10 minutes
 
     await this.save();
 
     return token;
   }
 
-  public async createEmailConfirmationCode(this: DocumentType<User>){
+  public async createEmailConfirmationCode(this: DocumentType<User>) {
     const code = Math.floor(100000 + Math.random() * 900000);
     this.emailConfirmationCode = code;
-    this.emailConfirmationCodeExpire = new Date(Date.now() + (10 * (60 * 1000))) // 10 minutes
+    this.emailConfirmationCodeExpire = new Date(Date.now() + 10 * (60 * 1000)); // 10 minutes
 
     await this.save();
 
     return code;
   }
-
-  
-
 }
 
 export default getModelForClass(User);
 
 type RegisterUser = Omit<
-  User, 
-  "_id" | 
-  "createdAt" | 
-  "currentGameID" | 
-  "gameIDs" | 
-  "emailConfirmationCode" | 
-  "emailConfirmed" | 
-  "resetPasswordToken" | 
-  "resetPasswordExpire" | 
-  "matchPasswords" | 
-  "getResetPasswordToken" |
-  "createEmailConfirmationCode"
->
+  User,
+  | "_id"
+  | "createdAt"
+  | "currentGameID"
+  | "gameIDs"
+  | "emailConfirmationCode"
+  | "emailConfirmed"
+  | "resetPasswordToken"
+  | "resetPasswordExpire"
+  | "matchPasswords"
+  | "getResetPasswordToken"
+  | "createEmailConfirmationCode"
+>;
 
 @InputType()
-export class RegisterInput implements RegisterUser{
+export class RegisterInput implements RegisterUser {
   @Field()
-  public email: string
-
-  @Field()
-  public password: string
+  public email: string;
 
   @Field()
-  public firstName: string
+  public password: string;
 
   @Field()
-  public lastName: string
+  public firstName: string;
+
+  @Field()
+  public lastName: string;
 
   @Field({ nullable: true })
-  public middleName?: string
+  public middleName?: string;
 
   @Field({ nullable: true })
-  public company?: string
+  public company?: string;
 
   @Field({ nullable: true })
-  public position?: string
+  public position?: string;
 
   @Field({ nullable: true })
-  public foundBy?: string
+  public foundBy?: string;
 
   @Field({ nullable: true })
-  public profilePic?: string
-
+  public profilePic?: string;
 }
 
 @InputType()
-export class UpdateInput{
+export class UpdateInput {
   @Field({ nullable: true })
-  public email?: string
+  public firstName?: string;
 
   @Field({ nullable: true })
-  public firstName?: string
+  public lastName?: string;
 
   @Field({ nullable: true })
-  public lastName?: string
+  public middleName?: string;
 
   @Field({ nullable: true })
-  public middleName?: string
+  public company?: string;
 
   @Field({ nullable: true })
-  public company?: string
-
-  @Field({ nullable: true })
-  public position?: string
-
-  @Field({ nullable: true })
-  public foundBy?: string
+  public position?: string;
 }
-

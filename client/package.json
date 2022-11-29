@@ -44,7 +44,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "testing": "node src/test/test.js",
-    "mobile": "REACT_APP_MOBILE=true react-scripts start"
+    "mobile": "REACT_APP_MOBILE=true react-scripts start",
+    "format": "prettier --write ."
   },
   "eslintConfig": {
     "extends": [
@@ -67,5 +68,8 @@
   "description": "Package for scripts",
   "main": " ",
   "author": "Ammar Ahmed",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prettier": "2.8.0"
+  }
 }

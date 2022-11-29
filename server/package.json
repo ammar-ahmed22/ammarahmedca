@@ -42,6 +42,7 @@
     "@types/node": "^18.11.9",
     "babel-jest": "^29.3.1",
     "nodemon": "^2.0.20",
+    "prettier": "2.8.0",
     "ts-jest": "^29.0.3",
     "ts-node": "^10.9.1"
   },
@@ -52,6 +53,7 @@
     "copy-files": "copyfiles -u 1 src/**/*.json src/**/*.graphql src/**/*.html dist/",
     "build": "yarn clean && yarn copy-files && tsc",
     "start": "node ./dist/index.js",
-    "publish-schema": "rover graph publish ammarahmedca-api-v2@production --schema ./src/schema.graphql"
+    "publish-schema": "rover graph publish ammarahmedca-api-v2@production --schema ./src/schema.graphql",
+    "format": "prettier --write ."
   }
 }

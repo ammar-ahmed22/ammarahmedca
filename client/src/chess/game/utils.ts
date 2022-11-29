@@ -1,11 +1,10 @@
-
 /**
  * Converts file identifier to a number
  * @example
  * ```
  * // Returns 1
  * fileToNumber("a")
- * 
+ *
  * // Returns 2
  * fileToNumber("b")
  * ```
@@ -14,8 +13,7 @@
  * @param {string} file - Chess board file letter
  * @returns {number} - Chess board file number
  */
-export const fileToNumber = (file: string) : number => file.charCodeAt(0) - 96 ;
-
+export const fileToNumber = (file: string): number => file.charCodeAt(0) - 96;
 
 /**
  * Converts file in number format to file letter
@@ -23,7 +21,7 @@ export const fileToNumber = (file: string) : number => file.charCodeAt(0) - 96 ;
  * ```
  * // Returns "a"
  * numberToFile(1)
- * 
+ *
  * // Returns "b"
  * numberToFile(2)
  * ```
@@ -32,8 +30,8 @@ export const fileToNumber = (file: string) : number => file.charCodeAt(0) - 96 ;
  * @param {number} numberFile - Chess board file number
  * @returns {string} - Chess board file letter
  */
-export const numberToFile = (numberFile: number) : string => String.fromCharCode(numberFile + 96)
-
+export const numberToFile = (numberFile: number): string =>
+  String.fromCharCode(numberFile + 96);
 
 /**
  * Creates algebraic notation with rank and file
@@ -41,7 +39,7 @@ export const numberToFile = (numberFile: number) : string => String.fromCharCode
  * ```
  * // Returns "a2"
  * createAlgebraic(2, "a")
- * 
+ *
  * // Returns "a2"
  * createAlgebraic(2, 1)
  * ```
@@ -49,16 +47,18 @@ export const numberToFile = (numberFile: number) : string => String.fromCharCode
  *
  * @param {number} rank - Chess board rank number
  * @param {(string | number)} file - Chess board file letter or number
- * @returns {string} - Chess board algebraic notation 
+ * @returns {string} - Chess board algebraic notation
  */
-export const createAlgebraic = (rank: number, file: string | number) : string => {
-  if (typeof file === "string"){
-    return `${file}${rank}`
-  } else{
-    return `${numberToFile(file)}${rank}`
+export const createAlgebraic = (
+  rank: number,
+  file: string | number
+): string => {
+  if (typeof file === "string") {
+    return `${file}${rank}`;
+  } else {
+    return `${numberToFile(file)}${rank}`;
   }
-}
-
+};
 
 /**
  * Creates algebraic interface from loop indices when looping over board matrix
@@ -77,9 +77,9 @@ export const createAlgebraic = (rank: number, file: string | number) : string =>
  * @param {number} j - Inner loop index
  * @returns {IAlgebraic} - Object containing rank number and file letter
  */
-export const indexToAlgebraic = (i: number, j: number) : IAlgebraic => {
+export const indexToAlgebraic = (i: number, j: number): IAlgebraic => {
   return {
     rank: 8 - i,
-    file: String.fromCharCode(j + 97)
-  }
-}
+    file: String.fromCharCode(j + 97),
+  };
+};

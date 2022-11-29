@@ -1,7 +1,7 @@
-export {}
+export {};
 
-declare global{
-  interface JWTUserPayload{
-    id: string
+declare global {
+  interface JWTUserPayload {
+    id: string;
   }
 }

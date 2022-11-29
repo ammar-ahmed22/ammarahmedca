@@ -1,12 +1,12 @@
-import React from "react"
+import React from "react";
 import { Box, Button } from "@chakra-ui/react";
 import { GameProvider } from "../contexts/GameContext";
-import Board from "../components/Board"
+import Board from "../components/Board";
 import { useSessionStorage } from "../../hooks/sessionStorage";
 import { useNavigate } from "react-router-dom";
 
-const Game : React.FC = () => {
-  const removeToken = useSessionStorage("authToken")[2]
+const Game: React.FC = () => {
+  const removeToken = useSessionStorage("authToken")[2];
   const navigate = useNavigate();
   return (
     <Box>
@@ -20,7 +20,7 @@ const Game : React.FC = () => {
         <Board />
       </GameProvider>
     </Box>
-  )
-}
+  );
+};
 
 export default Game;

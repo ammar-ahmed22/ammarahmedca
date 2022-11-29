@@ -1,17 +1,13 @@
 import { gql } from "@apollo/client";
 
 export const ContentQuery = gql`
-  query Content(
-    $pathname: String!
-  ){
-    content(
-      pathname: $pathname
-    ){
+  query Content($pathname: String!) {
+    content(pathname: $pathname) {
       type
-      content{
-        ... on Text{
+      content {
+        ... on Text {
           plainText
-          annotations{
+          annotations {
             bold
             code
             color
@@ -21,20 +17,19 @@ export const ContentQuery = gql`
             language
           }
         }
-        ... on Image{
+        ... on Image {
           caption
           url
         }
       }
     }
   }
+`;
 
-`
-
-export interface ContentQueryVariables{
-  pathname: string
+export interface ContentQueryVariables {
+  pathname: string;
 }
 
-export interface ContentQueryResponse{
-  content: IContent[]
+export interface ContentQueryResponse {
+  content: IContent[];
 }

@@ -1,66 +1,64 @@
-interface IAnnotations{
-  bold: boolean
-  underline: boolean
-  strikethrough: boolean
-  code: boolean
-  italic: boolean
-  color: string
-  language?: string,
+interface IAnnotations {
+  bold: boolean;
+  underline: boolean;
+  strikethrough: boolean;
+  code: boolean;
+  italic: boolean;
+  color: string;
+  language?: string;
 }
 
-interface IText{
-  plainText: string,
-  annotations: Annotations
+interface IText {
+  plainText: string;
+  annotations: Annotations;
 }
 
-interface IImage{
-  url: string,
-  caption: string
+interface IImage {
+  url: string;
+  caption: string;
 }
 
-type TextOrImageType = IText | IImage
+type TextOrImageType = IText | IImage;
 
-interface IContent{
-  type: string,
-  content: TextOrImageType[] 
+interface IContent {
+  type: string;
+  content: TextOrImageType[];
 }
 
-interface IFilterOpts{
-  frameworks: string[],
-  type: string[],
-  languages: string[],
-  category: string[]
+interface IFilterOpts {
+  frameworks: string[];
+  type: string[];
+  languages: string[];
+  category: string[];
 }
 
-interface IMetadata{
-  id: string
-  lastEdited: number
-  name: string,
-  pathname?: string,
-  timeline?: string
-  type?: string[]
-  languages?: string[]
-  frameworks?: string[]
-  github?: string
-  external?: string
-  description?: string
-  published?: number
-  isBlog?: boolean
-  isProject?: boolean
-  readTime?: number
-  category?: string
-  isPublished?: boolean
+interface IMetadata {
+  id: string;
+  lastEdited: number;
+  name: string;
+  pathname?: string;
+  timeline?: string;
+  type?: string[];
+  languages?: string[];
+  frameworks?: string[];
+  github?: string;
+  external?: string;
+  description?: string;
+  published?: number;
+  isBlog?: boolean;
+  isProject?: boolean;
+  readTime?: number;
+  category?: string;
+  isPublished?: boolean;
 }
-
-
 
 // EXPERIENCE
-interface ITimeframe{
-  start: number,
-  end?: number
+interface ITimeframe {
+  start: number;
+  end?: number;
 }
 
-interface IExperience{
+interface IExperience {
   company: string;
   role: string;
   description: IText[];
@@ -70,7 +68,7 @@ interface IExperience{
 }
 
 // SKILLS
-interface ISkill{
+interface ISkill {
   name: string;
   type: string;
   value: number;
@@ -78,36 +76,37 @@ interface ISkill{
 
 // Auth
 type User = {
-  _id: string
- createdAt: number
- email: string
- firstName: string
- lastName: string
- middleName?: string
- company?: string
- position?: string
- foundBy?: string
- currentGameID?: string
- gameIDs: string[]
- emailConfirmed: boolean
-}
+  _id: string;
+  createdAt: number;
+  email: string;
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  company?: string;
+  position?: string;
+  foundBy?: string;
+  currentGameID?: string;
+  gameIDs: string[];
+  profilePic: string;
+  emailConfirmed: boolean;
+};
 
-interface AuthPayload{
-  token: string
+interface AuthPayload {
+  token: string;
 }
 
 type RegisterData = {
-  email: string,
-  password: string,
-  firstName: string,
-  lastName: string,
-  middleName: string,
-  company: string,
-  position: string,
-  foundBy: string,
-  profilePic: string
-}
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  middleName: string;
+  company: string;
+  position: string;
+  foundBy: string;
+  profilePic: string;
+};
 
 type RegisterInput = {
-  data: RegisterData
-}
+  data: RegisterData;
+};

@@ -1,82 +1,81 @@
 import React, { useEffect, useState } from "react";
-import { 
-  Flex, 
-  Text, 
-  Input, 
-  FormControl, 
-  FormLabel, 
-  VStack, 
+import {
+  Flex,
+  Text,
+  Input,
+  FormControl,
+  FormLabel,
+  VStack,
   Button,
   Alert,
-  AlertIcon 
+  AlertIcon,
 } from "@chakra-ui/react";
 import Card from "../../components/Card";
 import { Formik, Field } from "formik";
 import { useMutation, gql } from "@apollo/client";
 
-const ForgotPassword : React.FC = () => {
+const ForgotPassword: React.FC = () => {
+  const [alerts, setAlerts] = useState<{ error?: string; success?: string }>(
+    {}
+  );
 
-  const [alerts, setAlerts] = useState<{error?: string, success?: string}>({})
-
-  const [forgotPassword, { data, loading, error }] = useMutation<{forgotPassword: string}, { email: string }>(gql`
+  const [forgotPassword, { data, loading, error }] = useMutation<
+    { forgotPassword: string },
+    { email: string }
+  >(gql`
     mutation ForgotPassword($email: String!) {
       forgotPassword(email: $email)
     }
-  `)
+  `);
 
   useEffect(() => {
-    if (!loading && data){
-      setAlerts({ success: data.forgotPassword })
+    if (!loading && data) {
+      setAlerts({ success: data.forgotPassword });
     }
 
-    if (error){
-      setAlerts({ error: error.message })
+    if (error) {
+      setAlerts({ error: error.message });
     }
-  }, [data, loading, error])
-
+  }, [data, loading, error]);
 
   return (
-    <Flex h="60vh" w="100%" justify="center" align="center" direction="column" >
-      {
-        alerts.error && (
-          <Alert status="error" w="75%" variant="left-accent">
-            <AlertIcon />
-            {
-              alerts.error
-            }
-          </Alert>
-        )
-      }
-      {
-        alerts.success && (
-          <Alert status="success" w="75%" variant="left-accent">
-            <AlertIcon />
-            {
-              alerts.success
-            }
-          </Alert>
-        )
-      }
-      <Card w="75%" h="auto" >
-        <Text 
-          fontSize={{ base: "4xl", lg: "5xl" }} 
-          fontFamily="heading" 
+    <Flex h="60vh" w="100%" justify="center" align="center" direction="column">
+      {alerts.error && (
+        <Alert status="error" w="75%" variant="left-accent">
+          <AlertIcon />
+          {alerts.error}
+        </Alert>
+      )}
+      {alerts.success && (
+        <Alert status="success" w="75%" variant="left-accent">
+          <AlertIcon />
+          {alerts.success}
+        </Alert>
+      )}
+      <Card w="75%" h="auto">
+        <Text
+          fontSize={{ base: "4xl", lg: "5xl" }}
+          fontFamily="heading"
           textAlign="center"
           fontWeight="bold"
           variant="gradient"
         >
           Forgot your password?
         </Text>
-        <Text textAlign="center" mb="4" >No worries, enter your email address to reset it.</Text>
+        <Text textAlign="center" mb="4">
+          No worries, enter your email address to reset it.
+        </Text>
         <Formik
           initialValues={{
-            email: ""
+            email: "",
           }}
           onSubmit={(values) => {
             // alert(JSON.stringify(values, null, 2))
-            forgotPassword({ variables: {
-              email: values.email
-            }})
+            forgotPassword({
+              variables: {
+                email: values.email,
+              },
+            });
           }}
         >
           {({ handleSubmit }) => (
@@ -84,7 +83,7 @@ const ForgotPassword : React.FC = () => {
               <VStack spacing={4} justify="flex-start">
                 <FormControl>
                   <FormLabel htmlFor="email">Email Address</FormLabel>
-                  <Field 
+                  <Field
                     as={Input}
                     name="email"
                     id="email"
@@ -92,15 +91,22 @@ const ForgotPassword : React.FC = () => {
                     variant="filled"
                   />
                 </FormControl>
-                <Button variant="gradient" type="submit" width="full" loadingText="Sending" isLoading={loading} >Send Reset Link</Button>
+                <Button
+                  variant="gradient"
+                  type="submit"
+                  width="full"
+                  loadingText="Sending"
+                  isLoading={loading}
+                >
+                  Send Reset Link
+                </Button>
               </VStack>
             </form>
           )}
         </Formik>
       </Card>
     </Flex>
-  )
-
-}
+  );
+};
 
 export default ForgotPassword;

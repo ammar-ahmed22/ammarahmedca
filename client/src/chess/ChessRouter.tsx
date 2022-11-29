@@ -9,16 +9,16 @@ import Home from "./pages/Home";
 import Game from "./pages/Game";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import ConfirmEmail from "./pages/ConfirmEmail"
+import ConfirmEmail from "./pages/ConfirmEmail";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import Profile from "./pages/Profile";
 import Loading from "./components/Loading";
 
-export const chessRoutes : RouteObject[] = [
+export const chessRoutes: RouteObject[] = [
   {
     index: true,
-    element: <Home />
+    element: <Home />,
   },
   {
     path: "play",
@@ -26,15 +26,15 @@ export const chessRoutes : RouteObject[] = [
       <AuthorizedRoute>
         <Game />
       </AuthorizedRoute>
-    )
+    ),
   },
   {
     path: "login",
-    element: <Login />
+    element: <Login />,
   },
   {
     path: "register",
-    element: <Register />
+    element: <Register />,
   },
   {
     path: "confirm-email",
@@ -42,19 +42,19 @@ export const chessRoutes : RouteObject[] = [
       <AuthorizedRoute>
         <ConfirmEmail />
       </AuthorizedRoute>
-    )
+    ),
   },
   {
     path: "spinner-test",
-    element: <Loading />
+    element: <Loading />,
   },
   {
     path: "forgot-password",
-    element: <ForgotPassword />
+    element: <ForgotPassword />,
   },
   {
     path: "reset-password/:token",
-    element: <ResetPassword />
+    element: <ResetPassword />,
   },
   {
     path: "profile",
@@ -62,18 +62,16 @@ export const chessRoutes : RouteObject[] = [
       <AuthorizedRoute>
         <Profile />
       </AuthorizedRoute>
-    )
-  }
-]
+    ),
+  },
+];
 
-const ChessRouter : React.FC = () => {
-
+const ChessRouter: React.FC = () => {
   return (
     <Page activeNav="chess">
       <Outlet />
     </Page>
-  )
-
-}
+  );
+};
 
 export default ChessRouter;

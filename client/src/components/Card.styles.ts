@@ -1,8 +1,6 @@
 import { BoxProps, LinkProps } from "@chakra-ui/react";
 
-
-
-const mainBox : BoxProps | LinkProps = {
+const mainBox: BoxProps | LinkProps = {
   border: "1px solid",
   // flex: 1,
   position: "relative",
@@ -11,17 +9,17 @@ const mainBox : BoxProps | LinkProps = {
   boxShadow: `.35rem .35rem 0 0 var(--ammar-colors-brand-purple-500)`,
   p: 4,
   my: 4,
-}
+};
 
-const isLink : LinkProps = {
-  _hover : {
+const isLink: LinkProps = {
+  _hover: {
     textDecoration: "none",
     transform: "scale(1.05, 1.05)",
-    boxShadow: "none"
-  }
-}
+    boxShadow: "none",
+  },
+};
 
 export const styles = {
   mainBox,
-  isLink
-}
+  isLink,
+};

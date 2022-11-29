@@ -1,7 +1,7 @@
-export {}
+export {};
 
-declare global{
-  interface Context{
-    userId?: string
+declare global {
+  interface Context {
+    userId?: string;
   }
 }

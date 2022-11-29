@@ -2,13 +2,15 @@ import "reflect-metadata";
 import dotenv from "dotenv";
 dotenv.config({ path: "./config.env" });
 import { ApolloServer } from "@apollo/server";
-import { expressMiddleware } from '@apollo/server/express4';
+import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
 import cors from "cors";
 import jwt, { verify } from "jsonwebtoken";
 
-
-import { ApolloServerPluginLandingPageLocalDefault, ApolloServerPluginLandingPageProductionDefault } from '@apollo/server/plugin/landingPage/default';
+import {
+  ApolloServerPluginLandingPageLocalDefault,
+  ApolloServerPluginLandingPageProductionDefault,
+} from "@apollo/server/plugin/landingPage/default";
 import * as path from "path";
 import fs, { read } from "fs";
 
@@ -25,28 +27,29 @@ import { UserResolver } from "./graphql/resolvers/User";
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 (async () => {
-
   const schema = await buildSchema({
-    resolvers: [ BlogResolver, WebsiteResolver, UserResolver ],
+    resolvers: [BlogResolver, WebsiteResolver, UserResolver],
     dateScalarMode: "timestamp",
-    authChecker
-  })
+    authChecker,
+  });
 
   const app = express();
 
   const schemaString = printSchema(schema);
-  fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString)
+  fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString);
 
   const server = new ApolloServer<Context>({
     schema,
     introspection: true,
     plugins: [
-      process.env.NODE_ENV === "production" ? ApolloServerPluginLandingPageProductionDefault({
-        graphRef: "ammarahmedca-api-v2@production",
-        footer: false,
-      }) : ApolloServerPluginLandingPageLocalDefault()
-    ]
-  })
+      process.env.NODE_ENV === "production"
+        ? ApolloServerPluginLandingPageProductionDefault({
+            graphRef: "ammarahmedca-api-v2@production",
+            footer: false,
+          })
+        : ApolloServerPluginLandingPageLocalDefault(),
+    ],
+  });
 
   if (process.env.MONGO_URI) await connect(process.env.MONGO_URI);
 
@@ -55,22 +58,29 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
   app.use(
     "/",
     cors<cors.CorsRequest>(),
-    express.json(),
+    express.json({ limit: "10mb" }),
     expressMiddleware<Context>(server, {
       context: async ({ req }) => {
-
-        if (!req.headers.authorization || !req.headers.authorization.split(" ")[1]) return { }
+        if (
+          !req.headers.authorization ||
+          !req.headers.authorization.split(" ")[1]
+        )
+          return {};
 
         const token = req.headers.authorization.split(" ")[1];
 
-        const user = <JWTUserPayload>verify(token, process.env.JWT_SECRET as string);
+        const user = <JWTUserPayload>(
+          verify(token, process.env.JWT_SECRET as string)
+        );
 
         return {
-          userId: user.id
-        }
-      }
+          userId: user.id,
+        };
+      },
     })
-  )
+  );
 
-  app.listen(PORT, () => console.log(`🚀 Server ready at http://localhost:${PORT}`))
-})()
+  app.listen(PORT, () =>
+    console.log(`🚀 Server ready at http://localhost:${PORT}`)
+  );
+})();

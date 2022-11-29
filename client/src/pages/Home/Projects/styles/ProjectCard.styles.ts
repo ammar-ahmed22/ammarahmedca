@@ -1,7 +1,6 @@
 import { BoxProps, TagProps } from "@chakra-ui/react";
 
-
-const mainBox : BoxProps = {
+const mainBox: BoxProps = {
   border: "1px solid",
   // borderColor: useColorModeValue("gray.800", "white"),
   position: "relative",
@@ -18,20 +17,18 @@ const mainBox : BoxProps = {
     bgGradient: "linear(to-tr, brand.blue.500, brand.purple.500)",
     content: "' '",
     opacity: 1,
-  }
-}
+  },
+};
 
-const tag : TagProps = {
+const tag: TagProps = {
   size: "sm",
   textTransform: "uppercase",
   mr: 1,
   mb: 1,
-  fontWeight: "bold"
-}
-
-
+  fontWeight: "bold",
+};
 
 export const styles = {
   mainBox,
-  tag
-}
+  tag,
+};
