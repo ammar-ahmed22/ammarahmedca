@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   Box,
   Text,
@@ -42,7 +42,7 @@ const Profile: React.FC = () => {
 
   useEffect(() => {
     console.log(user);
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     if (submitted && !loading && !error) {
