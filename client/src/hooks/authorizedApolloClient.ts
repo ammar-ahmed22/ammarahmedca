@@ -4,6 +4,7 @@ import {
   HttpLink,
   InMemoryCache,
 } from "@apollo/client";
+import { useEffect } from "react";
 import { useSessionStorage } from "./sessionStorage";
 
 const httpLink = new HttpLink({
@@ -38,6 +39,10 @@ const cache = new InMemoryCache();
 
 export const useAuthorizedApolloClient = () => {
   const [authToken] = useSessionStorage("authToken");
+
+  useEffect(() => {
+    console.log(authToken);
+  }, [authToken]);
 
   return new ApolloClient({
     link: authMiddleware(authToken).concat(httpLink),

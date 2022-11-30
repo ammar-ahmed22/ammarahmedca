@@ -43,7 +43,7 @@ const Login: React.FC = () => {
   useEffect(() => {
     if (!loading && !error && submitted) {
       // console.log();
-      navigate("/chess/play");
+      navigate("/chess/home");
     }
   }, [loading, error, submitted, navigate]);
 

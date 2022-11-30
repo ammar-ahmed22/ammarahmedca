@@ -2,7 +2,7 @@ import React from "react";
 import { Box, Image, LayoutProps, Text, TextProps } from "@chakra-ui/react";
 
 interface ProfileImageProps {
-  image: string;
+  image?: string;
   letter: string;
   size?: LayoutProps["h"];
   fontSize?: TextProps["fontSize"];
@@ -14,7 +14,8 @@ const ProfileImage: React.FC<ProfileImageProps> = ({
   size,
   fontSize,
 }) => {
-  if (image !== "") {
+  // console.log(image);
+  if (image) {
     return (
       <Box w={size ?? "100%"} h={size ?? "100%"}>
         <Image

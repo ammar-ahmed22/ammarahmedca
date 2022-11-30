@@ -75,6 +75,10 @@ interface ISkill {
 }
 
 // Auth
+type Record = {
+  wins: number;
+  losses: number;
+};
 type User = {
   _id: string;
   createdAt: number;
@@ -87,8 +91,9 @@ type User = {
   foundBy?: string;
   currentGameID?: string;
   gameIDs: string[];
-  profilePic: string;
+  profilePic?: string;
   emailConfirmed: boolean;
+  record: Record;
 };
 
 interface AuthPayload {

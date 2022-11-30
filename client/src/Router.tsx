@@ -8,9 +8,6 @@ import Blog from "./pages/Blog";
 import Post from "./pages/Post";
 // import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
-// Chess Pages
-import ChessHome from "./chess/pages/Home";
-
 import ChessRouter from "./chess/ChessRouter";
 import { chessRoutes } from "./chess/ChessRouter";
 

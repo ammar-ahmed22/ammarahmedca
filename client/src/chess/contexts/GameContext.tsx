@@ -59,6 +59,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
           setBlackTakes((prev) => [...prev, response.take as Piece]);
       }
     }
+    // eslint-disable-next-line
   }, [move]);
 
   const setToMove = (algebraic: IAlgebraic) => {

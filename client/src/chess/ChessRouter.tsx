@@ -5,6 +5,7 @@ import type { RouteObject } from "react-router-dom";
 import Page from "../components/Page/Page";
 import AuthorizedRoute from "./components/AuthorizedRoute";
 
+import Landing from "./pages/Landing";
 import Home from "./pages/Home";
 import Game from "./pages/Game";
 import Login from "./pages/Login";
@@ -18,7 +19,15 @@ import Loading from "./components/Loading";
 export const chessRoutes: RouteObject[] = [
   {
     index: true,
-    element: <Home />,
+    element: <Landing />,
+  },
+  {
+    path: "home",
+    element: (
+      <AuthorizedRoute>
+        <Home />
+      </AuthorizedRoute>
+    ),
   },
   {
     path: "play",

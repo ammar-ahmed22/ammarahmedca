@@ -6,7 +6,7 @@ import {
   DefaultContext,
   ApolloCache,
   gql,
-  useQuery,
+  // useQuery,
 } from "@apollo/client";
 import { useEffect, useState } from "react";
 import { useSessionStorage } from "./sessionStorage";
@@ -31,6 +31,26 @@ const authMutations = [
 ] as const;
 
 type AuthMutations = typeof authMutations[number];
+
+const userQuery = gql`
+  query User {
+    user {
+      _id
+      company
+      createdAt
+      currentGameID
+      email
+      emailConfirmed
+      firstName
+      foundBy
+      gameIDs
+      lastName
+      middleName
+      position
+      profilePic
+    }
+  }
+`;
 
 export const useAuthMutation = <VariableType>(
   mutationName: AuthMutations,
@@ -63,41 +83,25 @@ export const useAuthMutation = <VariableType>(
       ApolloCache<any>
     >
   ) => {
-    call({ ...options, refetchQueries: ["User"] });
+    call({ ...options, refetchQueries: [{ query: userQuery, variables: {} }] });
     setSubmitted(true);
   };
 
   return [mutationFunction, { submitted, error, loading }];
 };
 
-export const useGetUser = (): {
-  user?: User;
-  loading: boolean;
-  error?: ApolloError;
-} => {
-  const userQuery = gql`
-    query User {
-      user {
-        _id
-        company
-        createdAt
-        currentGameID
-        email
-        emailConfirmed
-        firstName
-        foundBy
-        gameIDs
-        lastName
-        middleName
-        position
-        profilePic
-      }
-    }
-  `;
+// export const useGetUser = (): {
+//   user?: User;
+//   loading: boolean;
+//   error?: ApolloError;
+// } => {
+//   const { data, loading, error } = useQuery<{ user: User }>(userQuery);
+//   const [user, setUser] = useState();
 
-  const { data, loading, error } = useQuery<{ user: User }>(userQuery);
+//   // const user = data?.user;
+//   useEffect(() => {
+//     console.log(data);
+//   }, [data])
 
-  // const user = data?.user;
-
-  return { user: data?.user, loading, error };
-};
+//   return { user: data?.user, loading, error };
+// };

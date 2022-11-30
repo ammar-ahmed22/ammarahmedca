@@ -1,7 +1,7 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import App from "./App";
-import { ChakraProvider, ColorModeScript, Box } from "@chakra-ui/react";
+import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { CookiesProvider } from "react-cookie";
 
 import theme from "./theme";

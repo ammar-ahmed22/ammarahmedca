@@ -20,8 +20,8 @@ export const useSessionStorage = (
 
     window.addEventListener("session-storage", sessionStorageListener);
 
-    return () =>
-      window.removeEventListener("session-storage", sessionStorageListener);
+    // return () =>
+    //   window.removeEventListener("session-storage", sessionStorageListener);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

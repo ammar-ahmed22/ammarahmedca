@@ -1,5 +1,4 @@
 import React from "react";
-import { useGetUser } from "../../hooks/auth";
 import { Navigate, useNavigate, useLocation } from "react-router-dom";
 import type { Location } from "react-router-dom";
 import AuthContextProvider from "../contexts/AuthContext";
@@ -18,6 +17,7 @@ import { HamburgerIcon } from "@chakra-ui/icons";
 import { BiLogOut, BiUser } from "react-icons/bi";
 import { FaChessPawn } from "react-icons/fa";
 import { useSessionStorage } from "../../hooks/sessionStorage";
+import { useQuery, gql } from "@apollo/client";
 
 interface AuthorizedRouteProps {
   children: React.ReactNode;
@@ -28,17 +28,43 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
   children,
   redirectPath,
 }) => {
-  const { user, loading, error } = useGetUser();
+  const userQuery = gql`
+    query User {
+      user {
+        _id
+        company
+        createdAt
+        currentGameID
+        email
+        emailConfirmed
+        firstName
+        foundBy
+        gameIDs
+        lastName
+        middleName
+        position
+        profilePic
+        record {
+          wins
+          losses
+        }
+      }
+    }
+  `;
+
+  // const { user, loading, error } = useGetUser();
+  const { data, loading, error, client } = useQuery<{ user: User }>(userQuery);
   const navigate = useNavigate();
   const removeAuthToken = useSessionStorage("authToken")[2];
   const loc = useLocation();
   const [size12] = useToken("sizes", ["12"]);
+  console.log("auth route called at:", loc.pathname);
 
   if (loading) {
     return <Loading />;
   }
 
-  if (!user || error) {
+  if (!data || error) {
     console.log(error);
     return <Navigate to={redirectPath ?? "/chess/login"} />;
   }
@@ -52,11 +78,12 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
   //   return <Navigate to="/chess/confirm-email" />
   // }
 
-  type Pages = "profile" | "game";
-  const active = (page: "profile" | "game", loc: Location) => {
+  type Pages = "profile" | "game" | "home";
+  const active = (page: Pages, loc: Location) => {
     const pathnameMap: Record<Pages, string> = {
       profile: "/chess/profile",
       game: "/chess/play",
+      home: "/chess/home",
     };
 
     if (pathnameMap[page] === loc.pathname) {
@@ -69,13 +96,14 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
     return {};
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     removeAuthToken();
+    await client.clearStore();
     navigate("/chess");
   };
 
   return (
-    <AuthContextProvider user={user}>
+    <AuthContextProvider user={data.user}>
       <>
         <Menu>
           <MenuButton
@@ -92,12 +120,11 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
             <MenuGroup title="Navigation">
               <MenuItem
                 icon={<BiUser />}
-                command="⌘P"
-                {...active("profile", loc)}
-                disabled
-                onClick={() => navigate("/chess/profile")}
+                command="⌘H"
+                {...active("home", loc)}
+                onClick={() => navigate("/chess/home")}
               >
-                Profile
+                Home
               </MenuItem>
               <MenuItem
                 icon={<FaChessPawn />}
@@ -106,6 +133,14 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
                 onClick={() => navigate("/chess/play")}
               >
                 Game
+              </MenuItem>
+              <MenuItem
+                icon={<BiUser />}
+                command="⌘P"
+                {...active("profile", loc)}
+                onClick={() => navigate("/chess/profile")}
+              >
+                Profile
               </MenuItem>
             </MenuGroup>
             <MenuDivider />
