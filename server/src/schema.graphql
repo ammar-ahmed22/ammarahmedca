@@ -321,9 +321,15 @@ type User {
   position: String
   foundBy: String
   profilePic: String
+  record: Record!
   currentGameID: String
   gameIDs: [String!]!
   emailConfirmed: Boolean!
+}
+
+type Record {
+  wins: Int!
+  losses: Int!
 }
 
 type Mutation {
@@ -334,6 +340,13 @@ type Mutation {
   forgotPassword(email: String!): String!
   resetPassword(token: String!, newPassword: String!): String!
   updateUser(data: UpdateInput!): AuthPayload!
+  createGame: String!
+  addMove(
+    fen: String!
+    boardOpts: BoardOptsInput
+    whiteTakes: [String!]
+    blackTakes: [String!]
+  ): String!
 }
 
 type AuthPayload {
@@ -358,4 +371,11 @@ input UpdateInput {
   middleName: String
   company: String
   position: String
+}
+
+input BoardOptsInput {
+  castling: String
+  enPasant: String
+  halfMove: Int
+  fullMove: Int
 }

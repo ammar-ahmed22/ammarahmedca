@@ -158,6 +158,7 @@ export class UserResolver {
   @Query((returns) => User)
   async user(@Ctx() ctx: Context) {
     const user = await UserModel.findById(ctx.userId);
+    if (!user) throw new Error("Not found!");
     return user;
   }
 

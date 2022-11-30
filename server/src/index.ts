@@ -23,12 +23,15 @@ import { printSchema } from "graphql";
 import { BlogResolver } from "./graphql/resolvers/Blog";
 import { WebsiteResolver } from "./graphql/resolvers/Website";
 import { UserResolver } from "./graphql/resolvers/User";
+import { GameResolver } from "./graphql/resolvers/Game";
+
+import UserModel from "./models/User";
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 (async () => {
   const schema = await buildSchema({
-    resolvers: [BlogResolver, WebsiteResolver, UserResolver],
+    resolvers: [BlogResolver, WebsiteResolver, UserResolver, GameResolver],
     dateScalarMode: "timestamp",
     authChecker,
   });
@@ -52,6 +55,37 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
   });
 
   if (process.env.MONGO_URI) await connect(process.env.MONGO_URI);
+
+  const exists = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
+  const testExists = await UserModel.findOne({ email: "ammar@fragbuy.ca" });
+
+  if (!exists && process.env.MY_USER_PASS) {
+    await UserModel.create({
+      firstName: "Ammar",
+      lastName: "Ahmed",
+      company: "AI Arena",
+      position: "Frontend Developer",
+      email: "a353ahme@uwaterloo.ca",
+      emailConfirmed: true,
+      password: process.env.MY_USER_PASS,
+    });
+
+    console.log("my user created!");
+  }
+
+  if (!testExists && process.env.MY_USER_PASS) {
+    await UserModel.create({
+      firstName: "Test",
+      lastName: "Testerman",
+      company: "Test Inc.",
+      position: "Tester",
+      email: "ammar@fragbuy.ca",
+      emailConfirmed: true,
+      password: process.env.MY_USER_PASS,
+    });
+
+    console.log("test user created!");
+  }
 
   await server.start();
 

@@ -10,6 +10,17 @@ import { Schema, Types } from "mongoose";
 import bc from "bcryptjs";
 import crypto from "crypto";
 
+@ObjectType()
+export class Record {
+  @Field((returns) => Int)
+  @prop({ required: true, default: 0 })
+  public wins: number;
+
+  @Field((returns) => Int)
+  @prop({ required: true, default: 0 })
+  public losses: number;
+}
+
 @ObjectType({ description: "User for chess games" })
 @modelOptions({
   schemaOptions: {
@@ -74,6 +85,10 @@ export class User {
   @Field({ nullable: true })
   @prop()
   public profilePic?: string;
+
+  @Field((returns) => Record)
+  @prop({ required: true, type: Record, default: { wins: 0, losses: 0 } })
+  public record: Record;
 
   @Field({ nullable: true })
   @prop()
@@ -144,6 +159,7 @@ type RegisterUser = Omit<
   | "matchPasswords"
   | "getResetPasswordToken"
   | "createEmailConfirmationCode"
+  | "record"
 >;
 
 @InputType()
