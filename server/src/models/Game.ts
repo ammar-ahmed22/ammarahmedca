@@ -64,7 +64,7 @@ export class BoardOpts {
 
   @Field({ nullable: true })
   @prop()
-  public enPasant?: string;
+  public enPassant?: string;
 
   @Field((returns) => Int, { nullable: true })
   @prop()
@@ -81,7 +81,7 @@ export class BoardOptsInput implements BoardOpts {
   public castling?: string;
 
   @Field({ nullable: true })
-  public enPasant?: string;
+  public enPassant?: string;
 
   @Field((returns) => Int, { nullable: true })
   public halfMove?: number;

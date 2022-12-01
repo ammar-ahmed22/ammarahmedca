@@ -126,14 +126,18 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
               >
                 Home
               </MenuItem>
-              <MenuItem
-                icon={<FaChessPawn />}
-                command="⌘G"
-                {...active("game", loc)}
-                onClick={() => navigate("/chess/play")}
-              >
-                Game
-              </MenuItem>
+              {
+                data.user.currentGameID && (
+                  <MenuItem
+                    icon={<FaChessPawn />}
+                    command="⌘G"
+                    {...active("game", loc)}
+                    onClick={() => navigate("/chess/play")}
+                  >
+                    Game
+                  </MenuItem>
+                )
+              }
               <MenuItem
                 icon={<BiUser />}
                 command="⌘P"

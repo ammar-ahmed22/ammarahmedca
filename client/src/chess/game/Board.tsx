@@ -168,7 +168,7 @@ export class Board {
           {row.map((piece, pIdx) => {
             const pieceId = `${rowId}-col-${pIdx + 1}`;
 
-            const file = String.fromCharCode(97 + pIdx);
+            const file = this.colorToMove === "w" ? String.fromCharCode(97 + pIdx) : String.fromCharCode(104 - pIdx);
             const colIsEven = pIdx % 2 === 0;
             let isLight = false;
 

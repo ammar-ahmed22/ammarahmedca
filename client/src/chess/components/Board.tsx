@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from "react";
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
 import { GameContext } from "../contexts/GameContext";
 import PlayerDisplay from "./PlayerDisplay";
 
 const Board: React.FC = () => {
   const {
     board,
-    updateBoard,
+    // updateBoard,
     validMoves,
-    updateValidMoves,
-    setColorToMove,
+    // updateValidMoves,
+    // setColorToMove,
     whiteTakes,
     blackTakes,
-    colorToMove,
+    // colorToMove,
   } = useContext(GameContext) as IGameContext;
 
   // console.log(board.matrix);
@@ -23,7 +23,8 @@ const Board: React.FC = () => {
     //   setColorToMove("b");
     //   // alert("color updated!")
     // }, 3000)
-  }, []);
+    console.log(board);
+  }, [board]);
 
   return (
     <Flex justify="center" align="center" direction="column">

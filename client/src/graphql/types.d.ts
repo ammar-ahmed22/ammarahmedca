@@ -74,44 +74,4 @@ interface ISkill {
   value: number;
 }
 
-// Auth
-type Record = {
-  wins: number;
-  losses: number;
-};
-type User = {
-  _id: string;
-  createdAt: number;
-  email: string;
-  firstName: string;
-  lastName: string;
-  middleName?: string;
-  company?: string;
-  position?: string;
-  foundBy?: string;
-  currentGameID?: string;
-  gameIDs: string[];
-  profilePic?: string;
-  emailConfirmed: boolean;
-  record: Record;
-};
 
-interface AuthPayload {
-  token: string;
-}
-
-type RegisterData = {
-  email: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  middleName: string;
-  company: string;
-  position: string;
-  foundBy: string;
-  profilePic: string;
-};
-
-type RegisterInput = {
-  data: RegisterData;
-};

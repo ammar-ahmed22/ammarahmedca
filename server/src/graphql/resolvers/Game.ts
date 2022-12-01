@@ -32,7 +32,7 @@ class AddMoveArgs {
 @Resolver()
 export class GameResolver {
   @Authorized()
-  @Mutation((returns) => String)
+  @Mutation((returns) => AuthPayload)
   async createGame(@Ctx() ctx: Context) {
     const user = await UserModel.findById(ctx.userId);
     const me = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
@@ -60,7 +60,7 @@ export class GameResolver {
     user.gameIDs.push(game._id);
     await user.save();
 
-    return "game created!";
+    return new AuthPayload({ id: user._id });
   }
 
   @Authorized()
@@ -92,5 +92,33 @@ export class GameResolver {
     await game.save();
 
     return "move added!";
+  }
+
+  @Authorized()
+  @Query(returns => Game)
+  async game(
+    @Ctx() ctx: Context,
+    @Arg("gameId", { nullable: true }) gameId?: string
+  ){
+    if (gameId){
+      const game = await GameModel.findById(gameId);
+
+      if (!game) throw new Error("Game not found!")
+
+      return game;
+    }
+
+    const user = await UserModel.findById(ctx.userId);
+
+    if (!user) throw new Error("User not found!")
+
+    if (!user.currentGameID) throw new Error("No active game!")
+
+    const game = await GameModel.findById(user.currentGameID);
+
+    if (!game) throw new Error("Current game not found!")
+
+    return game;
+
   }
 }

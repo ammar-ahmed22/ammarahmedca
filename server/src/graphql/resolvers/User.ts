@@ -181,4 +181,16 @@ export class UserResolver {
 
     return new AuthPayload({ id: user._id });
   }
+
+  @Authorized()
+  @Query(returns => User)
+  async getUserByID(
+    @Arg("userId") userId: string
+  ){
+    const user = await UserModel.findById(userId)
+
+    if (!user) throw new Error("Not found!")
+
+    return user;
+  }
 }

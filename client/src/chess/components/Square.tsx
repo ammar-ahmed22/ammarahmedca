@@ -15,13 +15,41 @@ const Square: React.FC<SquareProps> = ({
   const darkColor = "gray.700";
   const lightColor = useColorModeValue("gray.200", "gray.400");
 
-  const { board, updateValidMoves, validMoves, setMoveTo, setToMove } =
+  const { board, updateValidMoves, validMoves, setMoveTo, setToMove, colorToMove } =
     useContext(GameContext) as IGameContext;
 
   const [row, col] = indices;
 
   let renderRank = col === 0;
   let renderFile = row === 7;
+
+  const handleClick = () => {
+    console.log(validMoves, !validMoves.length);
+    // move piece    
+    if (isValidMove) {
+      setMoveTo({ rank, file });
+      return;
+    }
+
+    if (piece) {
+      // wrong color
+      if (piece.color !== colorToMove) return;
+      const moves = piece.allMoves(rank, file, board, { validOnly: true }); // all valid moves
+      if (board.isInCheck(piece.color)) { 
+        // if check removers returns empty array (CHECKMATE!)
+        updateValidMoves(
+          board.onlyCheckRemovers(rank, file, piece.color, moves) // filter to only moves that remove check
+        );
+      } else {
+        updateValidMoves(moves);
+      }
+
+      setToMove({ rank, file });
+      return;
+    }
+
+    updateValidMoves([]);
+  }
 
   return (
     <Flex
@@ -35,30 +63,7 @@ const Square: React.FC<SquareProps> = ({
       _hover={{
         cursor: "pointer",
       }}
-      onClick={() => {
-        console.log(validMoves, !validMoves.length);
-        if (isValidMove) {
-          setMoveTo({ rank, file });
-          return;
-        }
-
-        if (piece) {
-          const moves = piece.allMoves(rank, file, board, { validOnly: true });
-          if (board.isInCheck(piece.color)) {
-            // if check removers returns empty array (CHECKMATE!)
-            updateValidMoves(
-              board.onlyCheckRemovers(rank, file, piece.color, moves)
-            );
-          } else {
-            updateValidMoves(moves);
-          }
-
-          setToMove({ rank, file });
-          return;
-        }
-
-        updateValidMoves([]);
-      }}
+      onClick={handleClick}
     >
       {piece && (
         <Icon

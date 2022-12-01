@@ -3,20 +3,24 @@ import { FENHelper } from "../game/FENHelper";
 import { Board } from "../game/Board";
 import { Piece } from "../game/Pieces/Piece";
 
-const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+// const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const GameContext = createContext<IGameContext | null>(null);
 
-export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
+export const GameProvider: React.FC<GameProviderProps> = ({ children, game }) => {
+  useEffect(() => {
+    console.log(game);
+  }, [game])
+  const latestMove = game.moves[game.moves.length - 1]
   const [boardOpts, setBoardOpts] = useState<BoardOpts>({
-    colorToMove: "w",
+    colorToMove: latestMove.colorToMove,
     castling: "KQkq",
     enPassant: "-",
     halfMove: 0,
     fullMove: 1,
     squareSize: "7vh",
   });
-  const [board, setBoard] = useState<Board>(new Board(starting, boardOpts));
-  const [fen, setFEN] = useState<string>(starting);
+  const [board, setBoard] = useState<Board>(new Board(latestMove.fen, boardOpts));
+  const [fen, setFEN] = useState<string>(latestMove.fen);
   const [move, setMove] = useState<IMove>({
     toMove: null,
     moveTo: null,
@@ -44,13 +48,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
   }, [fen, boardOpts]);
 
   useEffect(() => {
-    console.log({ whiteTakes, blackTakes });
+    // console.log({ whiteTakes, blackTakes });
   }, [whiteTakes, blackTakes]);
 
   useEffect(() => {
+    console.log(move);
     if (move.moveTo && move.toMove) {
       // swap and update fen
       const response = FENHelper.executeMove(fen, move.toMove, move.moveTo);
+      console.log(response.fen);
       setFEN(response.fen);
       if (response.take) {
         if (response.take.color === "w")
