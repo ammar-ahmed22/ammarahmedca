@@ -1,6 +1,6 @@
-export {}
+export {};
 
-declare global{
+declare global {
   // Auth
   type GameRecord = {
     wins: number;
@@ -44,25 +44,25 @@ declare global{
   };
 
   type Move = {
-    fen: string,
+    fen: string;
     takes: {
-      white: string[],
-      black: string[]
-    },
+      white: string[];
+      black: string[];
+    };
     boardOpts?: {
-      castling?: string,
-      enPassant?: string,
-      halfMove?: number,
-      fullMove?: number
-    },
-    colorToMove: "w" | "b"
-  }
+      castling?: string;
+      enPassant?: string;
+      halfMove?: number;
+      fullMove?: number;
+    };
+    colorToMove: "w" | "b";
+  };
 
   type Game = {
-    moves: Move[],
+    moves: Move[];
     playerIDs: {
-      white: string,
-      black: string
-    }
-  }
+      white: string;
+      black: string;
+    };
+  };
 }

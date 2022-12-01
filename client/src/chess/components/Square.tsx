@@ -15,8 +15,14 @@ const Square: React.FC<SquareProps> = ({
   const darkColor = "gray.700";
   const lightColor = useColorModeValue("gray.200", "gray.400");
 
-  const { board, updateValidMoves, validMoves, setMoveTo, setToMove, colorToMove } =
-    useContext(GameContext) as IGameContext;
+  const {
+    board,
+    updateValidMoves,
+    validMoves,
+    setMoveTo,
+    setToMove,
+    colorToMove,
+  } = useContext(GameContext) as IGameContext;
 
   const [row, col] = indices;
 
@@ -25,7 +31,7 @@ const Square: React.FC<SquareProps> = ({
 
   const handleClick = () => {
     console.log(validMoves, !validMoves.length);
-    // move piece    
+    // move piece
     if (isValidMove) {
       setMoveTo({ rank, file });
       return;
@@ -35,7 +41,7 @@ const Square: React.FC<SquareProps> = ({
       // wrong color
       if (piece.color !== colorToMove) return;
       const moves = piece.allMoves(rank, file, board, { validOnly: true }); // all valid moves
-      if (board.isInCheck(piece.color)) { 
+      if (board.isInCheck(piece.color)) {
         // if check removers returns empty array (CHECKMATE!)
         updateValidMoves(
           board.onlyCheckRemovers(rank, file, piece.color, moves) // filter to only moves that remove check
@@ -49,7 +55,7 @@ const Square: React.FC<SquareProps> = ({
     }
 
     updateValidMoves([]);
-  }
+  };
 
   return (
     <Flex

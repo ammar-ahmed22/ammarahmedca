@@ -31,6 +31,6 @@ declare global {
 
   interface GameProviderProps {
     children: React.ReactNode;
-    game: Game
+    game: Game;
   }
 }

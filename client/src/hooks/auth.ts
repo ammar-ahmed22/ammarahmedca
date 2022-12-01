@@ -28,7 +28,7 @@ const authMutations = [
   "confirmEmail",
   "resetPassword",
   "updateUser",
-  "createGame"
+  "createGame",
 ] as const;
 
 type AuthMutations = typeof authMutations[number];

@@ -95,30 +95,29 @@ export class GameResolver {
   }
 
   @Authorized()
-  @Query(returns => Game)
+  @Query((returns) => Game)
   async game(
     @Ctx() ctx: Context,
     @Arg("gameId", { nullable: true }) gameId?: string
-  ){
-    if (gameId){
+  ) {
+    if (gameId) {
       const game = await GameModel.findById(gameId);
 
-      if (!game) throw new Error("Game not found!")
+      if (!game) throw new Error("Game not found!");
 
       return game;
     }
 
     const user = await UserModel.findById(ctx.userId);
 
-    if (!user) throw new Error("User not found!")
+    if (!user) throw new Error("User not found!");
 
-    if (!user.currentGameID) throw new Error("No active game!")
+    if (!user.currentGameID) throw new Error("No active game!");
 
     const game = await GameModel.findById(user.currentGameID);
 
-    if (!game) throw new Error("Current game not found!")
+    if (!game) throw new Error("Current game not found!");
 
     return game;
-
   }
 }

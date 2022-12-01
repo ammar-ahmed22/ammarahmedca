@@ -73,5 +73,3 @@ interface ISkill {
   type: string;
   value: number;
 }
-
-

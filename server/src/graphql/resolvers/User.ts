@@ -183,13 +183,11 @@ export class UserResolver {
   }
 
   @Authorized()
-  @Query(returns => User)
-  async getUserByID(
-    @Arg("userId") userId: string
-  ){
-    const user = await UserModel.findById(userId)
+  @Query((returns) => User)
+  async getUserByID(@Arg("userId") userId: string) {
+    const user = await UserModel.findById(userId);
 
-    if (!user) throw new Error("Not found!")
+    if (!user) throw new Error("Not found!");
 
     return user;
   }

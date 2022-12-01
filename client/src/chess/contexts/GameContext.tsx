@@ -6,11 +6,14 @@ import { Piece } from "../game/Pieces/Piece";
 // const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const GameContext = createContext<IGameContext | null>(null);
 
-export const GameProvider: React.FC<GameProviderProps> = ({ children, game }) => {
+export const GameProvider: React.FC<GameProviderProps> = ({
+  children,
+  game,
+}) => {
   useEffect(() => {
     console.log(game);
-  }, [game])
-  const latestMove = game.moves[game.moves.length - 1]
+  }, [game]);
+  const latestMove = game.moves[game.moves.length - 1];
   const [boardOpts, setBoardOpts] = useState<BoardOpts>({
     colorToMove: latestMove.colorToMove,
     castling: "KQkq",
@@ -19,7 +22,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({ children, game }) =>
     fullMove: 1,
     squareSize: "7vh",
   });
-  const [board, setBoard] = useState<Board>(new Board(latestMove.fen, boardOpts));
+  const [board, setBoard] = useState<Board>(
+    new Board(latestMove.fen, boardOpts)
+  );
   const [fen, setFEN] = useState<string>(latestMove.fen);
   const [move, setMove] = useState<IMove>({
     toMove: null,
