@@ -61,6 +61,13 @@ export const createAlgebraic = (
 };
 
 /**
+ * Creates algebraic notation from algebraic object
+ * @param {IAlgebraic} a - Algebraic object
+ * @returns - Algebraic notation
+ */
+export const algebraic = (a: IAlgebraic) => createAlgebraic(a.rank, a.file);
+
+/**
  * Creates algebraic interface from loop indices when looping over board matrix
  * @example
  * ```

@@ -144,17 +144,7 @@ export class Board {
     return res;
   };
 
-  render = (validMoves: string[]): JSX.Element[] => {
-    // this works, however, we only want to switch the board when its the other players turn
-    // as in, players may want to test out moves but only when they "send" it will flip the board for
-    // the other player
-
-    // In other words, when they player is making moves, we don't want to update FEN, just let them make their moves
-    // Once they press send, creates a FEN and updates.
-
-    // Adding to above, now we have state for colorToMove so this is solved. Only when we update
-    // the state for colorToMove will this render the other way. (i.e. updating colorToMove option)
-    // this can be set when loaded from backend request.
+  render = (validMoves: string[], move: IMove): JSX.Element[] => {
     const toRender =
       this.colorToMove === "w" ? this.matrix : this.flipMatrix(this.matrix);
 

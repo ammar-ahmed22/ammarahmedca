@@ -14,12 +14,13 @@ const Game: React.FC = () => {
     return <Loading />;
   }
 
+  // navigate to error page
   if (error || !data) {
     return <Navigate to="/chess/home" />;
   }
 
   return (
-    <Box>
+    <Box pos="relative">
       <GameProvider game={data.game}>
         <Board />
       </GameProvider>

@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   Text,
@@ -13,6 +13,11 @@ import {
 import type { IconType } from "react-icons";
 import { Piece } from "../game/Pieces/Piece";
 import { GameContext } from "../contexts/GameContext";
+import { AuthContext, AuthContextType } from "../contexts/AuthContext";
+import { useLazyQuery } from "@apollo/client";
+import { GET_USER_BY_ID, GetUserById } from "../graphql/queries/GetUserById";
+import { Pawn, Rook, Knight, Queen, Bishop } from "../game/Pieces";
+import Controls from "./Controls";
 
 interface PieceCount {
   count: number;
@@ -22,16 +27,53 @@ interface PieceCount {
 
 const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
   player,
-  takes,
-  takesColor,
+  color,
   containerProps,
 }) => {
-  const { squareSize } = useContext(GameContext) as IGameContext;
+  const { squareSize, opponentMetadata, whiteTakes, blackTakes } = useContext(
+    GameContext
+  ) as IGameContext;
+  const { user } = useContext(AuthContext) as AuthContextType;
+  const [getOpp] = useLazyQuery<GetUserById.Response, GetUserById.Variables>(
+    GET_USER_BY_ID
+  );
+  const [opponent, setOpponent] = useState<User>();
+
+  // console.log(opponentMetadata);
+
+  useEffect(() => {
+    if (player === "opponent" && opponentMetadata.id) {
+      getOpp({
+        variables: { userId: opponentMetadata.id },
+        onCompleted: (data) => setOpponent(data.getUserByID),
+      });
+    }
+    // eslint-disable-next-line
+  }, []);
+
+  // useEffect(() => {
+  //   console.log(opponent);
+  // }, [opponent])
+
+  // useEffect(() => {
+  //   if (player === "opponent") {
+  //     if (!loading && data) {
+  //       setOpponent(data.getUserById);
+  //     }
+  //   }
+  // }, [ data, loading, error]);
 
   const pieceColors = {
     w: "gray.500",
     b: "gray.500",
   };
+
+  const takes = {
+    w: [new Pawn("b"), new Rook("b"), new Bishop("b"), new Knight("b")],
+    b: [new Pawn("b"), new Rook("b"), new Bishop("b"), new Knight("b")],
+  };
+
+  const takesColor = color === "w" ? "b" : "w";
 
   const countPieces = (takes: Piece[]) => {
     const hashMap: Record<string, PieceCount> = {};
@@ -84,10 +126,18 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
   };
 
   return (
-    <HStack w={`calc(8 * ${squareSize})`} {...containerProps}>
+    <HStack
+      w={`calc(8 * ${squareSize})`}
+      {...containerProps}
+      justify={player === "user" ? "space-between" : "initial"}
+    >
       <Box>
         <Text fontSize="lg">
-          {player.firstName} {player.lastName}
+          {player === "user" && `${user.firstName} ${user.lastName}`}
+          {player === "opponent" &&
+            opponent &&
+            `${opponent.firstName} ${opponent.lastName}`}
+          {player === "opponent" && !opponent && "Loading..."}
         </Text>
         <Stat>
           <HStack>
@@ -116,6 +166,7 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
           );
         })}
       </HStack>
+      {player === "user" && <Controls />}
     </HStack>
   );
 };

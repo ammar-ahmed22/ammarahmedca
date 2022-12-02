@@ -15,6 +15,7 @@ const httpLink = new HttpLink({
       ? "http://localhost:8080"
       : "https://ammarahmedca.fly.dev/"
   }`,
+  // uri: "http://localhost:8080",
 });
 
 const authMiddleware = (authToken: string) => {

@@ -22,6 +22,8 @@ const Square: React.FC<SquareProps> = ({
     setMoveTo,
     setToMove,
     colorToMove,
+    moveMade,
+    move,
   } = useContext(GameContext) as IGameContext;
 
   const [row, col] = indices;
@@ -38,8 +40,8 @@ const Square: React.FC<SquareProps> = ({
     }
 
     if (piece) {
-      // wrong color
-      if (piece.color !== colorToMove) return;
+      // opp color or move already made
+      if (piece.color !== colorToMove || moveMade) return;
       const moves = piece.allMoves(rank, file, board, { validOnly: true }); // all valid moves
       if (board.isInCheck(piece.color)) {
         // if check removers returns empty array (CHECKMATE!)
@@ -57,6 +59,33 @@ const Square: React.FC<SquareProps> = ({
     updateValidMoves([]);
   };
 
+  const renderIndicateMove = () => {
+    const Display = ({ color }: { color: string }) => {
+      return (
+        <Box
+          pos="absolute"
+          h="100%"
+          w="100%"
+          bg={color}
+          // opacity="0.75"
+          zIndex={2}
+          // borderColor="green.600"
+          // borderStyle="solid"
+          // borderWidth="2px"
+        />
+      );
+    };
+    if (move.toMove) {
+      if (move.toMove.file === file && move.toMove.rank === rank)
+        return <Display color="green.500" />;
+    }
+
+    if (move.moveTo) {
+      if (move.moveTo.file === file && move.moveTo.rank === rank)
+        return <Display color="green.300" />;
+    }
+  };
+
   return (
     <Flex
       height={size}
@@ -70,6 +99,7 @@ const Square: React.FC<SquareProps> = ({
         cursor: "pointer",
       }}
       onClick={handleClick}
+      zIndex={1}
     >
       {piece && (
         <Icon
@@ -77,6 +107,7 @@ const Square: React.FC<SquareProps> = ({
           color={piece.color === "w" ? "white" : "black"}
           w={"50%"}
           h={"50%"}
+          zIndex={3}
         />
       )}
       {renderRank && (
@@ -102,6 +133,7 @@ const Square: React.FC<SquareProps> = ({
           borderWidth="2px"
         />
       )}
+      {renderIndicateMove()}
     </Flex>
   );
 };

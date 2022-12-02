@@ -1,4 +1,4 @@
-import { FlexProps, StackProps } from "@chakra-ui/react";
+import { StackProps } from "@chakra-ui/react";
 import { Piece } from "../game/Pieces/Piece";
 
 declare global {
@@ -27,12 +27,8 @@ declare global {
   }
 
   interface PlayerDisplayProps {
-    player: FakePlayer;
-    takes: {
-      w: Piece[];
-      b: Piece[];
-    };
-    takesColor: "w" | "b";
+    player: "user" | "opponent";
+    color: "w" | "b";
     containerProps?: StackProps;
   }
 }

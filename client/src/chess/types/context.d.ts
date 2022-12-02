@@ -3,6 +3,7 @@ import { Piece } from "../game/Pieces/Piece";
 
 declare global {
   interface IGameContext {
+    game: Game;
     board: Board;
     updateBoard: (fen: string) => void;
     fen: string;
@@ -17,6 +18,10 @@ declare global {
     blackTakes: Piece[];
     squareSize: string;
     setSquareSize: (val: string) => void;
+    moveMade: boolean;
+    setMoveMade: (val: boolean) => void;
+    opponentMetadata: OpponentMetadata;
+    reset: () => void;
   }
 
   interface IAlgebraic {
@@ -33,4 +38,9 @@ declare global {
     children: React.ReactNode;
     game: Game;
   }
+
+  type OpponentMetadata = {
+    id: string;
+    color: "w" | "b";
+  };
 }
