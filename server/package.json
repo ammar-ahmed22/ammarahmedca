@@ -54,7 +54,7 @@
     "build": "yarn clean && yarn copy-files && tsc",
     "start": "node ./dist/index.js",
     "build:start": "yarn build && yarn start",
-    "publish-schema": "rover graph publish ammarahmedca-api-v2@production --schema ./src/schema.graphql",
+    "publish-schema": "rover graph publish ammarahmedca-api-v2@production --schema ./src/schema.gql",
     "format": "prettier --write ."
   }
 }

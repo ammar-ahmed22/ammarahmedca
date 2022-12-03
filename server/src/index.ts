@@ -5,7 +5,7 @@ import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import express from "express";
 import cors from "cors";
-import jwt, { verify } from "jsonwebtoken";
+import { verify } from "jsonwebtoken";
 
 import {
   ApolloServerPluginLandingPageLocalDefault,
@@ -34,12 +34,13 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
     resolvers: [BlogResolver, WebsiteResolver, UserResolver, GameResolver],
     dateScalarMode: "timestamp",
     authChecker,
+    emitSchemaFile: {
+      path: __dirname + "/schema.gql",
+      sortedSchema: false,
+    }
   });
 
   const app = express();
-
-  const schemaString = printSchema(schema);
-  fs.writeFileSync(path.resolve(__dirname, "./schema.graphql"), schemaString);
 
   const server = new ApolloServer<Context>({
     schema,

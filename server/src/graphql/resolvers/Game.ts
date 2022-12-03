@@ -9,15 +9,20 @@ import {
   ArgsType,
   Field,
   Args,
+  FieldResolver,
+  Root,
 } from "type-graphql";
 import { AuthPayload } from "../../utils/auth";
-import GameModel, { BoardOptsInput, Game } from "../../models/Game";
+import GameModel, { BoardOptsInput, Game, ExecutedMoveInput } from "../../models/Game";
 import UserModel from "../../models/User";
 
 @ArgsType()
 class AddMoveArgs {
   @Field()
   public fen: string;
+
+  @Field(returns => ExecutedMoveInput)
+  executedMove: ExecutedMoveInput
 
   @Field({ nullable: true })
   public boardOpts?: BoardOptsInput;
@@ -29,10 +34,10 @@ class AddMoveArgs {
   public blackTakes?: string[];
 }
 
-@Resolver()
+@Resolver(of => Game)
 export class GameResolver {
   @Authorized()
-  @Mutation((returns) => AuthPayload)
+  @Mutation(returns => AuthPayload)
   async createGame(@Ctx() ctx: Context) {
     const user = await UserModel.findById(ctx.userId);
     const me = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
@@ -43,13 +48,6 @@ export class GameResolver {
       throw new Error("A game is active. Cannot create another.");
 
     const game = await GameModel.create({
-      moves: [
-        {
-          fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
-          takes: { white: [], black: [] },
-          colorToMove: "w",
-        },
-      ],
       playerIDs: {
         white: user._id,
         black: me._id,
@@ -58,16 +56,18 @@ export class GameResolver {
 
     user.currentGameID = game._id;
     user.gameIDs.push(game._id);
+    me.gameIDs.push(game._id);
     await user.save();
+    await me.save();
 
     return new AuthPayload({ id: user._id });
   }
 
   @Authorized()
-  @Mutation((returns) => String)
+  @Mutation(returns => String)
   async addMove(
     @Ctx() ctx: Context,
-    @Args() { fen, boardOpts, whiteTakes, blackTakes }: AddMoveArgs
+    @Args() { fen, boardOpts, whiteTakes, blackTakes, executedMove }: AddMoveArgs
   ) {
     const user = await UserModel.findById(ctx.userId);
 
@@ -78,15 +78,17 @@ export class GameResolver {
 
     if (!game) throw new Error("Game not found.");
 
+    // no last move = first move
     const lastMove = game.moves[game.moves.length - 1];
 
     game.moves.push({
       fen,
-      colorToMove: lastMove.colorToMove === "w" ? "b" : "w",
+      colorToMove: lastMove ? (lastMove.colorToMove === "w" ? "b" : "w") : "b",
       takes: {
-        white: lastMove.takes.white.concat(whiteTakes ?? []),
-        black: lastMove.takes.black.concat(blackTakes ?? []),
+        white: lastMove ? lastMove.takes.white.concat(whiteTakes ?? []) : [],
+        black: lastMove ? lastMove.takes.black.concat(blackTakes ?? []) : [],
       },
+      executedMove
     });
 
     await game.save();
@@ -95,7 +97,7 @@ export class GameResolver {
   }
 
   @Authorized()
-  @Query((returns) => Game)
+  @Query(returns => Game)
   async game(
     @Ctx() ctx: Context,
     @Arg("gameId", { nullable: true }) gameId?: string
@@ -114,10 +116,15 @@ export class GameResolver {
 
     if (!user.currentGameID) throw new Error("No active game!");
 
-    const game = await GameModel.findById(user.currentGameID);
+    const game = await GameModel.findById(user.currentGameID).lean().exec();
 
     if (!game) throw new Error("Current game not found!");
 
     return game;
+  }
+
+  @FieldResolver(of => Game)
+  lastMove(@Root() game: Game){
+    return game.moves[game.moves.length - 1];
   }
 }

@@ -91,6 +91,64 @@ export class BoardOptsInput implements BoardOpts {
 }
 
 @ObjectType()
+export class Algebraic{
+
+  @Field(returns => Int)
+  @prop({ required: true })
+  public rank: number;
+
+  @Field()
+  @prop({ required: true })
+  public file: string
+
+}
+
+@ObjectType()
+export class ExecutedMove{
+  @Field(returns => Algebraic)
+  @prop({ required: true, type: Algebraic })
+  public from: Algebraic
+
+  @Field(returns => Algebraic)
+  @prop({ required: true, type: Algebraic })
+  public to: Algebraic
+
+  @Field()
+  @prop({ required: true })
+  public pieceType: string
+
+  @Field({ nullable: true })
+  @prop()
+  public causedCheck?: boolean
+  
+
+}
+
+@InputType()
+export class AlgebraicInput extends Algebraic{
+  @Field(returns => Int)
+  public rank: number;
+
+  @Field()
+  public file: string
+}
+
+@InputType()
+export class ExecutedMoveInput extends ExecutedMove{
+  @Field(returns => AlgebraicInput)
+  public from: AlgebraicInput
+
+  @Field(returns => AlgebraicInput)
+  public to: AlgebraicInput
+
+  @Field()
+  public pieceType: string
+
+  @Field({ nullable: true })
+  public causedCheck?: boolean
+}
+
+@ObjectType()
 export class Move {
   @Field()
   @prop({
@@ -115,6 +173,12 @@ export class Move {
   @Field((returns) => Takes)
   @prop({ required: true, default: { white: [], black: [] }, type: Takes })
   public takes: Takes;
+
+  @Field(returns => ExecutedMove)
+  @prop({ type: ExecutedMove })
+  public executedMove: ExecutedMove
+
+  
 }
 
 @ObjectType()
@@ -132,6 +196,9 @@ export class Game {
   @Field((returns) => Players)
   @prop({ type: Players, required: true })
   public playerIDs: Players;
+
+  @Field(returns => Move, { nullable: true })
+  public lastMove?: Move
 }
 
 export default getModelForClass(Game);
