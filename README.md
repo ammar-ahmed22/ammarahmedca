@@ -56,7 +56,7 @@ Aesthetic radar charts created for skills using [recharts](https://recharts.org/
 
 #### Description
 
-- Play a game of 1-day time limit Chess against me
+- Play a game of no time limit Chess against me
 - Players create an account and are notified by e-mail when it is their turn to play.
 - All game logic and functionality written myself as a learning exercise.
 - Player and game data persisted in MongoDB database
@@ -68,6 +68,7 @@ Aesthetic radar charts created for skills using [recharts](https://recharts.org/
 - Chess game board can be rendered using FEN strings
 - Game state can be converted to FEN string
 - All game moves implemented including check guarding (edge cases not done yet: castling, en passant)
+- Email sending implemented using SMTP and Gmail
 - Authentication backend setup complete
 - Authentication frontend complete
 - Game database design complete
@@ -120,8 +121,8 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca. I
 #### Chess (Coming soon...)
 
 - [JWT Frontend Token Authentication](https://medium.com/ovrsea/token-authentication-with-react-and-apollo-client-a-detailed-example-a3cc23760e9)
-<!-- - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
-- [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth) -->
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
 - [FEN Generator for testing](http://www.netreal.de/Forsyth-Edwards-Notation/index.php)
+<!-- - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
+- [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth) -->
