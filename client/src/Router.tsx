@@ -8,34 +8,28 @@ import Blog from "./pages/Blog";
 import Post from "./pages/Post";
 // import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
-// Chess Pages
-import ChessHome from "./chess/pages/Home";
-
 import ChessRouter from "./chess/ChessRouter";
 import { chessRoutes } from "./chess/ChessRouter";
 
 import Page from "./components/Page/Page";
 
-
-
-const Router : React.FC = () => {
-
+const Router: React.FC = () => {
   const router = createBrowserRouter([
     {
       path: "/",
       element: (
-        <Page activeNav="home" >
+        <Page activeNav="home">
           <Home />
         </Page>
-      )
+      ),
     },
     {
       path: "/about",
       element: (
-        <Page activeNav="about" >
+        <Page activeNav="about">
           <About />
         </Page>
-      )
+      ),
     },
     {
       path: "/blog",
@@ -43,25 +37,25 @@ const Router : React.FC = () => {
         <Page activeNav="blog">
           <Blog />
         </Page>
-      )
+      ),
     },
     {
       path: "/blog/:postName",
       element: (
-        <Page activeNav="blog" >
+        <Page activeNav="blog">
           <Post />
         </Page>
       ),
-      loader: ({ params }) => params.postName
+      loader: ({ params }) => params.postName,
     },
     {
       path: "/chess",
       element: <ChessRouter />,
-      children: chessRoutes
-    }
-  ])
+      children: chessRoutes,
+    },
+  ]);
 
-  return <RouterProvider router={router} />
-}
+  return <RouterProvider router={router} />;
+};
 
 export default Router;

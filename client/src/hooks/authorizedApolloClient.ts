@@ -1,38 +1,52 @@
-import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
-import { useAuthToken } from "./authToken";
+import {
+  ApolloClient,
+  ApolloLink,
+  HttpLink,
+  InMemoryCache,
+} from "@apollo/client";
+import { useEffect } from "react";
+import { useSessionStorage } from "./sessionStorage";
 
 const httpLink = new HttpLink({
-    uri: `${process.env.REACT_APP_MOBILE ? "http://ammar.local:8080" : process.env.NODE_ENV === "development" ? "http://localhost:8080" : "https://ammarahmedca.fly.dev/"}`
-})
+  uri: `${
+    process.env.REACT_APP_MOBILE
+      ? "http://ammar.local:8080"
+      : process.env.NODE_ENV === "development"
+      ? "http://localhost:8080"
+      : "https://ammarahmedca.fly.dev/"
+  }`,
+  // uri: "http://localhost:8080",
+});
 
 const authMiddleware = (authToken: string) => {
+  const authorization = (token: string) => {
+    return `Bearer ${token}`;
+  };
 
-    const authorization = (token: string) => {
-        return `Bearer ${token}`
+  return new ApolloLink((operation, forward) => {
+    if (authToken) {
+      operation.setContext({
+        headers: {
+          Authorization: authorization(authToken),
+        },
+      });
     }
 
-    return new ApolloLink((operation, forward) => {
-        if (authToken){
-            operation.setContext({
-                headers: {
-                    Authorization: authorization(authToken)
-                }
-            })
-        }
-
-        return forward(operation);
-    })
-}
+    return forward(operation);
+  });
+};
 
 const cache = new InMemoryCache();
 
 export const useAuthorizedApolloClient = () => {
-    const [authToken] = useAuthToken();
-    
+  const [authToken] = useSessionStorage("authToken");
 
-    return new ApolloClient({
-        link: authMiddleware(authToken).concat(httpLink),
-        cache
-    })
-}
+  useEffect(() => {
+    console.log(authToken);
+  }, [authToken]);
 
+  return new ApolloClient({
+    link: authMiddleware(authToken).concat(httpLink),
+    cache,
+  });
+};

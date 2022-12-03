@@ -1,80 +1,155 @@
-import React,  { createContext, useState, useEffect } from "react";
+import React, { createContext, useState, useEffect, useContext } from "react";
 import { FENHelper } from "../game/FENHelper";
 import { Board } from "../game/Board";
 import { Piece } from "../game/Pieces/Piece";
+import { AuthContext, AuthContextType } from "./AuthContext";
+import { Pawn, Bishop, Rook, Knight, Queen, King } from "../game/Pieces";
 
-const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
+// const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const GameContext = createContext<IGameContext | null>(null);
 
-export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
+const generatePieceArray = (pieceNames: PieceType[], color: "w" | "b") => {
+  const pieces = {
+    pawn: new Pawn(color),
+    bishop: new Bishop(color),
+    rook: new Rook(color),
+    knight: new Knight(color),
+    queen: new Queen(color),
+    king: new King(color),
+  };
 
+  return pieceNames.map((val) => pieces[val]);
+};
+
+export const GameProvider: React.FC<GameProviderProps> = ({
+  children,
+  game,
+}) => {
+  const { user } = useContext(AuthContext) as AuthContextType;
+  // Latest move from database
+  const latestMove = game.moves[game.moves.length - 1];
+  const opponentMetadata: OpponentMetadata = {
+    id: "",
+    color: "w",
+  };
+  Object.keys(game.playerIDs).forEach((color) => {
+    let c = color as "white" | "black";
+    if (game.playerIDs[c] === user._id) return;
+    opponentMetadata.id = game.playerIDs[c];
+    opponentMetadata.color = c === "white" ? "w" : "b";
+  });
+  // Board metadata
   const [boardOpts, setBoardOpts] = useState<BoardOpts>({
-    colorToMove: "w",
+    colorToMove: latestMove.colorToMove,
     castling: "KQkq",
     enPassant: "-",
     halfMove: 0,
     fullMove: 1,
-    squareSize: "7vh"
+    squareSize: "7vh",
   });
-  const [board, setBoard] = useState<Board>(new Board(starting, boardOpts));
-  const [fen, setFEN] = useState<string>(starting);
+  // Board helper class
+  const [board, setBoard] = useState<Board>(
+    new Board(latestMove.fen, boardOpts)
+  );
+  // Current FEN
+  const [fen, setFEN] = useState<string>(latestMove.fen);
+  // Move object
   const [move, setMove] = useState<IMove>({
     toMove: null,
-    moveTo: null
-  })
+    moveTo: null,
+  });
 
-  const [whiteTakes, setWhiteTakes] = useState<Piece[]>([]);
-  const [blackTakes, setBlackTakes] = useState<Piece[]>([]);
-  
+  const [moveMade, setMoveMade] = useState(false);
+
+  // White and black taken pieces
+  const [whiteTakes, setWhiteTakes] = useState<Piece[]>(
+    generatePieceArray(latestMove.takes.white as PieceType[], "w")
+  );
+  const [blackTakes, setBlackTakes] = useState<Piece[]>(
+    generatePieceArray(latestMove.takes.black as PieceType[], "b")
+  );
+
+  const reset = () => {
+    setFEN(latestMove.fen);
+    setMoveMade(false);
+    setMove({ moveTo: null, toMove: null });
+  };
+
+  // Array of valid moves (algebraic notation: e6, a1, etc.)
   const [validMoves, setValidMoves] = useState<string[]>([]);
 
-  const updateBoard = (fen: string) : void => {
+  /**
+   * Updates board with FEN
+   *
+   * @param {string} fen - FEN string
+   */
+  const updateBoard = (fen: string): void => {
     setFEN(fen);
-  }
+  };
 
+  /**
+   * Updates valid moves
+   *
+   * @param {string[]} moves - Array of moves in algebraic notation
+   * @example
+   * ```
+   * updateValidMoves(["e5", "e6"]);
+   * ```
+   */
   const updateValidMoves = (moves: string[]) => setValidMoves(moves);
 
+  /**
+   * Sets color to move
+   *
+   * @param {("w" | "b")} color - New color to move
+   */
   const setColorToMove = (color: "w" | "b") => {
-    setBoardOpts(prevOpts => ({...prevOpts, colorToMove: color }));
-  }
+    setBoardOpts((prevOpts) => ({ ...prevOpts, colorToMove: color }));
+  };
 
   useEffect(() => {
-    setBoard(new Board(fen, boardOpts))
+    setBoard(new Board(fen, boardOpts));
     setValidMoves([]);
-    setMove({ toMove: null, moveTo: null })
-  }, [fen, boardOpts])
+    // setMove({ toMove: null, moveTo: null });
+  }, [fen, boardOpts]);
 
   useEffect(() => {
-    console.log({ whiteTakes, blackTakes });
-  }, [whiteTakes, blackTakes])
+    // console.log({ whiteTakes, blackTakes });
+  }, [whiteTakes, blackTakes]);
 
   useEffect(() => {
-    if (move.moveTo && move.toMove){
+    console.log(move);
+    if (move.moveTo && move.toMove) {
       // swap and update fen
       const response = FENHelper.executeMove(fen, move.toMove, move.moveTo);
+      console.log(response.fen);
       setFEN(response.fen);
-      if (response.take){
-        if (response.take.color === "w") setWhiteTakes(prev => [...prev, response.take as Piece]);
-        if (response.take.color === "b") setBlackTakes(prev => [...prev, response.take as Piece]);
+      if (response.take) {
+        if (response.take.color === "w")
+          setWhiteTakes((prev) => [...prev, response.take as Piece]);
+        if (response.take.color === "b")
+          setBlackTakes((prev) => [...prev, response.take as Piece]);
       }
+      setMoveMade(true);
     }
-  }, [move])
+    // eslint-disable-next-line
+  }, [move]);
 
   const setToMove = (algebraic: IAlgebraic) => {
-    setMove(prevMove => ({ ...prevMove, toMove: algebraic }))
-  }
+    setMove((prevMove) => ({ ...prevMove, toMove: algebraic }));
+  };
 
   const setMoveTo = (algebraic: IAlgebraic) => {
-    setMove(prevMove => ({ ...prevMove, moveTo: algebraic }))
-  }
+    setMove((prevMove) => ({ ...prevMove, moveTo: algebraic }));
+  };
 
   const setSquareSize = (val: string) => {
-    setBoardOpts(prevOpts => ({...prevOpts, squareSize: val }));
-  }
+    setBoardOpts((prevOpts) => ({ ...prevOpts, squareSize: val }));
+  };
 
-
-  const context : IGameContext = {
+  const context: IGameContext = {
     board,
+    game,
     fen,
     updateBoard,
     validMoves,
@@ -87,15 +162,14 @@ export const GameProvider : React.FC<GameProviderProps> = ({ children }) => {
     whiteTakes,
     blackTakes,
     squareSize: boardOpts.squareSize ?? "8vh",
-    setSquareSize
-  }
-
+    setSquareSize,
+    moveMade,
+    setMoveMade: (val: boolean) => setMoveMade(val),
+    opponentMetadata,
+    reset,
+  };
 
   return (
-    <GameContext.Provider value={context}>
-      {
-        children
-      }
-    </GameContext.Provider>
-  )
-}
+    <GameContext.Provider value={context}>{children}</GameContext.Provider>
+  );
+};

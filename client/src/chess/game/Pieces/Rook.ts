@@ -3,26 +3,27 @@ import { FaChessRook } from "react-icons/fa";
 import { Board } from "../Board";
 import { Piece, AllMovesOpts } from "./Piece";
 
-
-export class Rook extends Piece{
-  
-  public icon : IconType
-  constructor(
-    public color : "w" | "b"
-  ){
-    super()
-    this.icon = FaChessRook
+export class Rook extends Piece {
+  public icon: IconType;
+  constructor(public color: "w" | "b") {
+    super();
+    this.icon = FaChessRook;
   }
 
   get type(): PieceType {
-    return "rook"
+    return "rook";
   }
 
   get points(): number {
     return 5;
   }
 
-  allMoves(rank: number, file: string, board: Board, opts?: AllMovesOpts): string[] {
+  allMoves(
+    rank: number,
+    file: string,
+    board: Board,
+    opts?: AllMovesOpts
+  ): string[] {
     this.validateOpts(opts);
     const moves = this.getAllPerpendicular(board, rank, file);
 
@@ -31,6 +32,4 @@ export class Rook extends Piece{
 
     return moves;
   }
-
-  
 }
