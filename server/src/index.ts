@@ -56,7 +56,7 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
   });
 
   if (process.env.MONGO_URI) await connect(process.env.MONGO_URI);
-
+  // Creating my own user and a test user
   const exists = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
   const testExists = await UserModel.findOne({ email: "ammar@fragbuy.ca" });
 

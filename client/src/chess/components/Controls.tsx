@@ -24,7 +24,7 @@ import { Piece } from "../game/Pieces/Piece";
 import { fileToNumber, algebraic } from "../game/utils";
 
 const Controls: React.FC = () => {
-  const { moveMade, reset, game, move } = useContext(
+  const { moveMade, reset, latestMove, move } = useContext(
     GameContext
   ) as IGameContext;
   const [pieceMoved, setPieceMoved] = useState<Piece>();
@@ -45,7 +45,7 @@ const Controls: React.FC = () => {
 
   const confirmModal = useDisclosure();
 
-  const latestMove = game.moves[game.moves.length - 1];
+  // const latestMove = game.moves[game.moves.length - 1];
 
   const getMovedPiece = (): Piece => {
     if (!move.toMove || !move.moveTo)

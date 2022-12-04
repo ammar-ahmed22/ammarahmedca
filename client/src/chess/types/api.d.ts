@@ -56,6 +56,7 @@ declare global {
       fullMove?: number;
     };
     colorToMove: "w" | "b";
+    executedMove: ExecutedMove
   };
 
   type Game = {
@@ -65,4 +66,12 @@ declare global {
       black: string;
     };
   };
+
+
+  type ExecutedMove = {
+    from: IAlgebraic,
+    to: IAlgebraic,
+    pieceType: PieceType,
+    causedCheck?: boolean
+  }
 }

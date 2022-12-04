@@ -3,7 +3,9 @@ import { Piece } from "../game/Pieces/Piece";
 
 declare global {
   interface IGameContext {
-    game: Game;
+    // game: Game;
+    lastMove?: Move,
+    latestMove: Omit<Move, "executedMove">
     board: Board;
     updateBoard: (fen: string) => void;
     fen: string;
@@ -36,7 +38,9 @@ declare global {
 
   interface GameProviderProps {
     children: React.ReactNode;
-    game: Game;
+    game?: Game;
+    lastMove?: Move,
+    playerIDs: { white: string, black: string }
   }
 
   type OpponentMetadata = {

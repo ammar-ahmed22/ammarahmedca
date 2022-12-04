@@ -17,27 +17,14 @@ jobs:
       - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
       - run: flyctl deploy --remote-only
-  set_datetime:
+  send_notif:
     needs: deploy
-    runs-on: ubuntu-latest
-    outputs:
-      datetime: ${{ steps.datestep.outputs.datetime }}
-    steps:
-      - id: datestep
-        run: echo "datetime=$(TZ=':US/Eastern' date +'%a %b %d at %r')" >> $GITHUB_OUTPUT
-  send_notification:
     name: Send SMS Notification
-    needs: set_datetime
-    runs-on: ubuntu-latest
-    env:
-       MESSAGE: "✅ GitHub Action ✅\n\nName: ${{ github.workflow }}\nOn: ${{ needs.set_datetime.outputs.datetime }}\nStatus: Complete\nAPI is live at:\nhttps://ammarahmedca.fly.dev/"
-    steps:
-      - uses: twilio-labs/actions-sms@v1
-        with:
-          fromPhoneNumber: ${{ secrets.TWILIO_PHONE_NUMBER }}
-          toPhoneNumber: ${{ secrets.MY_PHONE_NUMBER }}
-          message: ${{ env.MESSAGE }}
-        env:
-          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-          TWILIO_API_KEY: ${{ secrets.TWILIO_API_KEY }}
-          TWILIO_API_SECRET: ${{ secrets.TWILIO_API_SECRET }}
+    uses: ammar-ahmed22/SendSMSNotification@v1.1
+    with:
+      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+      TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
+      PHONE_NUMBER: '+14168364386'
+      withRepoOwner: false
+      note: 'API is live at: https://api.ammarahmed.ca'

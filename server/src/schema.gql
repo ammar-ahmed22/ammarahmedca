@@ -271,7 +271,7 @@ type Mutation {
   resetPassword(token: String!, newPassword: String!): String!
   updateUser(data: UpdateInput!): AuthPayload!
   createGame: AuthPayload!
-  addMove(fen: String!, executedMove: ExecutedMoveInput!, boardOpts: BoardOptsInput, whiteTakes: [String!], blackTakes: [String!]): String!
+  addMove(fen: String!, executedMove: ExecutedMoveInput!, boardOpts: BoardOptsInput, whiteTakes: [String!], blackTakes: [String!], gameID: String): AuthPayload!
 }
 
 type AuthPayload {

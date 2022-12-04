@@ -16,7 +16,7 @@ import { GameContext } from "../contexts/GameContext";
 import { AuthContext, AuthContextType } from "../contexts/AuthContext";
 import { useLazyQuery } from "@apollo/client";
 import { GET_USER_BY_ID, GetUserById } from "../graphql/queries/GetUserById";
-import { Pawn, Rook, Knight, Queen, Bishop } from "../game/Pieces";
+import { Pawn, Rook, Knight, Bishop } from "../game/Pieces";
 import Controls from "./Controls";
 
 interface PieceCount {
@@ -30,7 +30,7 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
   color,
   containerProps,
 }) => {
-  const { squareSize, opponentMetadata, whiteTakes, blackTakes } = useContext(
+  const { squareSize, opponentMetadata } = useContext(
     GameContext
   ) as IGameContext;
   const { user } = useContext(AuthContext) as AuthContextType;
