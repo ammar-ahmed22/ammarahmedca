@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { Flex } from "@chakra-ui/react";
 import { GameContext } from "../contexts/GameContext";
 import PlayerDisplay from "./PlayerDisplay";
-import { useQuery } from "@apollo/client";
+// import { useQuery } from "@apollo/client";
 
 const Board: React.FC = () => {
   const {
@@ -11,9 +11,9 @@ const Board: React.FC = () => {
     validMoves,
     // updateValidMoves,
     // setColorToMove,
-    whiteTakes,
-    blackTakes,
-    game,
+    // whiteTakes,
+    // blackTakes,
+    // game,
     opponentMetadata,
     move,
     // colorToMove,

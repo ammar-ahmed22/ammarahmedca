@@ -21,21 +21,34 @@ const generatePieceArray = (pieceNames: PieceType[], color: "w" | "b") => {
   return pieceNames.map((val) => pieces[val]);
 };
 
+const starting : Omit<Move, "executedMove"> = {
+  fen: "whateverthefuck",
+  colorToMove: "w",
+  takes: {
+    white: [],
+    black: []
+  },
+}
+
 export const GameProvider: React.FC<GameProviderProps> = ({
   children,
   game,
+  lastMove,
+  playerIDs
 }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   // Latest move from database
-  const latestMove = game.moves[game.moves.length - 1];
+  // const latestMove = game.moves[game.moves.length - 1];
+  const latestMove = lastMove ? lastMove : starting;
+
   const opponentMetadata: OpponentMetadata = {
     id: "",
     color: "w",
   };
-  Object.keys(game.playerIDs).forEach((color) => {
+  Object.keys(playerIDs).forEach((color) => {
     let c = color as "white" | "black";
-    if (game.playerIDs[c] === user._id) return;
-    opponentMetadata.id = game.playerIDs[c];
+    if (playerIDs[c] === user._id) return;
+    opponentMetadata.id = playerIDs[c];
     opponentMetadata.color = c === "white" ? "w" : "b";
   });
   // Board metadata
@@ -149,7 +162,9 @@ export const GameProvider: React.FC<GameProviderProps> = ({
 
   const context: IGameContext = {
     board,
-    game,
+    // game,
+    lastMove,
+    latestMove,
     fen,
     updateBoard,
     validMoves,

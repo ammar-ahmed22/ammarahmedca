@@ -32,6 +32,9 @@ class AddMoveArgs {
 
   @Field((returns) => [String], { nullable: true })
   public blackTakes?: string[];
+
+  @Field({ nullable: true })
+  public gameID?: string
 }
 
 @Resolver(of => Game)
@@ -64,17 +67,18 @@ export class GameResolver {
   }
 
   @Authorized()
-  @Mutation(returns => String)
+  @Mutation(returns => AuthPayload)
   async addMove(
     @Ctx() ctx: Context,
-    @Args() { fen, boardOpts, whiteTakes, blackTakes, executedMove }: AddMoveArgs
+    @Args() { fen, boardOpts, whiteTakes, blackTakes, executedMove, gameID }: AddMoveArgs
   ) {
     const user = await UserModel.findById(ctx.userId);
 
     if (!user) throw new Error("Not found.");
-    if (!user.currentGameID) throw new Error("No active game.");
+    if (gameID && !user.gameIDs.includes(gameID)) throw new Error("Game not available.")
+    if (!gameID && !user.currentGameID) throw new Error("No active game.");
 
-    const game = await GameModel.findById(user.currentGameID);
+    const game = await GameModel.findById(gameID ? gameID : user.currentGameID);
 
     if (!game) throw new Error("Game not found.");
 
@@ -93,7 +97,7 @@ export class GameResolver {
 
     await game.save();
 
-    return "move added!";
+    return new AuthPayload({ id: user._id });
   }
 
   @Authorized()
