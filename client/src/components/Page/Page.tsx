@@ -17,7 +17,9 @@ const Page: React.FC<PageProps> = ({ children, activeNav, pageTitle }) => {
   const location = useLocation();
   useEffect(() => {
     ReactGA.initialize("G-JB69PRH5HQ");
-    ReactGA.send({ hitType: "pageview", path: location.pathname });
+    if (process.env.NODE_ENV === "production"){
+      ReactGA.send({ hitType: "pageview", path: location.pathname });
+    }
   }, [location])
 
   return (
