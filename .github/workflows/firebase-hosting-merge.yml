@@ -7,6 +7,7 @@ name: Deploy to Firebase Hosting on merge
     branches:
       - production
     paths: ["client/**"]
+  workflow_dispatch:
 defaults:
   run:
     working-directory: client
@@ -31,11 +32,14 @@ jobs:
   send_notif:
     needs: build_and_deploy
     name: Send SMS Notification
-    uses: ammar-ahmed22/SendSMSNotification@v1.1
-    with:
-      TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
-      TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
-      TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
-      PHONE_NUMBER: '+14168364386'
-      withRepoOwner: false
-      note: 'Site is live at: https://ammarahmed.ca'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ammar-ahmed22/SendSMSNotification@v1.1
+        with:
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
+          TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
+          PHONE_NUMBER: '+14168364386'
+          withRepoOwner: false
+          note: 'Site is live at: https://ammarahmed.ca'
