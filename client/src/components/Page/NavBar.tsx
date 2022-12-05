@@ -95,7 +95,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
             <Text>Blog</Text>
           </Link>
 
-          <Link
+          {/* <Link
             {...styles.navButton}
             _hover={{ bg: useColorModeValue("gray.50", "gray.700") }}
             as={ReactLink}
@@ -104,7 +104,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
           >
             <FontAwesomeIcon icon={faChessPawn as IconProp} />
             <Text>Chess</Text>
-          </Link>
+          </Link> */}
 
           <IconButton
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
