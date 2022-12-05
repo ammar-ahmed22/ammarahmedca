@@ -1,0 +1,11 @@
+node_modules
+.dockerignore
+.gitignore
+babel.config.js
+config.env
+Dockerfile
+fly.toml
+*.json
+yarn.lock
+dist
+

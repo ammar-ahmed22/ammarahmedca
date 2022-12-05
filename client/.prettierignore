@@ -1,0 +1,9 @@
+node_modules
+build
+public
+.firebaserc
+.gitignore
+*.excalidraw
+*.json
+yarn.lock
+.firebase

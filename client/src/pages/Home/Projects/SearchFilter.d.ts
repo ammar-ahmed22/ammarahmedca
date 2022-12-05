@@ -1,4 +1,4 @@
-interface SearchFilterProps{
-  projects: IMetadata[],
-  setProjects: Dispatch<SetStateAction<IMetadata[]>>
+interface SearchFilterProps {
+  projects: IMetadata[];
+  setProjects: Dispatch<SetStateAction<IMetadata[]>>;
 }
