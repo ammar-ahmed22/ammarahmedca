@@ -12,6 +12,7 @@ import {
 } from "../../graphql/queries/Metadata";
 import * as helper from "../../utils/helpers";
 import { styles } from "./styles/index.styles";
+import { Helmet } from "react-helmet";
 
 const Post: React.FC = () => {
   const postName = useLoaderData() as string;
@@ -34,6 +35,9 @@ const Post: React.FC = () => {
       )}
       {!loading && data && (
         <Box my={5}>
+          <Helmet>
+            <title>Blog | {data.metadata.name}</title>
+          </Helmet>
           <Button
             leftIcon={<ArrowBackIcon />}
             mt={4}
