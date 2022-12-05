@@ -3,6 +3,7 @@ import * as ReactDOM from "react-dom/client";
 import App from "./App";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { CookiesProvider } from "react-cookie";
+import reportWebVitals from "./reportWebVitals";
 
 import theme from "./theme";
 
@@ -20,3 +21,5 @@ root.render(
     </CookiesProvider>
   </React.StrictMode>
 );
+
+reportWebVitals(console.log)

@@ -18,7 +18,7 @@ const Router: React.FC = () => {
     {
       path: "/",
       element: (
-        <Page activeNav="home">
+        <Page activeNav="home" pageTitle="Home">
           <Home />
         </Page>
       ),
@@ -26,7 +26,7 @@ const Router: React.FC = () => {
     {
       path: "/about",
       element: (
-        <Page activeNav="about">
+        <Page activeNav="about" pageTitle="About">
           <About />
         </Page>
       ),
@@ -34,7 +34,7 @@ const Router: React.FC = () => {
     {
       path: "/blog",
       element: (
-        <Page activeNav="blog">
+        <Page activeNav="blog" pageTitle="Blog">
           <Blog />
         </Page>
       ),
@@ -42,7 +42,7 @@ const Router: React.FC = () => {
     {
       path: "/blog/:postName",
       element: (
-        <Page activeNav="blog">
+        <Page activeNav="blog" pageTitle="">
           <Post />
         </Page>
       ),
