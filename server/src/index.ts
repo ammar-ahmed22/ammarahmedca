@@ -57,36 +57,36 @@ const PORT = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
   if (process.env.MONGO_URI) await connect(process.env.MONGO_URI);
   // Creating my own user and a test user
-  const exists = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
-  const testExists = await UserModel.findOne({ email: "ammar@fragbuy.ca" });
+  // const exists = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
+  // const testExists = await UserModel.findOne({ email: "ammar@fragbuy.ca" });
 
-  if (!exists && process.env.MY_USER_PASS) {
-    await UserModel.create({
-      firstName: "Ammar",
-      lastName: "Ahmed",
-      company: "AI Arena",
-      position: "Frontend Developer",
-      email: "a353ahme@uwaterloo.ca",
-      emailConfirmed: true,
-      password: process.env.MY_USER_PASS,
-    });
+  // if (!exists && process.env.MY_USER_PASS) {
+  //   await UserModel.create({
+  //     firstName: "Ammar",
+  //     lastName: "Ahmed",
+  //     company: "AI Arena",
+  //     position: "Frontend Developer",
+  //     email: "a353ahme@uwaterloo.ca",
+  //     emailConfirmed: true,
+  //     password: process.env.MY_USER_PASS,
+  //   });
 
-    console.log("my user created!");
-  }
+  //   console.log("my user created!");
+  // }
 
-  if (!testExists && process.env.MY_USER_PASS) {
-    await UserModel.create({
-      firstName: "Test",
-      lastName: "Testerman",
-      company: "Test Inc.",
-      position: "Tester",
-      email: "ammar@fragbuy.ca",
-      emailConfirmed: true,
-      password: process.env.MY_USER_PASS,
-    });
+  // if (!testExists && process.env.MY_USER_PASS) {
+  //   await UserModel.create({
+  //     firstName: "Test",
+  //     lastName: "Testerman",
+  //     company: "Test Inc.",
+  //     position: "Tester",
+  //     email: "ammar@fragbuy.ca",
+  //     emailConfirmed: true,
+  //     password: process.env.MY_USER_PASS,
+  //   });
 
-    console.log("test user created!");
-  }
+  //   console.log("test user created!");
+  // }
 
   await server.start();
 
