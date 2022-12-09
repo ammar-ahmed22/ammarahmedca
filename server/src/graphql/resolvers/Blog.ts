@@ -255,7 +255,7 @@ export class BlogResolver {
       const response = await this.notion.databases.query({
         database_id: this.blogdbID,
         filter: {
-          or: [
+          and: [
             {
               property: "isProject",
               checkbox: {
