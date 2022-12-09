@@ -262,6 +262,12 @@ export class BlogResolver {
                 equals: true,
               },
             },
+            {
+              property: "Published",
+              checkbox: {
+                equals: true
+              }
+            }
           ],
         },
       });
