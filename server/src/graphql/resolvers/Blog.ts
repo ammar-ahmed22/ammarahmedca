@@ -263,7 +263,7 @@ export class BlogResolver {
               },
             },
             {
-              property: "Published",
+              property: "Publish",
               checkbox: {
                 equals: true
               }
