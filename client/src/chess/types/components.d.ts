@@ -11,6 +11,7 @@ declare global {
     file: string;
     indices: [number, number];
     isValidMove: boolean;
+    isDisplayOnly?: boolean;
   }
 
   interface TakesDisplayProps {

@@ -1,8 +1,7 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { Flex } from "@chakra-ui/react";
 import { GameContext } from "../contexts/GameContext";
 import PlayerDisplay from "./PlayerDisplay";
-// import { useQuery } from "@apollo/client";
 
 const Board: React.FC = () => {
   const {
@@ -14,27 +13,16 @@ const Board: React.FC = () => {
     // whiteTakes,
     // blackTakes,
     // game,
-    opponentMetadata,
+    userColor,
     move,
     // colorToMove,
   } = useContext(GameContext) as IGameContext;
-
-  // console.log(board.matrix);
-
-  useEffect(() => {
-    // updateBoard("rnbqkbnr/pppppppp/3N4/8/8/8/PPPPPPPP/R1BQKBNR")
-    // setTimeout(() => {
-    //   setColorToMove("b");
-    //   // alert("color updated!")
-    // }, 3000)
-    console.log(board);
-  }, [board]);
 
   return (
     <Flex justify="center" align="center" direction="column">
       <PlayerDisplay
         player="opponent"
-        color={opponentMetadata.color}
+        color={userColor === "w" ? "b" : "w"}
         containerProps={{ mb: "1ch" }}
       />
       <Flex justify="center" align="center" direction="column">
@@ -42,7 +30,7 @@ const Board: React.FC = () => {
       </Flex>
       <PlayerDisplay
         player="user"
-        color={opponentMetadata.color === "w" ? "b" : "w"}
+        color={userColor}
         containerProps={{ mt: "4ch" }}
       />
     </Flex>

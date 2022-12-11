@@ -1,12 +1,11 @@
 import { gql } from "@apollo/client";
 
 export const LAST_MOVE = gql`
-  query LastMove {
-    game {
-      lastMove{
+  query LastMove($gameID: String!) {
+    game(gameID: $gameID) {
+      lastMove {
         fen
-        colorToMove
-        takes{
+        takes {
           white
           black
         }
@@ -23,22 +22,28 @@ export const LAST_MOVE = gql`
           causedCheck
         }
       }
-      playerIDs{
+      playerIDs {
         white
         black
       }
+      colorToMove
     }
   }
-`
+`;
 
-export namespace LastMove{
-  export interface Response{
+export namespace LastMove {
+  export interface Response {
     game: {
-      lastMove?: Move,
+      lastMove?: Move;
       playerIDs: {
-        white: string,
-        black: string
-      }
-    }
+        white: string;
+        black: string;
+      };
+      colorToMove: "w" | "b";
+    };
+  }
+
+  export interface Variables {
+    gameID: string;
   }
 }

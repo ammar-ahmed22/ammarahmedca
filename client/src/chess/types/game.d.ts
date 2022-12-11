@@ -21,6 +21,7 @@ declare global {
 
   interface BoardOpts {
     colorToMove?: "w" | "b";
+    userColor?: "w" | "b";
     castling?: string;
     enPassant?: string;
     halfMove?: number;

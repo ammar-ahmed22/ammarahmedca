@@ -29,6 +29,7 @@ const authMutations = [
   "resetPassword",
   "updateUser",
   "createGame",
+  "addMove",
 ] as const;
 
 type AuthMutations = typeof authMutations[number];
@@ -84,7 +85,7 @@ export const useAuthMutation = <VariableType>(
       ApolloCache<any>
     >
   ) => {
-    call({ ...options, refetchQueries: [{ query: userQuery, variables: {} }] });
+    call({ ...options, refetchQueries: "all" });
     setSubmitted(true);
   };
 

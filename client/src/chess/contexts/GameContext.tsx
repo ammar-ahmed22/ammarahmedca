@@ -4,6 +4,7 @@ import { Board } from "../game/Board";
 import { Piece } from "../game/Pieces/Piece";
 import { AuthContext, AuthContextType } from "./AuthContext";
 import { Pawn, Bishop, Rook, Knight, Queen, King } from "../game/Pieces";
+import { userColor } from "@chess/game/utils";
 
 // const starting = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR";
 export const GameContext = createContext<IGameContext | null>(null);
@@ -21,20 +22,20 @@ const generatePieceArray = (pieceNames: PieceType[], color: "w" | "b") => {
   return pieceNames.map((val) => pieces[val]);
 };
 
-const starting : Omit<Move, "executedMove"> = {
-  fen: "whateverthefuck",
-  colorToMove: "w",
+const starting: Omit<Move, "executedMove"> = {
+  fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
   takes: {
     white: [],
-    black: []
+    black: [],
   },
-}
+};
 
 export const GameProvider: React.FC<GameProviderProps> = ({
   children,
   game,
   lastMove,
-  playerIDs
+  playerIDs,
+  colorToMove,
 }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   // Latest move from database
@@ -51,9 +52,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({
     opponentMetadata.id = playerIDs[c];
     opponentMetadata.color = c === "white" ? "w" : "b";
   });
+
+  const uc = userColor(user._id, playerIDs);
+
   // Board metadata
   const [boardOpts, setBoardOpts] = useState<BoardOpts>({
-    colorToMove: latestMove.colorToMove,
+    colorToMove: colorToMove,
+    userColor: uc,
     castling: "KQkq",
     enPassant: "-",
     halfMove: 0,
@@ -74,6 +79,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({
 
   const [moveMade, setMoveMade] = useState(false);
 
+  const [takenPiece, setTakenPiece] = useState<Piece | null>(null);
+
   // White and black taken pieces
   const [whiteTakes, setWhiteTakes] = useState<Piece[]>(
     generatePieceArray(latestMove.takes.white as PieceType[], "w")
@@ -84,8 +91,15 @@ export const GameProvider: React.FC<GameProviderProps> = ({
 
   const reset = () => {
     setFEN(latestMove.fen);
+    setWhiteTakes(
+      generatePieceArray(latestMove.takes.white as PieceType[], "w")
+    );
+    setBlackTakes(
+      generatePieceArray(latestMove.takes.black as PieceType[], "b")
+    );
     setMoveMade(false);
     setMove({ moveTo: null, toMove: null });
+    setTakenPiece(null);
   };
 
   // Array of valid moves (algebraic notation: e6, a1, etc.)
@@ -127,17 +141,13 @@ export const GameProvider: React.FC<GameProviderProps> = ({
   }, [fen, boardOpts]);
 
   useEffect(() => {
-    // console.log({ whiteTakes, blackTakes });
-  }, [whiteTakes, blackTakes]);
-
-  useEffect(() => {
-    console.log(move);
     if (move.moveTo && move.toMove) {
       // swap and update fen
       const response = FENHelper.executeMove(fen, move.toMove, move.moveTo);
-      console.log(response.fen);
+      // console.log(response.fen);
       setFEN(response.fen);
       if (response.take) {
+        setTakenPiece(response.take as Piece);
         if (response.take.color === "w")
           setWhiteTakes((prev) => [...prev, response.take as Piece]);
         if (response.take.color === "b")
@@ -182,6 +192,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({
     setMoveMade: (val: boolean) => setMoveMade(val),
     opponentMetadata,
     reset,
+    userColor: uc,
+    takenPiece
   };
 
   return (

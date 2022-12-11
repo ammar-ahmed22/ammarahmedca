@@ -162,10 +162,6 @@ export class Move {
   })
   public fen: string;
 
-  @Field()
-  @prop({ required: true })
-  public colorToMove: string;
-
   @Field((returns) => BoardOpts, { nullable: true })
   @prop({ type: BoardOpts, default: {} })
   public boardOpts?: BoardOpts;
@@ -189,6 +185,12 @@ export class Move {
   },
 })
 export class Game {
+  @Field((returns) => ID, { description: "MongoDB id for game." })
+  readonly _id: Schema.Types.ObjectId;
+
+  @Field({ description: "Date game was created at." })
+  readonly createdAt: Date;
+
   @Field((returns) => [Move])
   @prop({ required: true, default: [], type: Move })
   public moves: Types.Array<Move>;
@@ -199,6 +201,14 @@ export class Game {
 
   @Field(returns => Move, { nullable: true })
   public lastMove?: Move
+
+  @Field()
+  @prop({ required: true })
+  public colorToMove: string;
+
+  @Field()
+  @prop({ required: true, default: "active"})
+  public status: string
 }
 
 export default getModelForClass(Game);
