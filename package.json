@@ -1,16 +1,80 @@
 {
-  "name": "ammarahmed.ca",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/ammar-ahmed22/ammarahmed.ca.git",
-  "author": "Ammar Ahmed <ammar.ahmed1@uwaterloo.ca>",
-  "license": "MIT",
+  "name": "client",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@apollo/client": "^3.5.8",
+    "@chakra-ui/icons": "^1.1.1",
+    "@chakra-ui/react": "^2.3.6",
+    "@craco/craco": "^7.0.0",
+    "@emotion/react": "^11.7.1",
+    "@emotion/styled": "^11.6.0",
+    "@fortawesome/fontawesome-common-types": "^6.2.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-brands-svg-icons": "^5.15.4",
+    "@fortawesome/free-regular-svg-icons": "^5.15.4",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-fontawesome": "^0.1.17",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "@types/jest": "^29.2.0",
+    "@types/node": "^18.11.7",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@types/react-router-dom": "^5.3.3",
+    "date-fns": "^2.29.3",
+    "formik": "^2.2.9",
+    "framer-motion": "^4.1.17",
+    "graphql": "^16.3.0",
+    "react": "^18.1.0",
+    "react-cookie": "^4.1.1",
+    "react-dom": "^18.1.0",
+    "react-ga4": "^1.4.1",
+    "react-helmet": "^6.1.0",
+    "react-icons": "^4.6.0",
+    "react-router-dom": "^6.4.2",
+    "react-scripts": "5.0.1",
+    "react-syntax-highlighter": "^15.5.0",
+    "react-typist": "^2.0.5",
+    "recharts": "^2.1.10",
+    "three": "^0.135.0",
+    "typescript": "^4.8.4",
+    "web-vitals": "^1.1.2"
+  },
   "scripts": {
-    "client-dev": "cd client && yarn start",
-    "server-dev": "cd server && yarn dev",
-    "start-dev": "yarn client-dev & yarn server-dev",
-    "client-build": "cd client && yarn build",
-    "server-build": "cd server && yarn build",
-    "start-build": "yarn client-build & yarn server-build"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "testing": "node src/test/test.js",
+    "mobile": "REACT_APP_MOBILE=true craco start",
+    "format": "prettier --write ."
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "description": "Package for scripts",
+  "main": " ",
+  "author": "Ammar Ahmed",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react-helmet": "^6.1.6",
+    "prettier": "2.8.0"
   }
 }
