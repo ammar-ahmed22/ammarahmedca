@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { HamburgerIcon } from "@chakra-ui/icons";
 import { BiLogOut, BiUser } from "react-icons/bi";
-import { FaChessPawn } from "react-icons/fa";
 import { useSessionStorage } from "../../hooks/sessionStorage";
 import { useQuery, gql } from "@apollo/client";
 
@@ -34,7 +33,6 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
         _id
         company
         createdAt
-        currentGameID
         email
         emailConfirmed
         firstName
@@ -116,7 +114,7 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
             top="0"
             left={`-${size12}`}
           />
-          <MenuList>
+          <MenuList zIndex={2000}>
             <MenuGroup title="Navigation">
               <MenuItem
                 icon={<BiUser />}
@@ -126,16 +124,6 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
               >
                 Home
               </MenuItem>
-              {data.user.currentGameID && (
-                <MenuItem
-                  icon={<FaChessPawn />}
-                  command="⌘G"
-                  {...active("game", loc)}
-                  onClick={() => navigate("/chess/play")}
-                >
-                  Game
-                </MenuItem>
-              )}
               <MenuItem
                 icon={<BiUser />}
                 command="⌘P"

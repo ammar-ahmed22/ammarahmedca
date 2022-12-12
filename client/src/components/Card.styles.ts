@@ -1,7 +1,7 @@
 import { BoxProps, LinkProps } from "@chakra-ui/react";
 
 const mainBox: BoxProps | LinkProps = {
-  border: "1px solid",
+  borderWidth: "1px",
   // flex: 1,
   position: "relative",
   display: "block",

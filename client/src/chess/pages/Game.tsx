@@ -5,10 +5,18 @@ import Board from "../components/Board";
 import { useQuery } from "@apollo/client";
 import { LAST_MOVE, LastMove } from "../graphql/queries/LastMove";
 import Loading from "../components/Loading";
-import { Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 
 const Game: React.FC = () => {
-  const { data, loading, error } = useQuery<LastMove.Response>(LAST_MOVE);
+  const params = useParams();
+  const { data, loading, error } = useQuery<
+    LastMove.Response,
+    LastMove.Variables
+  >(LAST_MOVE, {
+    variables: {
+      gameID: params.gameID as string,
+    },
+  });
 
   if (loading) {
     return <Loading />;
@@ -16,12 +24,17 @@ const Game: React.FC = () => {
 
   // navigate to error page
   if (error || !data) {
+    console.log(error);
     return <Navigate to="/chess/home" />;
   }
 
   return (
     <Box pos="relative">
-      <GameProvider lastMove={data.game.lastMove} playerIDs={data.game.playerIDs} >
+      <GameProvider
+        lastMove={data.game.lastMove}
+        playerIDs={data.game.playerIDs}
+        colorToMove={data.game.colorToMove}
+      >
         <Board />
       </GameProvider>
     </Box>

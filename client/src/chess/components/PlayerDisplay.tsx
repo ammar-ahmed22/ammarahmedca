@@ -9,6 +9,8 @@ import {
   StatNumber,
   StatHelpText,
   StatArrow,
+  Flex,
+  Spacer,
 } from "@chakra-ui/react";
 import type { IconType } from "react-icons";
 import { Piece } from "../game/Pieces/Piece";
@@ -16,7 +18,6 @@ import { GameContext } from "../contexts/GameContext";
 import { AuthContext, AuthContextType } from "../contexts/AuthContext";
 import { useLazyQuery } from "@apollo/client";
 import { GET_USER_BY_ID, GetUserById } from "../graphql/queries/GetUserById";
-import { Pawn, Rook, Knight, Bishop } from "../game/Pieces";
 import Controls from "./Controls";
 
 interface PieceCount {
@@ -30,7 +31,7 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
   color,
   containerProps,
 }) => {
-  const { squareSize, opponentMetadata } = useContext(
+  const { squareSize, opponentMetadata, whiteTakes, blackTakes } = useContext(
     GameContext
   ) as IGameContext;
   const { user } = useContext(AuthContext) as AuthContextType;
@@ -38,8 +39,6 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
     GET_USER_BY_ID
   );
   const [opponent, setOpponent] = useState<User>();
-
-  // console.log(opponentMetadata);
 
   useEffect(() => {
     if (player === "opponent" && opponentMetadata.id) {
@@ -51,26 +50,14 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
     // eslint-disable-next-line
   }, []);
 
-  // useEffect(() => {
-  //   console.log(opponent);
-  // }, [opponent])
-
-  // useEffect(() => {
-  //   if (player === "opponent") {
-  //     if (!loading && data) {
-  //       setOpponent(data.getUserById);
-  //     }
-  //   }
-  // }, [ data, loading, error]);
-
   const pieceColors = {
     w: "gray.500",
     b: "gray.500",
   };
 
   const takes = {
-    w: [new Pawn("b"), new Rook("b"), new Bishop("b"), new Knight("b")],
-    b: [new Pawn("b"), new Rook("b"), new Bishop("b"), new Knight("b")],
+    w: whiteTakes,
+    b: blackTakes,
   };
 
   const takesColor = color === "w" ? "b" : "w";
@@ -126,12 +113,12 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
   };
 
   return (
-    <HStack
+    <Flex
       w={`calc(8 * ${squareSize})`}
       {...containerProps}
       justify={player === "user" ? "space-between" : "initial"}
     >
-      <Box>
+      <Box mr="2">
         <Text fontSize="lg">
           {player === "user" && `${user.firstName} ${user.lastName}`}
           {player === "opponent" &&
@@ -166,8 +153,9 @@ const PlayerDisplay: React.FC<PlayerDisplayProps> = ({
           );
         })}
       </HStack>
+      <Spacer />
       {player === "user" && <Controls />}
-    </HStack>
+    </Flex>
   );
 };
 

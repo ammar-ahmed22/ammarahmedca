@@ -5,7 +5,6 @@ import {
   MutationFunctionOptions,
   DefaultContext,
   ApolloCache,
-  gql,
   // useQuery,
 } from "@apollo/client";
 import { useEffect, useState } from "react";
@@ -29,29 +28,10 @@ const authMutations = [
   "resetPassword",
   "updateUser",
   "createGame",
+  "addMove",
 ] as const;
 
 type AuthMutations = typeof authMutations[number];
-
-const userQuery = gql`
-  query User {
-    user {
-      _id
-      company
-      createdAt
-      currentGameID
-      email
-      emailConfirmed
-      firstName
-      foundBy
-      gameIDs
-      lastName
-      middleName
-      position
-      profilePic
-    }
-  }
-`;
 
 export const useAuthMutation = <VariableType>(
   mutationName: AuthMutations,
@@ -84,7 +64,7 @@ export const useAuthMutation = <VariableType>(
       ApolloCache<any>
     >
   ) => {
-    call({ ...options, refetchQueries: [{ query: userQuery, variables: {} }] });
+    call({ ...options, refetchQueries: "all" });
     setSubmitted(true);
   };
 

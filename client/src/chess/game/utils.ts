@@ -90,3 +90,36 @@ export const indexToAlgebraic = (i: number, j: number): IAlgebraic => {
     file: String.fromCharCode(j + 97),
   };
 };
+
+export const userToMove = (
+  userID: string,
+  colorToMove: "w" | "b",
+  playerIDs: { white: string; black: string }
+): boolean => {
+  for (const color in playerIDs) {
+    let c = color as "white" | "black";
+    if (playerIDs[c] === userID) {
+      if (c[0] === colorToMove) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  }
+
+  return false;
+};
+
+export const userColor = (
+  userID: string,
+  playerIDs: { white: string; black: string }
+): "w" | "b" => {
+  for (const color in playerIDs) {
+    let c = color as "white" | "black";
+    if (playerIDs[c] === userID) {
+      return c[0] as "w" | "b";
+    }
+  }
+
+  return "w";
+};

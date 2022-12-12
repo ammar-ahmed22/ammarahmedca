@@ -7,7 +7,6 @@ export const GET_USER_BY_ID = gql`
       lastName
       company
       createdAt
-      currentGameID
       email
       emailConfirmed
       firstName

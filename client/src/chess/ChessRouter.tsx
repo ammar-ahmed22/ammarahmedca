@@ -30,7 +30,7 @@ export const chessRoutes: RouteObject[] = [
     ),
   },
   {
-    path: "play",
+    path: "play/:gameID",
     element: (
       <AuthorizedRoute>
         <Game />

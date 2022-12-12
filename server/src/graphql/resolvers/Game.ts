@@ -11,6 +11,7 @@ import {
   Args,
   FieldResolver,
   Root,
+  ObjectType,
 } from "type-graphql";
 import { AuthPayload } from "../../utils/auth";
 import GameModel, { BoardOptsInput, Game, ExecutedMoveInput } from "../../models/Game";
@@ -27,43 +28,51 @@ class AddMoveArgs {
   @Field({ nullable: true })
   public boardOpts?: BoardOptsInput;
 
-  @Field((returns) => [String], { nullable: true })
-  public whiteTakes?: string[];
+  @Field((returns) => [String])
+  public whiteTakes: string[];
 
-  @Field((returns) => [String], { nullable: true })
-  public blackTakes?: string[];
+  @Field((returns) => [String])
+  public blackTakes: string[];
 
-  @Field({ nullable: true })
-  public gameID?: string
+  @Field()
+  public gameID: string
+}
+
+@ObjectType()
+class CreateGameResponse{
+  @Field()
+  gameID: string
 }
 
 @Resolver(of => Game)
 export class GameResolver {
   @Authorized()
-  @Mutation(returns => AuthPayload)
+  @Mutation(returns => CreateGameResponse)
   async createGame(@Ctx() ctx: Context) {
     const user = await UserModel.findById(ctx.userId);
     const me = await UserModel.findOne({ email: "a353ahme@uwaterloo.ca" });
 
     if (!user || !me) throw new Error("Not found.");
 
-    if (user.currentGameID)
-      throw new Error("A game is active. Cannot create another.");
+    // if (user.currentGameID)
+    //   throw new Error("A game is active. Cannot create another.");
 
     const game = await GameModel.create({
+      colorToMove: "w",
       playerIDs: {
         white: user._id,
         black: me._id,
       },
     });
 
-    user.currentGameID = game._id;
+    // user.currentGameID = game._id;
     user.gameIDs.push(game._id);
     me.gameIDs.push(game._id);
     await user.save();
     await me.save();
 
-    return new AuthPayload({ id: user._id });
+    console.log("game created with id:", game._id);
+    return { gameID: game._id };
   }
 
   @Authorized()
@@ -75,10 +84,10 @@ export class GameResolver {
     const user = await UserModel.findById(ctx.userId);
 
     if (!user) throw new Error("Not found.");
-    if (gameID && !user.gameIDs.includes(gameID)) throw new Error("Game not available.")
-    if (!gameID && !user.currentGameID) throw new Error("No active game.");
+    if (!user.gameIDs.includes(gameID)) throw new Error("Game not available.")
+    // if (!gameID && !user.currentGameID) throw new Error("No active game.");
 
-    const game = await GameModel.findById(gameID ? gameID : user.currentGameID);
+    const game = await GameModel.findById(gameID);
 
     if (!game) throw new Error("Game not found.");
 
@@ -87,13 +96,14 @@ export class GameResolver {
 
     game.moves.push({
       fen,
-      colorToMove: lastMove ? (lastMove.colorToMove === "w" ? "b" : "w") : "b",
+      // colorToMove: lastMove ? (lastMove.colorToMove === "w" ? "b" : "w") : "b",
       takes: {
-        white: lastMove ? lastMove.takes.white.concat(whiteTakes ?? []) : [],
-        black: lastMove ? lastMove.takes.black.concat(blackTakes ?? []) : [],
+        white: whiteTakes,
+        black: blackTakes,
       },
       executedMove
     });
+    game.colorToMove = game.colorToMove === "w" ? "b" : "w";
 
     await game.save();
 
@@ -104,27 +114,35 @@ export class GameResolver {
   @Query(returns => Game)
   async game(
     @Ctx() ctx: Context,
-    @Arg("gameId", { nullable: true }) gameId?: string
+    @Arg("gameID") gameID: string
   ) {
-    if (gameId) {
-      const game = await GameModel.findById(gameId);
+    
+    const game = await GameModel.findById(gameID).lean().exec();
 
-      if (!game) throw new Error("Game not found!");
+    if (!game) throw new Error("Game not found!");
 
-      return game;
-    }
+    return game;
+    
+  }
+
+  @Authorized()
+  @Query(returns => [Game])
+  async games (
+    @Ctx() ctx: Context,
+  ){
 
     const user = await UserModel.findById(ctx.userId);
 
-    if (!user) throw new Error("User not found!");
+    if (!user) throw new Error("User not found.")
 
-    if (!user.currentGameID) throw new Error("No active game!");
+    const { gameIDs } = user;
 
-    const game = await GameModel.findById(user.currentGameID).lean().exec();
+    const result = await Promise.all(gameIDs.map( async (gid) => {
+      const game = await GameModel.findById(gid).lean().exec();
+      return game;
+    }))
 
-    if (!game) throw new Error("Current game not found!");
-
-    return game;
+    return result;
   }
 
   @FieldResolver(of => Game)

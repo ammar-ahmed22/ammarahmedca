@@ -4,8 +4,8 @@ import { Piece } from "../game/Pieces/Piece";
 declare global {
   interface IGameContext {
     // game: Game;
-    lastMove?: Move,
-    latestMove: Omit<Move, "executedMove">
+    lastMove?: Move;
+    latestMove: Omit<Move, "executedMove">;
     board: Board;
     updateBoard: (fen: string) => void;
     fen: string;
@@ -24,6 +24,8 @@ declare global {
     setMoveMade: (val: boolean) => void;
     opponentMetadata: OpponentMetadata;
     reset: () => void;
+    userColor: "w" | "b";
+    takenPiece: Piece | null
   }
 
   interface IAlgebraic {
@@ -39,8 +41,9 @@ declare global {
   interface GameProviderProps {
     children: React.ReactNode;
     game?: Game;
-    lastMove?: Move,
-    playerIDs: { white: string, black: string }
+    lastMove?: Move;
+    playerIDs: { white: string; black: string };
+    colorToMove: "w" | "b";
   }
 
   type OpponentMetadata = {

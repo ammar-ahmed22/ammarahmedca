@@ -6,6 +6,7 @@
     "@apollo/client": "^3.5.8",
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^2.3.6",
+    "@craco/craco": "^7.0.0",
     "@emotion/react": "^11.7.1",
     "@emotion/styled": "^11.6.0",
     "@fortawesome/fontawesome-common-types": "^6.2.0",
@@ -22,6 +23,7 @@
     "@types/react": "^18.0.24",
     "@types/react-dom": "^18.0.8",
     "@types/react-router-dom": "^5.3.3",
+    "date-fns": "^2.29.3",
     "formik": "^2.2.9",
     "framer-motion": "^4.1.17",
     "graphql": "^16.3.0",
@@ -41,12 +43,12 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
     "testing": "node src/test/test.js",
-    "mobile": "REACT_APP_MOBILE=true react-scripts start",
+    "mobile": "REACT_APP_MOBILE=true craco start",
     "format": "prettier --write ."
   },
   "eslintConfig": {

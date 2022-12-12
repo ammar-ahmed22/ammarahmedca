@@ -11,6 +11,7 @@ const Square: React.FC<SquareProps> = ({
   file,
   indices,
   isValidMove,
+  isDisplayOnly = false,
 }) => {
   const darkColor = "gray.700";
   const lightColor = useColorModeValue("gray.200", "gray.400");
@@ -24,6 +25,7 @@ const Square: React.FC<SquareProps> = ({
     colorToMove,
     moveMade,
     move,
+    userColor,
   } = useContext(GameContext) as IGameContext;
 
   const [row, col] = indices;
@@ -33,6 +35,7 @@ const Square: React.FC<SquareProps> = ({
 
   const handleClick = () => {
     console.log(validMoves, !validMoves.length);
+    if (isDisplayOnly) return;
     // move piece
     if (isValidMove) {
       setMoveTo({ rank, file });
@@ -41,7 +44,9 @@ const Square: React.FC<SquareProps> = ({
 
     if (piece) {
       // opp color or move already made
-      if (piece.color !== colorToMove || moveMade) return;
+      if (piece.color !== colorToMove || piece.color !== userColor || moveMade)
+        return;
+
       const moves = piece.allMoves(rank, file, board, { validOnly: true }); // all valid moves
       if (board.isInCheck(piece.color)) {
         // if check removers returns empty array (CHECKMATE!)
@@ -96,7 +101,7 @@ const Square: React.FC<SquareProps> = ({
       align="center"
       position="relative"
       _hover={{
-        cursor: "pointer",
+        cursor: "cursor",
       }}
       onClick={handleClick}
       zIndex={1}
@@ -110,12 +115,12 @@ const Square: React.FC<SquareProps> = ({
           zIndex={3}
         />
       )}
-      {renderRank && (
+      {!isDisplayOnly && renderRank && (
         <Text position="absolute" left="-2ch" fontWeight="bold" fontSize="lg">
           {rank}
         </Text>
       )}
-      {renderFile && (
+      {!isDisplayOnly && renderFile && (
         <Text position="absolute" bottom="-3ch" fontWeight="bold" fontSize="lg">
           {file.toUpperCase()}
         </Text>
@@ -123,14 +128,15 @@ const Square: React.FC<SquareProps> = ({
       {isValidMove && (
         <Box
           position="absolute"
-          h={"25%"}
-          w={"25%"}
+          h={"35%"}
+          w={"35%"}
           borderRadius="full"
           bg="yellow.400"
           opacity="0.50"
           borderColor="yellow.600"
           borderStyle="solid"
           borderWidth="2px"
+          zIndex={100}
         />
       )}
       {renderIndicateMove()}

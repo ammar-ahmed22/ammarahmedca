@@ -30,7 +30,8 @@ type Query {
   skillTypes: [String!]!
   user: User!
   getUserByID(userId: String!): User!
-  game(gameId: String): Game!
+  game(gameID: String!): Game!
+  games: [Game!]!
 }
 
 """Metadata model for blog and project posts"""
@@ -209,7 +210,6 @@ type User {
   foundBy: String
   profilePic: String
   record: Record!
-  currentGameID: String
   gameIDs: [String!]!
   emailConfirmed: Boolean!
 }
@@ -220,14 +220,20 @@ type Record {
 }
 
 type Game {
+  """MongoDB id for game."""
+  _id: ID!
+
+  """Date game was created at."""
+  createdAt: Timestamp!
   moves: [Move!]!
   playerIDs: Players!
   lastMove: Move
+  colorToMove: String!
+  status: String!
 }
 
 type Move {
   fen: String!
-  colorToMove: String!
   boardOpts: BoardOpts
   takes: Takes!
   executedMove: ExecutedMove!
@@ -270,8 +276,8 @@ type Mutation {
   forgotPassword(email: String!): String!
   resetPassword(token: String!, newPassword: String!): String!
   updateUser(data: UpdateInput!): AuthPayload!
-  createGame: AuthPayload!
-  addMove(fen: String!, executedMove: ExecutedMoveInput!, boardOpts: BoardOptsInput, whiteTakes: [String!], blackTakes: [String!], gameID: String): AuthPayload!
+  createGame: CreateGameResponse!
+  addMove(fen: String!, executedMove: ExecutedMoveInput!, boardOpts: BoardOptsInput, whiteTakes: [String!]!, blackTakes: [String!]!, gameID: String!): AuthPayload!
 }
 
 type AuthPayload {
@@ -296,6 +302,10 @@ input UpdateInput {
   middleName: String
   company: String
   position: String
+}
+
+type CreateGameResponse {
+  gameID: String!
 }
 
 input ExecutedMoveInput {

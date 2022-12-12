@@ -12,6 +12,7 @@ export class Board {
   public fen: string;
   public matrix: BoardMatrixType[][] = [];
   public colorToMove: string;
+  public userColor: string;
   public castling: string;
   public enPassant: string;
   public halfMove: number;
@@ -27,6 +28,7 @@ export class Board {
     this.matrix = FENHelper.parseFEN(fen);
     this.fen = fen;
     this.squareSize = opts?.squareSize ?? "8vw";
+    this.userColor = opts?.userColor ?? "w";
   }
 
   public getPiece = (rank: number, numberFile: number): BoardMatrixType => {
@@ -144,14 +146,63 @@ export class Board {
     return res;
   };
 
+  // Render a display version of the board
+  renderDisplay = (squareSize: string) => {
+    return this.matrix.map((row, rIdx) => {
+      const rowId = `row-${rIdx + 1}`;
+      const rank = this.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
+      const rowIsEven = rIdx % 2 === 0;
+
+      return (
+        <Flex key={rowId}>
+          {row.map((piece, pIdx) => {
+            const pieceId = `${rowId}-col-${pIdx + 1}`;
+
+            const file =
+              this.colorToMove === "w"
+                ? String.fromCharCode(97 + pIdx)
+                : String.fromCharCode(104 - pIdx);
+            const colIsEven = pIdx % 2 === 0;
+            let isLight = false;
+
+            if (rowIsEven) {
+              if (colIsEven) {
+                isLight = true;
+              }
+            } else {
+              if (!colIsEven) {
+                isLight = true;
+              }
+            }
+
+            return (
+              <Square
+                key={pieceId}
+                id={pieceId}
+                piece={piece}
+                bg={isLight ? "light" : "dark"}
+                size={squareSize}
+                rank={rank}
+                file={file}
+                indices={[rIdx, pIdx]}
+                isValidMove={false}
+                isDisplayOnly
+              />
+            );
+          })}
+        </Flex>
+      );
+    });
+  };
+
   render = (validMoves: string[], move: IMove): JSX.Element[] => {
     const toRender =
-      this.colorToMove === "w" ? this.matrix : this.flipMatrix(this.matrix);
+      this.userColor === "w" ? this.matrix : this.flipMatrix(this.matrix);
 
     return toRender.map((row, rIdx) => {
       const rowId = `row-${rIdx + 1}`;
 
-      const rank = this.colorToMove === "w" ? 8 - rIdx : rIdx + 1;
+      const rank = this.userColor === "w" ? 8 - rIdx : rIdx + 1;
       const rowIsEven = rIdx % 2 === 0;
       return (
         <Flex key={rowId} id={rowId}>
@@ -159,7 +210,7 @@ export class Board {
             const pieceId = `${rowId}-col-${pIdx + 1}`;
 
             const file =
-              this.colorToMove === "w"
+              this.userColor === "w"
                 ? String.fromCharCode(97 + pIdx)
                 : String.fromCharCode(104 - pIdx);
             const colIsEven = pIdx % 2 === 0;

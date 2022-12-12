@@ -90,9 +90,9 @@ export class User {
   @prop({ required: true, type: Record, default: { wins: 0, losses: 0 } })
   public record: Record;
 
-  @Field({ nullable: true })
-  @prop()
-  public currentGameID?: string;
+  // @Field({ nullable: true })
+  // @prop()
+  // public currentGameID?: string;
 
   @Field((returns) => [String])
   @prop({ required: true, default: [], type: String })
