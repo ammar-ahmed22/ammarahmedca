@@ -38,7 +38,7 @@ const p: TextProps = {
 };
 
 const list: ListProps = {
-  fontSize: "lg",
+  fontSize: { base: "md", md: "lg" },
   mb: 4,
   pl: 2,
 };
