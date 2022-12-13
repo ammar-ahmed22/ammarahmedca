@@ -14,6 +14,7 @@ import * as helper from "../../utils/helpers";
 import { styles } from "./styles/index.styles";
 import { Helmet } from "react-helmet";
 
+
 const Post: React.FC = () => {
   const postName = useLoaderData() as string;
   const navigate = useNavigate();
