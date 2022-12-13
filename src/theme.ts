@@ -38,6 +38,7 @@ const styles = {
   global: {
     "html, body": {
       cursor: "auto",
+      overflowX: "hidden"
     },
   },
 };

@@ -4,6 +4,7 @@ import App from "./App";
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
 import { CookiesProvider } from "react-cookie";
 import reportWebVitals from "./reportWebVitals";
+import reportHandler from "./reportHandler";
 
 import theme from "./theme";
 
@@ -22,4 +23,6 @@ root.render(
   </React.StrictMode>
 );
 
-reportWebVitals(console.log);
+
+
+reportWebVitals(reportHandler);

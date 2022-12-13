@@ -16,7 +16,7 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
   return (
     <Container
       minH="100vh"
-      maxW={{ base: "100%", md: "container.sm", lg: "container.md" }}
+      maxW={{ base: "100vw", md: "container.sm", lg: "container.md" }}
       marginTop="15vh"
       p={4}
       pos="relative"
