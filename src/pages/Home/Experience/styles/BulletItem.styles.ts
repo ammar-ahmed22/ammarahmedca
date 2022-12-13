@@ -4,9 +4,8 @@ const line: BoxProps = {
   position: "absolute",
   w: 1,
   h: "100%",
-  // bg: useColorModeValue("gray.800", "white"),
   top: "1rem",
-  left: 3,
+  left: "0.85rem",
   zIndex: -1,
   transform: "translate(-6px, 0)",
 };

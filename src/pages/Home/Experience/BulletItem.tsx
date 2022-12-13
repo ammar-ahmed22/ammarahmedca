@@ -16,12 +16,35 @@ const BulletItem: React.FC<BulletItemProps> = ({
   listLength,
   idx,
 }) => {
-  const lineBg = useColorModeValue("gray.800", "white");
+  const gradients = {
+    top: useColorModeValue(
+      "linear(to-t, gray.800 60%, transparent)",
+      "linear(to-t, white 60%, transparent)"
+    ),
+    mid: useColorModeValue(
+      "linear(to-t, gray.800, gray.800)",
+      "linear(to-t, white, white)"
+    ),
+    bottom: useColorModeValue(
+      "linear(to-b, gray.800 60%, transparent)",
+      "linear(to-b, white 60%, transparent)"
+    ),
+  };
+
+  let gradient: string;
+  if (idx === 0) {
+    gradient = gradients.top;
+  } else if (idx === listLength - 1) {
+    gradient = gradients.bottom;
+  } else {
+    gradient = gradients.mid;
+  }
 
   return (
-    <Flex key={idx} position="relative" pb={5}>
-      {idx !== listLength - 1 && <Box {...styles.line} bg={lineBg} />}
-      <Text {...styles.bullet}>
+    <Flex key={idx} position="relative" pb={5} align="center">
+      {/* {idx !== listLength - 1 && <Box {...styles.line} bg={lineBg} />} */}
+      <Box {...styles.line} bgGradient={gradient} />
+      <Text {...styles.bullet} fontSize="xl">
         <FontAwesomeIcon icon={faCircle as IconProp} />
       </Text>
       <Box ml={3} minW={0}>
