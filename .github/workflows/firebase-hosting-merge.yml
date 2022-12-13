@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Deploy to Firebase Hosting on merge
-'on':
+"on":
   push:
     branches:
       - production
@@ -22,8 +22,8 @@ jobs:
       - run: CI=false yarn run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AMMARAHMED_986FB }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_AMMARAHMED_986FB }}"
           channelId: live
           projectId: ammarahmed-986fb
           entryPoint: ./client
@@ -40,6 +40,6 @@ jobs:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
-          PHONE_NUMBER: '+14168364386'
+          PHONE_NUMBER: "+14168364386"
           withRepoOwner: false
-          note: 'Site is live at: https://ammarahmed.ca'
+          note: "Site is live at: https://ammarahmed.ca"

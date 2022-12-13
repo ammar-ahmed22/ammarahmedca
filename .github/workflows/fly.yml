@@ -1,5 +1,5 @@
 name: Deploy to Fly.io
-'on':
+"on":
   push:
     branches:
       - production
@@ -29,6 +29,6 @@ jobs:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
-          PHONE_NUMBER: '+14168364386'
+          PHONE_NUMBER: "+14168364386"
           withRepoOwner: false
-          note: 'API is live at: https://api.ammarahmed.ca'
+          note: "API is live at: https://api.ammarahmed.ca"

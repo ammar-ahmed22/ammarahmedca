@@ -17,7 +17,7 @@ A high-level overview of the tech stack this website uses:
 - [ChakraUI](https://chakra-ui.com/) is used to create the standardized and aesthetic UI.
 - [Apollo Client](https://www.apollographql.com/docs/react/) is used to handle making GraphQL requests.
 
-**Back-end**
+**[Back-end](https://github.com/ammar-ahmed22/ammarahmedca-server)**
 
 - [Node.js](https://nodejs.org/en/) with [TypeScript](https://www.typescriptlang.org/) is used for the server environment.
 - [Notion](https://www.notion.so/product?fredir=1) is used to persist web content (database).

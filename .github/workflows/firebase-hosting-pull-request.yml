@@ -2,7 +2,7 @@
 # https://github.com/firebase/firebase-tools
 
 name: Create Preview on PR
-'on': pull_request
+"on": pull_request
 defaults:
   run:
     working-directory: client
@@ -15,8 +15,8 @@ jobs:
       - run: CI=false yarn run build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
-          repoToken: '${{ secrets.GITHUB_TOKEN }}'
-          firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_AMMARAHMED_986FB }}'
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_AMMARAHMED_986FB }}"
           projectId: ammarahmed-986fb
           entryPoint: ./client
         env:
