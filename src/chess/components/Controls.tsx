@@ -19,7 +19,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FaRedoAlt, FaPaperPlane } from "react-icons/fa";
-import { RiSwordFill } from "react-icons/ri"
+import { RiSwordFill } from "react-icons/ri";
 import { GameContext } from "../contexts/GameContext";
 import { Board } from "../game/Board";
 import { Piece } from "../game/Pieces/Piece";
@@ -32,8 +32,16 @@ import {
 import { useParams, Navigate } from "react-router-dom";
 
 const Controls: React.FC = () => {
-  const { moveMade, reset, latestMove, move, fen, whiteTakes, blackTakes, takenPiece } =
-    useContext(GameContext) as IGameContext;
+  const {
+    moveMade,
+    reset,
+    latestMove,
+    move,
+    fen,
+    whiteTakes,
+    blackTakes,
+    takenPiece,
+  } = useContext(GameContext) as IGameContext;
   const [pieceMoved, setPieceMoved] = useState<Piece>();
   const resetRef = useRef(null);
 
@@ -151,27 +159,22 @@ const Controls: React.FC = () => {
                   verticalAlign="top"
                   boxSize="1.25em"
                 />{" "}
-                {algebraic(move.toMove)}{" "} 
-                {
-                  takenPiece ? 
-                  <Icon 
-                    as={RiSwordFill}
+                {algebraic(move.toMove)}{" "}
+                {takenPiece ? (
+                  <Icon as={RiSwordFill} verticalAlign="top" boxSize="1.25em" />
+                ) : (
+                  "->"
+                )}{" "}
+                {takenPiece ? (
+                  <Icon
+                    as={takenPiece.icon}
+                    color="gray.500"
                     verticalAlign="top"
                     boxSize="1.25em"
-                  /> : 
-                  "->"
-                }{" "}
-                {
-                  takenPiece ? 
-                  <Icon 
-                    as={takenPiece.icon} 
-                    color="gray.500" 
-                    verticalAlign="top" 
-                    boxSize="1.25em"
-                  /> : 
+                  />
+                ) : (
                   ""
-                }
-                {" "}
+                )}{" "}
                 {algebraic(move.moveTo)}
               </Text>
             )}

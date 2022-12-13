@@ -193,7 +193,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({
     opponentMetadata,
     reset,
     userColor: uc,
-    takenPiece
+    takenPiece,
   };
 
   return (

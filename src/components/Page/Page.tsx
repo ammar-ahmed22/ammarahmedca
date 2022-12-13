@@ -6,7 +6,6 @@ import { useLocation } from "react-router-dom";
 import ReactGA from "react-ga4";
 import { Helmet } from "react-helmet";
 
-
 interface PageProps {
   children: React.ReactNode;
   activeNav: "home" | "about" | "blog" | "chess";
@@ -17,10 +16,10 @@ const Page: React.FC<PageProps> = ({ children, activeNav, pageTitle }) => {
   const location = useLocation();
   useEffect(() => {
     ReactGA.initialize("G-JB69PRH5HQ");
-    if (process.env.NODE_ENV === "production"){
+    if (process.env.NODE_ENV === "production") {
       ReactGA.send({ hitType: "pageview", path: location.pathname });
     }
-  }, [location])
+  }, [location]);
 
   return (
     <>

@@ -47,6 +47,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
 
   const primary = "brand.purple.500";
   const regular = useColorModeValue("black", "white");
+  const linkHover = useColorModeValue("gray.50", "gray.700");
 
   return (
     <>
@@ -66,7 +67,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
         <Flex align="center">
           <Link
             {...styles.navButton}
-            _hover={{ bg: useColorModeValue("gray.50", "gray.700") }}
+            _hover={{ bg: linkHover }}
             color={active === "home" ? primary : regular}
             as={ReactLink}
             to="/"
@@ -76,7 +77,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
           </Link>
           <Link
             {...styles.navButton}
-            _hover={{ bg: useColorModeValue("gray.50", "gray.700") }}
+            _hover={{ bg: linkHover }}
             as={ReactLink}
             color={active === "about" ? primary : regular}
             to="/about"
@@ -86,7 +87,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
           </Link>
           <Link
             {...styles.navButton}
-            _hover={{ bg: useColorModeValue("gray.50", "gray.700") }}
+            _hover={{ bg: linkHover }}
             as={ReactLink}
             color={active === "blog" ? primary : regular}
             to="/blog"
@@ -95,19 +96,18 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
             <Text>Blog</Text>
           </Link>
 
-
-          <Link
-            {...styles.navButton}
-            _hover={{ bg: useColorModeValue("gray.50", "gray.700") }}
-            as={ReactLink}
-            color={active === "chess" ? primary : regular}
-            to="/chess"
-          >
-            <FontAwesomeIcon icon={faChessPawn as IconProp} />
-            <Text>Chess</Text>
-
-          </Link>
-
+          {process.env.NODE_ENV === "development" && (
+            <Link
+              {...styles.navButton}
+              _hover={{ bg: linkHover }}
+              as={ReactLink}
+              color={active === "chess" ? primary : regular}
+              to="/chess"
+            >
+              <FontAwesomeIcon icon={faChessPawn as IconProp} />
+              <Text>Chess</Text>
+            </Link>
+          )}
 
           <IconButton
             icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}

@@ -25,7 +25,7 @@ declare global {
     opponentMetadata: OpponentMetadata;
     reset: () => void;
     userColor: "w" | "b";
-    takenPiece: Piece | null
+    takenPiece: Piece | null;
   }
 
   interface IAlgebraic {
