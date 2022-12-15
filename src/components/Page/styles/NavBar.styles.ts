@@ -8,14 +8,19 @@ import {
 const main: FlexProps = {
   p: 4,
   position: "fixed",
-  w: { base: "100%", md: "container.sm", lg: "container.md" },
+  w: "100%",
   top: 0,
   left: "50%",
   transform: "translate(-50%, 0)",
   backdropFilter: "saturate(180%) blur(5px)",
+  justify: "center",
+  zIndex: 2000,
+};
+
+const mainFlex: FlexProps = {
+  w: { base: "100%", md: "container.sm", lg: "container.md" },
   align: "center",
   justify: "space-between",
-  zIndex: 200,
 };
 
 const topBar: BoxProps = {
@@ -23,7 +28,7 @@ const topBar: BoxProps = {
   w: "100%",
   h: "2vh",
   top: 0,
-  zIndex: 500,
+  zIndex: 3000,
   bgGradient: "linear(to-r, brand.purple.500, brand.blue.500)",
 };
 
@@ -49,6 +54,7 @@ const colorModeToggle: IconButtonProps = {
 
 export const styles = {
   main,
+  mainFlex,
   navButton,
   topBar,
   colorModeToggle,
