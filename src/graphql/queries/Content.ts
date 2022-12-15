@@ -7,6 +7,7 @@ export const ContentQuery = gql`
       content {
         ... on Text {
           plainText
+          href
           annotations {
             bold
             code
