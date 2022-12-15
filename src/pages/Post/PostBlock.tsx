@@ -51,7 +51,7 @@ const PostBlock: React.FC<PostBlockProps> = ({ type, content, idx }) => {
         {content.map((text, textIdx) => {
           if (TextOrImageIsText(text)) {
             return (
-              <RichText idx={textIdx} key={textIdx} {...text.annotations}>
+              <RichText idx={textIdx} key={textIdx} {...text.annotations} href={text.href} >
                 {text.plainText}
               </RichText>
             );

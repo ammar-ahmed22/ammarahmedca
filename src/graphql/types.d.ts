@@ -11,6 +11,7 @@ interface IAnnotations {
 interface IText {
   plainText: string;
   annotations: Annotations;
+  href?: string;
 }
 
 interface IImage {
