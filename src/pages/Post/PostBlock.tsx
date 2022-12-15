@@ -20,7 +20,8 @@ import {
   atelierCaveLight,
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import RichText from "./RichText";
-import { TextOrImageIsText } from "../../graphql/typeGuards";
+import { TextOrImageIsText } from "@website/graphql/typeGuards";
+import { hyphenate } from "@website/utils/helpers";
 
 interface PostBlockProps {
   type: string;
@@ -41,7 +42,7 @@ const PostBlock: React.FC<PostBlockProps> = ({ type, content, idx }) => {
     TextOrImageIsText(content[0])
   ) {
     return (
-      <Text key={createKey(idx)} {...styles[type]}>
+      <Text key={createKey(idx)} {...styles[type]} id={hyphenate(content[0].plainText)}>
         {content[0].plainText}
       </Text>
     );

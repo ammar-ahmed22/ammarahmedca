@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import PostContent from "./PostContent";
 import { Text, Box, Button, SkeletonText } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -25,6 +25,8 @@ const Post: React.FC = () => {
     MetadataQueryVariables
   >(MetadataQuery, { variables: { pathname: postName } });
 
+  const headerRef = useRef<HTMLDivElement | null>(null);
+
   return (
     <>
       {loading && (
@@ -34,7 +36,7 @@ const Post: React.FC = () => {
         </Box>
       )}
       {!loading && data && (
-        <Box my={5}>
+        <Box my={5} ref={headerRef} >
           <Helmet>
             <title>Blog | {data.metadata.name}</title>
           </Helmet>
@@ -57,6 +59,7 @@ const Post: React.FC = () => {
         <PostContent
           pathname={data.metadata.pathname as string}
           infoLoaded={!loading && !!data}
+          headerRef={headerRef}
         />
       )}
     </>
