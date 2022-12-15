@@ -36,7 +36,7 @@ const Post: React.FC = () => {
         </Box>
       )}
       {!loading && data && (
-        <Box my={5} ref={headerRef} >
+        <Box my={5} ref={headerRef}>
           <Helmet>
             <title>Blog | {data.metadata.name}</title>
           </Helmet>

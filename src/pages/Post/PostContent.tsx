@@ -14,46 +14,54 @@ import { hyphenate } from "@website/utils/helpers";
 interface PostContentProps {
   pathname: string;
   infoLoaded: boolean;
-  headerRef: React.MutableRefObject<HTMLDivElement | null>
+  headerRef: React.MutableRefObject<HTMLDivElement | null>;
 }
 
 // Pulls blocks for a blog post and renders the blog content
-const PostContent: React.FC<PostContentProps> = ({ pathname, infoLoaded, headerRef }) => {
+const PostContent: React.FC<PostContentProps> = ({
+  pathname,
+  infoLoaded,
+  headerRef,
+}) => {
   const { data, loading } = useQuery<
     ContentQueryResponse,
     ContentQueryVariables
   >(ContentQuery, { variables: { pathname } });
 
-  const [headings, setHeadings] = useState<HeadingType[]>([])
+  const [headings, setHeadings] = useState<HeadingType[]>([]);
   const size = useDimensions(headerRef, false);
 
   useEffect(() => {
-    if (data){
-      const res = data.content.map( block => {
-        if (block.type.startsWith("heading")){
-          const [content] = block.content;
-          if (TextOrImageIsText(content)){
-            return {
-              type: block.type,
-              text: content.plainText,
-              id: hyphenate(content.plainText)
+    if (data) {
+      const res = data.content
+        .map((block) => {
+          if (block.type.startsWith("heading")) {
+            const [content] = block.content;
+            if (TextOrImageIsText(content)) {
+              return {
+                type: block.type,
+                text: content.plainText,
+                id: hyphenate(content.plainText),
+              };
             }
           }
-        }
 
-        return undefined
-      }).filter( item => item !== undefined );
+          return undefined;
+        })
+        .filter((item) => item !== undefined);
       setHeadings(res as HeadingType[]);
     }
-  }, [data])
+  }, [data]);
 
-  
   if (!loading && data && infoLoaded) {
     return (
       <>
-        {
-          size && !!headings.length && <PostNav headings={headings} top={Math.round(size.marginBox.bottom)} />
-        }
+        {size && !!headings.length && (
+          <PostNav
+            headings={headings}
+            top={Math.round(size.marginBox.bottom)}
+          />
+        )}
         {data.content.map((block, idx) => {
           return (
             <PostBlock

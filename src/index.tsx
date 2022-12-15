@@ -23,6 +23,4 @@ root.render(
   </React.StrictMode>
 );
 
-
-
 reportWebVitals(reportHandler);

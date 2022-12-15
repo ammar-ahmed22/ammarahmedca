@@ -55,9 +55,12 @@ export const displayTimeSince = (prevDate: number): string => {
  * @returns {number} - Pixel value
  */
 export const vh = (percent: number) => {
-  const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  const h = Math.max(
+    document.documentElement.clientHeight,
+    window.innerHeight || 0
+  );
   return (percent * h) / 100;
-}
+};
 
 /**
  * Calculates view width in pixels given percentage
@@ -66,8 +69,11 @@ export const vh = (percent: number) => {
  * @returns {number} - Pixel value
  */
 export const vw = (percent: number) => {
-  const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+  const w = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
   return (percent * w) / 100;
-}
+};
 
-export const hyphenate = (text: string) => text.split(" ").join("-")
+export const hyphenate = (text: string) => text.split(" ").join("-");

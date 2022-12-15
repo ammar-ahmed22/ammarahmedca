@@ -42,7 +42,11 @@ const PostBlock: React.FC<PostBlockProps> = ({ type, content, idx }) => {
     TextOrImageIsText(content[0])
   ) {
     return (
-      <Text key={createKey(idx)} {...styles[type]} id={hyphenate(content[0].plainText)}>
+      <Text
+        key={createKey(idx)}
+        {...styles[type]}
+        id={hyphenate(content[0].plainText)}
+      >
         {content[0].plainText}
       </Text>
     );
@@ -52,7 +56,12 @@ const PostBlock: React.FC<PostBlockProps> = ({ type, content, idx }) => {
         {content.map((text, textIdx) => {
           if (TextOrImageIsText(text)) {
             return (
-              <RichText idx={textIdx} key={textIdx} {...text.annotations} href={text.href} >
+              <RichText
+                idx={textIdx}
+                key={textIdx}
+                {...text.annotations}
+                href={text.href}
+              >
                 {text.plainText}
               </RichText>
             );
