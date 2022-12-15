@@ -60,61 +60,63 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
           "rgba(26, 32, 44, 0.8)"
         )}
       >
-        <Link as={ReactLink} to="/" _focus={{}}>
-          <LogoIcon boxSize={20} />
-        </Link>
-        <Spacer />
-        <Flex align="center">
-          <Link
-            {...styles.navButton}
-            _hover={{ bg: linkHover }}
-            color={active === "home" ? primary : regular}
-            as={ReactLink}
-            to="/"
-          >
-            <FontAwesomeIcon icon={faHome as IconProp} />
-            <Text>Home</Text>
+        <Flex {...styles.mainFlex}>
+          <Link as={ReactLink} to="/" _focus={{}}>
+            <LogoIcon boxSize={20} />
           </Link>
-          <Link
-            {...styles.navButton}
-            _hover={{ bg: linkHover }}
-            as={ReactLink}
-            color={active === "about" ? primary : regular}
-            to="/about"
-          >
-            <FontAwesomeIcon icon={faUser as IconProp} />
-            <Text>About Me</Text>
-          </Link>
-          <Link
-            {...styles.navButton}
-            _hover={{ bg: linkHover }}
-            as={ReactLink}
-            color={active === "blog" ? primary : regular}
-            to="/blog"
-          >
-            <FontAwesomeIcon icon={faPen as IconProp} />
-            <Text>Blog</Text>
-          </Link>
-
-          {process.env.NODE_ENV === "development" && (
+          <Spacer />
+          <Flex align="center">
+            <Link
+              {...styles.navButton}
+              _hover={{ bg: linkHover }}
+              color={active === "home" ? primary : regular}
+              as={ReactLink}
+              to="/"
+            >
+              <FontAwesomeIcon icon={faHome as IconProp} />
+              <Text>Home</Text>
+            </Link>
             <Link
               {...styles.navButton}
               _hover={{ bg: linkHover }}
               as={ReactLink}
-              color={active === "chess" ? primary : regular}
-              to="/chess"
+              color={active === "about" ? primary : regular}
+              to="/about"
             >
-              <FontAwesomeIcon icon={faChessPawn as IconProp} />
-              <Text>Chess</Text>
+              <FontAwesomeIcon icon={faUser as IconProp} />
+              <Text>About Me</Text>
             </Link>
-          )}
+            <Link
+              {...styles.navButton}
+              _hover={{ bg: linkHover }}
+              as={ReactLink}
+              color={active === "blog" ? primary : regular}
+              to="/blog"
+            >
+              <FontAwesomeIcon icon={faPen as IconProp} />
+              <Text>Blog</Text>
+            </Link>
 
-          <IconButton
-            icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-            {...styles.colorModeToggle}
-            color={useColorModeValue("black", "white")}
-            onClick={toggleColorMode}
-          />
+            {process.env.NODE_ENV === "development" && (
+              <Link
+                {...styles.navButton}
+                _hover={{ bg: linkHover }}
+                as={ReactLink}
+                color={active === "chess" ? primary : regular}
+                to="/chess"
+              >
+                <FontAwesomeIcon icon={faChessPawn as IconProp} />
+                <Text>Chess</Text>
+              </Link>
+            )}
+
+            <IconButton
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              {...styles.colorModeToggle}
+              color={useColorModeValue("black", "white")}
+              onClick={toggleColorMode}
+            />
+          </Flex>
         </Flex>
       </Flex>
     </>

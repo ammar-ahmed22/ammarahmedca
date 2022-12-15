@@ -20,6 +20,7 @@ const PageContent: React.FC<PageContentProps> = ({ children }) => {
       marginTop="15vh"
       p={4}
       pos="relative"
+      id="container"
     >
       {children}
     </Container>

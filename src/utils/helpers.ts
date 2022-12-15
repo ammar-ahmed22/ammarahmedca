@@ -47,3 +47,33 @@ export const displayTimeSince = (prevDate: number): string => {
 
   return "error calculating time";
 };
+
+/**
+ * Calculates view height in pixels given percentage
+ *
+ * @param {number} percent - Value to convert from vh to pixels
+ * @returns {number} - Pixel value
+ */
+export const vh = (percent: number) => {
+  const h = Math.max(
+    document.documentElement.clientHeight,
+    window.innerHeight || 0
+  );
+  return (percent * h) / 100;
+};
+
+/**
+ * Calculates view width in pixels given percentage
+ *
+ * @param {number} percent - Value to convert from vw to pixels
+ * @returns {number} - Pixel value
+ */
+export const vw = (percent: number) => {
+  const w = Math.max(
+    document.documentElement.clientWidth,
+    window.innerWidth || 0
+  );
+  return (percent * w) / 100;
+};
+
+export const hyphenate = (text: string) => text.split(" ").join("-");
