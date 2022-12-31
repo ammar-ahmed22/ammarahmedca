@@ -1,13 +1,17 @@
-import React from "react";
-import { Text, Box, useColorModeValue, Link } from "@chakra-ui/react";
+import React, { useRef } from "react";
+import { Text, Box, useColorModeValue, Link, useDimensions } from "@chakra-ui/react";
 import Signature from "../../components/Signature";
 import ScrollIndicator from "../../components/ScrollIndicator";
 import { styles } from "./Hero.styles";
 
 const Hero: React.FC = () => {
+  const textBox = useRef<HTMLDivElement>(null);
+  const textBoxDim = useDimensions(textBox);
+  const sigColor = useColorModeValue("black", "white");
+
   return (
-    <Box minH="90vh" position="relative">
-      <Box marginTop={"10vh"} zIndex={10}>
+    <Box minH="90vh" id="rel" >
+      <Box marginTop={"10vh"} zIndex={10} ref={textBox} >
         <Text sx={styles.mainText} as="h1">
           Hello{" "}
           <Text as="span" fontSize={{ base: "5xl", lg: "7xl" }}>
@@ -38,7 +42,7 @@ const Hero: React.FC = () => {
           </Link>
         </Text>
       </Box>
-      <Signature color={useColorModeValue("black", "white")} />
+     {textBoxDim && <Signature color={sigColor} parentBoxModel={textBoxDim} />}
 
       <ScrollIndicator scrollToId="projects" />
     </Box>
