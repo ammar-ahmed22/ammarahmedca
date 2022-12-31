@@ -2,7 +2,7 @@
 name: 'Feature request: Chess'
 about: Suggest an idea for the chess game
 title: "[✨\U0001F3C1 FEATURE]: Title"
-labels: enhancement, website
+labels: chess, enhancement
 assignees: ammar-ahmed22
 
 ---
