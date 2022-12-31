@@ -74,17 +74,6 @@ Aesthetic radar charts created for skills using [recharts](https://recharts.org/
 - Game database design complete
 - Creating game, adding moves, querying game API implemented
 
-### Feature: 3D Animation
-
-#### Description
-
-- Add a small 3D animation in the main landing page
-- Using THREE.js, render an Apple Memeoji-style 3D model of me
-- The 3D model is stationary but rotates to always follow the mouse
-
-#### Current Progress
-
-Not started yet.
 
 ## 🎨 Design Reference
 

@@ -43,7 +43,7 @@ declare global {
     data: RegisterData;
   };
 
-  type Move = {
+  type HalfMove = {
     fen: string;
     takes: {
       white: string[];
@@ -58,6 +58,11 @@ declare global {
 
     executedMove: ExecutedMove;
   };
+
+  type Move = {
+    white: HalfMove,
+    black?: HalfMove
+  }
 
   type Game = {
     _id: string;

@@ -6,17 +6,33 @@ export const GAME_QUERY = gql`
       _id
       createdAt
       moves {
-        fen
-        takes {
-          black
-          white
+        white {
+          fen
+          takes {
+            black
+            white
+          }
+          colorToMove
+          boardOpts {
+            castling
+            enPassant
+            halfMove
+            fullMove
+          }
         }
-        colorToMove
-        boardOpts {
-          castling
-          enPassant
-          halfMove
-          fullMove
+        black {
+          fen
+          takes {
+            black
+            white
+          }
+          colorToMove
+          boardOpts {
+            castling
+            enPassant
+            halfMove
+            fullMove
+          }
         }
       }
       playerIDs {
@@ -35,19 +51,34 @@ export const GAMES_QUERY = gql`
       _id
       createdAt
       moves {
-        fen
-        takes {
-          black
-          white
+        white {
+          fen
+          takes {
+            black
+            white
+          }
+          boardOpts {
+            castling
+            enPassant
+            halfMove
+            fullMove
+          }
         }
-        boardOpts {
-          castling
-          enPassant
-          halfMove
-          fullMove
+        black {
+          fen
+          takes {
+            black
+            white
+          }
+          boardOpts {
+            castling
+            enPassant
+            halfMove
+            fullMove
+          }
         }
       }
-      lastMove {
+      lastHalfMove {
         fen
       }
       playerIDs {
@@ -72,6 +103,6 @@ export namespace GameQuery {
 
 export namespace GamesQuery {
   export interface Response {
-    games: (Game & { lastMove: { fen: string } })[];
+    games: (Game & { lastHalfMove?: { fen: string } })[];
   }
 }

@@ -99,7 +99,7 @@ const Experience: React.FC = () => {
             return <CustomSkeleton key={val} />;
           })}
         <Flex justify="center">
-          {data && (
+          {data && data.experiences.length > 3 && (
             <DisplayLimiter
               numDisplaying={experiencesToDisplay}
               setNumDisplaying={setExperiencesToDisplay}

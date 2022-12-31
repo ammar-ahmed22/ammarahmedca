@@ -22,7 +22,7 @@ const generatePieceArray = (pieceNames: PieceType[], color: "w" | "b") => {
   return pieceNames.map((val) => pieces[val]);
 };
 
-const starting: Omit<Move, "executedMove"> = {
+const starting: Omit<HalfMove, "executedMove"> = {
   fen: "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR",
   takes: {
     white: [],
@@ -33,14 +33,14 @@ const starting: Omit<Move, "executedMove"> = {
 export const GameProvider: React.FC<GameProviderProps> = ({
   children,
   game,
-  lastMove,
+  lastHalfMove,
   playerIDs,
   colorToMove,
 }) => {
   const { user } = useContext(AuthContext) as AuthContextType;
   // Latest move from database
   // const latestMove = game.moves[game.moves.length - 1];
-  const latestMove = lastMove ? lastMove : starting;
+  const latestHalfMove = lastHalfMove ? lastHalfMove : starting;
 
   const opponentMetadata: OpponentMetadata = {
     id: "",
@@ -67,10 +67,10 @@ export const GameProvider: React.FC<GameProviderProps> = ({
   });
   // Board helper class
   const [board, setBoard] = useState<Board>(
-    new Board(latestMove.fen, boardOpts)
+    new Board(latestHalfMove.fen, boardOpts)
   );
   // Current FEN
-  const [fen, setFEN] = useState<string>(latestMove.fen);
+  const [fen, setFEN] = useState<string>(latestHalfMove.fen);
   // Move object
   const [move, setMove] = useState<IMove>({
     toMove: null,
@@ -83,19 +83,19 @@ export const GameProvider: React.FC<GameProviderProps> = ({
 
   // White and black taken pieces
   const [whiteTakes, setWhiteTakes] = useState<Piece[]>(
-    generatePieceArray(latestMove.takes.white as PieceType[], "w")
+    generatePieceArray(latestHalfMove.takes.white as PieceType[], "w")
   );
   const [blackTakes, setBlackTakes] = useState<Piece[]>(
-    generatePieceArray(latestMove.takes.black as PieceType[], "b")
+    generatePieceArray(latestHalfMove.takes.black as PieceType[], "b")
   );
 
   const reset = () => {
-    setFEN(latestMove.fen);
+    setFEN(latestHalfMove.fen);
     setWhiteTakes(
-      generatePieceArray(latestMove.takes.white as PieceType[], "w")
+      generatePieceArray(latestHalfMove.takes.white as PieceType[], "w")
     );
     setBlackTakes(
-      generatePieceArray(latestMove.takes.black as PieceType[], "b")
+      generatePieceArray(latestHalfMove.takes.black as PieceType[], "b")
     );
     setMoveMade(false);
     setMove({ moveTo: null, toMove: null });
@@ -173,8 +173,8 @@ export const GameProvider: React.FC<GameProviderProps> = ({
   const context: IGameContext = {
     board,
     // game,
-    lastMove,
-    latestMove,
+    lastHalfMove,
+    latestHalfMove,
     fen,
     updateBoard,
     validMoves,
