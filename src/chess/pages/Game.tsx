@@ -3,16 +3,16 @@ import { Box } from "@chakra-ui/react";
 import { GameProvider } from "../contexts/GameContext";
 import Board from "../components/Board";
 import { useQuery } from "@apollo/client";
-import { LAST_MOVE, LastMove } from "../graphql/queries/LastMove";
+import { LAST_HALF_MOVE, LastHalfMove } from "../graphql/queries/LastHalfMove";
 import Loading from "../components/Loading";
 import { Navigate, useParams } from "react-router-dom";
 
 const Game: React.FC = () => {
   const params = useParams();
   const { data, loading, error } = useQuery<
-    LastMove.Response,
-    LastMove.Variables
-  >(LAST_MOVE, {
+    LastHalfMove.Response,
+    LastHalfMove.Variables
+  >(LAST_HALF_MOVE, {
     variables: {
       gameID: params.gameID as string,
     },
@@ -31,7 +31,7 @@ const Game: React.FC = () => {
   return (
     <Box pos="relative">
       <GameProvider
-        lastMove={data.game.lastMove}
+        lastHalfMove={data.game.lastHalfMove}
         playerIDs={data.game.playerIDs}
         colorToMove={data.game.colorToMove}
       >

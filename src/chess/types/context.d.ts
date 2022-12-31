@@ -4,8 +4,8 @@ import { Piece } from "../game/Pieces/Piece";
 declare global {
   interface IGameContext {
     // game: Game;
-    lastMove?: Move;
-    latestMove: Omit<Move, "executedMove">;
+    lastHalfMove?: HalfMove;
+    latestHalfMove: Omit<HalfMove, "executedMove">;
     board: Board;
     updateBoard: (fen: string) => void;
     fen: string;
@@ -41,7 +41,7 @@ declare global {
   interface GameProviderProps {
     children: React.ReactNode;
     game?: Game;
-    lastMove?: Move;
+    lastHalfMove?: HalfMove;
     playerIDs: { white: string; black: string };
     colorToMove: "w" | "b";
   }

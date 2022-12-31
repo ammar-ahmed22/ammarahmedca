@@ -73,7 +73,7 @@ const Home: React.FC = () => {
           gamesResponse.data &&
           gamesResponse.data.games.map((game) => {
             const board = new Board(
-              game.lastMove.fen ?? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
+              game.lastHalfMove?.fen ?? "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR"
             );
             const isUserTurn = userToMove(
               user._id,

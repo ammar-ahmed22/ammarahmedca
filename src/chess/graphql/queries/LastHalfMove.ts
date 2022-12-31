@@ -1,9 +1,9 @@
 import { gql } from "@apollo/client";
 
-export const LAST_MOVE = gql`
-  query LastMove($gameID: String!) {
+export const LAST_HALF_MOVE = gql`
+  query LastHalfMove($gameID: String!) {
     game(gameID: $gameID) {
-      lastMove {
+      lastHalfMove {
         fen
         takes {
           white
@@ -31,10 +31,10 @@ export const LAST_MOVE = gql`
   }
 `;
 
-export namespace LastMove {
+export namespace LastHalfMove {
   export interface Response {
     game: {
-      lastMove?: Move;
+      lastHalfMove?: HalfMove;
       playerIDs: {
         white: string;
         black: string;

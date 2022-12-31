@@ -35,7 +35,7 @@ const Controls: React.FC = () => {
   const {
     moveMade,
     reset,
-    latestMove,
+    latestHalfMove,
     move,
     fen,
     whiteTakes,
@@ -99,7 +99,7 @@ const Controls: React.FC = () => {
   const getMovedPiece = (): Piece => {
     if (!move.toMove || !move.moveTo)
       throw new Error("Move must be made prior to getting move data.");
-    const helperBoard = new Board(latestMove.fen);
+    const helperBoard = new Board(latestHalfMove.fen);
     const piece = helperBoard.getPiece(
       move.toMove.rank,
       fileToNumber(move.toMove.file)
