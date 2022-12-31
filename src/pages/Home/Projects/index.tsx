@@ -84,7 +84,7 @@ const Projects: React.FC = () => {
       {loading && <CustomSkeleton />}
 
       <HStack justify="center" mt={5}>
-        {data && (
+        {data && data.projectMetadata.length > 4 && (
           <DisplayLimiter
             numDisplaying={projectsToDisplay}
             setNumDisplaying={setProjectsToDisplay}
