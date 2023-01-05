@@ -7,7 +7,7 @@ const title: TextProps = {
 };
 
 const body: TextProps = {
-  fontSize: { base: "sm", lg: "md" },
+  fontSize: { base: "md", md: "lg" },
   mb: 4,
 };
 

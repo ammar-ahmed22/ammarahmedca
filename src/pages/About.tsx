@@ -29,9 +29,8 @@ const About: React.FC = () => {
       </Text>
 
       <Text {...styles.body}>
-        Previously, I worked in a solely front-end role, whereas, in my current
-        co-op placement, I am working in a full-stack role. I've also started
-        working part-time as a Data Analyst for an online Fragrance company
+        In my current co-op placement, I am working in a frontend role. I've also 
+        started working part-time as a Data Analyst for an online Fragrance company
         which has really sparked my interest in the field of data science and
         analysis. I aspire to work in a field where software and nanotechnology
         intersect.

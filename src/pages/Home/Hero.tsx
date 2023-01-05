@@ -2,6 +2,7 @@ import React, { useRef } from "react";
 import { Text, Box, useColorModeValue, Link, useDimensions } from "@chakra-ui/react";
 import Signature from "../../components/Signature";
 import ScrollIndicator from "../../components/ScrollIndicator";
+import Greeting from "@website/components/Greeting";
 import { styles } from "./Hero.styles";
 
 const Hero: React.FC = () => {
@@ -12,17 +13,12 @@ const Hero: React.FC = () => {
   return (
     <Box minH="90vh" id="rel" >
       <Box marginTop={"10vh"} zIndex={10} ref={textBox} >
-        <Text sx={styles.mainText} as="h1">
-          Hello{" "}
-          <Text as="span" fontSize={{ base: "5xl", lg: "7xl" }}>
-            👋🏽
-          </Text>
-          <br />
-          I'm{" "}
-          <Text variant="gradient" as="span">
-            Ammar
-          </Text>
-        </Text>
+        <Greeting 
+          greetings={["Hello", "اسلام عليكم", "<h1>Hi</h1>"]}
+          captions={["Ammar", "a Muslim", "an Engineer"]}
+          emojis={["👋🏽", "🕌", "🛠️"]}
+          animations={["wave", "fadeIn", "fadeIn"]}
+        />
         <Text sx={styles.subText}>
           Engineering student{" "}
           <Text as="span" fontWeight="bold">
