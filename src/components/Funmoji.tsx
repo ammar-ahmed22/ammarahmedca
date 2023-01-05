@@ -3,9 +3,12 @@ import { BoxProps, shouldForwardProp, chakra, Tooltip, Portal, PositionProps, us
 import { motion, isValidMotionProp } from "framer-motion";
 import { v4 as uuidv4 } from "uuid";
 
+export type AnimationName = "wave" | "fadeIn";
+
 type FunmojiProps = {
   emoji: string,
   fontSize: BoxProps["fontSize"],
+  animationName: AnimationName,
   dropDuration?: number
 }
 
@@ -19,7 +22,7 @@ type DropParams = {
   id: string
 }
 
-const Funmoji : React.FC<FunmojiProps> = ({ emoji, fontSize, dropDuration = 5 }) => {
+const Funmoji : React.FC<FunmojiProps> = ({ emoji, fontSize, dropDuration = 5, animationName }) => {
 
   const [drops, setDrops] = useState<DropParams[]>([]);
 
@@ -46,6 +49,30 @@ const Funmoji : React.FC<FunmojiProps> = ({ emoji, fontSize, dropDuration = 5 })
     return emojis[randInRange(0, emojis.length - 1)]
   }
 
+  const animationProps : Record<AnimationName, any> = {
+    wave: {
+      transformOrigin: "bottom right",
+      animate: {
+        rotate: [0, 45, 0],
+      },
+      transition: {
+        duration: 1.5,
+        ease: "easeInOut",
+        repeat: (1.5 * 2),
+        repeatType: "loop"
+      }
+    },
+    fadeIn: {
+      animate: {
+        opacity: [0, 1],
+        transition: {
+          duration: .75,
+          ease: "easeIn"
+        }
+      }
+    }
+  }
+
   return (
     <>
       <Tooltip 
@@ -66,17 +93,19 @@ const Funmoji : React.FC<FunmojiProps> = ({ emoji, fontSize, dropDuration = 5 })
             cursor: "pointer"
           }}
           fontSize={fontSize}
-          transformOrigin="bottom right"
-          animate={{
-            rotate: [0, 45, 0],
-          }}
-          // @ts-ignore
-          transition={{
-            duration: 1.5,
-            ease: "easeInOut",
-            repeat: (1.5 * 2),
-            repeatType: "loop"
-          }}
+          {...animationProps[animationName]}
+          // transformOrigin="bottom right"
+          
+          // animate={{
+          //   rotate: [0, 45, 0],
+          // }}
+          // // @ts-ignore
+          // transition={{
+          //   duration: 1.5,
+          //   ease: "easeInOut",
+          //   repeat: (1.5 * 2),
+          //   repeatType: "loop"
+          // }}
           onClick={() => {
             setDrops( prev => [
               ...prev,
