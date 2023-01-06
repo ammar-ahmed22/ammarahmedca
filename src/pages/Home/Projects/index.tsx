@@ -11,11 +11,11 @@ import {
 import ProjectCard from "./ProjectCard";
 import Search from "./Search";
 import Filter from "./Filter";
-import DisplayLimiter from "../../../components/DisplayLimiter";
+import DisplayLimiter from "@website/components/DisplayLimiter";
 import {
   ProjectMetadataQuery,
   ProjectMetadataQueryResponse,
-} from "../../../graphql/queries/Metadata";
+} from "@website/graphql/queries/Metadata";
 import { styles } from "./styles/index.styles";
 
 const CustomSkeleton: React.FC = () => {
