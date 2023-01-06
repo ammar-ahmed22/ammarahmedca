@@ -51,7 +51,7 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
   `;
 
   // const { user, loading, error } = useGetUser();
-  const { data, loading, error, client } = useQuery<{ user: User }>(userQuery);
+  const { data, loading, error, client } = useQuery<{ user: User }>(userQuery, { errorPolicy: "all" });
   const navigate = useNavigate();
   const removeAuthToken = useSessionStorage("authToken")[2];
   const loc = useLocation();
@@ -63,8 +63,15 @@ const AuthorizedRoute: React.FC<AuthorizedRouteProps> = ({
   }
 
   if (!data || error) {
-    console.log(error);
-    return <Navigate to={redirectPath ?? "/chess/login"} />;
+    const state : any = {};
+    if (error?.graphQLErrors){
+      for (let err of error.graphQLErrors){
+        if (err.extensions.code === "UNAUTHENTICATED"){
+          state.redirect = loc.pathname;
+        }
+      }
+    }
+    return <Navigate to={redirectPath ?? "/chess/login"} state={state} />;
   }
 
   // Route to /chess/confirm-email after register (authorized)
