@@ -48,7 +48,7 @@ const About: React.FC = () => {
         free-time is code. As I've never been very talented in traditional forms
         of art, coding is my way of expressing myself. Whether that be through
         creating websites to help me with productivity or creating algorithm
-        simulations, code helps me express my creativity of creating things with
+        simulations, code helps me express my creativity through
         logic and mathematics.
       </Text>
       <Text {...styles.body}>
