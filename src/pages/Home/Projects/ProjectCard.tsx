@@ -76,7 +76,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
           </Link>
         )}
         {project.frameworks && project.frameworks.length > 0 && (
-          <Text fontSize="md" fontFamily="heading">
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
             Frameworks:
           </Text>
         )}
@@ -92,7 +92,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
           </Flex>
         )}
         {project.languages && project.languages.length > 0 && (
-          <Text fontSize="md" fontFamily="heading">
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
             Languages:
           </Text>
         )}
@@ -100,7 +100,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
           <Flex wrap="wrap" mt="1">
             {project.languages?.map((language, idx) => {
               return (
-                <Tag key={idx} {...styles.tag} colorScheme="brand.purple">
+                <Tag key={idx} {...styles.tag} colorScheme="brand.blue">
                   {language}
                 </Tag>
               );
