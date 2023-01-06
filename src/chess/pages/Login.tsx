@@ -17,7 +17,7 @@ import {
 import { Formik, Field, FormikProps } from "formik";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import Card from "../../components/Card";
 import { gql } from "@apollo/client";
 import { useAuthMutation } from "../../hooks/auth";
@@ -26,6 +26,7 @@ const Login: React.FC = () => {
   const [show, setShow] = useState(false);
   // const [submitted, setSubmitted] = useState(false);
   const navigate = useNavigate();
+  const loc = useLocation();
 
   const loginMutation = gql`
     mutation Login($password: String!, $email: String!) {
@@ -42,10 +43,13 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (!loading && !error && submitted) {
-      // console.log();
-      navigate("/chess/home");
+      if (loc.state.redirect){
+        navigate(loc.state.redirect);
+      } else {
+        navigate("/chess/home");
+      }
     }
-  }, [loading, error, submitted, navigate]);
+  }, [loading, error, submitted, navigate, loc]);
 
   return (
     <Flex justify="center" align="center" h="80vh" w="100%" direction="column">
