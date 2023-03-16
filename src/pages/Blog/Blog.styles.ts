@@ -10,6 +10,12 @@ const titleSpan: TextProps = {
   variant: "gradient",
 };
 
+const subtitle: TextProps = {
+  fontSize: "4xl",
+  fontFamily: "heading",
+  as: "h2"
+}
+
 const category: TextProps = {
   as: "h3",
   fontSize: "3xl",
@@ -45,4 +51,5 @@ export const styles = {
   postTitle,
   postDescription,
   postInfo,
+  subtitle
 };

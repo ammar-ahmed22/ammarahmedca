@@ -15,6 +15,7 @@ const isLink: LinkProps = {
   _hover: {
     textDecoration: "none",
     transform: "scale(1.05, 1.05)",
+    transition: "transform .25s ease-out",
     boxShadow: "none",
   },
 };

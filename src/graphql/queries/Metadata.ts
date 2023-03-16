@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 import type { DocumentNode } from "@apollo/client";
+import { RICH_TEXT_FRAGMENTS } from "../fragments";
+import { IPostMetadata } from "@ammarahmedca/types";
 
 export const ProjectMetadataQuery: DocumentNode = gql`
   query {
@@ -23,19 +25,43 @@ export interface ProjectMetadataQueryResponse {
   projectMetadata: IMetadata[];
 }
 
-export const BlogMetadataQuery: DocumentNode = gql`
-  query BlogMetadata($publishedOnly: Boolean) {
-    blogMetadata(publishedOnly: $publishedOnly) {
+export const BLOG_METADATA_QUERY: DocumentNode = gql`
+  query BlogMetadata(
+    $tags: [String!], 
+    $category: String, 
+    $onlyPublished: Boolean
+  ) {
+    blogMetadata(
+      tags: $tags, 
+      category: $category, 
+      onlyPublished: $onlyPublished
+    ) {
       id
       name
-      description
-      published
-      readTime
+      slug
       category
-      pathname
+      date
+      description {
+        ...complete
+      }
+      image
+      tags
     }
   }
+  ${RICH_TEXT_FRAGMENTS}
 `;
+
+export namespace BlogMetadataQuery{
+  export interface Response{
+    blogMetadata: IPostMetadata[]
+  }
+
+  export interface Variables{
+    onlyPublished?: boolean,
+    tags?: string[],
+    category?: string
+  }
+}
 
 export interface BlogMetadataQueryResponse {
   blogMetadata: IMetadata[];

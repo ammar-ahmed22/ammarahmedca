@@ -40,13 +40,20 @@ const Router: React.FC = () => {
       ),
     },
     {
-      path: "/blog/:postName",
+      path: "/blog/:category",
+      element: (
+        <Page activeNav="blog" pageTitle="Blog">
+          <Blog />
+        </Page>
+      )
+    },
+    {
+      path: "/blog/:category/:slug",
       element: (
         <Page activeNav="blog" pageTitle="">
           <Post />
         </Page>
       ),
-      loader: ({ params }) => params.postName,
     },
     {
       path: "/chess",

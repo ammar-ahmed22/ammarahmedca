@@ -3,7 +3,7 @@ import PostContent from "./PostContent";
 import { Text, Box, Button, SkeletonText } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { useNavigate, useLoaderData, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
 import {
   MetadataQuery,
@@ -16,6 +16,7 @@ import { Helmet } from "react-helmet";
 
 const Post: React.FC = () => {
   const postName = useLoaderData() as string;
+  const { slug } = useParams();
   const navigate = useNavigate();
 
   const handleBackClick = () => navigate("/blog");
