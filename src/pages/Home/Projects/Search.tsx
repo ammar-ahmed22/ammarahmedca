@@ -3,12 +3,26 @@ import { InputGroup, Input, InputLeftElement } from "@chakra-ui/react";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
+import { IProjectMetadata } from "@ammarahmedca/types";
 
-const Search: React.FC<SearchFilterProps> = ({ projects, setProjects }) => {
+type SearchProps = {
+  projects?: IProjectMetadata[];
+  setProjects: React.Dispatch<React.SetStateAction<IProjectMetadata[]>>;
+  setSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  isDisabled?: boolean;
+};
+
+const Search: React.FC<SearchProps> = ({
+  projects,
+  setProjects,
+  setSearching,
+  isDisabled = true,
+}) => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {
-    if (query !== "") {
+    if (query !== "" && projects) {
+      setSearching(true);
       const queryRegex = new RegExp(query.toLowerCase(), "g");
 
       setProjects(() => {
@@ -44,10 +58,11 @@ const Search: React.FC<SearchFilterProps> = ({ projects, setProjects }) => {
           return match;
         });
       });
-    } else {
+    } else if (projects) {
       setProjects(projects);
+      setSearching(false);
     }
-  }, [query, projects, setProjects]);
+  }, [query, projects, setProjects, setSearching]);
 
   const searchIcon = <FontAwesomeIcon icon={faSearch as IconProp} />;
 
@@ -63,6 +78,7 @@ const Search: React.FC<SearchFilterProps> = ({ projects, setProjects }) => {
         placeholder="Search by name, type, language or framework"
         focusBorderColor="brand."
         onChange={(e) => setQuery(e.target.value)}
+        isDisabled={isDisabled}
       />
     </InputGroup>
   );

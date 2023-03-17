@@ -74,7 +74,6 @@ Aesthetic radar charts created for skills using [recharts](https://recharts.org/
 - Game database design complete
 - Creating game, adding moves, querying game API implemented
 
-
 ## 🎨 Design Reference
 
 <!-- #### Colors

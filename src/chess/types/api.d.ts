@@ -60,9 +60,9 @@ declare global {
   };
 
   type Move = {
-    white: HalfMove,
-    black?: HalfMove
-  }
+    white: HalfMove;
+    black?: HalfMove;
+  };
 
   type Game = {
     _id: string;

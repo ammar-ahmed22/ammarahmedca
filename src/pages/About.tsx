@@ -29,11 +29,11 @@ const About: React.FC = () => {
       </Text>
 
       <Text {...styles.body}>
-        In my current co-op placement, I am working in a frontend role. I've also 
-        started working part-time as a Data Analyst for an online Fragrance company
-        which has really sparked my interest in the field of data science and
-        analysis. I aspire to work in a field where software and nanotechnology
-        intersect.
+        In my current co-op placement, I am working in a frontend role. I've
+        also started working part-time as a Data Analyst for an online Fragrance
+        company which has really sparked my interest in the field of data
+        science and analysis. I aspire to work in a field where software and
+        nanotechnology intersect.
       </Text>
 
       <Text {...styles.title}>
@@ -48,8 +48,8 @@ const About: React.FC = () => {
         free-time is code. As I've never been very talented in traditional forms
         of art, coding is my way of expressing myself. Whether that be through
         creating websites to help me with productivity or creating algorithm
-        simulations, code helps me express my creativity through
-        logic and mathematics.
+        simulations, code helps me express my creativity through logic and
+        mathematics.
       </Text>
       <Text {...styles.body}>
         When I'm not coding you can find me watching Netflix. I tend to enjoy
