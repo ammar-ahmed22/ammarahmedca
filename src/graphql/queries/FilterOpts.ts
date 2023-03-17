@@ -1,15 +1,17 @@
 import { gql } from "@apollo/client";
 
-export const FilterOptsQuery = gql`
-  query {
-    filterOpts {
-      type
-      languages
-      frameworks
-    }
+export const PROJECT_FILTER_OPTIONS_QUERY = gql`
+  query ProjectFilterOptions{
+    projectFrameworks
+    projectTypes
+    projectLanguages
   }
-`;
+`
 
-export interface FilterOptsResponse {
-  filterOpts: Omit<IFilterOpts, "category">;
+export namespace ProjectFilterOptionsQuery{
+  export interface Response{
+    projectFrameworks: string[],
+    projectTypes: string[],
+    projectLanguages: string[]
+  }
 }

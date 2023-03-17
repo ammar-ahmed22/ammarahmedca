@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   RadarChart,
   PolarGrid,
@@ -17,8 +17,7 @@ import {
 import { useQuery } from "@apollo/client";
 import {
   SkillsQuery,
-  SkillsQueryVariables,
-  SkillQueryResponse,
+  SKILLS_QUERY
 } from "../../../graphql/queries/Skills";
 
 interface SkillChartProps {
@@ -26,8 +25,8 @@ interface SkillChartProps {
 }
 
 const SkillChart: React.FC<SkillChartProps> = ({ type }) => {
-  const { data, loading } = useQuery<SkillQueryResponse, SkillsQueryVariables>(
-    SkillsQuery,
+  const { data, loading } = useQuery<SkillsQuery.Response, SkillsQuery.Variables>(
+    SKILLS_QUERY,
     {
       variables: {
         onlyType: type,
@@ -36,10 +35,6 @@ const SkillChart: React.FC<SkillChartProps> = ({ type }) => {
   );
 
   const [isLargerThan30em] = useMediaQuery(["(min-width: 30em)"]);
-
-  useEffect(() => {
-    console.log("Larger than 30em:", isLargerThan30em);
-  }, [isLargerThan30em]);
 
   const primary = "var(--ammar-colors-brand-purple-500)";
   const foreground = useColorModeValue(

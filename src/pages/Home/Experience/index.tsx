@@ -3,12 +3,13 @@ import { Box, Text, Flex, Tag, HStack, SkeletonText } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
 import BulletItem from "./BulletItem";
 import DisplayLimiter from "../../../components/DisplayLimiter";
-import RichText from "../../Post/RichText";
+import RichText from "@website/components/RichText";
 import {
   ExperienceQuery,
   ExperienceQueryResponse,
 } from "../../../graphql/queries/Experience";
 import { styles } from "./styles/index.styles";
+import { intlFormat } from "date-fns";
 
 const CustomSkeleton: React.FC = () => {
   return (
@@ -26,17 +27,6 @@ const Experience: React.FC = () => {
 
   const { data, loading } = useQuery<ExperienceQueryResponse>(ExperienceQuery);
 
-  const getMonthYear = (ISOStamp?: number): string => {
-    if (!ISOStamp) {
-      return "Present";
-    }
-    const date = new Date(ISOStamp);
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-
-    return `${month} ${year}`;
-  };
-
   return (
     <Box {...styles.mainBox} id="experience">
       <Text {...styles.title}>
@@ -49,14 +39,16 @@ const Experience: React.FC = () => {
         {data &&
           data.experiences.slice(0, experiencesToDisplay).map((exp, idx) => {
             const { company, role, timeframe, description, type, skills } = exp;
+            const startParsed = intlFormat(new Date(timeframe.start), { month: "long", year: "numeric" });
+            const endParsed = timeframe.end ? intlFormat(new Date(timeframe.end), { month: "long", year: "numeric" }) : "Present";
             return (
               <BulletItem key={idx} idx={idx} listLength={experiencesToDisplay}>
                 <Text {...styles.company}>{company}</Text>
                 <Box mb={3}>
                   <Text {...styles.role}>{role}</Text>
                   <Text {...styles.timeframe}>
-                    {getMonthYear(timeframe.start)} -{" "}
-                    {getMonthYear(timeframe.end)}
+                    {startParsed} -{" "}
+                    {endParsed}
                   </Text>
                   <Tag
                     textTransform="uppercase"
@@ -67,13 +59,7 @@ const Experience: React.FC = () => {
                     {type}
                   </Tag>
 
-                  <Text {...styles.description}>
-                    {description.map((text, idx) => (
-                      <RichText key={idx} idx={idx} {...text.annotations}>
-                        {text.plainText}
-                      </RichText>
-                    ))}
-                  </Text>
+                  <RichText data={description} {...styles.description} />
                   <HStack my={2} wrap="wrap">
                     {skills.map((skill, skillIdx) => {
                       return (

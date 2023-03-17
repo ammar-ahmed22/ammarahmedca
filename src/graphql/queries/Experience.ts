@@ -1,5 +1,7 @@
 import { gql } from "@apollo/client";
 import type { DocumentNode } from "@apollo/client";
+import { RICH_TEXT_FRAGMENTS } from "../fragments";
+import { IExperience } from "@ammarahmedca/types";
 
 export const ExperienceQuery: DocumentNode = gql`
   query Experiences {
@@ -7,15 +9,7 @@ export const ExperienceQuery: DocumentNode = gql`
       company
       role
       description {
-        plainText
-        annotations {
-          bold
-          code
-          color
-          underline
-          strikethrough
-          italic
-        }
+        ...complete
       }
       type
       skills
@@ -25,6 +19,7 @@ export const ExperienceQuery: DocumentNode = gql`
       }
     }
   }
+${RICH_TEXT_FRAGMENTS}
 `;
 
 export interface ExperienceQueryResponse {

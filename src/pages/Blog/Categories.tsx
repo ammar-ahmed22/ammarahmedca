@@ -1,8 +1,7 @@
 import React from "react";
-import { Box, Text, VStack, Link, Skeleton } from "@chakra-ui/react";
+import { Box, Text, Link, Skeleton, Wrap, WrapItem, useColorModeValue } from "@chakra-ui/react";
 import { Link as ReactLink } from "react-router-dom";
 import { useQuery, gql } from "@apollo/client";
-import { styles } from "./Blog.styles";
 
 const CustomSkeleton: React.FC = () => {
   return (
@@ -10,12 +9,10 @@ const CustomSkeleton: React.FC = () => {
       {
         new Array(4).fill(0).map((_, idx) => {
           return (
-            <Box pb="1" pl="5" h="5" w="100%">
+            <Box h="5" w="10" key={idx}>
               <Skeleton 
                 h="100%"
                 w="100%"
-                key={idx}
-                mb="2"
               />
             </Box>
           )
@@ -31,38 +28,53 @@ const Categories : React.FC = () => {
       blogCategories
     }
   `)
+
+  const color = useColorModeValue("gray.500", "gray.400");
+  const hoverColor = useColorModeValue("gray.800", "gray.50");
   return (
-    <Box w="30%" >
-      <Text {...styles.subtitle} variant="gradient">Categories</Text>
-      <VStack align="flex-start"  spacing="0" >
+    <Box>
+      <Text mb="2" fontSize="xl" variant="gradient" fontWeight="bold" fontFamily="heading">Categories</Text>
+      <Wrap >
         {
           loading && <CustomSkeleton />
         }
         {
-          data && data.blogCategories.map( category => {
+          data && data.blogCategories
+            .map((c, i, arr) => {
+              if (i !== arr.length - 1) return [c, i]
+              return [c]
+            })
+            .flatMap(c => c)
+            .map( (category, idx, arr) => {
+              
             return (
-              <Link
-                as={ReactLink}
-                to={`/blog/${category.toLowerCase()}`}
-                fontSize="lg"
-                fontWeight="bold"
-                pl="5"
-                borderColor="gray.400" 
-                borderLeftStyle="solid" 
-                borderLeftWidth="2px"
-                pb="1"
-                transition="border-color .35s ease-in-out"
-                _hover={{
-                  borderColor: "brand.purple.500",
-                  transition: "border-color .35s ease-in-out"
-                }}
-              >
-                {category}
-              </Link>
+              <WrapItem key={idx}>
+                {
+                  typeof category === "string" && (
+                    <Link
+                      as={ReactLink}
+                      to={`/blog/${category.toLowerCase()}`}
+                      fontSize="md"
+                      fontWeight="thin"
+                      color={color}
+                      _hover={{
+                        color: hoverColor
+                      }}
+                    >
+                      {category}
+                    </Link>
+                  )
+                }
+                {
+                  typeof category === "number" && (
+                    <Text>&bull;</Text>
+                  )
+                }
+              </WrapItem>
             )
           })
         }
-      </VStack>
+      </Wrap>
     </Box>
   )
 }

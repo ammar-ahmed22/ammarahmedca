@@ -37,6 +37,8 @@ export const BLOG_POST_QUERY = gql`
       metadata {
         name
         date
+        category
+        tags
       }
       content {
         type
@@ -77,7 +79,9 @@ export namespace BlogPostQuery{
     postBySlug: {
       metadata: {
         name: string,
-        date: number
+        date: number,
+        category: string,
+        tags: string[]
       },
       content: IBlock[]
     }
@@ -88,10 +92,3 @@ export namespace BlogPostQuery{
   }
 }
 
-export interface ContentQueryVariables {
-  pathname: string;
-}
-
-export interface ContentQueryResponse {
-  content: IContent[];
-}

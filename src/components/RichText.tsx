@@ -35,7 +35,7 @@ const RichText: React.FC<RichTextProps> = ({ data, ...rest }) => {
       Object.assign(result, inlineCode);
       result.color = annots.color === "default" ? defaultCodeColor : annots.color
     }
-
+    result.whiteSpace = "pre-line";
     return result as T;
   }
 
