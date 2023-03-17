@@ -7,14 +7,14 @@ const mainBox: BoxProps | LinkProps = {
   display: "block",
   transition: "transform .25s ease-out",
   boxShadow: `.35rem .35rem 0 0 var(--ammar-colors-brand-purple-500)`,
-  p: 4,
-  my: 4,
+  // p: 4,
 };
 
 const isLink: LinkProps = {
   _hover: {
     textDecoration: "none",
     transform: "scale(1.05, 1.05)",
+    transition: "transform .25s ease-out",
     boxShadow: "none",
   },
 };

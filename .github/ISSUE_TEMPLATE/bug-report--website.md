@@ -1,10 +1,9 @@
 ---
-name: 'Bug report: Website'
+name: "Bug report: Website"
 about: Report a bug for the website
 title: "[\U0001F41B\U0001F310 BUG]: Title"
 labels: bug, website
 assignees: ammar-ahmed22
-
 ---
 
 **Describe the bug**
@@ -12,6 +11,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'

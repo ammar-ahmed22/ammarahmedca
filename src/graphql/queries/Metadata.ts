@@ -1,68 +1,87 @@
 import { gql } from "@apollo/client";
 import type { DocumentNode } from "@apollo/client";
+import { RICH_TEXT_FRAGMENTS } from "../fragments";
+import { IPostMetadata, IProjectMetadata } from "@ammarahmedca/types";
 
-export const ProjectMetadataQuery: DocumentNode = gql`
-  query {
-    projectMetadata {
-      id
+export const PROJECT_METADATA_QUERY = gql`
+  query ProjectMetadata(
+    $type: [String!]
+    $frameworks: [String!]
+    $languages: [String!]
+    $onlyPublished: Boolean
+  ) {
+    projectMetadata(
+      type: $type
+      frameworks: $frameworks
+      languages: $languages
+      onlyPublished: $onlyPublished
+    ) {
       name
-      lastEdited
-      timeline
-      type
-      languages
+      dateRange {
+        start
+        end
+      }
+      description {
+        ...complete
+      }
+      external
       frameworks
       github
-      external
-      description
-      isBlog
+      id
+      languages
+      type
     }
   }
+  ${RICH_TEXT_FRAGMENTS}
 `;
 
-export interface ProjectMetadataQueryResponse {
-  projectMetadata: IMetadata[];
+export namespace ProjectMetadataQuery {
+  export interface Response {
+    projectMetadata: IProjectMetadata[];
+  }
+
+  export interface Variables {
+    type?: string[];
+    languages?: string[];
+    frameworks?: string[];
+    onlyPublished?: boolean;
+  }
 }
 
-export const BlogMetadataQuery: DocumentNode = gql`
-  query BlogMetadata($publishedOnly: Boolean) {
-    blogMetadata(publishedOnly: $publishedOnly) {
+export const BLOG_METADATA_QUERY: DocumentNode = gql`
+  query BlogMetadata(
+    $tags: [String!]
+    $category: String
+    $onlyPublished: Boolean
+  ) {
+    blogMetadata(
+      tags: $tags
+      category: $category
+      onlyPublished: $onlyPublished
+    ) {
       id
       name
-      description
-      published
-      readTime
+      slug
       category
-      pathname
+      date
+      description {
+        ...complete
+      }
+      image
+      tags
     }
   }
+  ${RICH_TEXT_FRAGMENTS}
 `;
 
-export interface BlogMetadataQueryResponse {
-  blogMetadata: IMetadata[];
-}
-
-export interface BlogMetadataQueryVariables {
-  publishedOnly?: boolean;
-}
-
-export const MetadataQuery: DocumentNode = gql`
-  query Metadata($pathname: String, $metadataId: String) {
-    metadata(pathname: $pathname, id: $metadataId) {
-      name
-      description
-      published
-      readTime
-      category
-      pathname
-    }
+export namespace BlogMetadataQuery {
+  export interface Response {
+    blogMetadata: IPostMetadata[];
   }
-`;
 
-export interface MetadataQueryResponse {
-  metadata: IMetadata;
-}
-
-export interface MetadataQueryVariables {
-  pathname?: string;
-  metadataId?: string;
+  export interface Variables {
+    onlyPublished?: boolean;
+    tags?: string[];
+    category?: string;
+  }
 }

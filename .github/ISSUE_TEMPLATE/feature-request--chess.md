@@ -1,10 +1,9 @@
 ---
-name: 'Feature request: Chess'
+name: "Feature request: Chess"
 about: Suggest an idea for the chess game
 title: "[✨\U0001F3C1 FEATURE]: Title"
 labels: chess, enhancement
 assignees: ammar-ahmed22
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

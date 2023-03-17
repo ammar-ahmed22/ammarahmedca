@@ -8,23 +8,30 @@ import {
   Text,
   Link,
 } from "@chakra-ui/react";
-import { Link as ReactLink } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { faGithub } from "@fortawesome/free-brands-svg-icons";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons";
 import { styles } from "./styles/ProjectCard.styles";
+import { IProjectMetadata } from "@ammarahmedca/types";
+import RichText from "@website/components/RichText";
+import { intlFormat } from "date-fns";
 
 interface ProjectCardProps {
-  project: IMetadata;
+  project: IProjectMetadata;
   id: string;
   loading: boolean;
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
-  const hyphenate = (str: string) => {
-    return str.toLowerCase().split(" ").join("-");
-  };
+  const { start, end } = project.dateRange;
+  const startParsed = intlFormat(new Date(start), {
+    month: "short",
+    year: "numeric",
+  });
+  const endParsed = end
+    ? intlFormat(new Date(end), { month: "short", year: "numeric" })
+    : undefined;
 
   return (
     <Skeleton isLoaded={!loading}>
@@ -34,7 +41,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
         borderColor={useColorModeValue("gray.800", "white")}
         key={id}
       >
-        <Flex justify="space-between" align="baseline">
+        <Flex justify="space-between" align="baseline" mb="1">
           <Text fontSize="2xl" fontFamily="heading">
             {project.name}
           </Text>
@@ -51,8 +58,11 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
             )}
           </Flex>
         </Flex>
-        {project.type && project.type.length > 0 && (
-          <Flex wrap="wrap">
+        <Text color="gray.500" fontWeight="thin" mb="1" fontSize="sm">
+          {startParsed} {endParsed && "- " + endParsed}
+        </Text>
+        {project.type.length > 0 && (
+          <Flex wrap="wrap" mb="1">
             {project.type?.map((item, idx) => {
               return (
                 <Tag key={idx} {...styles.tag}>
@@ -62,21 +72,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
             })}
           </Flex>
         )}
-        <Text fontSize="sm">{project.description}</Text>
-        {project.isBlog && (
-          <Link
-            fontSize="sm"
-            mt="2"
-            color="brand.purple.500"
-            fontWeight="bold"
-            as={ReactLink}
-            to={`/blog/${hyphenate(project.name)}`}
-          >
-            Read more
-          </Link>
-        )}
+        <RichText fontSize="sm" mb="2" data={project.description} />
         {project.frameworks && project.frameworks.length > 0 && (
-          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold">
             Frameworks:
           </Text>
         )}
@@ -92,7 +90,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
           </Flex>
         )}
         {project.languages && project.languages.length > 0 && (
-          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold">
             Languages:
           </Text>
         )}

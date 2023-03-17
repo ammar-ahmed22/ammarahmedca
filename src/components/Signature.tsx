@@ -2,20 +2,21 @@ import React, { useEffect, useState, useRef } from "react";
 import { Box, useDimensions } from "@chakra-ui/react";
 import "../assets/css/Signature.css";
 
-type BoxModel = Exclude<ReturnType<typeof useDimensions>, null>
+type BoxModel = Exclude<ReturnType<typeof useDimensions>, null>;
 
 interface SignatureProps {
   color: string;
-  parentBoxModel: BoxModel
+  parentBoxModel: BoxModel;
 }
 
 const Signature: React.FC<SignatureProps> = ({ color, parentBoxModel }) => {
   const [dim, setDim] = useState({ height: 328, width: 602 });
 
   const [scrollPos, setScrollPos] = useState(-1);
-  const [bottomSpace] = useState(window.innerHeight - parentBoxModel.marginBox.bottom);
+  const [bottomSpace] = useState(
+    window.innerHeight - parentBoxModel.marginBox.bottom
+  );
   const svg = useRef<SVGSVGElement>(null);
-  
 
   window.addEventListener("scroll", (e) => {
     setScrollPos(window.scrollY);
@@ -48,22 +49,28 @@ const Signature: React.FC<SignatureProps> = ({ color, parentBoxModel }) => {
     const base = { height: 328, width: 602 };
     const aspectRatio = base.width / base.height;
     const height = window.innerHeight - parentBoxModel.marginBox.bottom;
-    if ((height * aspectRatio) > (window.innerWidth - 20)){
+    if (height * aspectRatio > window.innerWidth - 20) {
       setDim({
-        width: (window.innerWidth - 20),
-        height: (window.innerWidth - 20) / aspectRatio
-      })
+        width: window.innerWidth - 20,
+        height: (window.innerWidth - 20) / aspectRatio,
+      });
     } else {
       setDim({
         height,
-        width: height * aspectRatio
-      })
+        width: height * aspectRatio,
+      });
     }
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   return (
-    <Box position="absolute" top="85vh" transform={`translateY(-${bottomSpace}px)`} left="0" zIndex={-1}>
+    <Box
+      position="absolute"
+      top="85vh"
+      transform={`translateY(-${bottomSpace}px)`}
+      left="0"
+      zIndex={-1}
+    >
       {dim && (
         <svg
           width={dim.width}

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ammarahmedca/types": "^0.0.12",
     "@apollo/client": "^3.5.8",
     "@chakra-ui/icons": "^1.1.1",
     "@chakra-ui/react": "^2.3.6",
@@ -34,6 +35,7 @@
     "react-ga4": "^1.4.1",
     "react-helmet": "^6.1.0",
     "react-icons": "^4.6.0",
+    "react-mathjax": "^1.0.1",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
     "react-syntax-highlighter": "^15.5.0",
@@ -77,6 +79,7 @@
   "license": "MIT",
   "devDependencies": {
     "@types/react-helmet": "^6.1.6",
+    "@types/react-mathjax": "^1.0.1",
     "prettier": "2.8.0"
   }
 }
