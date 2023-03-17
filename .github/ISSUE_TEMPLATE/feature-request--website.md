@@ -1,10 +1,9 @@
 ---
-name: 'Feature request: Website'
+name: "Feature request: Website"
 about: Suggest an idea for the website (not chess)
 title: "[✨\U0001F310 FEATURE]: Title"
 labels: enhancement, website
 assignees: ammar-ahmed22
-
 ---
 
 **Is your feature request related to a problem? Please describe.**

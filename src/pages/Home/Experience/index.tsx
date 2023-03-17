@@ -39,16 +39,23 @@ const Experience: React.FC = () => {
         {data &&
           data.experiences.slice(0, experiencesToDisplay).map((exp, idx) => {
             const { company, role, timeframe, description, type, skills } = exp;
-            const startParsed = intlFormat(new Date(timeframe.start), { month: "long", year: "numeric" });
-            const endParsed = timeframe.end ? intlFormat(new Date(timeframe.end), { month: "long", year: "numeric" }) : "Present";
+            const startParsed = intlFormat(new Date(timeframe.start), {
+              month: "long",
+              year: "numeric",
+            });
+            const endParsed = timeframe.end
+              ? intlFormat(new Date(timeframe.end), {
+                  month: "long",
+                  year: "numeric",
+                })
+              : "Present";
             return (
               <BulletItem key={idx} idx={idx} listLength={experiencesToDisplay}>
                 <Text {...styles.company}>{company}</Text>
                 <Box mb={3}>
                   <Text {...styles.role}>{role}</Text>
                   <Text {...styles.timeframe}>
-                    {startParsed} -{" "}
-                    {endParsed}
+                    {startParsed} - {endParsed}
                   </Text>
                   <Tag
                     textTransform="uppercase"

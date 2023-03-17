@@ -13,8 +13,8 @@ const titleSpan: TextProps = {
 const subtitle: TextProps = {
   fontSize: "4xl",
   fontFamily: "heading",
-  as: "h2"
-}
+  as: "h2",
+};
 
 const category: TextProps = {
   as: "h3",
@@ -51,5 +51,5 @@ export const styles = {
   postTitle,
   postDescription,
   postInfo,
-  subtitle
+  subtitle,
 };

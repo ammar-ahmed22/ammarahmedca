@@ -45,7 +45,7 @@ const Router: React.FC = () => {
         <Page activeNav="blog" pageTitle="Blog">
           <Blog />
         </Page>
-      )
+      ),
     },
     {
       path: "/blog/:category/:slug",

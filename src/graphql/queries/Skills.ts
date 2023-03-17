@@ -11,13 +11,12 @@ export const SKILLS_QUERY: DocumentNode = gql`
   }
 `;
 
-
-export namespace SkillsQuery{
-  export interface Response{
+export namespace SkillsQuery {
+  export interface Response {
     skills: ISkill[];
   }
 
-  export interface Variables{
+  export interface Variables {
     onlyType?: string;
   }
 }

@@ -1,10 +1,21 @@
 import React, { useRef } from "react";
-import { Text, Box, Button, SkeletonText, Wrap, WrapItem, Tag } from "@chakra-ui/react";
+import {
+  Text,
+  Box,
+  Button,
+  SkeletonText,
+  Wrap,
+  WrapItem,
+  Tag,
+} from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@apollo/client";
-import { BLOG_POST_QUERY, BlogPostQuery } from "@website/graphql/queries/Content";
+import {
+  BLOG_POST_QUERY,
+  BlogPostQuery,
+} from "@website/graphql/queries/Content";
 import { useRenderedBlocks } from "./helpers";
 import { styles } from "./styles/index.styles";
 import { formatDistance } from "date-fns";
@@ -55,30 +66,25 @@ const Post: React.FC = () => {
           </Button>
           <Text {...styles.title}>{data.postBySlug.metadata.name}</Text>
           <Text {...styles.info}>
-            {formatDistance(new Date(data.postBySlug.metadata.date), new Date(), { addSuffix: true })} &bull;{" "}
-            {data.postBySlug.metadata.category}
+            {formatDistance(
+              new Date(data.postBySlug.metadata.date),
+              new Date(),
+              { addSuffix: true }
+            )}{" "}
+            &bull; {data.postBySlug.metadata.category}
           </Text>
-          <Wrap mt="2" >
-            {
-              data.postBySlug.metadata.tags.map(tag => {
-                return (
-                  <WrapItem key={tag}>
-                    <Tag
-                      variant="subtle"
-                      colorScheme="brand.purple"
-                    >
-                      {tag}
-                    </Tag>
-                  </WrapItem>
-                )
-              })
-            }
+          <Wrap mt="2">
+            {data.postBySlug.metadata.tags.map((tag) => {
+              return (
+                <WrapItem key={tag}>
+                  <Tag variant="subtle" colorScheme="brand.purple">
+                    {tag}
+                  </Tag>
+                </WrapItem>
+              );
+            })}
           </Wrap>
-          <Box mt="10">
-            {
-              renderedBlocks
-            }
-          </Box>
+          <Box mt="10">{renderedBlocks}</Box>
         </Box>
       )}
     </>

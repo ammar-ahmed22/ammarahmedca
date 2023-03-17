@@ -5,7 +5,7 @@ import {
   BoxProps,
   FlexProps,
   Spinner,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   atelierCaveDark,
@@ -13,25 +13,25 @@ import {
 } from "react-syntax-highlighter/dist/esm/styles/hljs";
 
 type PostBlockHook = {
-  heading_1: TextProps,
-  heading_2: TextProps,
-  heading_3: TextProps,
-  paragraph: TextProps,
-  list: ListProps,
-  numbered_list: ListProps,
-  bulleted_list: ListProps,
-  image: ImageProps,
-  imageBox: FlexProps,
-  imageCaption: TextProps,
-  quote: TextProps,
-  equation: {},
+  heading_1: TextProps;
+  heading_2: TextProps;
+  heading_3: TextProps;
+  paragraph: TextProps;
+  list: ListProps;
+  numbered_list: ListProps;
+  bulleted_list: ListProps;
+  image: ImageProps;
+  imageBox: FlexProps;
+  imageCaption: TextProps;
+  quote: TextProps;
+  equation: {};
   code: {
-    box: BoxProps,
-    highlighter: any
-  },
-}
+    box: BoxProps;
+    highlighter: any;
+  };
+};
 
-export const usePostBlockStyles = () : [PostBlockHook] => {
+export const usePostBlockStyles = (): [PostBlockHook] => {
   const heading_1: TextProps = {
     fontSize: "4xl",
     fontFamily: "heading",
@@ -39,7 +39,7 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
     as: "h2",
     mb: 2,
   };
-  
+
   const heading_2: TextProps = {
     fontSize: "3xl",
     fontFamily: "heading",
@@ -47,7 +47,7 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
     as: "h3",
     mb: 2,
   };
-  
+
   const heading_3: TextProps = {
     fontSize: "2xl",
     fontFamily: "heading",
@@ -55,26 +55,26 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
     as: "h4",
     mb: 2,
   };
-  
+
   const paragraph: TextProps = {
     fontSize: { base: "md", md: "lg" },
     mb: 2,
     as: "p",
   };
-  
+
   const list: ListProps = {
     fontSize: { base: "md", md: "lg" },
     mb: 4,
     pl: 4,
   };
-  
+
   const imageBox: FlexProps = {
     align: "center",
     justify: "center",
     direction: "column",
     my: 5,
   };
-  
+
   const image: ImageProps = {
     objectFit: "cover",
     borderRadius: "md",
@@ -93,20 +93,20 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
       />
     ),
   };
-  
+
   const imageCaption: TextProps = {
     fontSize: "sm",
     color: "gray.500",
     textAlign: "center",
   };
-  
+
   const codeBlock: BoxProps = {
     bg: useColorModeValue("gray.200", "gray.900"),
     p: 1,
     mb: 2,
     borderRadius: "md",
   };
-  
+
   const quote: TextProps = {
     as: "blockquote",
     display: "block",
@@ -130,8 +130,7 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
       fontSize: "8xl",
       fontFamily: "heading",
     },
-  }
-
+  };
 
   const styles = {
     heading_1,
@@ -151,15 +150,10 @@ export const usePostBlockStyles = () : [PostBlockHook] => {
       highlighter: {
         showLineNumbers: true,
         style: useColorModeValue(atelierCaveLight, atelierCaveDark),
-        customStyle: { background: "transparent" }
-      }
-    }
+        customStyle: { background: "transparent" },
+      },
+    },
   };
 
   return [styles];
-
-}
-
-
-
-
+};

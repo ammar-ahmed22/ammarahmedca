@@ -14,12 +14,16 @@ import {
   Wrap,
   WrapItem,
   Button,
-  Image
+  Image,
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { useQuery } from "@apollo/client";
 import { useParams, useNavigate } from "react-router-dom";
-import { IPostMetadata, stringToDashed, dashedToTitleCase } from "@ammarahmedca/types";
+import {
+  IPostMetadata,
+  stringToDashed,
+  dashedToTitleCase,
+} from "@ammarahmedca/types";
 import {
   BLOG_METADATA_QUERY,
   BlogMetadataQuery,
@@ -30,11 +34,9 @@ import { styles } from "./Blog.styles";
 const CustomSkeleton = () => {
   return (
     <>
-      {
-        new Array(7).fill(0).map((_, idx) => {
-          return <Skeleton height="20vh" key={idx} />
-        })
-      }
+      {new Array(7).fill(0).map((_, idx) => {
+        return <Skeleton height="20vh" key={idx} />;
+      })}
     </>
   );
 };
@@ -42,11 +44,17 @@ const CustomSkeleton = () => {
 const Blog: React.FC = () => {
   const { category } = useParams();
   const navigate = useNavigate();
-  const [filterTags, setFilterTags] = useState<Set<string>>(new Set<string>())
+  const [filterTags, setFilterTags] = useState<Set<string>>(new Set<string>());
   const { data, loading } = useQuery<
     BlogMetadataQuery.Response,
     BlogMetadataQuery.Variables
-  >(BLOG_METADATA_QUERY, { variables: { onlyPublished: true, category: category ? dashedToTitleCase(category) : undefined, tags: [...filterTags.values()] } });
+  >(BLOG_METADATA_QUERY, {
+    variables: {
+      onlyPublished: true,
+      category: category ? dashedToTitleCase(category) : undefined,
+      tags: [...filterTags.values()],
+    },
+  });
 
   // Sorts BlogInfo array by date
   const sortByDate = (array: IPostMetadata[]) => {
@@ -60,119 +68,116 @@ const Blog: React.FC = () => {
   };
 
   const removeFilterTag = (tag: string) => {
-    setFilterTags(prev => new Set([...prev.values()].filter( x => x !== tag)));
-  }
+    setFilterTags(
+      (prev) => new Set([...prev.values()].filter((x) => x !== tag))
+    );
+  };
 
   return (
     <>
-      {
-        category && (
-          <Button
-            variant="ghost"
-            leftIcon={<ArrowBackIcon />}
-            mt="4"
-            onClick={() => navigate("/blog")}
-          >
-            Back
-          </Button>
-        )
-      }
+      {category && (
+        <Button
+          variant="ghost"
+          leftIcon={<ArrowBackIcon />}
+          mt="4"
+          onClick={() => navigate("/blog")}
+        >
+          Back
+        </Button>
+      )}
       <Text {...styles.title}>
-        <Text {...styles.titleSpan}>{category ? dashedToTitleCase(category) : "Blog"}</Text>
+        <Text {...styles.titleSpan}>
+          {category ? dashedToTitleCase(category) : "Blog"}
+        </Text>
       </Text>
-      {
-        !category && (
-          <Text {...styles.info}>
-            Sometimes I like to write about things I've worked on, my experiences or
-            anything else of interest to me. Check it out!
-          </Text>
-        )
-      }
-      {
-        !category && <Categories />
-      }
-      {
-        !category && <Tags filterSet={filterTags} setFilterSet={setFilterTags} />
-      }
-      
-        <Box w="100%" >
-          <Text {...styles.subtitle}>{category ? "" : "All "}<Text {...styles.titleSpan}>Posts</Text></Text>
-          {
-            filterTags &&
-            !!filterTags.size &&
-            (
-              <Wrap align="center" >
+      {!category && (
+        <Text {...styles.info}>
+          Sometimes I like to write about things I've worked on, my experiences
+          or anything else of interest to me. Check it out!
+        </Text>
+      )}
+      {!category && <Categories />}
+      {!category && (
+        <Tags filterSet={filterTags} setFilterSet={setFilterTags} />
+      )}
+
+      <Box w="100%">
+        <Text {...styles.subtitle}>
+          {category ? "" : "All "}
+          <Text {...styles.titleSpan}>Posts</Text>
+        </Text>
+        {filterTags && !!filterTags.size && (
+          <Wrap align="center">
+            <WrapItem>
+              <Text>Filtered by: </Text>
+            </WrapItem>
+            {[...filterTags.values()].map((tag) => {
+              return (
                 <WrapItem>
-                  <Text>Filtered by: </Text>
+                  <Tag variant="subtle" colorScheme="brand.purple" size="sm">
+                    <TagLabel>{tag}</TagLabel>
+                    <TagCloseButton onClick={() => removeFilterTag(tag)} />
+                  </Tag>
                 </WrapItem>
-                {
-                  [...filterTags.values()].map( tag => {
-                    return (
-                      <WrapItem>
-                        <Tag
-                          variant="subtle"
-                          colorScheme="brand.purple"
-                          size="sm"
-                        >
-                          <TagLabel>{tag}</TagLabel>
-                          <TagCloseButton 
-                            onClick={() => removeFilterTag(tag)}
-                          />
-                        </Tag>
-                      </WrapItem>
-                    )
-                  })
-                }
-              </Wrap>
-            )
-          }
-          <SimpleGrid columns={2} spacing="5" >
-            {
-              loading && <CustomSkeleton />
-            }
-            {
-              data && sortByDate(data.blogMetadata).map( metadata => {
-                const { category, name, slug, id, date, description, tags, image } = metadata;
-                const elapsed = formatDistance(new Date(date), new Date(), { addSuffix: true });
-                return (
-                  <Card
-                    isLink
-                    to={`/blog/${stringToDashed(category)}/${slug}`}
-                    key={id}
-                  >
-                    {
-                      image && <Image src={image} w="100%" h="20vh" objectFit="cover" />
-                    }
-                    <Box p="4" >
-                      <Text {...styles.postTitle}>{name}</Text>
-                      <Text {...styles.postInfo}>{elapsed} &bull; {category}</Text>
-                      <RichText data={description} {...styles.postDescription} />
-                      <Wrap mt="3" >
-                        {
-                          tags.map( (tag, tagIdx) => {
-                            const tagKey = `${tag}-${tagIdx}`;
-                            return (
-                              <WrapItem key={tagKey} >
-                                <Tag
-                                  variant="subtle"
-                                  colorScheme="brand.purple"
-                                  size="sm"
-                                  key={tagKey}
-                                >
-                                  {tag}
-                                </Tag>
-                              </WrapItem>
-                            )
-                          })
-                        }
-                      </Wrap>
-                    </Box>
-                  </Card>
-                )
-              })
-            }
-          </SimpleGrid>
-        </Box>
+              );
+            })}
+          </Wrap>
+        )}
+        <SimpleGrid columns={2} spacing="5">
+          {loading && <CustomSkeleton />}
+          {data &&
+            sortByDate(data.blogMetadata).map((metadata) => {
+              const {
+                category,
+                name,
+                slug,
+                id,
+                date,
+                description,
+                tags,
+                image,
+              } = metadata;
+              const elapsed = formatDistance(new Date(date), new Date(), {
+                addSuffix: true,
+              });
+              return (
+                <Card
+                  isLink
+                  to={`/blog/${stringToDashed(category)}/${slug}`}
+                  key={id}
+                >
+                  {image && (
+                    <Image src={image} w="100%" h="20vh" objectFit="cover" />
+                  )}
+                  <Box p="4">
+                    <Text {...styles.postTitle}>{name}</Text>
+                    <Text {...styles.postInfo}>
+                      {elapsed} &bull; {category}
+                    </Text>
+                    <RichText data={description} {...styles.postDescription} />
+                    <Wrap mt="3">
+                      {tags.map((tag, tagIdx) => {
+                        const tagKey = `${tag}-${tagIdx}`;
+                        return (
+                          <WrapItem key={tagKey}>
+                            <Tag
+                              variant="subtle"
+                              colorScheme="brand.purple"
+                              size="sm"
+                              key={tagKey}
+                            >
+                              {tag}
+                            </Tag>
+                          </WrapItem>
+                        );
+                      })}
+                    </Wrap>
+                  </Box>
+                </Card>
+              );
+            })}
+        </SimpleGrid>
+      </Box>
     </>
   );
 };

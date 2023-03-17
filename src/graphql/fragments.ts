@@ -18,4 +18,4 @@ export const RICH_TEXT_FRAGMENTS = gql`
     italic
     language
   }
-`
+`;

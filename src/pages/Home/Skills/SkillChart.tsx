@@ -15,24 +15,21 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import { useQuery } from "@apollo/client";
-import {
-  SkillsQuery,
-  SKILLS_QUERY
-} from "../../../graphql/queries/Skills";
+import { SkillsQuery, SKILLS_QUERY } from "../../../graphql/queries/Skills";
 
 interface SkillChartProps {
   type: string;
 }
 
 const SkillChart: React.FC<SkillChartProps> = ({ type }) => {
-  const { data, loading } = useQuery<SkillsQuery.Response, SkillsQuery.Variables>(
-    SKILLS_QUERY,
-    {
-      variables: {
-        onlyType: type,
-      },
-    }
-  );
+  const { data, loading } = useQuery<
+    SkillsQuery.Response,
+    SkillsQuery.Variables
+  >(SKILLS_QUERY, {
+    variables: {
+      onlyType: type,
+    },
+  });
 
   const [isLargerThan30em] = useMediaQuery(["(min-width: 30em)"]);
 

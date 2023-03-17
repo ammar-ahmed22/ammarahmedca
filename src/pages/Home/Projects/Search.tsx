@@ -8,11 +8,16 @@ import { IProjectMetadata } from "@ammarahmedca/types";
 type SearchProps = {
   projects?: IProjectMetadata[];
   setProjects: React.Dispatch<React.SetStateAction<IProjectMetadata[]>>;
-  setSearching: React.Dispatch<React.SetStateAction<boolean>>,
-  isDisabled?: boolean
-}
+  setSearching: React.Dispatch<React.SetStateAction<boolean>>;
+  isDisabled?: boolean;
+};
 
-const Search: React.FC<SearchProps> = ({ projects, setProjects, setSearching, isDisabled = true }) => {
+const Search: React.FC<SearchProps> = ({
+  projects,
+  setProjects,
+  setSearching,
+  isDisabled = true,
+}) => {
   const [query, setQuery] = useState("");
 
   useEffect(() => {

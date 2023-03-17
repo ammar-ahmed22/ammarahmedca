@@ -24,10 +24,14 @@ interface ProjectCardProps {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
-
   const { start, end } = project.dateRange;
-  const startParsed = intlFormat(new Date(start), { month: "short", year: "numeric" });
-  const endParsed = end ? intlFormat(new Date(end), { month: "short", year: "numeric"}) : undefined;
+  const startParsed = intlFormat(new Date(start), {
+    month: "short",
+    year: "numeric",
+  });
+  const endParsed = end
+    ? intlFormat(new Date(end), { month: "short", year: "numeric" })
+    : undefined;
 
   return (
     <Skeleton isLoaded={!loading}>
@@ -54,7 +58,9 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
             )}
           </Flex>
         </Flex>
-        <Text color="gray.500" fontWeight="thin" mb="1" fontSize="sm" >{startParsed} {endParsed && "- " + endParsed}</Text>
+        <Text color="gray.500" fontWeight="thin" mb="1" fontSize="sm">
+          {startParsed} {endParsed && "- " + endParsed}
+        </Text>
         {project.type.length > 0 && (
           <Flex wrap="wrap" mb="1">
             {project.type?.map((item, idx) => {
@@ -68,7 +74,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
         )}
         <RichText fontSize="sm" mb="2" data={project.description} />
         {project.frameworks && project.frameworks.length > 0 && (
-          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold">
             Frameworks:
           </Text>
         )}
@@ -84,7 +90,7 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
           </Flex>
         )}
         {project.languages && project.languages.length > 0 && (
-          <Text fontSize="sm" fontFamily="body" fontWeight="bold" >
+          <Text fontSize="sm" fontFamily="body" fontWeight="bold">
             Languages:
           </Text>
         )}

@@ -19,7 +19,7 @@ export const ExperienceQuery: DocumentNode = gql`
       }
     }
   }
-${RICH_TEXT_FRAGMENTS}
+  ${RICH_TEXT_FRAGMENTS}
 `;
 
 export interface ExperienceQueryResponse {
