@@ -7,6 +7,7 @@ import {
   LinkProps,
   useColorModeValue,
 } from "@chakra-ui/react";
+import MathJax from "react-mathjax";
 
 type RichTextProps = TextProps & {
   data: IRichText[];
@@ -49,8 +50,9 @@ const RichText: React.FC<RichTextProps> = ({ data, ...rest }) => {
 
   return (
     <Text {...rest}>
+      <MathJax.Provider>
       {data.map((richText, idx) => {
-        const { annotations, plainText, href } = richText;
+        const { annotations, plainText, href, inlineLatex } = richText;
         const { code } = annotations;
         const key: string = `rich-text-${idx}`;
         if (href) {
@@ -64,6 +66,16 @@ const RichText: React.FC<RichTextProps> = ({ data, ...rest }) => {
               {plainText}
             </Link>
           );
+        } else if (inlineLatex) {
+          return (
+              <Text
+                key={key}
+                as="span" 
+                {...createProps<TextProps>(annotations)}
+              >
+                <MathJax.Node inline formula={plainText} />
+              </Text>
+          )
         } else {
           return (
             <Text
@@ -76,6 +88,7 @@ const RichText: React.FC<RichTextProps> = ({ data, ...rest }) => {
           );
         }
       })}
+      </MathJax.Provider>
     </Text>
   );
 };
