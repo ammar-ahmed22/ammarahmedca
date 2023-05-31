@@ -7,6 +7,7 @@ export const RICH_TEXT_FRAGMENTS = gql`
     annotations {
       ...all
     }
+    inlineLatex
   }
 
   fragment all on Annotations {
