@@ -1,7 +1,7 @@
 import type { TextProps, LinkProps } from "@chakra-ui/react";
 
 const mainText: TextProps = {
-  fontSize: { base: "6xl", md: "8xl" },
+  fontSize: { base: "5xl", md: "7xl" },
   fontWeight: "bold",
   textAlign: "right",
   lineHeight: "none",
@@ -9,6 +9,14 @@ const mainText: TextProps = {
   position: "relative",
   mb: 1,
 };
+
+const mainCaptionText: TextProps = {
+  fontSize: { base: "4xl", md: "6xl" },
+  fontWeight: "bold",
+  fontFamily: "heading",
+  lineHeight: "none",
+  textAlign: "right",
+}
 
 const subText: TextProps = {
   as: "h4",
@@ -31,4 +39,5 @@ export const styles = {
   mainText,
   subText,
   subTextLink,
+  mainCaptionText
 };
