@@ -89,6 +89,16 @@ const components = {
       },
     },
   },
+  Popover: {
+    variants: {
+      picker: {
+        popper: {
+          maxWidth: "unset",
+          width: "unset"
+        }
+      }
+    }
+  }
 };
 
 const theme = extendTheme({
