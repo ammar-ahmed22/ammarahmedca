@@ -123,7 +123,7 @@ const Blog: React.FC = () => {
             })}
           </Wrap>
         )}
-        <SimpleGrid columns={2} spacing="5">
+        <SimpleGrid columns={1} spacing="5">
           {loading && <CustomSkeleton />}
           {data &&
             sortByDate(data.blogMetadata).map((metadata) => {
@@ -147,7 +147,7 @@ const Blog: React.FC = () => {
                   key={id}
                 >
                   {image && (
-                    <Image src={image} w="100%" h="20vh" objectFit="cover" />
+                    <Image src={image} w="100%" h="40vh" objectFit="cover" objectPosition="center" />
                   )}
                   <Box p="4">
                     <Text {...styles.postTitle}>{name}</Text>

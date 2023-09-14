@@ -50,7 +50,7 @@ Client-side and server-side deployment is set-up automatically with `production`
 
 Aesthetic radar charts created for skills using [recharts](https://recharts.org/en-US)
 
-## 🚧 Roadmap
+<!-- ## 🚧 Roadmap
 
 ### Feature: Chess Game
 
@@ -72,18 +72,18 @@ Aesthetic radar charts created for skills using [recharts](https://recharts.org/
 - Authentication backend setup complete
 - Authentication frontend complete
 - Game database design complete
-- Creating game, adding moves, querying game API implemented
+- Creating game, adding moves, querying game API implemented -->
 
 ## 🎨 Design Reference
 
-<!-- #### Colors
+#### Colors
 
 | Color             | Hex                                                                |
 | ----------------- | ------------------------------------------------------------------ |
-| Light Mode Primary | ![#a10010](https://via.placeholder.com/10/a10010?text=+&raw=true) #A10010 |
-| Dark Mode Primary | ![#9c414a](https://via.placeholder.com/10/9c414a?text=+&raw=true) #9C414A |
-| Dark Color | ![#1a202c](https://via.placeholder.com/10/1a202c?text=+&raw=true) #1A202C |
-| Light Color| ![#ffffff](https://via.placeholder.com/10/ffffff?text=+&raw=true) #FFFFFF | -->
+| Blue | ![#667EEA](https://placehold.co/15x15/667EEA/667EEA.png) #667EEA |
+| Purple | ![#764BA2](https://placehold.co/15x15/764BA2/764BA2.png) #764BA2 |
+| Dark Color | ![#1A202C](https://placehold.co/15x15/1a202c/1a202c.png) #1A202C |
+| Light Color| ![#FFFFFF](https://placehold.co/15x15/ffffff/ffffff.png) #FFFFFF |
 
 #### Fonts
 
@@ -106,11 +106,11 @@ If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca. I
 - [TypeGraphQL](https://typegraphql.com/docs/getting-started.html)
 - [Typegoose](https://typegoose.github.io/typegoose/)
 
-#### Chess (Coming soon...)
+<!-- #### Chess (Coming soon...)
 
 - [JWT Frontend Token Authentication](https://medium.com/ovrsea/token-authentication-with-react-and-apollo-client-a-detailed-example-a3cc23760e9)
 - [GraphQL Authentication](https://www.youtube.com/watch?v=dBuU61ABEDs)
 - [FEN Strings for Chess games](https://en.wikipedia.org/wiki/Forsyth%E2%80%93Edwards_Notation)
-- [FEN Generator for testing](http://www.netreal.de/Forsyth-Edwards-Notation/index.php)
+- [FEN Generator for testing](http://www.netreal.de/Forsyth-Edwards-Notation/index.php) -->
 <!-- - [Google Authentication](https://dev.to/sivaneshs/add-google-login-to-your-react-apps-in-10-mins-4del)
 - [Backend Authentication with Google](https://developers.google.com/identity/sign-in/web/backend-auth) -->

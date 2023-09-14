@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
     <Box minH="90vh" id="rel">
       <Box marginTop={"10vh"} zIndex={10} ref={textBox}>
         <Greeting
-          greetings={["Hello", "اسلام عليكم", "<h1>Hi</h1>"]}
+          greetings={["Hello", "اَسَّلاَمُ عَلَيْكُم", "<h1>Hi</h1>"]}
           captions={["Ammar", "a Muslim", "an Engineer"]}
           emojis={["👋🏽", "🕌", "🛠️"]}
           animations={["wave", "fadeIn", "fadeIn"]}
@@ -34,7 +34,7 @@ const Hero: React.FC = () => {
             University of Waterloo
           </Link>
         </Text>
-        <Text sx={styles.subText}>
+        {/* <Text sx={styles.subText}>
           Frontend Developer{" "}
           <Text as="span" fontWeight="bold">
             @
@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
           <Link href="https://docs.aiarena.io/" {...styles.subTextLink}>
             AI Arena
           </Link>
-        </Text>
+        </Text> */}
       </Box>
       {textBoxDim && <Signature color={sigColor} parentBoxModel={textBoxDim} />}
 

@@ -15,7 +15,7 @@ const main: FlexProps = {
   backdropFilter: "saturate(180%) blur(5px)",
   justify: "center",
   zIndex: 2000,
-  h: { base: "auto", md: "12vh" },
+  h: "auto",
 };
 
 const mainFlex: FlexProps = {

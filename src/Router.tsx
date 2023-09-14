@@ -1,11 +1,14 @@
 import React from "react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Box } from "@chakra-ui/react";
 
 // Pages
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
 import Post from "./pages/Post";
+import Arcade from "./pages/Arcade";
+import Game from "./pages/Game";
 // import ChessRouter from "./components/Chess/Routers/ChessRouter";
 
 import ChessRouter from "./chess/ChessRouter";
@@ -60,6 +63,22 @@ const Router: React.FC = () => {
       element: <ChessRouter />,
       children: chessRoutes,
     },
+    {
+      path: '/arcade',
+      element: (
+        <Page activeNav="arcade" pageTitle="Arcade">
+          <Arcade />
+        </Page>
+      )
+    },
+    {
+      path: "/arcade/:game",
+      element: (
+        <Page activeNav="arcade" pageTitle="" >
+          <Game />
+        </Page>
+      )
+    }
   ]);
 
   return <RouterProvider router={router} />;

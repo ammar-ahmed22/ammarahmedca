@@ -8,7 +8,7 @@ import { Helmet } from "react-helmet";
 
 interface PageProps {
   children: React.ReactNode;
-  activeNav: "home" | "about" | "blog" | "chess";
+  activeNav: "home" | "about" | "blog" | "chess" | "arcade";
   pageTitle?: string;
 }
 

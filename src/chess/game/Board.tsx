@@ -31,7 +31,50 @@ export class Board {
     this.userColor = opts?.userColor ?? "w";
   }
 
-  public getPiece = (rank: number, numberFile: number): BoardMatrixType => {
+  get boardOpts(): BoardOpts {
+    return {
+      colorToMove: this.colorToMove as "w" | "b",
+      castling: this.castling,
+      enPassant: this.enPassant,
+      userColor: this.userColor as "w" | "b",
+      halfMove: this.halfMove,
+      fullMove: this.fullMove,
+      squareSize: this.squareSize
+    }
+  }
+
+  public canCastle = (color: "w" | "b", queenSide: boolean) => {
+    const whiteKing = this.castling[0];
+    const whiteQueen = this.castling[1];
+    const blackKing = this.castling[2];
+    const blackQueen = this.castling[3];
+
+    if (color === "w" && queenSide && whiteQueen === "Q") {
+      return true;
+    }
+
+    if (color === "w" && !queenSide && whiteKing === "K") {
+      return true;
+    }
+
+    if (color === "b" && queenSide && blackQueen === "q") {
+      return true;
+    }
+
+    if (color === "b" && !queenSide && blackKing === "k") {
+      return true;
+    }
+
+    return false;
+  }
+
+  public getPiece = (rank: number, file: number | string): BoardMatrixType => {
+    let numberFile;
+    if (typeof file === "string" ) {
+      numberFile = fileToNumber(file);
+    } else {
+      numberFile = file;
+    }
     const row = 8 - rank;
     const col = numberFile - 1;
 
@@ -118,14 +161,16 @@ export class Board {
     rank: number,
     file: string,
     color: "w" | "b",
-    moves: string[]
+    moves: string[],
+    board: Board
   ): string[] => {
     return moves.filter((move) => {
       const [moveFile, moveRank] = move.split("");
       const simulated = FENHelper.executeMove(
         this.fen,
         { rank, file },
-        { rank: parseInt(moveRank), file: moveFile }
+        { rank: parseInt(moveRank), file: moveFile },
+        board.boardOpts
       );
       const simulatedBoard = new Board(simulated.fen);
       return !simulatedBoard.isInCheck(color);

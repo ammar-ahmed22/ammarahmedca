@@ -85,7 +85,8 @@ export class King extends Piece {
       const simulated = FENHelper.executeMove(
         currFen,
         { rank, file },
-        { rank: move.rank, file: numberToFile(move.file) }
+        { rank: move.rank, file: numberToFile(move.file) },
+        board.boardOpts
       );
 
       const simulatedBoard = new Board(simulated.fen);
@@ -136,6 +137,60 @@ export class King extends Piece {
     });
 
     const moves = valid.map((move) => createAlgebraic(move.rank, move.file));
+
+    const firstRank = this.color === "w" ? 1 : 8;
+    if (rank === firstRank && file === "e") {
+      const fullRank = [];
+      for (let i = 1; i < 9; i++) {
+        fullRank.push(board.getPiece(firstRank, i));
+      }
+
+      const queenCorner = fullRank[0];
+      const kingCorner = fullRank[fullRank.length - 1];
+      // Queen-side castle
+      if (queenCorner && queenCorner.type === "rook" && queenCorner.color === this.color && !fullRank[1] && !fullRank[2] && !fullRank[3] && board.canCastle(this.color, true)) {
+
+      }
+
+      // King-side castle
+      if (kingCorner && kingCorner.type === "rook" && kingCorner.color === this.color && !fullRank[8 - 2] && !fullRank[8 - 3] && board.canCastle(this.color, false)) {
+
+      }
+    }
+    // // If kings and rooks have not moved
+    // if (this.color === "w" && rank === 1 && file === "e") {
+    //   const fullRank = [];
+    //   for (let i = 1; i < 9; i++) {
+    //     fullRank.push(board.getPiece(1, i));
+    //   };
+    //   const queenCorner = fullRank[0];
+    //   const kingCorner = fullRank[fullRank.length - 1];
+      
+    //   // Queen-side castle
+    //   if (queenCorner && queenCorner.type === "rook" && queenCorner.color === "w" && !fullRank[1] && !fullRank[2] && !fullRank[3]) {
+        
+    //   }
+    //   // King-side castle
+    //   if (kingCorner && kingCorner.type === "rook" && kingCorner.color === "w" && !fullRank[8 - 2] && !fullRank[8 - 3]) {
+
+    //   }
+    // }
+
+    // if (this.color === "b" && rank === 8 && file === "e") {
+    //   const fullRank = [];
+    //   for (let i = 1; i < 9; i++) {
+    //     fullRank.push(board.getPiece(8, i));
+    //   }
+    //   const queenCorner = fullRank[0];
+    //   const kingCorner = fullRank[fullRank.length - 1];
+
+    //   // Queen-side castle
+
+    //   // King-side castle
+    // }
+
+    
+    
 
     if (opts?.validOnly) return this.removeKings(moves, board);
     if (opts?.takesOnly) return this.removeNonTakes(moves, board);

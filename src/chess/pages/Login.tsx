@@ -13,6 +13,7 @@ import {
   Link,
   Alert,
   AlertIcon,
+  Box
 } from "@chakra-ui/react";
 import { Formik, Field, FormikProps } from "formik";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
@@ -43,7 +44,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (!loading && !error && submitted) {
-      if (loc.state.redirect) {
+      if (loc.state?.redirect) {
         navigate(loc.state.redirect);
       } else {
         navigate("/chess/home");
@@ -60,6 +61,7 @@ const Login: React.FC = () => {
         </Alert>
       )}
       <Card w="60%" h="auto">
+        <Box p="5" >
         <Text
           fontSize={{ base: "4xl", lg: "5xl" }}
           fontFamily="heading"
@@ -155,6 +157,7 @@ const Login: React.FC = () => {
             </form>
           )}
         </Formik>
+        </Box>
       </Card>
     </Flex>
   );

@@ -21,6 +21,7 @@ import {
   faPen,
   faUser,
   faChessPawn,
+  faGamepad
 } from "@fortawesome/free-solid-svg-icons";
 import { styles } from "./styles/NavBar.styles";
 
@@ -97,7 +98,7 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
               <Text>Blog</Text>
             </Link>
 
-            {process.env.NODE_ENV === "development" && (
+            {/* {process.env.NODE_ENV === "development" && (
               <Link
                 {...styles.navButton}
                 _hover={{ bg: linkHover }}
@@ -107,6 +108,18 @@ const NavBar: React.FC<NavBarProps> = ({ active }) => {
               >
                 <FontAwesomeIcon icon={faChessPawn as IconProp} />
                 <Text>Chess</Text>
+              </Link>
+            )} */}
+            {process.env.NODE_ENV === "development" && (
+              <Link
+                {...styles.navButton}
+                _hover={{ bg: linkHover }}
+                as={ReactLink}
+                color={active === "arcade" ? primary : regular}
+                to="/arcade"
+              >
+                <FontAwesomeIcon icon={faGamepad as IconProp} />
+                <Text>Arcade</Text>
               </Link>
             )}
 
