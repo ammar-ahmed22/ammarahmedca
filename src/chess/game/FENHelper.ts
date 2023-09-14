@@ -5,6 +5,7 @@ interface MoveExecutionResponse {
   fen: string;
   take: BoardMatrixType;
   matrix: BoardMatrixType[][];
+  boardOpts: BoardOpts;
 }
 
 export class FENHelper {
@@ -99,13 +100,28 @@ export class FENHelper {
   static executeMove = (
     fen: string,
     toMove: IAlgebraic,
-    moveTo: IAlgebraic
+    moveTo: IAlgebraic,
+    boardOpts: BoardOpts
   ): MoveExecutionResponse => {
     const matrix = FENHelper.parseFEN(fen);
     const toMoveIndex = FENHelper.algebraicToIndex(toMove);
     const moveToIndex = FENHelper.algebraicToIndex(moveTo);
 
     const takenPiece = matrix[moveToIndex.row][moveToIndex.col];
+    const movedPiece = matrix[toMoveIndex.row][toMoveIndex.col];
+    const newBoardOpts = { ...boardOpts };
+
+    if (movedPiece && movedPiece.type === "king") {
+      if (movedPiece.color === "w" && newBoardOpts.castling) {
+        newBoardOpts.castling = "--" + newBoardOpts.castling[2] + newBoardOpts.castling[3];
+      } else if (movedPiece.color === "b" && newBoardOpts.castling) {
+        newBoardOpts.castling = newBoardOpts.castling[0] + newBoardOpts.castling[1] + "--";  
+      }
+    }
+
+    if (movedPiece && movedPiece.type === "rook") {
+      
+    }
 
     matrix[moveToIndex.row][moveToIndex.col] =
       matrix[toMoveIndex.row][toMoveIndex.col];
@@ -115,6 +131,7 @@ export class FENHelper {
       fen: FENHelper.parseMatrix(matrix),
       take: takenPiece,
       matrix,
+      boardOpts
     };
   };
 }

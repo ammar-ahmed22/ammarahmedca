@@ -51,7 +51,7 @@ const Square: React.FC<SquareProps> = ({
       if (board.isInCheck(piece.color)) {
         // if check removers returns empty array (CHECKMATE!)
         updateValidMoves(
-          board.onlyCheckRemovers(rank, file, piece.color, moves) // filter to only moves that remove check
+          board.onlyCheckRemovers(rank, file, piece.color, moves, board) // filter to only moves that remove check
         );
       } else {
         updateValidMoves(moves);

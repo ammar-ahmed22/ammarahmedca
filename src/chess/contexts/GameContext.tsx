@@ -143,7 +143,7 @@ export const GameProvider: React.FC<GameProviderProps> = ({
   useEffect(() => {
     if (move.moveTo && move.toMove) {
       // swap and update fen
-      const response = FENHelper.executeMove(fen, move.toMove, move.moveTo);
+      const response = FENHelper.executeMove(fen, move.toMove, move.moveTo, boardOpts);
       // console.log(response.fen);
       setFEN(response.fen);
       if (response.take) {

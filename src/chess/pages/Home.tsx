@@ -89,7 +89,7 @@ const Home: React.FC = () => {
                 h="37vh"
                 key={game._id}
               >
-                <VStack>
+                <VStack p="3" >
                   <Flex direction="column">
                     <GameProvider playerIDs={game.playerIDs} colorToMove="w">
                       {board.renderDisplay("3vh")}

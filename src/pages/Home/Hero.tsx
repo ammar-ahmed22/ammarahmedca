@@ -19,24 +19,12 @@ const Hero: React.FC = () => {
   return (
     <Box minH="90vh" id="rel">
       <Box marginTop={"10vh"} zIndex={10} ref={textBox}>
-        {/* <Greeting
-          greetings={["Hello", "اسلام عليكم", "<h1>Hi</h1>"]}
+        <Greeting
+          greetings={["Hello", "اَسَّلاَمُ عَلَيْكُم", "<h1>Hi</h1>"]}
           captions={["Ammar", "a Muslim", "an Engineer"]}
           emojis={["👋🏽", "🕌", "🛠️"]}
           animations={["wave", "fadeIn", "fadeIn"]}
-        /> */}
-        <Text
-          sx={styles.mainText}
-        >
-          Hello{" "}
-          <Text as="span">👋🏽</Text>
-        </Text>
-        <Text
-          sx={styles.mainCaptionText}
-        >
-          I'm{" "}
-          <Text as="span" variant="gradient">Ammar</Text>
-        </Text>
+        />
         <Text sx={styles.subText}>
           Engineering student{" "}
           <Text as="span" fontWeight="bold">
