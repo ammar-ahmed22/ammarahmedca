@@ -42,11 +42,13 @@ const Experience: React.FC = () => {
             const startParsed = intlFormat(new Date(timeframe.start), {
               month: "long",
               year: "numeric",
+              timeZone: "UTC"
             });
             const endParsed = timeframe.end
               ? intlFormat(new Date(timeframe.end), {
                   month: "long",
                   year: "numeric",
+                  timeZone: "UTC"
                 })
               : "Present";
             return (

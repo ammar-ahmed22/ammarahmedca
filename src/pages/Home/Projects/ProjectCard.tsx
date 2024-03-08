@@ -28,9 +28,10 @@ const ProjectCard: React.FC<ProjectCardProps> = ({ project, id, loading }) => {
   const startParsed = intlFormat(new Date(start), {
     month: "short",
     year: "numeric",
+    timeZone: "UTC"
   });
   const endParsed = end
-    ? intlFormat(new Date(end), { month: "short", year: "numeric" })
+    ? intlFormat(new Date(end), { month: "short", year: "numeric", timeZone: "UTC" })
     : undefined;
 
   return (
