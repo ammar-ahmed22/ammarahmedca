@@ -9,6 +9,7 @@ import {
   Button,
   Alert,
   AlertIcon,
+  Box
 } from "@chakra-ui/react";
 import Card from "../../components/Card";
 import { Formik, Field } from "formik";
@@ -53,6 +54,7 @@ const ForgotPassword: React.FC = () => {
         </Alert>
       )}
       <Card w="75%" h="auto">
+        <Box p="5">
         <Text
           fontSize={{ base: "4xl", lg: "5xl" }}
           fontFamily="heading"
@@ -104,6 +106,7 @@ const ForgotPassword: React.FC = () => {
             </form>
           )}
         </Formik>
+        </Box>
       </Card>
     </Flex>
   );

@@ -12,6 +12,7 @@ import {
   FormErrorMessage,
   Alert,
   AlertIcon,
+  Box
 } from "@chakra-ui/react";
 import { AuthContext, AuthContextType } from "../contexts/AuthContext";
 import Card from "../../components/Card";
@@ -64,7 +65,7 @@ const ConfirmEmail: React.FC = () => {
       !confirmResponse.loading &&
       !confirmResponse.error
     ) {
-      navigate("/chess/play");
+      navigate("/chess/home");
     }
   }, [confirmResponse, navigate]);
 
@@ -87,6 +88,7 @@ const ConfirmEmail: React.FC = () => {
         </Alert>
       )}
       <Card w="75%" h="auto">
+        <Box p="5">
         <Text
           fontSize={{ base: "4xl", lg: "5xl" }}
           fontFamily="heading"
@@ -184,6 +186,7 @@ const ConfirmEmail: React.FC = () => {
           <Button w="full" variant="gradient" onClick={handleSubmit}>Confirm</Button>
           
         </HStack> */}
+      </Box>
       </Card>
     </Flex>
   );

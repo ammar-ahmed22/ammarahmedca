@@ -14,6 +14,7 @@ import {
   Select,
   Icon,
   Link,
+  Box
 } from "@chakra-ui/react";
 import { Formik, Field, FormikProps } from "formik";
 import { FaRegEyeSlash, FaRegEye } from "react-icons/fa";
@@ -58,6 +59,7 @@ const Register: React.FC = () => {
   return (
     <Flex justify="center" align="center" w="100%">
       <Card w="80%" h="auto">
+        <Box p="5">
         {!next && (
           <>
             <Text
@@ -443,6 +445,7 @@ const Register: React.FC = () => {
             </Formik>
           </>
         )}
+        </Box>
       </Card>
     </Flex>
   );
