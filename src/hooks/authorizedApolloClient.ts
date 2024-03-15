@@ -10,10 +10,10 @@ import { useSessionStorage } from "./sessionStorage";
 const httpLink = new HttpLink({
   uri: `${
     process.env.REACT_APP_MOBILE
-      ? "http://ammar.local:8080"
+      ? "http://ammar.local:8080/game"
       : process.env.NODE_ENV === "development"
-      ? "http://localhost:8080"
-      : "https://ammarahmedca.fly.dev/"
+      ? "http://localhost:8080/game"
+      : "https://ammarahmedca.fly.dev/game"
   }`,
   // uri: "http://localhost:8080",
 });

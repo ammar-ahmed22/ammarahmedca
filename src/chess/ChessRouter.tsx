@@ -1,9 +1,11 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import type { RouteObject } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
 
 import Page from "../components/Page/Page";
 import AuthorizedRoute from "./components/AuthorizedRoute";
+import { useAuthorizedApolloClient } from "@website/hooks/authorizedApolloClient";
 
 import Landing from "./pages/Landing";
 import Home from "./pages/Home";
@@ -76,9 +78,12 @@ export const chessRoutes: RouteObject[] = [
 ];
 
 const ChessRouter: React.FC = () => {
+  const client = useAuthorizedApolloClient();
   return (
     <Page activeNav="chess">
-      <Outlet />
+      <ApolloProvider client={client} >
+        <Outlet />
+      </ApolloProvider>
     </Page>
   );
 };
