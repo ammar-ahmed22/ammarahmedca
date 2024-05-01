@@ -1,9 +1,8 @@
 node_modules
 build
 public
-.firebaserc
+.firebasesrc
 .gitignore
-*.excalidraw
 *.json
 yarn.lock
-.firebase
+.firbase
