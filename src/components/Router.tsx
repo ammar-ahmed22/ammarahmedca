@@ -4,7 +4,7 @@ import { createPageBrowserRouter } from '../utils/routing'
 
 // Pages
 import Landing from '../pages/Landing'
-import About from "../pages/About";
+import About from '../pages/About'
 
 const Router: React.FC = () => {
   const router = createPageBrowserRouter([
