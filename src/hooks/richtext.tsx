@@ -30,7 +30,7 @@ const createRichTextChild = (data: IRichText) => {
   }
 
   // TODO: Handle color
-  if (color && color !== "default") {
+  if (color && color !== 'default') {
     classes.push(`text-${color}-500`)
   }
 

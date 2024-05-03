@@ -1,9 +1,8 @@
-import React from "react";
-
+import React from 'react'
 
 export type TimelineProps = {
   isLoading?: boolean
-} & React.ComponentPropsWithoutRef<"ol">;
+} & React.ComponentPropsWithoutRef<'ol'>
 
 const Timeline: React.FC<TimelineProps> = ({
   className,
@@ -11,10 +10,12 @@ const Timeline: React.FC<TimelineProps> = ({
   isLoading = false,
   ...others
 }) => {
-  const borderColor = isLoading ? "border-content3 dark:border-content2" : "border-default-500"
+  const borderColor = isLoading
+    ? 'border-content3 dark:border-content2'
+    : 'border-default-500'
   return (
     <ol
-      className={`${className ?? ""} relative border-s ${borderColor} ms-3`}
+      className={`${className ?? ''} relative border-s ${borderColor} ms-3`}
       {...others}
     >
       {children}
@@ -22,4 +23,4 @@ const Timeline: React.FC<TimelineProps> = ({
   )
 }
 
-export default Timeline;
+export default Timeline

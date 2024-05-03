@@ -10,11 +10,7 @@ import {
   PROJECT_FILTER_OPTIONS_QUERY,
   ProjectFilterOptionsQuery,
 } from '../../../../graphql/queries/FilterOpts'
-import {
-  Button,
-  SelectProps,
-  Skeleton,
-} from '@nextui-org/react'
+import { Button, SelectProps, Skeleton } from '@nextui-org/react'
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/solid'
 import {
   CodeBracketIcon,
@@ -123,7 +119,7 @@ const Projects: React.FC = () => {
   }, [data, loading, error])
 
   return (
-    <section className='transition relative my-3' id="projects">
+    <section className='transition relative my-3' id='projects'>
       <h2
         className={`${gradient} font-display text-6xl font-bold leading-normal mb-2`}
       >
