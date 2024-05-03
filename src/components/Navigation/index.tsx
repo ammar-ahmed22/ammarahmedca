@@ -2,6 +2,7 @@ import React from "react";
 import LogoIconGradient from "../../assets/images/LogoIcon-gradient.png"
 import DesktopNavigation from "./Desktop";
 import MobileNavigation from "./Mobile";
+import { Link } from "react-router-dom"
 
 
 export type NavigationProps = {
@@ -39,9 +40,9 @@ const Navigation: React.FC<NavigationProps> = ({
       <div className="max-w-5xl mx-auto md:px-5 px-3">
         <div className="py-4">
           <div className="relative flex items-center">
-            <a href="https://google.ca" className="font-display text-primary font-bold text-2xl">
+            <Link to="/" className="flex space-x-2 items-center">
               <img src={LogoIconGradient} alt="Logo for ammarahmed.ca" className="md:size-12 size-8"/>
-            </a>
+            </Link>
             <DesktopNavigation 
               active={active}
               options={options}

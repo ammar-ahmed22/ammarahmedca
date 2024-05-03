@@ -1,5 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react'
 import Signature from '../../../components/Signature'
+import { useTextGradient } from '../../../hooks/styles'
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
@@ -17,6 +18,8 @@ const Hero: React.FC = () => {
       window.removeEventListener("resize", updateSignatureWidth)
     }
   }, [])
+
+  const textGradient = useTextGradient({ dir: "r", from: "primary-500", to: "secondary-300" });
   return (
     <section className='min-h-screen transition relative' ref={ref} >
       <h1 className='font-display font-extrabold text-7xl text-right pt-[15vh]'>
@@ -24,7 +27,7 @@ const Hero: React.FC = () => {
       </h1>
       <h2 className='font-display font-extrabold text-6xl text-right '>
         I'm{' '}
-        <span className='inline-block bg-gradient-to-r from-primary-500 to-secondary-300 text-transparent bg-clip-text'>
+        <span className={`${textGradient}`}>
           Ammar
         </span>
       </h2>
@@ -32,7 +35,7 @@ const Hero: React.FC = () => {
         Engineering Student @{' '}
         <a
           href='https://google.ca'
-          className='inline-block bg-gradient-to-r from-primary-500 to-secondary-300 text-transparent bg-clip-text hover:underline decoration-primary-500'
+          className={`${textGradient} hover:underline decoration-primary-500`}
         >
           University of Waterloo
         </a>

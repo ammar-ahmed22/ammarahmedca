@@ -19,6 +19,7 @@ module.exports = {
   plugins: [
     nextui({
       prefix: 'ammarahmed',
+      addCommonColors: true,
       themes: {
         light: {
           colors: {
@@ -66,7 +67,7 @@ module.exports = {
               800: '#2d1737',
               900: '#150618',
               foreground: '#FFFFFF',
-              DEFAULT: '#72499d',
+              DEFAULT: '#aa85c8',
             },
             secondary: {
               50: '#e6e9ff',
