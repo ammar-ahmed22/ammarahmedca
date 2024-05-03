@@ -12,11 +12,13 @@ const Router: React.FC = () => {
       index: true,
       path: '/',
       active: 'home',
+      title: 'Home',
       element: <Landing />,
     },
     {
       path: '/about',
       active: 'about',
+      title: 'About',
       element: <About />,
     },
     {

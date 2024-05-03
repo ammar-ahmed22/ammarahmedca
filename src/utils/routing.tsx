@@ -7,6 +7,7 @@ export type DOMRouterOpts = Parameters<typeof createBrowserRouter>[1]
 export type PageRouteObject = RouteObject & {
   element: React.ReactNode
   active?: string
+  title?: string
 }
 
 export const createPageBrowserRouter = (
@@ -14,10 +15,14 @@ export const createPageBrowserRouter = (
   opts?: DOMRouterOpts,
 ) => {
   const parsed: RouteObject[] = routes.map(
-    ({ element, active, ...others }) => {
+    ({ element, active, title, ...others }) => {
       return {
         ...others,
-        element: <Page active={active}>{element}</Page>,
+        element: (
+          <Page active={active} title={title}>
+            {element}
+          </Page>
+        ),
       }
     },
   )

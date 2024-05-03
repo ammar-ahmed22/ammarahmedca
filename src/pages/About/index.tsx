@@ -71,7 +71,7 @@ const About: React.FC = () => {
       </div>
       <div className='flex flex-col items-center justify-center w-full mb-12'>
         <Image
-          className='max-w-3xl mb-2'
+          className='w-full md:max-w-3xl mb-2'
           src={Wedding}
           isBlurred
           isZoomed
