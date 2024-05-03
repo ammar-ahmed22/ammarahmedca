@@ -119,7 +119,7 @@ const Projects: React.FC = () => {
   }, [data, loading, error])
 
   return (
-    <section className='transition relative my-3' id='projects'>
+    <section className='transition relative my-8' id='projects'>
       <h2
         className={`${gradient} font-display text-6xl font-bold leading-normal mb-2`}
       >
