@@ -30,9 +30,9 @@ const createRichTextChild = (data: IRichText) => {
   }
 
   // TODO: Handle color
-  // if (color && color !== "default") {
-  //   classes.push(`text-[${color}]`)
-  // }
+  if (color && color !== "default") {
+    classes.push(`text-${color}-500`)
+  }
 
   if (data.href) {
     return (

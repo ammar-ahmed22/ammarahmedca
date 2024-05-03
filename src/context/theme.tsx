@@ -26,17 +26,17 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   const [theme, setTheme] = useState<Theme>(defaultTheme)
 
   useEffect(() => {
-    const body = document.querySelector('body') as HTMLElement
-    if (body) {
-      body.classList.remove(theme === 'dark' ? 'light' : 'dark')
-      body.classList.add(theme)
+    const root = document.querySelector(':root') as HTMLElement
+    if (root) {
+      root.classList.remove(theme === 'dark' ? 'light' : 'dark')
+      root.classList.add(theme)
     }
   }, [theme])
 
   useEffect(() => {
-    const body = document.querySelector('body') as HTMLElement
-    if (body) {
-      body.classList.add(
+    const root = document.querySelector(':root') as HTMLElement
+    if (root) {
+      root.classList.add(
         ...defaultClasses.split(' ').map((s) => s.trim()),
       )
     }

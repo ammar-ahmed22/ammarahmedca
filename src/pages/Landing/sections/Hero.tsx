@@ -25,7 +25,7 @@ const Hero: React.FC = () => {
     to: 'secondary-300',
   })
   return (
-    <section className='min-h-screen transition relative' ref={ref}>
+    <section className='min-h-screen transition relative' ref={ref} id="hero">
       <h1 className='font-display font-extrabold text-7xl text-right pt-[15vh]'>
         Hello 👋
       </h1>

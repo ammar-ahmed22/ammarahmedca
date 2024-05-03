@@ -14,7 +14,7 @@ import {
   ArrowUpRightIcon,
   CalendarIcon,
 } from '@heroicons/react/24/solid'
-import { format } from 'date-fns'
+import { format, intlFormat } from 'date-fns'
 import RichText from '../../../../components/RichText'
 
 export type ProjectCardProps = {
@@ -61,12 +61,16 @@ export const ProjectCardSkeleton: React.FC = () => {
 }
 
 const ProjectCard: React.FC<ProjectCardProps> = ({ project }) => {
-  const start = format(
+  const start = intlFormat(
     new Date(project.dateRange.start),
-    'LLLL, yyyy',
+    {
+      month: "long",
+      year: "numeric",
+      timeZone: "UTC"
+    }
   )
   const end = project.dateRange.end
-    ? format(new Date(project.dateRange.end), 'LLLL, yyyy')
+    ? intlFormat(new Date(project.dateRange.end), { month: "long", year: "numeric", timeZone: "UTC" })
     : 'Present'
   return (
     <Card key={`project-${project.id}`} className='py-8'>
