@@ -1,15 +1,15 @@
 import React from 'react'
 import { NextUIProvider } from '@nextui-org/system'
 import { ThemeProvider } from '../context/theme'
-import { ApolloProvider } from "@apollo/client"
+import { ApolloProvider } from '@apollo/client'
 import { useClient } from '../hooks/client'
 
 const Providers: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const client = useClient();
+  const client = useClient()
   return (
-    <ApolloProvider client={client} >
+    <ApolloProvider client={client}>
       <NextUIProvider>
         <ThemeProvider
           defaultClasses='bg-background text-foreground min-h-screen'

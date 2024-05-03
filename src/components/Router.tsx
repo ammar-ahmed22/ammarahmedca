@@ -10,23 +10,19 @@ const Router: React.FC = () => {
     {
       index: true,
       path: '/',
-      active: "home",
+      active: 'home',
       element: <Landing />,
     },
     {
-      path: "/about",
-      active: "about",
-      element: (
-        <>About page</>
-      )
+      path: '/about',
+      active: 'about',
+      element: <>About page</>,
     },
     {
-      path: "/blog",
-      active: "blog",
-      element: (
-        <>Blog page</>
-      )
-    }
+      path: '/blog',
+      active: 'blog',
+      element: <>Blog page</>,
+    },
   ])
 
   return <RouterProvider router={router} />

@@ -1,4 +1,4 @@
-import { gql } from "@apollo/client";
+import { gql } from '@apollo/client'
 
 export const RICH_TEXT_FRAGMENTS = gql`
   fragment complete on RichText {
@@ -19,4 +19,4 @@ export const RICH_TEXT_FRAGMENTS = gql`
     italic
     language
   }
-`;
+`

@@ -21,7 +21,10 @@ export const useTheme = (): UseThemeResponse => {
   }
 }
 
-export function useThemeValue<T = any>(lightValue: T, darkValue: T): T {
+export function useThemeValue<T = any>(
+  lightValue: T,
+  darkValue: T,
+): T {
   const { theme } = useContext(ThemeContext)
   return theme === 'light' ? lightValue : darkValue
 }

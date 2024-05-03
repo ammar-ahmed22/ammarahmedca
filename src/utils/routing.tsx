@@ -5,8 +5,8 @@ import Page from '../components/Page'
 
 export type DOMRouterOpts = Parameters<typeof createBrowserRouter>[1]
 export type PageRouteObject = RouteObject & {
-  element: React.ReactNode,
-  active?: string;
+  element: React.ReactNode
+  active?: string
 }
 
 export const createPageBrowserRouter = (

@@ -4,32 +4,33 @@ import { useTextGradient } from '../../../hooks/styles'
 
 const Hero: React.FC = () => {
   const ref = useRef<HTMLDivElement>(null)
-  const [sigWidth, setSigWidth] = useState(602);
+  const [sigWidth, setSigWidth] = useState(602)
   const updateSignatureWidth = () => {
     if (ref.current) {
-      setSigWidth(ref.current.clientWidth);
+      setSigWidth(ref.current.clientWidth)
     }
   }
   useEffect(() => {
-    updateSignatureWidth();
-    window.addEventListener("resize", updateSignatureWidth)
+    updateSignatureWidth()
+    window.addEventListener('resize', updateSignatureWidth)
 
     return () => {
-      window.removeEventListener("resize", updateSignatureWidth)
+      window.removeEventListener('resize', updateSignatureWidth)
     }
   }, [])
 
-  const textGradient = useTextGradient({ dir: "r", from: "primary-500", to: "secondary-300" });
+  const textGradient = useTextGradient({
+    dir: 'r',
+    from: 'primary-500',
+    to: 'secondary-300',
+  })
   return (
-    <section className='min-h-screen transition relative' ref={ref} >
+    <section className='min-h-screen transition relative' ref={ref}>
       <h1 className='font-display font-extrabold text-7xl text-right pt-[15vh]'>
         Hello 👋
       </h1>
       <h2 className='font-display font-extrabold text-6xl text-right '>
-        I'm{' '}
-        <span className={`${textGradient}`}>
-          Ammar
-        </span>
+        I'm <span className={`${textGradient}`}>Ammar</span>
       </h2>
       <p className='text-2xl text-right text-default-500'>
         Engineering Student @{' '}
