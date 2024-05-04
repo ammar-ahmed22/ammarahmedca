@@ -18,7 +18,7 @@ import {
   TagIcon,
 } from '@heroicons/react/24/outline'
 import { usePaginatedArray } from '../../../../hooks/paginated'
-import Filter from '../../../../components/Filter'
+import Filter, { FilterSkeleton } from '../../../../components/Filter'
 import ProjectCard, { ProjectCardSkeleton } from './ProjectCard'
 import ProjectSearch from './ProjectSearch'
 
@@ -172,12 +172,7 @@ const Projects: React.FC = () => {
       <div className='grid md:grid-cols-3 grid-cols-1 gap-4 mb-4'>
         {filterOptsResp.loading &&
           new Array(3).fill(0).map((_, idx) => {
-            return (
-              <Skeleton
-                key={`filter-skel-${idx}`}
-                className='w-full h-10 rounded-small'
-              />
-            )
+            return <FilterSkeleton key={`filter-skel-${idx}`} />
           })}
         {filterOptsResp.data && !searching && (
           <>

@@ -4,6 +4,7 @@ import {
   SelectItem,
   SelectProps,
   SelectSection,
+  Skeleton,
 } from '@nextui-org/react'
 import { TrashIcon } from '@heroicons/react/24/solid'
 
@@ -76,6 +77,10 @@ const Filter: React.FC<FilterProps> = ({
       </SelectSection>
     </Select>
   )
+}
+
+export const FilterSkeleton: React.FC = () => {
+  return <Skeleton className='w-full h-10 rounded-small' />
 }
 
 export default Filter
