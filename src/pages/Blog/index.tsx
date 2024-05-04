@@ -51,7 +51,7 @@ const Blog: React.FC = () => {
           startContent={<MagnifyingGlassIcon className="size-4" />}
           isClearable
         /> */}
-        <div className='grid grid-cols-2 w-full gap-4'>
+        <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-4'>
           <BlogTags
             onSelectionChange={(values: string[]) => setTags(values)}
           />
