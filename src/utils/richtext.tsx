@@ -1,7 +1,9 @@
 import React from 'react'
 import { IRichText } from '@ammarahmedca/types'
 import { Code } from '@nextui-org/react'
-import MathJax from 'react-mathjax'
+// import MathJax from 'react-mathjax'
+// import { MathJax as BetterMathJax } from 'better-react-mathjax'
+import Latex from '../components/Latex'
 
 const createRichTextChild = (data: IRichText) => {
   let classes: string[] = []
@@ -52,11 +54,7 @@ const createRichTextChild = (data: IRichText) => {
   }
 
   if (data.inlineLatex) {
-    return (
-      <span>
-        <MathJax.Node inline formula={data.plainText}></MathJax.Node>
-      </span>
-    )
+    return <Latex expression={data.plainText} />
   }
   return <span className={classes.join(' ')}>{data.plainText}</span>
 }

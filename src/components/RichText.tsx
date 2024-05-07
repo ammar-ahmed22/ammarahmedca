@@ -1,7 +1,6 @@
 import React, { useMemo } from 'react'
 import type { IRichText } from '@ammarahmedca/types'
-import { createRichTextChildren } from '../hooks/richtext'
-import MathJax from 'react-mathjax'
+import { createRichTextChildren } from '../utils/richtext'
 
 export type RichTextProps<C extends React.ElementType> = {
   as?: C
@@ -17,11 +16,7 @@ const RichText = <C extends React.ElementType>({
   const children: React.ReactNode[] = useMemo(() => {
     return createRichTextChildren(data)
   }, [data])
-  return (
-    <Component {...props}>
-      <MathJax.Provider>{children}</MathJax.Provider>
-    </Component>
-  )
+  return <Component {...props}>{children}</Component>
 }
 
 export default RichText

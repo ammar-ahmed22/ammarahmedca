@@ -10,7 +10,7 @@ import {
   PROJECT_FILTER_OPTIONS_QUERY,
   ProjectFilterOptionsQuery,
 } from '../../../../graphql/queries/FilterOpts'
-import { Button, SelectProps, Skeleton } from '@nextui-org/react'
+import { Button, SelectProps } from '@nextui-org/react'
 import { ArrowDownIcon, ArrowUpIcon } from '@heroicons/react/24/solid'
 import {
   CodeBracketIcon,

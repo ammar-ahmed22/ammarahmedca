@@ -71,6 +71,7 @@ export const BLOG_METADATA_QUERY: DocumentNode = gql`
       tags
     }
   }
+
   ${RICH_TEXT_FRAGMENTS}
 `
 

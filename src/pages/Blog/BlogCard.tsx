@@ -52,7 +52,8 @@ const BlogCard: React.FC<BlogCardProps> = ({ metadata }) => {
       className='py-8'
       isPressable
       as={Link}
-      to='/blog/nigger'
+      to={`/blog/${metadata.slug}`}
+      state={metadata}
       classNames={{
         base: 'hover:bg-content2',
       }}
