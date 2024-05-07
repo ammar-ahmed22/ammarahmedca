@@ -62,7 +62,7 @@ const Blog: React.FC = () => {
         <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full'>
           <div className='flex flex-col space-y-4'>
             {loading &&
-              data &&
+              !data &&
               new Array(isMobile ? 4 : 2).fill(0).map((_, idx) => {
                 return (
                   <BlogCardSkeleton
