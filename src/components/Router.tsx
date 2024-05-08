@@ -7,6 +7,7 @@ import Landing from '../pages/Landing'
 import About from '../pages/About'
 import Blog from '../pages/Blog'
 import Post from '../pages/Post'
+import Error from './Error'
 
 const Router: React.FC = () => {
   const router = createPageBrowserRouter([
@@ -33,6 +34,15 @@ const Router: React.FC = () => {
       path: '/blog/:slug',
       active: 'blog',
       element: <Post />,
+    },
+    {
+      path: '*',
+      element: (
+        <Error
+          code={404}
+          message={'The page you are looking for does not exist.'}
+        />
+      ),
     },
   ])
 

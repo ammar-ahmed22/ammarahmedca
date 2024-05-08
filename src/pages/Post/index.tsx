@@ -10,6 +10,7 @@ import PostMetadata, { PostMetadataSkeleton } from './PostMetadata'
 import PostContent from './PostContent'
 import { Button } from '@nextui-org/react'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
+import Error from '../../components/Error'
 
 const Post: React.FC = () => {
   const [metadata, setMetadata] = useState<IPostMetadata>()
@@ -50,7 +51,10 @@ const Post: React.FC = () => {
       </div>
       {!metadata && loading && <PostMetadataSkeleton />}
       {!metadata && !loading && error && (
-        <>Error 404: Post not found!</>
+        <Error
+          code={404}
+          message={`Post: '${params.slug}' not found`}
+        />
       )}
 
       {metadata && (
