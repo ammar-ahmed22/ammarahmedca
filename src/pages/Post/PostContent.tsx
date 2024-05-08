@@ -25,7 +25,6 @@ import {
   ModalContent,
   ModalBody,
   useDisclosure,
-  Skeleton,
 } from '@nextui-org/react'
 import Latex from '../../components/Latex'
 import TextSkeleton from '../../components/TextSkeleton'

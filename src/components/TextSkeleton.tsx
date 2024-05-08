@@ -32,11 +32,8 @@ const TextSkeleton: React.FC<TextSkeletonProps> = ({
   ...props
 }) => {
   const [renderLines, setRenderLines] = useState(1)
-  // if (randomLines && !max) throw new Error(`max prop must be passed when using random lines!`)
-  // if (randomLines && max && min >= max) throw new Error(`min must be less than max`)
-  // if (randomLines && (min < 1)) throw new Error("min must be atleast 1")
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (noOfLines) {
       if (noOfLines < 1)
         throw new Error(
@@ -54,10 +51,6 @@ const TextSkeleton: React.FC<TextSkeletonProps> = ({
       setRenderLines(randomInteger(min, max))
     }
   }, [noOfLines, randomLines, max, min])
-
-  // if (randomLines) {
-  //   noOfLines = randomInteger(min, max);
-  // }
 
   if (renderLines === 1) {
     return (
