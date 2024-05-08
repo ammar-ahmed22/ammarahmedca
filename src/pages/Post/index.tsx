@@ -6,7 +6,7 @@ import {
   POST_METADATA_BY_SLUG,
   PostMetadataBySlug,
 } from '../../graphql/queries/Post'
-import PostMetadata from './PostMetadata'
+import PostMetadata, { PostMetadataSkeleton } from './PostMetadata'
 import PostContent from './PostContent'
 import { Button } from '@nextui-org/react'
 import { ArrowLeftIcon } from '@heroicons/react/24/solid'
@@ -48,7 +48,7 @@ const Post: React.FC = () => {
           Back
         </Button>
       </div>
-      {!metadata && loading && <>Loading...</>}
+      {!metadata && loading && <PostMetadataSkeleton />}
       {!metadata && !loading && error && (
         <>Error 404: Post not found!</>
       )}

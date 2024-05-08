@@ -25,8 +25,10 @@ import {
   ModalContent,
   ModalBody,
   useDisclosure,
+  Skeleton,
 } from '@nextui-org/react'
 import Latex from '../../components/Latex'
+import TextSkeleton from '../../components/TextSkeleton'
 
 export type PostContentProps = {
   slug: string
@@ -48,25 +50,47 @@ export const blockClasses: {
   equation: 'md:text-lg text-base',
 }
 
+const PostContentSkeleton: React.FC = () => {
+  return (
+    <>
+      <TextSkeleton
+        height='h-4'
+        spacing='space-y-3'
+        randomLines
+        min={3}
+        max={8}
+      />
+      <TextSkeleton height='h-8' width='w-2/5' noOfLines={1} />
+      <TextSkeleton
+        height='h-4'
+        spacing='space-y-3'
+        randomLines
+        min={3}
+        max={8}
+      />
+      <TextSkeleton height='h-6' width='w-3/5' noOfLines={1} />
+      <TextSkeleton
+        height='h-4'
+        spacing='space-y-3'
+        randomLines
+        min={3}
+        max={8}
+      />
+    </>
+  )
+}
+
 const PostContent: React.FC<PostContentProps> = ({ slug }) => {
-  const { data, loading, error } = useQuery<
+  const { data, loading } = useQuery<
     PostContentBySlug.Response,
     PostContentBySlug.Variables
   >(POST_CONTENT_BY_SLUG, { variables: { slug } })
   const codeStyle = useThemeValue(oneLight, oneDark)
   const imageModalDisclosure = useDisclosure()
-  React.useEffect(() => {
-    if (!loading && data) {
-      console.log(data)
-    }
-
-    if (error) {
-      console.log(error)
-    }
-  }, [data, loading, error])
 
   return (
     <div className='flex flex-col space-y-5 mb-12'>
+      {loading && !data && <PostContentSkeleton />}
       {data &&
         data.postBySlug.content.map((block, idx) => {
           const { type, content } = block

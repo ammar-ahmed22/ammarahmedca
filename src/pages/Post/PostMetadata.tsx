@@ -2,11 +2,21 @@ import React from 'react'
 import type { IPostMetadata } from '@ammarahmedca/types'
 import { useTextGradient } from '../../hooks/styles'
 import { formatDistance } from 'date-fns'
-import { Chip } from '@nextui-org/react'
+import { Chip, Skeleton } from '@nextui-org/react'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
 
 export type PostMetadataProps = {
   metadata: IPostMetadata
+}
+
+export const PostMetadataSkeleton: React.FC = () => {
+  return (
+    <div className='flex flex-col space-y-3 my-8'>
+      <Skeleton className='h-4 w-16 rounded-lg' />
+      <Skeleton className='h-12 w-4/5 rounded-lg' />
+      <Skeleton className='h-6 w-24 rounded-lg' />
+    </div>
+  )
 }
 
 const PostMetadata: React.FC<PostMetadataProps> = ({ metadata }) => {
