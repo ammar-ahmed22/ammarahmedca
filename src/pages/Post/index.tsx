@@ -1,94 +1,70 @@
-import React, { useRef } from "react";
+import React, { useState, useEffect } from 'react'
+import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { IPostMetadata } from '@ammarahmedca/types'
+import { useLazyQuery } from '@apollo/client'
 import {
-  Text,
-  Box,
-  Button,
-  SkeletonText,
-  Wrap,
-  WrapItem,
-  Tag,
-} from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-
-import { useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "@apollo/client";
-import {
-  BLOG_POST_QUERY,
-  BlogPostQuery,
-} from "@website/graphql/queries/Content";
-import { useRenderedBlocks } from "./helpers";
-import { styles } from "./styles/index.styles";
-import { formatDistance } from "date-fns";
-import { Helmet } from "react-helmet";
+  POST_METADATA_BY_SLUG,
+  PostMetadataBySlug,
+} from '../../graphql/queries/Post'
+import PostMetadata, { PostMetadataSkeleton } from './PostMetadata'
+import PostContent from './PostContent'
+import { Button } from '@nextui-org/react'
+import { ArrowLeftIcon } from '@heroicons/react/24/solid'
+import Error from '../../components/Error'
 
 const Post: React.FC = () => {
-  // const postName = useLoaderData() as string;
-  const { slug } = useParams();
-  const navigate = useNavigate();
+  const [metadata, setMetadata] = useState<IPostMetadata>()
+  const params = useParams()
+  const location = useLocation()
+  const [getMetadata, { data, loading, error }] = useLazyQuery<
+    PostMetadataBySlug.Response,
+    PostMetadataBySlug.Variables
+  >(POST_METADATA_BY_SLUG)
+  const nav = useNavigate()
 
-  const handleBackClick = () => navigate("/blog");
+  useEffect(() => {
+    if (location && location.state) {
+      setMetadata(location.state as IPostMetadata)
+    } else {
+      if (params.slug) {
+        getMetadata({ variables: { slug: params.slug } })
+      }
+    }
+  }, [location, params, getMetadata])
 
-  const { data, loading } = useQuery<
-    BlogPostQuery.Response,
-    BlogPostQuery.Variables
-  >(BLOG_POST_QUERY, { variables: { slug: slug as string } });
-
-  const renderedBlocks = useRenderedBlocks(data?.postBySlug.content);
-  const headerRef = useRef<HTMLDivElement | null>(null);
+  useEffect(() => {
+    if (data) {
+      setMetadata(data.postBySlug.metadata)
+    }
+  }, [data])
 
   return (
-    <>
-      {loading && (
-        <Box mt="5vh">
-          <SkeletonText skeletonHeight={20} noOfLines={1} mb="4" />
-          <SkeletonText skeletonHeight={4} noOfLines={1} mb="12" />
-
-          <SkeletonText skeletonHeight={8} noOfLines={1} mb="4" />
-          <SkeletonText noOfLines={7} mb="4" />
-          <SkeletonText noOfLines={5} mb="4" />
-
-          <SkeletonText skeletonHeight={8} noOfLines={1} mb="4" />
-          <SkeletonText noOfLines={5} mb="4" />
-        </Box>
+    <main className='relative transition min-h-screen'>
+      <div className='flex w-full justify-start mt-12'>
+        <Button
+          variant='light'
+          startContent={<ArrowLeftIcon className='size-4' />}
+          onPress={() => nav('/blog')}
+        >
+          Back
+        </Button>
+      </div>
+      {!metadata && loading && <PostMetadataSkeleton />}
+      {!metadata && !loading && error && (
+        <Error
+          code={404}
+          message={`Post: '${params.slug}' not found`}
+        />
       )}
-      {!loading && data && !!renderedBlocks.length && (
-        <Box my={5} ref={headerRef}>
-          <Helmet>
-            <title>Blog | {data.postBySlug.metadata.name}</title>
-          </Helmet>
-          <Button
-            leftIcon={<ArrowBackIcon />}
-            mt={4}
-            variant="ghost"
-            onClick={handleBackClick}
-          >
-            Back
-          </Button>
-          <Text {...styles.title}>{data.postBySlug.metadata.name}</Text>
-          <Text {...styles.info}>
-            {formatDistance(
-              new Date(data.postBySlug.metadata.date),
-              new Date(),
-              { addSuffix: true }
-            )}{" "}
-            &bull; {data.postBySlug.metadata.category}
-          </Text>
-          <Wrap mt="2">
-            {data.postBySlug.metadata.tags.map((tag) => {
-              return (
-                <WrapItem key={tag}>
-                  <Tag variant="subtle" colorScheme="brand.purple">
-                    {tag}
-                  </Tag>
-                </WrapItem>
-              );
-            })}
-          </Wrap>
-          <Box mt="10">{renderedBlocks}</Box>
-        </Box>
-      )}
-    </>
-  );
-};
 
-export default Post;
+      {metadata && (
+        <>
+          <PostMetadata metadata={metadata} />
+          <PostContent slug={params.slug!} />
+        </>
+      )}
+    </main>
+  )
+}
+
+export default Post
