@@ -12,17 +12,17 @@ const Footer: React.FC = () => {
   const iconLinks: IconLink[] = [
     {
       icon: <FaGithub className='size-6' />,
-      href: 'http',
+      href: 'https://github.com/ammar-ahmed22',
       aria: 'Link to GitHub account',
     },
     {
       icon: <FaLinkedin className='size-6' />,
-      href: 'http',
+      href: 'https://www.linkedin.com/in/ammarahmed2203/',
       aria: 'Link to LinkedIn profile',
     },
     {
       icon: <EnvelopeIcon className='size-6' />,
-      href: 'http',
+      href: 'mailto:ammar.ahmed1@uwaterloo.ca',
       aria: 'Link to mail me',
     },
   ]
