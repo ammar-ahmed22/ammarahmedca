@@ -4,6 +4,7 @@ import { useTextGradient } from '../../hooks/styles'
 import { formatDistance } from 'date-fns'
 import { Chip, Skeleton } from '@nextui-org/react'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
+import { Helmet } from 'react-helmet'
 
 export type PostMetadataProps = {
   metadata: IPostMetadata
@@ -36,6 +37,9 @@ const PostMetadata: React.FC<PostMetadataProps> = ({ metadata }) => {
   )
   return (
     <div className='flex flex-col space-y-3 my-8'>
+      <Helmet>
+        <title>Blog | {metadata.name}</title>
+      </Helmet>
       <p className='text-base md:text-lg font-extrabold uppercase'>
         {metadata.category}
       </p>
