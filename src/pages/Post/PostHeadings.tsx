@@ -26,17 +26,13 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
   }, [headings])
   const [active, setActive] = useState(-1)
 
-  const handleClick = (
-    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
-  ) => {
-    e.preventDefault()
-    const targetId = e.currentTarget.getAttribute('href')
+  const handleClick = (targetId: string) => {
     const navHeight = document.querySelector(
       '#mainNav',
     ) as HTMLElement | null
     let offset = 0
     if (navHeight) offset = navHeight.offsetHeight
-    if (targetId) scrollToElement(targetId, offset)
+    if (targetId) scrollToElement('#' + targetId, offset)
   }
 
   const isXl = useBreakpointValue({ default: false, xl: true })
@@ -93,7 +89,18 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
                 key={id}
                 className={`ml-${2 * levelDiff + 2 * Math.max(levelDiff - 1, 0)} ${idx === active ? 'text-primary' : 'hover:text-default-800'}`}
               >
-                <a href={`#${id}`} onClick={handleClick}>
+                <a
+                  href={`#${id}`}
+                  onClick={(
+                    e: React.MouseEvent<
+                      HTMLAnchorElement,
+                      MouseEvent
+                    >,
+                  ) => {
+                    e.preventDefault()
+                    handleClick(id)
+                  }}
+                >
                   {heading.plainText}
                 </a>
               </li>
@@ -128,9 +135,24 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
                   return (
                     <DropdownItem
                       key={id}
-                      className={`pl-${2 + offset} ${active === idx ? 'text-primary' : ''}`}
+                      classNames={{
+                        title: `ml-${offset} ${active === idx ? 'text-primary' : ''}`,
+                      }}
+                      onPress={() => {
+                        handleClick(id)
+                      }}
                     >
-                      <a href={`#${id}`} onClick={handleClick}>
+                      <a
+                        href={`#${id}`}
+                        onClick={(
+                          e: React.MouseEvent<
+                            HTMLAnchorElement,
+                            MouseEvent
+                          >,
+                        ) => {
+                          e.preventDefault()
+                        }}
+                      >
                         {heading.plainText}
                       </a>
                     </DropdownItem>
