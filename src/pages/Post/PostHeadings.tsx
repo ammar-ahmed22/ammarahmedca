@@ -14,10 +14,7 @@ import {
   DropdownMenu,
   DropdownSection,
 } from '@nextui-org/react'
-import {
-  EllipsisVerticalIcon,
-  Bars2Icon,
-} from '@heroicons/react/24/solid'
+import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
 
 export type PostHeadingsProps = {
   headings: Heading[]
