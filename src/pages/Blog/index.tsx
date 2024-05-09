@@ -11,6 +11,7 @@ import {
 import { useQuery } from '@apollo/client'
 import BlogCard, { BlogCardSkeleton } from './BlogCard'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
+import { useDebounced } from '../../hooks/debounce'
 
 const Blog: React.FC = () => {
   const textGradient = useTextGradient({
@@ -20,6 +21,9 @@ const Blog: React.FC = () => {
   })
   const [tags, setTags] = useState<string[]>([])
   const [category, setCategory] = useState<string | undefined>()
+  const [query, debouncedQuery, setQuery] = useDebounced('', {
+    delay: 400,
+  })
 
   const { data, loading } = useQuery<
     BlogMetadataQuery.Response,
@@ -29,6 +33,7 @@ const Blog: React.FC = () => {
       onlyPublished: true,
       category,
       tags,
+      query: debouncedQuery,
     },
   })
   const isMobile = useBreakpointValue({ default: true, md: false })
@@ -41,7 +46,7 @@ const Blog: React.FC = () => {
         >
           Blog
         </h1>
-        <p className='text-default-500 text-xl w-3/5 text-center'>
+        <p className='text-default-500 text-xl md:w-3/5 w-full text-center'>
           Sometimes I like to write about things I've worked on, my
           experiences or anything else of interest to me.
         </p>
@@ -51,6 +56,8 @@ const Blog: React.FC = () => {
           label='Search'
           startContent={<MagnifyingGlassIcon className='size-4' />}
           isClearable
+          value={query}
+          onValueChange={setQuery}
         />
         <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-4'>
           <BlogTags
