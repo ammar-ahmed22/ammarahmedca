@@ -4,6 +4,7 @@ import Footer from './Footer'
 import { useLocation } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import ReactGA from 'react-ga4'
+import BackgroundDots from './BackgroundDots'
 
 export type PageProps = {
   children: React.ReactNode
@@ -26,9 +27,11 @@ const Page: React.FC<PageProps> = ({ children, active, title }) => {
         <title>{title ?? 'Ammar Ahmed'}</title>
       </Helmet>
       <Navigation active={active} />
-      <main className='mx-auto max-w-4xl md:px-5 px-3'>
-        {children}
-      </main>
+      <BackgroundDots containerClassName='h-full'>
+        <main className='mx-auto max-w-4xl md:px-5 px-3'>
+          {children}
+        </main>
+      </BackgroundDots>
       <Footer />
     </>
   )

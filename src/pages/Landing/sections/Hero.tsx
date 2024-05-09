@@ -13,9 +13,11 @@ const Hero: React.FC = () => {
   useEffect(() => {
     updateSignatureWidth()
     window.addEventListener('resize', updateSignatureWidth)
+    window.addEventListener('load', updateSignatureWidth)
 
     return () => {
       window.removeEventListener('resize', updateSignatureWidth)
+      window.removeEventListener('load', updateSignatureWidth)
     }
   }, [])
 
@@ -26,7 +28,7 @@ const Hero: React.FC = () => {
   })
   return (
     <section
-      className='min-h-screen transition relative'
+      className='min-h-screen transition relative w-full'
       ref={ref}
       id='hero'
     >
