@@ -1,5 +1,5 @@
-import { gql, DocumentNode } from "@apollo/client";
-import { ISkill } from "@ammarahmedca/types";
+import { gql, DocumentNode } from '@apollo/client'
+import { ISkill } from '@ammarahmedca/types'
 
 export const SKILLS_QUERY: DocumentNode = gql`
   query Skills($onlyType: String) {
@@ -9,14 +9,14 @@ export const SKILLS_QUERY: DocumentNode = gql`
       type
     }
   }
-`;
+`
 
 export namespace SkillsQuery {
   export interface Response {
-    skills: ISkill[];
+    skills: ISkill[]
   }
 
   export interface Variables {
-    onlyType?: string;
+    onlyType?: string
   }
 }

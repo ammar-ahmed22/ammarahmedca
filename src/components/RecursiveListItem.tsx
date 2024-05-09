@@ -1,40 +1,44 @@
-import React from "react";
-import { ListItem, OrderedList, UnorderedList } from "@chakra-ui/react";
-import { IListItem } from "@ammarahmedca/types";
-import RichText from "./RichText";
+import React from 'react'
+import RichText from './RichText'
+import { IListItem } from '@ammarahmedca/types'
+import { blockClasses } from '../pages/Post/PostContent'
 
-type RecursiveListItemProps = {
-  data: IListItem;
-  listType: "numbered_list" | "bulleted_list";
-};
+export type RecursiveListItemProps = {
+  item: IListItem
+  listType: 'numbered_list' | 'bulleted_list'
+}
 
 const RecursiveListItem: React.FC<RecursiveListItemProps> = ({
-  data,
+  item,
   listType,
 }) => {
   return (
-    <ListItem>
-      <RichText data={data.content} />
-      {data.children &&
-        !!data.children.length &&
-        listType === "numbered_list" && (
-          <OrderedList>
-            {data.children.map((child) => {
-              return <RecursiveListItem data={child} listType={listType} />;
+    <li>
+      <RichText data={item.content} as='span' />
+      {item.children &&
+        !!item.children.length &&
+        listType === 'numbered_list' && (
+          <ol className={blockClasses[listType]}>
+            {item.children.map((item) => {
+              return (
+                <RecursiveListItem item={item} listType={listType} />
+              )
             })}
-          </OrderedList>
+          </ol>
         )}
-      {data.children &&
-        !!data.children.length &&
-        listType === "bulleted_list" && (
-          <UnorderedList>
-            {data.children.map((child) => {
-              return <RecursiveListItem data={child} listType={listType} />;
+      {item.children &&
+        !!item.children.length &&
+        listType === 'bulleted_list' && (
+          <ul className={blockClasses[listType]}>
+            {item.children.map((item) => {
+              return (
+                <RecursiveListItem item={item} listType={listType} />
+              )
             })}
-          </UnorderedList>
+          </ul>
         )}
-    </ListItem>
-  );
-};
+    </li>
+  )
+}
 
-export default RecursiveListItem;
+export default RecursiveListItem

@@ -1,16 +1,23 @@
-import React from "react";
-import { ApolloProvider } from "@apollo/client";
-import { useAuthorizedApolloClient } from "./hooks/authorizedApolloClient";
-import Router from "./Router";
+import React from 'react'
 
-const App: React.FC = () => {
-  const client = useAuthorizedApolloClient();
-
+function App() {
   return (
-    <ApolloProvider client={client}>
-      <Router />
-    </ApolloProvider>
-  );
-};
+    <div className='App'>
+      <header className='App-header'>
+        <p>
+          Edit <code>src/App.tsx</code> and save to reload.
+        </p>
+        <a
+          className='App-link'
+          href='https://reactjs.org'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Learn React
+        </a>
+      </header>
+    </div>
+  )
+}
 
-export default App;
+export default App

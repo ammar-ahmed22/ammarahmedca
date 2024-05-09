@@ -1,185 +1,109 @@
-import React, { useState } from "react";
-import Card from "@website/components/Card";
-import RichText from "@website/components/RichText";
-import Categories from "./Categories";
-import Tags from "./Tags";
-import {
-  Text,
-  Skeleton,
-  Box,
-  SimpleGrid,
-  Tag,
-  TagLabel,
-  TagCloseButton,
-  Wrap,
-  WrapItem,
-  Button,
-  Image,
-} from "@chakra-ui/react";
-import { ArrowBackIcon } from "@chakra-ui/icons";
-import { useQuery } from "@apollo/client";
-import { useParams, useNavigate } from "react-router-dom";
-import {
-  IPostMetadata,
-  stringToDashed,
-  dashedToTitleCase,
-} from "@ammarahmedca/types";
+import React, { useState } from 'react'
+import { useTextGradient } from '../../hooks/styles'
+// import { Input } from "@nextui-org/react";
+// import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import BlogTags from './BlogTags'
+import BlogCategories from './BlogCategories'
 import {
   BLOG_METADATA_QUERY,
   BlogMetadataQuery,
-} from "@website/graphql/queries/Metadata";
-import { formatDistance } from "date-fns";
-import { styles } from "./Blog.styles";
-
-const CustomSkeleton = () => {
-  return (
-    <>
-      {new Array(7).fill(0).map((_, idx) => {
-        return <Skeleton height="20vh" key={idx} />;
-      })}
-    </>
-  );
-};
+} from '../../graphql/queries/Metadata'
+import { useQuery } from '@apollo/client'
+import BlogCard, { BlogCardSkeleton } from './BlogCard'
+import { useBreakpointValue } from '../../hooks/mediaQuery'
 
 const Blog: React.FC = () => {
-  const { category } = useParams();
-  const navigate = useNavigate();
-  const [filterTags, setFilterTags] = useState<Set<string>>(new Set<string>());
+  const textGradient = useTextGradient({
+    dir: 'r',
+    from: 'primary-500',
+    to: 'secondary-300',
+  })
+  const [tags, setTags] = useState<string[]>([])
+  const [category, setCategory] = useState<string | undefined>()
   const { data, loading } = useQuery<
     BlogMetadataQuery.Response,
     BlogMetadataQuery.Variables
   >(BLOG_METADATA_QUERY, {
     variables: {
       onlyPublished: true,
-      category: category ? dashedToTitleCase(category) : undefined,
-      tags: [...filterTags.values()],
+      category,
+      tags,
     },
-  });
-
-  // Sorts BlogInfo array by date
-  const sortByDate = (array: IPostMetadata[]) => {
-    return [...array].sort((a, b) => {
-      if (a.date && b.date) {
-        return (b.date as unknown as number) - (a.date as unknown as number);
-      }
-
-      return 0;
-    });
-  };
-
-  const removeFilterTag = (tag: string) => {
-    setFilterTags(
-      (prev) => new Set([...prev.values()].filter((x) => x !== tag))
-    );
-  };
+  })
+  const isMobile = useBreakpointValue({ default: true, md: false })
 
   return (
-    <>
-      {category && (
-        <Button
-          variant="ghost"
-          leftIcon={<ArrowBackIcon />}
-          mt="4"
-          onClick={() => navigate("/blog")}
+    <main className='relative transition min-h-screen'>
+      <div className='flex flex-col items-center mt-[10vh] space-y-4 mb-12'>
+        <h1
+          className={`font-display font-extrabold text-5xl ${textGradient} leading-normal text-center`}
         >
-          Back
-        </Button>
-      )}
-      <Text {...styles.title}>
-        <Text {...styles.titleSpan}>
-          {category ? dashedToTitleCase(category) : "Blog"}
-        </Text>
-      </Text>
-      {!category && (
-        <Text {...styles.info}>
-          Sometimes I like to write about things I've worked on, my experiences
-          or anything else of interest to me. Check it out!
-        </Text>
-      )}
-      {!category && <Categories />}
-      {!category && (
-        <Tags filterSet={filterTags} setFilterSet={setFilterTags} />
-      )}
+          Blog
+        </h1>
+        <p className='text-default-500 text-xl w-3/5 text-center'>
+          Sometimes I like to write about things I've worked on, my
+          experiences or anything else of interest to me.
+        </p>
+        {/* TODO: Implement search in backend and come back to this. */}
+        {/* <Input 
+          placeholder="Search by name, category or tag"
+          label="Search"
+          startContent={<MagnifyingGlassIcon className="size-4" />}
+          isClearable
+        /> */}
+        <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-4'>
+          <BlogTags
+            onSelectionChange={(values: string[]) => setTags(values)}
+          />
+          <BlogCategories
+            onSelectionChange={(value?: string) => setCategory(value)}
+          />
+        </div>
+        <div className='grid grid-cols-1 md:grid-cols-2 gap-4 w-full'>
+          <div className='flex flex-col space-y-4'>
+            {loading &&
+              !data &&
+              new Array(isMobile ? 4 : 2).fill(0).map((_, idx) => {
+                return (
+                  <BlogCardSkeleton
+                    key={`blog-post-skel-left-${idx}`}
+                  />
+                )
+              })}
+            {data &&
+              data.blogMetadata
+                .filter((_, idx) => {
+                  if (isMobile) return true
+                  return idx % 2 === 0
+                })
+                .map((metadata) => {
+                  return <BlogCard metadata={metadata} />
+                })}
+          </div>
+          <div className='flex flex-col space-y-4 w-full'>
+            {!isMobile &&
+              loading &&
+              !data &&
+              new Array(2).fill(0).map((_, idx) => {
+                return (
+                  <BlogCardSkeleton
+                    size='lg'
+                    key={`blog-post-skel-right-${idx}`}
+                  />
+                )
+              })}
+            {!isMobile &&
+              data &&
+              data.blogMetadata
+                .filter((_, idx) => idx % 2 !== 0)
+                .map((metadata) => {
+                  return <BlogCard metadata={metadata} />
+                })}
+          </div>
+        </div>
+      </div>
+    </main>
+  )
+}
 
-      <Box w="100%">
-        <Text {...styles.subtitle}>
-          {category ? "" : "All "}
-          <Text {...styles.titleSpan}>Posts</Text>
-        </Text>
-        {filterTags && !!filterTags.size && (
-          <Wrap align="center">
-            <WrapItem>
-              <Text>Filtered by: </Text>
-            </WrapItem>
-            {[...filterTags.values()].map((tag) => {
-              return (
-                <WrapItem>
-                  <Tag variant="subtle" colorScheme="brand.purple" size="sm">
-                    <TagLabel>{tag}</TagLabel>
-                    <TagCloseButton onClick={() => removeFilterTag(tag)} />
-                  </Tag>
-                </WrapItem>
-              );
-            })}
-          </Wrap>
-        )}
-        <SimpleGrid columns={1} spacing="5">
-          {loading && <CustomSkeleton />}
-          {data &&
-            sortByDate(data.blogMetadata).map((metadata) => {
-              const {
-                category,
-                name,
-                slug,
-                id,
-                date,
-                description,
-                tags,
-                image,
-              } = metadata;
-              const elapsed = formatDistance(new Date(date), new Date(), {
-                addSuffix: true,
-              });
-              return (
-                <Card
-                  isLink
-                  to={`/blog/${stringToDashed(category)}/${slug}`}
-                  key={id}
-                >
-                  {image && (
-                    <Image src={image} w="100%" h="40vh" objectFit="cover" objectPosition="center" />
-                  )}
-                  <Box p="4">
-                    <Text {...styles.postTitle}>{name}</Text>
-                    <Text {...styles.postInfo}>
-                      {elapsed} &bull; {category}
-                    </Text>
-                    <RichText data={description} {...styles.postDescription} />
-                    <Wrap mt="3">
-                      {tags.map((tag, tagIdx) => {
-                        const tagKey = `${tag}-${tagIdx}`;
-                        return (
-                          <WrapItem key={tagKey}>
-                            <Tag
-                              variant="subtle"
-                              colorScheme="brand.purple"
-                              size="sm"
-                              key={tagKey}
-                            >
-                              {tag}
-                            </Tag>
-                          </WrapItem>
-                        );
-                      })}
-                    </Wrap>
-                  </Box>
-                </Card>
-              );
-            })}
-        </SimpleGrid>
-      </Box>
-    </>
-  );
-};
-
-export default Blog;
+export default Blog

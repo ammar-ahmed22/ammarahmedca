@@ -1,7 +1,7 @@
-import { gql } from "@apollo/client";
-import type { DocumentNode } from "@apollo/client";
-import { RICH_TEXT_FRAGMENTS } from "../fragments";
-import { IPostMetadata, IProjectMetadata } from "@ammarahmedca/types";
+import { gql } from '@apollo/client'
+import type { DocumentNode } from '@apollo/client'
+import { RICH_TEXT_FRAGMENTS } from '../fragments'
+import { IPostMetadata, IProjectMetadata } from '@ammarahmedca/types'
 
 export const PROJECT_METADATA_QUERY = gql`
   query ProjectMetadata(
@@ -33,18 +33,18 @@ export const PROJECT_METADATA_QUERY = gql`
     }
   }
   ${RICH_TEXT_FRAGMENTS}
-`;
+`
 
 export namespace ProjectMetadataQuery {
   export interface Response {
-    projectMetadata: IProjectMetadata[];
+    projectMetadata: IProjectMetadata[]
   }
 
   export interface Variables {
-    type?: string[];
-    languages?: string[];
-    frameworks?: string[];
-    onlyPublished?: boolean;
+    type?: string[]
+    languages?: string[]
+    frameworks?: string[]
+    onlyPublished?: boolean
   }
 }
 
@@ -71,17 +71,18 @@ export const BLOG_METADATA_QUERY: DocumentNode = gql`
       tags
     }
   }
+
   ${RICH_TEXT_FRAGMENTS}
-`;
+`
 
 export namespace BlogMetadataQuery {
   export interface Response {
-    blogMetadata: IPostMetadata[];
+    blogMetadata: IPostMetadata[]
   }
 
   export interface Variables {
-    onlyPublished?: boolean;
-    tags?: string[];
-    category?: string;
+    onlyPublished?: boolean
+    tags?: string[]
+    category?: string
   }
 }
