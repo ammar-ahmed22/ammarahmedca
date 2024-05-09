@@ -53,11 +53,13 @@ export const BLOG_METADATA_QUERY: DocumentNode = gql`
     $tags: [String!]
     $category: String
     $onlyPublished: Boolean
+    $query: String
   ) {
     blogMetadata(
       tags: $tags
       category: $category
       onlyPublished: $onlyPublished
+      query: $query
     ) {
       id
       name
@@ -84,5 +86,6 @@ export namespace BlogMetadataQuery {
     onlyPublished?: boolean
     tags?: string[]
     category?: string
+    query?: string
   }
 }

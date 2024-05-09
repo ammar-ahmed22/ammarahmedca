@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useTextGradient } from '../../hooks/styles'
-// import { Input } from "@nextui-org/react";
-// import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import { Input } from '@nextui-org/react'
+import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
 import BlogTags from './BlogTags'
 import BlogCategories from './BlogCategories'
 import {
@@ -20,6 +20,7 @@ const Blog: React.FC = () => {
   })
   const [tags, setTags] = useState<string[]>([])
   const [category, setCategory] = useState<string | undefined>()
+
   const { data, loading } = useQuery<
     BlogMetadataQuery.Response,
     BlogMetadataQuery.Variables
@@ -45,12 +46,12 @@ const Blog: React.FC = () => {
           experiences or anything else of interest to me.
         </p>
         {/* TODO: Implement search in backend and come back to this. */}
-        {/* <Input 
-          placeholder="Search by name, category or tag"
-          label="Search"
-          startContent={<MagnifyingGlassIcon className="size-4" />}
+        <Input
+          placeholder='Search by name, category or tag'
+          label='Search'
+          startContent={<MagnifyingGlassIcon className='size-4' />}
           isClearable
-        /> */}
+        />
         <div className='grid grid-cols-1 md:grid-cols-2 w-full gap-4'>
           <BlogTags
             onSelectionChange={(values: string[]) => setTags(values)}
