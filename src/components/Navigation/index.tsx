@@ -33,7 +33,10 @@ const Navigation: React.FC<NavigationProps> = ({ active }) => {
     },
   ]
   return (
-    <div className='sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 border-b border-slate-900/10 dark:border-slate-200/10'>
+    <div
+      className='sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 border-b border-slate-900/10 dark:border-slate-200/10'
+      id='mainNav'
+    >
       <div className='max-w-5xl mx-auto md:px-5 px-3'>
         <div className='py-4'>
           <div className='relative flex items-center'>

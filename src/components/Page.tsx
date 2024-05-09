@@ -26,7 +26,7 @@ const Page: React.FC<PageProps> = ({ children, active, title }) => {
         <title>{title ?? 'Ammar Ahmed'}</title>
       </Helmet>
       <Navigation active={active} />
-      <main className='mx-auto max-w-5xl md:px-5 px-3'>
+      <main className='mx-auto max-w-4xl md:px-5 px-3'>
         {children}
       </main>
       <Footer />

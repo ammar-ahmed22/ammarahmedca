@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import {
   POST_CONTENT_BY_SLUG,
@@ -28,6 +28,9 @@ import {
 } from '@nextui-org/react'
 import Latex from '../../components/Latex'
 import TextSkeleton from '../../components/TextSkeleton'
+import { extractHeadings, Heading } from '../../utils/content'
+import PostHeadings from './PostHeadings'
+import { createID } from '../../utils/window'
 
 export type PostContentProps = {
   slug: string
@@ -36,9 +39,9 @@ export type PostContentProps = {
 export const blockClasses: {
   [K in BlockType]?: string
 } = {
-  heading_1: 'md:text-3xl text-2xl font-bold',
-  heading_2: 'md:text-2xl text-xl font-bold',
-  heading_3: 'md:text-xl text-lg font-bold',
+  heading_1: 'md:text-3xl text-2xl font-bold font-display',
+  heading_2: 'md:text-2xl text-xl font-bold font-display',
+  heading_3: 'md:text-xl text-lg font-bold font-display',
   paragraph: 'md:text-lg text-base text-default-600',
   quote:
     'md:text-lg text-base p-4 border-s-4 border-default-700 bg-default-300/50 rounded-e-md',
@@ -86,9 +89,21 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
   >(POST_CONTENT_BY_SLUG, { variables: { slug } })
   const codeStyle = useThemeValue(oneLight, oneDark)
   const imageModalDisclosure = useDisclosure()
+  const [headings, setHeadings] = useState<Heading[]>()
+
+  useEffect(() => {
+    if (data) {
+      setHeadings(extractHeadings(data.postBySlug.content))
+    }
+  }, [data])
+
+  useEffect(() => {
+    console.log(headings)
+  }, [headings])
 
   return (
-    <div className='flex flex-col space-y-5 mb-12'>
+    <div className='flex flex-col space-y-5 mb-12 relative'>
+      {headings && <PostHeadings headings={headings} />}
       {loading && !data && <PostContentSkeleton />}
       {data &&
         data.postBySlug.content.map((block, idx) => {
@@ -101,10 +116,16 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
             case 'paragraph':
             case 'quote':
               let [as, num] = type.split('_')
+              let richText = content as IRichText[]
+              let id
               if (!num && type !== 'quote') {
                 as = 'p'
               } else if (type.includes('heading')) {
                 as = as[0] + (parseInt(num) + 1)
+                const plainText = richText
+                  .map((rt) => rt.plainText)
+                  .join('')
+                id = createID(plainText)
               } else {
                 as = 'blockquote'
               }
@@ -113,8 +134,9 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                 <RichText
                   key={key}
                   as={as as React.ElementType}
-                  data={content as IRichText[]}
+                  data={richText}
                   className={blockClasses[type]}
+                  id={id}
                 />
               )
             case 'equation':
