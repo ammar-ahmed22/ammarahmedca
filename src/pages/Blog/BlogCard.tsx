@@ -64,7 +64,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ metadata }) => {
             {metadata.category}
           </p>
           <h3 className='text-large font-bold'>{metadata.name}</h3>
-          <p className='text-base text-default-500 font-light'>
+          <p className='text-sm text-default-500 font-light'>
             {elapsed}
           </p>
         </div>
