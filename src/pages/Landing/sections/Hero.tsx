@@ -32,13 +32,13 @@ const Hero: React.FC = () => {
       ref={ref}
       id='hero'
     >
-      <h1 className='font-display font-extrabold text-7xl text-right pt-[15vh]'>
-        Hello 👋
+      <h1 className='font-display font-extrabold md:text-7xl text-6xl text-right pt-[15vh]'>
+        Hello <span className='md:text-6xl text-5xl'>👋</span>
       </h1>
-      <h2 className='font-display font-extrabold text-6xl text-right '>
+      <h2 className='font-display font-extrabold md:text-5xl text-4xl text-right '>
         I'm <span className={`${textGradient}`}>Ammar</span>
       </h2>
-      <p className='text-2xl text-right text-default-500'>
+      <p className='text-xl text-right text-default-500'>
         Engineering Student @{' '}
         <a
           href='https://google.ca'
