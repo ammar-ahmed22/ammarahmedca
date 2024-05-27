@@ -28,6 +28,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
 }) => {
   const { toggleTheme } = useTheme()
   const ThemeIcon = useThemeValue(MoonIcon, SunIcon)
+  const themeText = useThemeValue('Dark Mode', 'Light Mode')
   const nav = useNavigate()
   return (
     <div className='relative flex md:hidden items-center ml-auto'>
@@ -110,7 +111,7 @@ const MobileNavigation: React.FC<MobileNavigationProps> = ({
               startContent={<ThemeIcon className='size-4' />}
               onPress={toggleTheme}
             >
-              Light Mode
+              {themeText}
             </DropdownItem>
             <DropdownItem
               startContent={<FaGithub className='size-4' />}
