@@ -46,7 +46,7 @@ const Blog: React.FC = () => {
         >
           Blog
         </h1>
-        <p className='text-default-500 text-xl md:w-3/5 w-full text-center'>
+        <p className='text-default-500 md:text-xl text-lg md:w-3/5 w-full text-center'>
           Sometimes I like to write about things I've worked on, my
           experiences or anything else of interest to me.
         </p>

@@ -94,7 +94,7 @@ const Experience: React.FC = () => {
                 </Chip>
                 <RichText
                   data={experience.description}
-                  className='text-default-500 text-lg mb-3'
+                  className='text-default-500 md:text-lg text-base mb-3'
                 />
                 <p className='text-xs font-bold uppercase'>
                   {experience.skills.join(' \u{2022} ')}
