@@ -28,9 +28,7 @@ const Page: React.FC<PageProps> = ({ children, active, title }) => {
       </Helmet>
       <Navigation active={active} />
       <BackgroundDots containerClassName='h-full'>
-        <main className='mx-auto max-w-4xl md:px-5 px-3'>
-          {children}
-        </main>
+        <main className='mx-auto max-w-4xl px-6'>{children}</main>
       </BackgroundDots>
       <Footer />
     </>
