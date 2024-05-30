@@ -30,7 +30,8 @@ const Blog: React.FC = () => {
     BlogMetadataQuery.Variables
   >(BLOG_METADATA_QUERY, {
     variables: {
-      onlyPublished: true,
+      onlyPublished:
+        process.env.NODE_ENV === 'development' ? false : true,
       category,
       tags,
       query: debouncedQuery,
