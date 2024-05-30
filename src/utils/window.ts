@@ -7,7 +7,7 @@ export const createID = (str: string) => {
     .toLowerCase()
   if (!isNaN(parseInt(id[0]))) {
     // starts with a number
-    id = '_' + id
+    id = '_' + id;
   }
   return id
 }
