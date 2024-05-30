@@ -1,4 +1,4 @@
-import React, { useMemo, useEffect, useState } from 'react'
+import React, { useMemo, useEffect, useState, useRef } from 'react'
 import type { Heading } from '../../utils/content'
 import {
   createID,
@@ -18,9 +18,13 @@ import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
 
 export type PostHeadingsProps = {
   headings: Heading[]
+  anchorRef: React.RefObject<HTMLDivElement>
 }
 
-const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
+const PostHeadings: React.FC<PostHeadingsProps> = ({
+  headings,
+  anchorRef,
+}) => {
   const maxHeading = useMemo(() => {
     return Math.min(...headings.map((h) => h.level))
   }, [headings])
@@ -36,6 +40,7 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
   }
 
   const isXl = useBreakpointValue({ default: false, xl: true })
+  const mainRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const nav = document.querySelector('#mainNav') as HTMLElement
@@ -72,10 +77,23 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({ headings }) => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [headings, active])
 
+  useEffect(() => {
+    if (
+      mainRef &&
+      mainRef.current &&
+      anchorRef &&
+      anchorRef.current
+    ) {
+      const top = pageDistance(anchorRef.current)
+      mainRef.current.style.top = `${top}px`
+    }
+  }, [anchorRef])
+
   if (isXl) {
     return (
       <div
-        className={`fixed z-20 flex-col right-[calc(0.5*(100vw-56rem))] translate-x-full hidden xl:flex w-[calc(0.5*(1280px-56rem))] ps-2`}
+        ref={mainRef}
+        className={`fixed z-20 bottom-0 right-[calc(0.5*(100vw-56rem))] translate-x-full hidden xl:block w-[calc(0.5*(1280px-56rem))] ps-2 pe-2 pb-2 overflow-y-auto`}
       >
         <h5 className='font-semibold text-sm text-default-900 pb-2'>
           On this page

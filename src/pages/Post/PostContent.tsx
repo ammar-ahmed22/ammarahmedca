@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@apollo/client'
 import {
   POST_CONTENT_BY_SLUG,
@@ -90,6 +90,7 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
   const codeStyle = useThemeValue(oneLight, oneDark)
   const imageModalDisclosure = useDisclosure()
   const [headings, setHeadings] = useState<Heading[]>()
+  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (data) {
@@ -102,8 +103,10 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
   }, [headings])
 
   return (
-    <div className='flex flex-col space-y-5 mb-12 relative'>
-      {headings && <PostHeadings headings={headings} />}
+    <div ref={ref} className='flex flex-col space-y-5 mb-12 relative'>
+      {headings && (
+        <PostHeadings headings={headings} anchorRef={ref} />
+      )}
       {loading && !data && <PostContentSkeleton />}
       {data &&
         data.postBySlug.content.map((block, idx) => {

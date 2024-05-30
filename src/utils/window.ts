@@ -1,10 +1,15 @@
 export const createID = (str: string) => {
-  return str
+  let id = str
     .replace(/[^a-zA-Z0-9\s]/g, '')
     .split(' ')
     .filter((s) => !!s)
     .join('-')
     .toLowerCase()
+  if (!isNaN(parseInt(id[0]))) {
+    // starts with a number
+    id = '_' + id
+  }
+  return id
 }
 
 /**
