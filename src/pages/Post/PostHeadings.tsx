@@ -104,7 +104,7 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({
             const levelDiff = Math.abs(maxHeading - heading.level)
             return (
               <li
-                key={id}
+                key={id + idx}
                 className={`ml-${2 * levelDiff + 2 * Math.max(levelDiff - 1, 0)} ${idx === active ? 'text-primary' : 'hover:text-default-800'}`}
               >
                 <a
