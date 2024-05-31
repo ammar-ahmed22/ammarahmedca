@@ -8,6 +8,7 @@ export const RICH_TEXT_FRAGMENTS = gql`
       ...all
     }
     inlineLatex
+    calloutIcon
   }
 
   fragment all on Annotations {

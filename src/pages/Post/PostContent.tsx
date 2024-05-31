@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useQuery } from '@apollo/client'
 import {
   POST_CONTENT_BY_SLUG,
@@ -30,7 +30,7 @@ import Latex from '../../components/Latex'
 import TextSkeleton from '../../components/TextSkeleton'
 import { extractHeadings, Heading } from '../../utils/content'
 import PostHeadings from './PostHeadings'
-import { createID } from '../../utils/window'
+import { createHeadingID } from '../../utils/content'
 
 export type PostContentProps = {
   slug: string
@@ -50,6 +50,8 @@ export const blockClasses: {
   numbered_list:
     'list-decimal list-inside text-default-600 md:text-lg text-base ms-4',
   equation: 'md:text-lg text-base',
+  callout:
+    'md:text-lg text-base text-default-600 bg-default-200/75 flex w-full items-start p-4 space-x-4 rounded-md',
 }
 
 const PostContentSkeleton: React.FC = () => {
@@ -90,7 +92,6 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
   const codeStyle = useThemeValue(oneLight, oneDark)
   const imageModalDisclosure = useDisclosure()
   const [headings, setHeadings] = useState<Heading[]>()
-  const ref = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     if (data) {
@@ -98,17 +99,12 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
     }
   }, [data])
 
-  useEffect(() => {
-    console.log(headings)
-  }, [headings])
-
   return (
-    <div ref={ref} className='flex flex-col space-y-5 mb-12 relative'>
-      {headings && (
-        <PostHeadings headings={headings} anchorRef={ref} />
-      )}
+    <div className='flex flex-col space-y-5 mb-12 relative'>
+      {headings && <PostHeadings headings={headings} />}
       {loading && !data && <PostContentSkeleton />}
       {data &&
+        headings &&
         data.postBySlug.content.map((block, idx) => {
           const { type, content } = block
           const key = `block-${idx}`
@@ -128,7 +124,11 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                 const plainText = richText
                   .map((rt) => rt.plainText)
                   .join('')
-                id = createID(plainText)
+                let h: Heading = {
+                  level: parseInt(num) as 1 | 2 | 3,
+                  plainText,
+                }
+                id = createHeadingID(h, headings!)
               } else {
                 as = 'blockquote'
               }
@@ -225,15 +225,23 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                   </Modal>
                 </div>
               )
+            case 'callout':
+              let callout = content as IRichText[]
+              return (
+                <aside className={blockClasses[type]}>
+                  <span className='md:text-xl text-lg'>
+                    {callout[0].calloutIcon}
+                  </span>
+                  <RichText as='p' data={callout} />
+                </aside>
+              )
             default:
-              // console.log("UNSUPPORTED:", type, block);
               return (
                 <p key={key} className='text-red-500'>
                   ERROR: Unsupported type: {type}
                 </p>
               )
           }
-          // return renderBlock(block, theme)
         })}
     </div>
   )

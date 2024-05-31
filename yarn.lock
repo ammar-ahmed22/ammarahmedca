@@ -12,10 +12,10 @@
   resolved "https://registry.yarnpkg.com/@alloc/quick-lru/-/quick-lru-5.2.0.tgz#7bf68b20c0a350f936915fcae06f58e32007ce30"
   integrity sha512-UrcABB+4bUrFABwbluTIBErXwvbsU/V7TZWfmbgJfbkwiBuziS9gxdODUyuiecfdGQ85jglMW6juS3+z5TsKLw==
 
-"@ammarahmedca/types@^0.0.13":
-  version "0.0.13"
-  resolved "https://registry.yarnpkg.com/@ammarahmedca/types/-/types-0.0.13.tgz#2bd407a420a7e880729ed093b554a834c505cfd1"
-  integrity sha512-LvtKRfw/K7c86uYuv5Q9/KDlMYsd1ec8IRbZPTwnM3Io4Q+JvAIcfGx/e7O8MG13vkzYUB+ij1dhHVlELRNlwA==
+"@ammarahmedca/types@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@ammarahmedca/types/-/types-0.0.15.tgz#8b4485462adb87b5509fd57d7950c61f5aae95c6"
+  integrity sha512-pygZUhHNV5k5F0Z5xa6cLCyFQv5Fnx4+92LHMnpVoRclurBSghrdOjfBZna6V8k91ZQmx42FEkQwtED2aupTEg==
   dependencies:
     "@notionhq/client" "^2.2.3"
     asynckit "^0.4.0"

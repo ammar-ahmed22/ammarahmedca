@@ -1,4 +1,10 @@
-export const createID = (str: string) => {
+/**
+ * Converts a string to a CSS id
+ *
+ * @param {string} str
+ * @returns {*}
+ */
+export const createID = (str: string): string => {
   let id = str
     .replace(/[^a-zA-Z0-9\s]/g, '')
     .split(' ')
