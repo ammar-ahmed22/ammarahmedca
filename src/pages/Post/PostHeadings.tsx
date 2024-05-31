@@ -1,10 +1,6 @@
 import React, { useMemo, useEffect, useState, useRef } from 'react'
 import type { Heading } from '../../utils/content'
-import {
-  createID,
-  scrollToElement,
-  pageDistance,
-} from '../../utils/window'
+import { scrollToElement, pageDistance } from '../../utils/window'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
 import {
   Dropdown,
@@ -15,6 +11,7 @@ import {
   DropdownSection,
 } from '@nextui-org/react'
 import { EllipsisVerticalIcon } from '@heroicons/react/24/solid'
+import { createHeadingID } from '../../utils/content'
 
 export type PostHeadingsProps = {
   headings: Heading[]
@@ -50,13 +47,13 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({
         let prevEl =
           active > 0
             ? document.querySelector(
-                `#${createID(headings[active - 1].plainText)}`,
+                `#${createHeadingID(headings[active - 1], headings)}`,
               )
             : undefined
         let nextEl =
           active < headings.length - 1
             ? document.querySelector(
-                `#${createID(headings[active + 1].plainText)}`,
+                `#${createHeadingID(headings[active + 1], headings)}`,
               )
             : undefined
         if (prevEl) {
@@ -100,7 +97,7 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({
         </h5>
         <ul className='text-default-600/75 text-sm leading-6'>
           {headings.map((heading, idx) => {
-            const id = createID(heading.plainText)
+            const id = createHeadingID(heading, headings)
             const levelDiff = Math.abs(maxHeading - heading.level)
             return (
               <li
@@ -144,7 +141,7 @@ const PostHeadings: React.FC<PostHeadingsProps> = ({
             <DropdownMenu>
               <DropdownSection title='On this page'>
                 {headings.map((heading, idx) => {
-                  const id = createID(heading.plainText)
+                  const id = createHeadingID(heading, headings)
                   const levelDiff = Math.abs(
                     maxHeading - heading.level,
                   )

@@ -30,7 +30,7 @@ import Latex from '../../components/Latex'
 import TextSkeleton from '../../components/TextSkeleton'
 import { extractHeadings, Heading } from '../../utils/content'
 import PostHeadings from './PostHeadings'
-import { createID } from '../../utils/window'
+import { createHeadingID } from '../../utils/content'
 
 export type PostContentProps = {
   slug: string
@@ -107,6 +107,7 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
       )}
       {loading && !data && <PostContentSkeleton />}
       {data &&
+        headings &&
         data.postBySlug.content.map((block, idx) => {
           const { type, content } = block
           const key = `block-${idx}`
@@ -126,7 +127,11 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                 const plainText = richText
                   .map((rt) => rt.plainText)
                   .join('')
-                id = createID(plainText)
+                let h: Heading = {
+                  level: parseInt(num) as 1 | 2 | 3,
+                  plainText,
+                }
+                id = createHeadingID(h, headings!)
               } else {
                 as = 'blockquote'
               }
