@@ -50,6 +50,8 @@ export const blockClasses: {
   numbered_list:
     'list-decimal list-inside text-default-600 md:text-lg text-base ms-4',
   equation: 'md:text-lg text-base',
+  callout:
+    'md:text-lg text-base text-default-600 bg-default-200/75 flex w-full items-start p-4 space-x-4 rounded-md',
 }
 
 const PostContentSkeleton: React.FC = () => {
@@ -97,10 +99,6 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
       setHeadings(extractHeadings(data.postBySlug.content))
     }
   }, [data])
-
-  useEffect(() => {
-    console.log(headings)
-  }, [headings])
 
   return (
     <div ref={ref} className='flex flex-col space-y-5 mb-12 relative'>
@@ -225,15 +223,23 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                   </Modal>
                 </div>
               )
+            case 'callout':
+              let callout = content as IRichText[]
+              return (
+                <aside className={blockClasses[type]}>
+                  <span className='md:text-xl text-lg'>
+                    {callout[0].calloutIcon}
+                  </span>
+                  <RichText as='p' data={callout} />
+                </aside>
+              )
             default:
-              // console.log("UNSUPPORTED:", type, block);
               return (
                 <p key={key} className='text-red-500'>
                   ERROR: Unsupported type: {type}
                 </p>
               )
           }
-          // return renderBlock(block, theme)
         })}
     </div>
   )
