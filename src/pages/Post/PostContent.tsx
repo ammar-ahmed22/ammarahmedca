@@ -193,7 +193,7 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                     isBlurred
                     isZoomed
                     classNames={{
-                      wrapper: 'w-4/5 hover:cursor-pointer',
+                      wrapper: 'w-full hover:cursor-pointer',
                     }}
                     onClick={() => onOpen()}
                   />
@@ -207,11 +207,12 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                     onClose={onClose}
                     backdrop='blur'
                     size='5xl'
+                    placement='center'
                   >
                     <ModalContent>
                       {(onClose) => (
                         <ModalBody>
-                          <div className='flex flex-col w-full items-center p-5'>
+                          <div className='flex flex-col w-full items-center md:p-5 p-2'>
                             <Image key={key} src={image.url} />
                             <RichText
                               as='caption'
@@ -239,7 +240,7 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
               let video = content[0] as IImage
               return (
                 <div className='flex flex-col w-full items-center'>
-                  <video className='w-4/5' controls>
+                  <video className='w-full' controls>
                     <source src={video.url} />
                     Your browser does not support videos.
                   </video>
