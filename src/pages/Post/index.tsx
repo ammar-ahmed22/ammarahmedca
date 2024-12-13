@@ -38,6 +38,9 @@ const Post: React.FC = () => {
     }
   }, [data])
 
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <main className='relative transition min-h-screen'>
       <div className='flex w-full justify-start mt-12'>
