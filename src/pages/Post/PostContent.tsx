@@ -235,6 +235,21 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
                   <RichText as='p' data={callout} />
                 </aside>
               )
+            case 'video':
+              let video = content[0] as IImage
+              return (
+                <div className='flex flex-col w-full items-center'>
+                  <video className='w-4/5' controls>
+                    <source src={video.url} />
+                    Your browser does not support videos.
+                  </video>
+                  <RichText
+                    as='caption'
+                    className='text-default-500 md:text-base text-xs'
+                    data={video.caption}
+                  />
+                </div>
+              )
             default:
               return (
                 <p key={key} className='text-red-500'>
