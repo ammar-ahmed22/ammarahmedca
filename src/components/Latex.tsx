@@ -25,7 +25,7 @@ const Latex = <C extends React.ElementType>({
 
   useEffect(() => {
     if (ref && ref.current) {
-      katex.render(expression, ref.current)
+      katex.render(expression, ref.current, { displayMode: display })
     }
   }, [expression])
 
