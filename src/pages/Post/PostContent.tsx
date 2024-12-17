@@ -12,7 +12,6 @@ import {
   IList,
   IImage,
 } from '@ammarahmedca/types'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import {
   oneDark,
   oneLight,
@@ -31,6 +30,7 @@ import TextSkeleton from '../../components/TextSkeleton'
 import { extractHeadings, Heading } from '../../utils/content'
 import PostHeadings from './PostHeadings'
 import { createHeadingID } from '../../utils/content'
+import CodeBlock from '../../components/CodeBlock'
 
 export type PostContentProps = {
   slug: string
@@ -173,14 +173,11 @@ const PostContent: React.FC<PostContentProps> = ({ slug }) => {
               let code = content[0] as IRichText
               let language = code.annotations.language as string
               return (
-                <SyntaxHighlighter
-                  language={language}
-                  style={codeStyle}
-                  showLineNumbers
+                <CodeBlock
                   key={key}
-                >
-                  {code.plainText}
-                </SyntaxHighlighter>
+                  code={code.plainText}
+                  language={language}
+                />
               )
             case 'image':
               let image = content[0] as IImage

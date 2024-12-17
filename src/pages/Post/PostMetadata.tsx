@@ -2,7 +2,7 @@ import React from 'react'
 import type { IPostMetadata } from '@ammarahmedca/types'
 import { useTextGradient } from '../../hooks/styles'
 import { formatDistance } from 'date-fns'
-import { Chip, Skeleton } from '@nextui-org/react'
+import { Chip, Skeleton, Image } from '@nextui-org/react'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
 import { Helmet } from 'react-helmet'
 
@@ -48,6 +48,7 @@ const PostMetadata: React.FC<PostMetadataProps> = ({ metadata }) => {
       >
         {metadata.name}
       </h1>
+      {metadata.image && <Image src={metadata.image} />}
       <p className='text-default-500 text-base md:text-lg'>
         {elapsed}
       </p>
