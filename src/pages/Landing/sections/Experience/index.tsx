@@ -15,7 +15,7 @@ import {
   ArrowDownIcon,
   ArrowUpIcon,
 } from '@heroicons/react/24/solid'
-import { intlFormat } from 'date-fns'
+import { differenceInYears, intlFormat, isBefore } from 'date-fns'
 import RichText from '../../../../components/RichText'
 import { Button, Chip } from '@nextui-org/react'
 
@@ -39,6 +39,11 @@ const Experience: React.FC = () => {
   // Hooks
   const [paginatedExperiences, { increase, reset, hasMore }] =
     usePaginatedArray(experiences)
+
+  const calculateAge = (start: Date): number => {
+    const birthDate = new Date(2001, 2, 22) // March 22, 2001
+    return differenceInYears(start, birthDate);
+  }
 
   useEffect(() => {
     if (!loading && data) {
@@ -79,6 +84,10 @@ const Experience: React.FC = () => {
                 <p className='text-default-500 pt-1 mb-2'>
                   {start} - {end}
                 </p>
+                <span className='text-default-500 pt-1 mb-4'>
+                  {calculateAge(new Date(experience.timeframe.start))}{' '}
+                  years old
+                </span>
                 <h3 className='font-display font-bold text-2xl'>
                   {experience.company}
                 </h3>
