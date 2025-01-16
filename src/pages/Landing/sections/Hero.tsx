@@ -39,13 +39,7 @@ const Hero: React.FC = () => {
         I'm <span className={`${textGradient}`}>Ammar</span>
       </h2>
       <p className='text-xl text-right text-default-500'>
-        Engineering Student @{' '}
-        <a
-          href='https://google.ca'
-          className={`${textGradient} hover:underline decoration-primary-500`}
-        >
-          University of Waterloo
-        </a>
+        Muslim • Engineer • Husband • Father
       </p>
       <Signature width={sigWidth} />
     </section>
