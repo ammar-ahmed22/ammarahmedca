@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useTextGradient } from '../../hooks/styles'
 import { Input } from '@nextui-org/react'
 import { MagnifyingGlassIcon } from '@heroicons/react/24/solid'
@@ -12,6 +12,7 @@ import { useQuery } from '@apollo/client'
 import BlogCard, { BlogCardSkeleton } from './BlogCard'
 import { useBreakpointValue } from '../../hooks/mediaQuery'
 import { useDebounced } from '../../hooks/debounce'
+import { clearConfigCache } from 'prettier'
 
 const Blog: React.FC = () => {
   const textGradient = useTextGradient({

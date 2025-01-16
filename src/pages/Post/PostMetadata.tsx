@@ -39,6 +39,27 @@ const PostMetadata: React.FC<PostMetadataProps> = ({ metadata }) => {
     <div className='flex flex-col space-y-3 my-8'>
       <Helmet>
         <title>Blog | {metadata.name}</title>
+        <meta
+          name='description'
+          content={metadata.description
+            .map((r) => r.plainText)
+            .join('')}
+        />
+        <meta
+          property='og:description'
+          content={metadata.description
+            .map((r) => r.plainText)
+            .join('')}
+        />
+        <meta property='og:type' content='website' />
+        <meta property='og:title' content={`Blog | ${metadata.name}`} />
+        {metadata.image && (
+          <meta property='og:image' content={metadata.image} />
+        )}
+        <meta
+          property='og:url'
+          content={`https://ammarahmed.ca/blog/${metadata.slug}`}
+        />
       </Helmet>
       <p className='text-base md:text-lg font-extrabold uppercase'>
         {metadata.category}

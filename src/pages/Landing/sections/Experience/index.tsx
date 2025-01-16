@@ -42,7 +42,7 @@ const Experience: React.FC = () => {
 
   const calculateAge = (start: Date): number => {
     const birthDate = new Date(2001, 2, 22) // March 22, 2001
-    return differenceInYears(start, birthDate);
+    return differenceInYears(start, birthDate)
   }
 
   useEffect(() => {
