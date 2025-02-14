@@ -5,5 +5,5 @@ export const metadata: Metadata = {
 };
 
 export default function Blog() {
-  return <div>Blog...</div>;
+  return <div>Blog page</div>;
 }
