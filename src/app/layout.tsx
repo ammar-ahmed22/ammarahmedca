@@ -1,17 +1,35 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  DM_Mono,
+  DM_Sans,
+  DM_Serif_Text,
+  DM_Serif_Display,
+} from "next/font/google";
 import { ThemeProvider } from "@/context/theme";
 import Navbar from "@/components/ui/navbar";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const dmMono = DM_Mono({
+  variable: "--font-dm-mono",
+  subsets: ["latin"],
+  weight: "500",
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const dmSerifText = DM_Serif_Text({
+  variable: "--font-dm-serif-text",
   subsets: ["latin"],
+  weight: "400",
+});
+
+const dmSerifDisplay = DM_Serif_Display({
+  variable: "--font-dm-serif-display",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export const metadata: Metadata = {
@@ -19,6 +37,10 @@ export const metadata: Metadata = {
     template: "%s | Ammar Ahmed",
     default: "Ammar Ahmed",
     absolute: "Home | Ammar Ahmed",
+  },
+  icons: {
+    icon: "/favicon-dark/favicon.ico",
+    apple: "/favicon-dark/apple-touch-icon.png",
   },
   description: `Ammar Ahmed's personal portfolio and blog website created with Next.js using Notion as a CMS.`,
 };
@@ -32,10 +54,11 @@ export default function RootLayout({
     <ThemeProvider defaultTheme="dark" rootSelector=":root">
       <html lang="en">
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
+          className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans`}>
           <Navbar />
-          <main className="mt-[15vh]">{children}</main>
+          <main className="mt-[15vh] max-w-4xl mx-auto px-3">
+            {children}
+          </main>
         </body>
       </html>
     </ThemeProvider>

@@ -12,6 +12,12 @@ export default {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: "var(--font-dm-sans)",
+        mono: "var(--font-dm-mono)",
+        display: "var(--font-dm-serif-display)",
+        serif: "var(--font-dm-serif-text)",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
@@ -67,8 +73,8 @@ export default {
 
 // This plugin adds each Tailwind color as a global CSS variable, e.g. var(--gray-200).
 function addVariablesForColors({ addBase, theme }: any) {
-  let allColors = flattenColorPalette(theme("colors"));
-  let newVars = Object.fromEntries(
+  const allColors = flattenColorPalette(theme("colors"));
+  const newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val]),
   );
 
