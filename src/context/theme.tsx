@@ -28,7 +28,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
       root.classList.remove(theme === "dark" ? "light" : "dark");
       root.classList.add(theme);
     }
-  }, [theme]);
+  }, [rootSelector, theme]);
 
   useEffect(() => {
     const root = document.querySelector(rootSelector) as HTMLElement;
@@ -37,7 +37,7 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
         ...defaultClasses.split(" ").map((s) => s.trim()),
       );
     }
-  }, [defaultClasses]);
+  }, [defaultClasses, rootSelector]);
 
   return (
     <ThemeContext.Provider value={{ theme, setTheme }}>
