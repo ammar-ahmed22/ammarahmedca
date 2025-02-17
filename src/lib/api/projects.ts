@@ -8,8 +8,19 @@ export type ProjectListOptions = {
   ascending?: boolean;
 };
 
-export const projects = {
-  list: async (opts?: ProjectListOptions): Promise<Project[]> => {
+export type ProjectFilterPropertiesOptions = {
+  onlyPublished?: boolean;
+  projects?: Project[];
+};
+
+export type ProjectFilterProperties = {
+  types: string[];
+  languages: string[];
+  frameworks: string[];
+};
+
+class Projects {
+  async list(opts?: ProjectListOptions): Promise<Project[]> {
     const and = [];
     if (opts?.onlyPublished) {
       and.push({
@@ -57,5 +68,59 @@ export const projects = {
         image,
       };
     });
-  },
-};
+  }
+
+  async filterProperties(
+    opts?: ProjectFilterPropertiesOptions,
+  ): Promise<ProjectFilterProperties> {
+    const resp = await databases.projects.retrieve();
+    const result: ProjectFilterProperties = {
+      types: [],
+      languages: [],
+      frameworks: [],
+    };
+    if (resp.properties.type.type === "multi_select") {
+      result.types = resp.properties.type.multi_select.options.map(
+        (option) => option.name,
+      );
+    }
+
+    if (resp.properties.languages.type === "multi_select") {
+      result.languages =
+        resp.properties.languages.multi_select.options.map(
+          (option) => option.name,
+        );
+    }
+
+    if (resp.properties.frameworks.type === "multi_select") {
+      result.frameworks =
+        resp.properties.frameworks.multi_select.options.map(
+          (option) => option.name,
+        );
+    }
+
+    if (opts?.onlyPublished) {
+      const projects =
+        opts.projects ?? (await this.list({ onlyPublished: true }));
+      const types = new Set<string>();
+      const languages = new Set<string>();
+      const frameworks = new Set<string>();
+      projects.forEach((project) => {
+        project.type.forEach((type) => types.add(type));
+        project.languages.forEach((language) =>
+          languages.add(language),
+        );
+        project.frameworks.forEach((framework) =>
+          frameworks.add(framework),
+        );
+      });
+      result.types = [...types.values()];
+      result.languages = [...languages.values()];
+      result.frameworks = [...frameworks.values()];
+    }
+
+    return result;
+  }
+}
+
+export const projects = new Projects();
