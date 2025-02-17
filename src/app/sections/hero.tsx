@@ -7,9 +7,9 @@ export default function Hero() {
   return (
     <section className="flex flex-col min-h-screen pt-[10vh]">
       <header className="flex flex-col">
-        <div className="flex gap-2 sm:text-8xl text-6xl items-center flex-wrap font-bold z-20">
+        <div className="flex gap-4 sm:text-8xl text-6xl font-display items-center flex-wrap font-bold z-20">
           <span>Hi, I&apos;m</span>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-3">
             <div className="border border-foreground rounded-2xl p-1 relative">
               <Image
                 src="/pixelbw.jpg"
