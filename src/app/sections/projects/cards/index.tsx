@@ -5,7 +5,7 @@ import Image from "next/image";
 import type { Project } from "@/types/api";
 import { ArrowDownIcon, ArrowUpIcon, SearchIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
-import { Badge, badgeVariants } from "@/components/ui/badge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon, XIcon } from "lucide-react";
 import { useVisibleArray } from "@/hooks/visible-array";
