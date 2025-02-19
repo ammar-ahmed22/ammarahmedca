@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section className="flex flex-col min-h-screen pt-[10vh]">
       <header className="flex flex-col">
-        <div className="flex gap-4 sm:text-8xl text-6xl font-display items-center flex-wrap font-bold z-20">
+        <div className="flex gap-4 sm:text-7xl text-5xl font-display items-center flex-wrap font-bold z-20">
           <span>Hi, I&apos;m</span>
           <div className="flex items-center gap-3">
             <div className="border border-foreground rounded-2xl p-1 relative">
@@ -23,7 +23,7 @@ export default function Hero() {
             <span>Ammar!</span>
           </div>
         </div>
-        <p className="sm:text-3xl text-xl text-neutral-500">
+        <p className="sm:text-2xl text-lg text-neutral-500">
           Engineer • Muslim • Husband • Father
         </p>
         <div className="flex justify-end pt-3 mb-3">

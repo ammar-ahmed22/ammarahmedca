@@ -12,10 +12,10 @@ export default async function Projects() {
 
   return (
     <section className="min-h-screen mb-24">
-      <h2 className="text-5xl mb-1 font-display font-bold">
+      <h2 className="text-4xl mb-1 font-display font-bold">
         Projects
       </h2>
-      <p className="text-neutral-500 text-xl mb-4">
+      <p className="text-neutral-500 text-lg mb-4">
         Check out what I&apos;ve been working on!
       </p>
       <ProjectCards
