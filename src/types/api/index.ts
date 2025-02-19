@@ -20,3 +20,14 @@ export type Project = {
   publish: boolean;
   image?: string;
 };
+
+export type Experience = {
+  id: string;
+  icon?: string;
+  company: string;
+  role?: string;
+  description: RichText[];
+  type?: string;
+  skills: string[];
+  timeframe?: DateRange;
+};
