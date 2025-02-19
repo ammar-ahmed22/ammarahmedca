@@ -69,4 +69,11 @@ body {
   body {
     @apply bg-background text-foreground;
   }
+
+  .text-neutral {
+    @apply text-neutral-600;
+  }
+  .dark .text-neutral {
+    @apply text-neutral-400;
+  }
 }
