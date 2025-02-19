@@ -10,10 +10,10 @@ export default async function Experiences() {
 
   return (
     <section className="min-h-screen">
-      <h2 className="text-5xl mb-1 font-display font-bold">
+      <h2 className="text-4xl mb-1 font-display font-bold">
         Experiences
       </h2>
-      <p className="text-neutral-500 text-xl mb-4">
+      <p className="text-neutral-500 text-lg mb-4">
         See where I&apos;ve been working!
       </p>
       <Timeline

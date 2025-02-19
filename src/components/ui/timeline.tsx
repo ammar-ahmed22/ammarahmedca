@@ -64,11 +64,11 @@ export default function Timeline({ data }: TimelineProps) {
                 )}
               </div>
               <div className="hidden md:block">
-                <h3 className="text-xl md:pl-20 md:text-5xl font-bold font-display">
+                <h3 className="pl-20 text-4xl font-bold font-display">
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="md:pl-20 text-neutral-500 text-xl">
+                  <p className="pl-20 text-neutral-500 text-xl">
                     {item.subtitle}
                   </p>
                 )}
@@ -77,7 +77,7 @@ export default function Timeline({ data }: TimelineProps) {
 
             <div className="relative pl-20 pr-4 md:pl-4 w-full">
               <div className="md:hidden block mb-4">
-                <h3 className="text-2xl text-left font-bold">
+                <h3 className="text-xl text-left font-bold">
                   {item.title}
                 </h3>
                 {item.subtitle && (
