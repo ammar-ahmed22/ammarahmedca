@@ -273,7 +273,7 @@ export function ProjectCards({
                   {project.date && (
                     <motion.div
                       layoutId={`date-${project.id}-${id}`}
-                      className="flex gap-2 text-neutral-500 items-center">
+                      className="flex gap-2 text-neutral items-center">
                       <CalendarIcon className="size-4" />
                       <span>
                         {formatDateRange(project.date, "MMM yyyy")}

@@ -15,7 +15,7 @@ export default async function Projects() {
       <h2 className="text-4xl mb-1 font-display font-bold">
         Projects
       </h2>
-      <p className="text-neutral-500 text-lg mb-4">
+      <p className="text-neutral text-lg mb-4">
         Check out what I&apos;ve been working on!
       </p>
       <ProjectCards

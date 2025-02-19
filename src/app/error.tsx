@@ -24,7 +24,7 @@ export default function Error({
             ? error.name
             : "Oops!"}
         </h2>
-        <p className="text-neutral-500 text-lg">
+        <p className="text-neutral text-lg">
           {/* Something went wrong loading this page */}
           {process.env.NODE_ENV === "development"
             ? error.message

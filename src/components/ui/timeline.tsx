@@ -68,7 +68,7 @@ export default function Timeline({ data }: TimelineProps) {
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="pl-20 text-neutral-500 text-xl">
+                  <p className="pl-20 text-neutral text-xl">
                     {item.subtitle}
                   </p>
                 )}
@@ -81,7 +81,7 @@ export default function Timeline({ data }: TimelineProps) {
                   {item.title}
                 </h3>
                 {item.subtitle && (
-                  <p className="text-neutral-500">{item.subtitle}</p>
+                  <p className="text-neutral">{item.subtitle}</p>
                 )}
               </div>
               {item.content}{" "}

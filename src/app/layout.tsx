@@ -6,7 +6,8 @@ import {
   DM_Serif_Display,
 } from "next/font/google";
 import { ThemeProvider } from "@/context/theme";
-import Navbar from "@/components/ui/navbar";
+import Navbar from "./components/navbar";
+import Footer from "./components/footer";
 import "./globals.css";
 
 const dmMono = DM_Mono({
@@ -59,6 +60,7 @@ export default function RootLayout({
           <main className="mt-[15vh] max-w-4xl mx-auto px-3">
             {children}
           </main>
+          <Footer />
         </body>
       </html>
     </ThemeProvider>
