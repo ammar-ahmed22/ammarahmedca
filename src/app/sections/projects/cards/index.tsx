@@ -216,8 +216,8 @@ export function ProjectCards({
                 {project.image && (
                   <motion.div layoutId={`image-${project.id}-${id}`}>
                     <Image
-                      width={200}
-                      height={200}
+                      width={500}
+                      height={500}
                       src={project.image}
                       alt={project.name}
                       className="w-full h-full max-h-60 rounded-lg object-contain object-top"
