@@ -89,7 +89,7 @@ export default function Navbar() {
           duration: 0.35,
         }}
         className={cn(
-          "flex max-w-4xl fixed top-10 inset-x-0 mx-auto border border-black/[0.2] dark:border-white/[0.2] rounded-xl bg-background shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-20 px-4 py-4  items-center justify-between space-x-4",
+          "flex max-w-4xl fixed top-10 inset-x-0 mx-auto border border-black/[0.2] dark:border-white/[0.2] rounded-xl bg-background shadow-[0px_2px_3px_-1px_rgba(0,0,0,0.1),0px_1px_0px_0px_rgba(25,28,33,0.02),0px_0px_0px_1px_rgba(25,28,33,0.08)] z-[1000] px-4 py-4  items-center justify-between space-x-4",
           {
             "border-none shadow-none": lastY === 0,
           },

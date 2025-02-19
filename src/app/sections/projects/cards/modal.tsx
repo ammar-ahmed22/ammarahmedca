@@ -161,7 +161,7 @@ export default function CardModal({
                 {active.date && (
                   <motion.div
                     layoutId={`date-${active.id}-${id}`}
-                    className="flex gap-2 text-neutral-500 items-center px-4">
+                    className="flex gap-2 text-neutral items-center px-4">
                     <CalendarIcon className="size-4" />
                     <span>
                       {formatDateRange(active.date, "MMM yyyy")}
@@ -175,7 +175,7 @@ export default function CardModal({
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="text-neutral-500">
+                  className="text-neutral">
                   {active.description
                     .map((r) => r.plainText)
                     .join("")}

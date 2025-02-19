@@ -23,7 +23,7 @@ export default function Hero() {
             <span>Ammar!</span>
           </div>
         </div>
-        <p className="sm:text-2xl text-lg text-neutral-500">
+        <p className="sm:text-2xl text-lg text-neutral">
           Engineer • Muslim • Husband • Father
         </p>
         <div className="flex justify-end pt-3 mb-3">
