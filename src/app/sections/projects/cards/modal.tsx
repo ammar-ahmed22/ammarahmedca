@@ -9,6 +9,7 @@ import { SiGithub } from "react-icons/si";
 import { cn } from "@/lib/utils";
 import { formatDateRange } from "@/lib/date";
 import { Badge } from "@/components/ui/badge";
+import RichText from "@/components/ui/rich-text";
 
 type CardModalProps = {
   active: Project | boolean;
@@ -174,11 +175,8 @@ export default function CardModal({
                   layout
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="text-neutral">
-                  {active.description
-                    .map((r) => r.plainText)
-                    .join("")}
+                  exit={{ opacity: 0 }}>
+                  <RichText data={active.description} as="p" />
                 </motion.div>
               </div>
             </motion.div>
