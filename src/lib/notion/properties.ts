@@ -55,12 +55,18 @@ class Property {
   asDateRange(): DateRange | undefined {
     if (this.property.type === "date") {
       if (!this.property.date) return undefined;
+      const [year, month, day] = this.property.date.start
+        .split("-")
+        .map(Number);
       const res: DateRange = {
-        start: new Date(this.property.date.start), // TODO needs to be parsed properly
+        start: new Date(year, month - 1, day),
       };
 
       if (this.property.date.end) {
-        res.end = new Date(this.property.date.end); // TODO needs to be parsed properly
+        const [year, month, day] = this.property.date.end
+          .split("-")
+          .map(Number);
+        res.end = new Date(year, month - 1, day);
       }
 
       return res;
