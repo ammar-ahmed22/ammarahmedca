@@ -1,5 +1,17 @@
+export type Annotations = {
+  bold: boolean;
+  code: boolean;
+  italic: boolean;
+  color: string;
+  strikethrough: boolean;
+  underline: boolean;
+  href?: string;
+  equation?: boolean;
+};
+
 export type RichText = {
   plainText: string;
+  annotations: Annotations;
 };
 
 export type DateRange = {
