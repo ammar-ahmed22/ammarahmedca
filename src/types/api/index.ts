@@ -31,3 +31,13 @@ export type Experience = {
   skills: string[];
   timeframe?: DateRange;
 };
+
+export type PostMetadata = {
+  id: string;
+  name: string;
+  description: RichText[];
+  category?: string;
+  tags: string[];
+  date?: Date;
+  slug: string;
+};
