@@ -2,6 +2,7 @@ import api from "@/lib/api";
 import Timeline from "@/components/ui/timeline";
 import { formatDateRange } from "@/lib/date";
 import { Badge } from "@/components/ui/badge";
+import RichText from "@/components/ui/rich-text";
 
 export const revalidate = 60;
 
@@ -30,11 +31,7 @@ export default async function Experiences() {
                   {experience.type}
                 </small>
                 <p className="text-lg">{experience.role}</p>
-                <p className="text-neutral">
-                  {experience.description
-                    .map((r) => r.plainText)
-                    .join("")}
-                </p>
+                <RichText as="p" data={experience.description} />
                 <div className="flex flex-wrap gap-2">
                   {experience.skills.map((skill) => {
                     return (
