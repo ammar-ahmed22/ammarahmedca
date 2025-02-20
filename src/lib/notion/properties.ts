@@ -35,6 +35,11 @@ class Property {
     if (this.property.type === "rich_text") {
       return this.property.rich_text.map((r) => ({
         plainText: r.plain_text,
+        annotations: {
+          ...r.annotations,
+          href: r.href ?? undefined,
+          equation: r.type === "equation",
+        },
       }));
     }
     throw new ParseError(this.propertyName, "RichText");
