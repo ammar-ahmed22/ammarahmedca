@@ -1,11 +1,11 @@
 import { projects } from "./projects";
 import { experiences } from "./experience";
-import { blog } from "./blog";
+import { posts } from "./posts";
 
 const api = {
   projects,
   experiences,
-  blog,
+  posts,
 };
 
 export default api;
