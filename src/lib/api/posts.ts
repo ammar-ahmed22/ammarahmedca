@@ -5,16 +5,14 @@ import { PostMetadata } from "@/types/api";
 import { toSlug } from "./utils";
 import { updatePage } from "../notion/utils";
 
-export type BlogMetadataOptions = {
+export type PostListOptions = {
   onlyPublished?: boolean;
   ascending?: boolean;
   slug?: string;
 };
 
-class Blog {
-  async metadata(
-    opts?: BlogMetadataOptions,
-  ): Promise<PostMetadata[]> {
+class Posts {
+  async list(opts?: PostListOptions): Promise<PostMetadata[]> {
     const and = [];
     if (opts?.onlyPublished) {
       and.push({
@@ -34,7 +32,7 @@ class Blog {
       });
     }
 
-    const posts = await databases.blog.query({
+    const response = await databases.blog.query({
       filter: {
         and,
       },
@@ -46,10 +44,10 @@ class Blog {
       ],
     });
 
-    const { results } = posts;
+    const { results } = response;
     const filteredResults = filterDatabaseResults(results);
 
-    const metadata = await Promise.all(
+    const posts = await Promise.all(
       filteredResults.map(async (result) => {
         const properties = new Properties(result.properties);
         const dbSlug = properties
@@ -84,8 +82,8 @@ class Blog {
         };
       }),
     );
-    return metadata;
+    return posts;
   }
 }
 
-export const blog = new Blog();
+export const posts = new Posts();
