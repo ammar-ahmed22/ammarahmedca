@@ -70,6 +70,14 @@ class Posts {
             },
           });
         }
+        let image: string | undefined = undefined;
+        if (result.cover) {
+          if (result.cover.type === "external") {
+            image = result.cover.external.url;
+          } else if (result.cover.type === "file") {
+            image = result.cover.file.url;
+          }
+        }
 
         return {
           id: result.id,
@@ -79,6 +87,7 @@ class Posts {
           tags: properties.get("tags").asMultiSelect(),
           date: properties.get("date").asDateRange()?.start,
           slug: dbSlug ?? genSlug!,
+          image,
         };
       }),
     );
