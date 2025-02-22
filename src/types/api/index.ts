@@ -52,4 +52,5 @@ export type PostMetadata = {
   tags: string[];
   date?: Date;
   slug: string;
+  image?: string;
 };
