@@ -1,5 +1,6 @@
 import { DateRange, RichText } from "@/types/api";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
+import { mapRichText } from "./utils";
 
 export type DatabaseProperties = PageObjectResponse["properties"];
 export type DatabaseProperty = DatabaseProperties[string];
@@ -33,14 +34,7 @@ class Property {
 
   asRichText(): RichText[] {
     if (this.property.type === "rich_text") {
-      return this.property.rich_text.map((r) => ({
-        plainText: r.plain_text,
-        annotations: {
-          ...r.annotations,
-          href: r.href ?? undefined,
-          equation: r.type === "equation",
-        },
-      }));
+      return this.property.rich_text.map(mapRichText);
     }
     throw new ParseError(this.propertyName, "RichText");
   }
