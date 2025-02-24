@@ -186,7 +186,6 @@ class Posts {
     const [page] = filteredResults;
     const allBlocks = await getAllBlocks(page.id);
     const content: Block[] = [];
-    let isList = true;
     let listType: "unorderedList" | "orderedList" = "unorderedList";
     let listStack: ListItem[] = [];
     for (const block of allBlocks) {
@@ -247,10 +246,7 @@ class Posts {
           } as CodeBlock);
           break;
         case "bulleted_list_item":
-          if (!isList) {
-            isList = true;
-            listType = "unorderedList";
-          }
+          listType = "unorderedList";
           listStack.push({
             content:
               block.bulleted_list_item.rich_text.map(mapRichText),
@@ -258,10 +254,7 @@ class Posts {
           });
           break;
         case "numbered_list_item":
-          if (!isList) {
-            isList = true;
-            listType = "orderedList";
-          }
+          listType = "orderedList";
           listStack.push({
             content:
               block.numbered_list_item.rich_text.map(mapRichText),
@@ -318,24 +311,22 @@ class Posts {
         block.type !== "numbered_list_item" &&
         block.type !== "bulleted_list_item"
       ) {
-        if (isList) {
-          isList = false;
-          if (listStack.length > 0) {
-            if (listType === "unorderedList") {
-              content.push({
-                id: uuid(),
-                type: "unorderedList",
-                content: listStack,
-              } as UnorderedListBlock);
-            } else {
-              content.push({
-                id: uuid(),
-                type: "orderedList",
-                content: listStack,
-              } as OrderedListBlock);
-            }
-            listStack = [];
+        if (listStack.length > 0) {
+          // Insert before the last element for correct ordering
+          if (listType === "unorderedList") {
+            content.splice(content.length - 1, 0, {
+              id: uuid(),
+              type: "unorderedList",
+              content: listStack,
+            } as UnorderedListBlock);
+          } else {
+            content.splice(content.length - 1, 0, {
+              id: uuid(),
+              type: "orderedList",
+              content: listStack,
+            } as OrderedListBlock);
           }
+          listStack = [];
         }
       }
     }
