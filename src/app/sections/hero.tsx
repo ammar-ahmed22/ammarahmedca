@@ -1,4 +1,4 @@
-import ScrollIndicator from "@/components/ui/scroll-indicator";
+"use client";
 import Signature from "@/components/ui/signature";
 import { ArrowDownIcon } from "lucide-react";
 import Image from "next/image";
@@ -29,9 +29,16 @@ export default function Hero() {
         <div className="flex justify-end pt-3 mb-3">
           <Signature className="h-[40vh]" duration={1} />
         </div>
-        <ScrollIndicator className="absolute bottom-3 left-1/2 translate-x-[-50%]">
-          <ArrowDownIcon className="size-8" />
-        </ScrollIndicator>
+        <a
+          href="#projects"
+          onClick={(e) => {
+            e.preventDefault();
+            document
+              .getElementById("projects")
+              ?.scrollIntoView({ behavior: "smooth" });
+          }}>
+          <ArrowDownIcon className="animate-bounce size-8 absolute bottom-3 left-1/2 -translate-x-1/2" />
+        </a>
       </header>
     </section>
   );
