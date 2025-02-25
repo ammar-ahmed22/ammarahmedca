@@ -2,6 +2,7 @@ import api from "@/lib/api";
 import Metadata from "./metadata";
 import Block from "./block";
 import { Metadata as NextMetadata } from "next";
+import { toPlainText } from "@/lib/notion/utils";
 
 export type BlogPostProps = {
   params: Promise<{ slug: string }>;
@@ -32,10 +33,10 @@ export async function generateMetadata({
   const [post] = await api.posts.list({ slug });
   return {
     title: post.name,
-    description: post.description.map((r) => r.plainText).join(""),
+    description: toPlainText(post.description),
     openGraph: {
       type: "article",
-      description: post.description.map((r) => r.plainText).join(""),
+      description: toPlainText(post.description),
       siteName: "ammarahmed.ca",
       title: post.name,
       images: post.image ? [post.image] : [],
