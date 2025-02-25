@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useOutsideClick } from "@/hooks/outside-click";
 import { Button } from "@/components/ui/button";
 import type { Project } from "@/types/api";
-import Image from "next/image";
+import ImageWithLoading from "@/components/ui/loading-image";
 import { XIcon, ExternalLinkIcon, CalendarIcon } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 import { cn } from "@/lib/utils";
@@ -70,10 +70,7 @@ export default function CardModal({
               className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-background border sm:rounded-3xl gap-4 overflow-scroll">
               {active.image && (
                 <motion.div layoutId={`image-${active.id}-${id}`}>
-                  <Image
-                    priority
-                    width={200}
-                    height={200}
+                  <ImageWithLoading
                     src={active.image}
                     alt={active.name}
                     className="w-full h-full sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-center"
