@@ -11,7 +11,7 @@ export default async function Projects() {
   });
 
   return (
-    <section className="min-h-screen mb-24">
+    <section id="projects" className="min-h-screen mb-24">
       <h2 className="text-4xl mb-1 font-display font-bold">
         Projects
       </h2>
