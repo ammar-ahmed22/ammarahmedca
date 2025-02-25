@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useId, useMemo } from "react";
 import { motion } from "framer-motion";
-import Image from "next/image";
+import ImageWithLoading from "@/components/ui/loading-image";
 import type { Project } from "@/types/api";
 import { ArrowDownIcon, ArrowUpIcon, SearchIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -215,13 +215,11 @@ export function ProjectCards({
               <Card className="h-full py-8 px-5 flex flex-col gap-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer">
                 {project.image && (
                   <motion.div layoutId={`image-${project.id}-${id}`}>
-                    <Image
-                      width={500}
-                      height={500}
+                    <ImageWithLoading
                       src={project.image}
                       alt={project.name}
+                      iconClassName="size-12"
                       className="w-full h-full max-h-60 rounded-lg object-contain object-top"
-                      priority
                     />
                   </motion.div>
                 )}
