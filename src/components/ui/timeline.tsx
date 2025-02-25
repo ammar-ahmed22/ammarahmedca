@@ -6,6 +6,7 @@ import Image from "next/image";
 interface TimelineEntry {
   title: string;
   subtitle?: string;
+  subsubtitle?: string;
   icon?: string;
   content: React.ReactNode;
 }
@@ -72,6 +73,11 @@ export default function Timeline({ data }: TimelineProps) {
                     {item.subtitle}
                   </p>
                 )}
+                {item.subsubtitle && (
+                  <span className="pl-20 text-neutral">
+                    {item.subsubtitle}
+                  </span>
+                )}
               </div>
             </div>
 
@@ -82,6 +88,11 @@ export default function Timeline({ data }: TimelineProps) {
                 </h3>
                 {item.subtitle && (
                   <p className="text-neutral">{item.subtitle}</p>
+                )}
+                {item.subsubtitle && (
+                  <span className="text-neutral text-sm">
+                    {item.subsubtitle}
+                  </span>
                 )}
               </div>
               {item.content}{" "}

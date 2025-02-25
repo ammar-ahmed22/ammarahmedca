@@ -3,6 +3,7 @@ import Timeline from "@/components/ui/timeline";
 import { formatDateRange } from "@/lib/date";
 import { Badge } from "@/components/ui/badge";
 import RichText from "@/components/ui/rich-text";
+import { differenceInYears } from "date-fns";
 
 export const revalidate = 60;
 
@@ -23,6 +24,12 @@ export default async function Experiences() {
             title: experience.company,
             subtitle: experience.timeframe
               ? formatDateRange(experience.timeframe, "MMM yyyy")
+              : undefined,
+            subsubtitle: experience.timeframe
+              ? differenceInYears(
+                  experience.timeframe.start,
+                  new Date(2001, 2, 22),
+                ) + " years old"
               : undefined,
             icon: experience.icon,
             content: (
