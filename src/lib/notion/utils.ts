@@ -70,3 +70,7 @@ export function mapRichText(rt: RichTextItemResponse): RichText {
     },
   };
 }
+
+export function toPlainText(richText: RichText[]): string {
+  return richText.map((r) => r.plainText).join("");
+}
