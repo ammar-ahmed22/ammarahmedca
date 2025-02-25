@@ -1,4 +1,6 @@
 import api from "@/lib/api";
+import Metadata from "./metadata";
+import Block from "./block";
 
 export type BlogPostProps = {
   params: Promise<{ slug: string }>;
@@ -25,7 +27,16 @@ export async function generateStaticParams() {
 export default async function BlogPost(props: BlogPostProps) {
   const { params } = props;
   const { slug } = await params;
-  const content = await api.posts.content({ slug });
+  const { metadata, content } = await api.posts.content({ slug });
   console.log(content);
-  return <div>Check the console.</div>;
+  return (
+    <div className="flex flex-col gap-4">
+      <Metadata metadata={metadata} />
+      <div className="flex flex-col gap-4">
+        {content.map((block) => {
+          return <Block key={block.id} block={block} />;
+        })}
+      </div>
+    </div>
+  );
 }

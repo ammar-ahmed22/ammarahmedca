@@ -239,6 +239,7 @@ class Posts {
           content.push({
             id: block.id,
             type: "code",
+            language: block.code.language,
             content: block.code.rich_text
               .map((r) => r.plain_text)
               .join(""),
@@ -290,15 +291,17 @@ class Posts {
           } as CalloutBlock);
           break;
         case "video":
+          let videoUrl;
           if (block.video.type === "file") {
-            url = block.video.file.url;
+            videoUrl = block.video.file.url;
           } else {
-            url = block.video.external.url;
+            videoUrl = block.video.external.url;
           }
           content.push({
             id: block.id,
             type: "video",
-            url,
+            url: videoUrl,
+            caption: block.video.caption.map(mapRichText),
           } as VideoBlock);
           break;
         default:
