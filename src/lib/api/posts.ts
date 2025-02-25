@@ -130,6 +130,13 @@ class Posts {
         return metadata;
       }),
     );
+    if (process.env.NODE_ENV === "production") {
+      return posts.filter(
+        (post) =>
+          !post.tags.some((tag) => tag.startsWith("_test_")) &&
+          !post.category?.startsWith("_test_"),
+      );
+    }
     return posts;
   }
 
