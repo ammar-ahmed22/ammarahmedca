@@ -44,7 +44,7 @@ class Projects {
     const { results } = projects;
     const filteredResults = filterDatabaseResults(results);
 
-    return filteredResults.map((result) => {
+    const parsedProjects = filteredResults.map((result) => {
       const properties = new Properties(result.properties);
       let image: string | undefined = undefined;
       if (result.cover) {
@@ -68,6 +68,14 @@ class Projects {
         image,
       };
     });
+
+    if (process.env.NODE_ENV === "production") {
+      return parsedProjects.filter(
+        (project) =>
+          !project.type.some((type) => type.startsWith("_test_")),
+      );
+    }
+    return parsedProjects;
   }
 
   async filterProperties(
@@ -119,6 +127,11 @@ class Projects {
       result.frameworks = [...frameworks.values()];
     }
 
+    if (process.env.NODE_ENV === "production") {
+      result.types = result.types.filter(
+        (type) => !type.startsWith("_test_"),
+      );
+    }
     return result;
   }
 }
