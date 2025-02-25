@@ -28,6 +28,7 @@ import {
   BlockObjectResponse,
   PageObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import { toPlainText } from "../notion/utils";
 
 export type PostListOptions = {
   onlyPublished?: boolean;
@@ -49,11 +50,7 @@ class Posts {
     page: PageObjectResponse,
   ): Promise<PostMetadata> {
     const properties = new Properties(page.properties);
-    const dbSlug = properties
-      .get("slug")
-      .asRichText()
-      .map((r) => r.plainText)
-      .join("");
+    const dbSlug = toPlainText(properties.get("slug").asRichText());
     let genSlug: string | undefined = undefined;
     if (!dbSlug) {
       genSlug = toSlug(properties.get("name").asTitle());
