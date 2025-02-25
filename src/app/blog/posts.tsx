@@ -8,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { SearchIcon, FrownIcon } from "lucide-react";
 import Link from "next/link";
+import ImageWithLoading from "@/components/ui/loading-image";
 
 export type PostsProps = {
   posts: PostMetadata[];
@@ -64,8 +65,7 @@ export default function Posts({ posts }: PostsProps) {
                 )}
                 {post.image && (
                   <div className="w-full overflow-hidden mb-4">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
+                    <ImageWithLoading
                       src={post.image}
                       alt={post.name + " cover image"}
                       className="w-full h-96 object-cover rounded-t-xl transition-transform duration-200 ease-in"

@@ -55,7 +55,7 @@ export default function RootLayout({
     <ThemeProvider defaultTheme="dark" rootSelector=":root">
       <html lang="en">
         <body
-          className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans`}>
+          className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans text-base`}>
           <Navbar />
           <main className="mt-[15vh] max-w-4xl mx-auto px-3">
             {children}
