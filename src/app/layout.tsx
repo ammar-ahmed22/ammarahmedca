@@ -44,6 +44,12 @@ export const metadata: Metadata = {
     apple: "/favicon-dark/apple-touch-icon.png",
   },
   description: `Ammar Ahmed's personal portfolio and blog website created with Next.js using Notion as a CMS.`,
+  openGraph: {
+    type: "website",
+    description:
+      "Ammar Ahmed's personal portfolio and blog website created with Next.js using Notion as a CMS.",
+    siteName: "ammarahmed.ca",
+  },
 };
 
 export default function RootLayout({

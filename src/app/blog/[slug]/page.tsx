@@ -1,6 +1,7 @@
 import api from "@/lib/api";
 import Metadata from "./metadata";
 import Block from "./block";
+import { Metadata as NextMetadata } from "next";
 
 export type BlogPostProps = {
   params: Promise<{ slug: string }>;
@@ -22,6 +23,26 @@ export async function generateStaticParams() {
       slug: post.slug,
     };
   });
+}
+
+export async function generateMetadata({
+  params,
+}: BlogPostProps): Promise<NextMetadata> {
+  const { slug } = await params;
+  const [post] = await api.posts.list({ slug });
+  return {
+    title: post.name,
+    description: post.description.map((r) => r.plainText).join(""),
+    openGraph: {
+      type: "article",
+      description: post.description.map((r) => r.plainText).join(""),
+      siteName: "ammarahmed.ca",
+      title: post.name,
+      images: post.image ? [post.image] : [],
+      tags: post.tags,
+      url: "https://ammarahmed.ca/blog/" + post.slug,
+    },
+  };
 }
 
 export default async function BlogPost(props: BlogPostProps) {
