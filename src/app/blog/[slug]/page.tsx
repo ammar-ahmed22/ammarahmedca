@@ -31,15 +31,18 @@ export async function generateMetadata({
 }: BlogPostProps): Promise<NextMetadata> {
   const { slug } = await params;
   const [post] = await api.posts.list({ slug });
+  const description = toPlainText(post.description);
   return {
     title: post.name,
-    description: toPlainText(post.description),
+    description,
     openGraph: {
       type: "article",
-      description: toPlainText(post.description),
+      description,
       siteName: "ammarahmed.ca",
       title: post.name,
-      images: post.image ? [post.image] : [],
+      images: [
+        `/api/og?title=${encodeURIComponent(post.name)}&description=${encodeURIComponent(description)}`,
+      ],
       tags: post.tags,
       url: "https://ammarahmed.ca/blog/" + post.slug,
     },

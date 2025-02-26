@@ -2,8 +2,21 @@ import api from "@/lib/api";
 import { Metadata } from "next";
 import Posts from "./posts";
 
+const description =
+  "Sometimes I like to write about things I've worked on, my experiences, or anything else of interest to me.";
+
 export const metadata: Metadata = {
   title: "Blog",
+  description,
+  openGraph: {
+    title: "Blog",
+    description,
+    type: "website",
+    siteName: "ammarahmed.ca",
+    images: [
+      `/api/og?title=Blog&description=${encodeURIComponent(description)}`,
+    ],
+  },
 };
 
 export const revalidate = 60;
@@ -17,8 +30,7 @@ export default async function Blog() {
           Blog
         </h1>
         <p className="text-lg text-neutral text-center">
-          Sometimes I like to write about things I&apos;ve worked on,
-          my experiences, or anything else of interest to me.
+          {description}
         </p>
       </div>
       <Posts posts={posts} />
