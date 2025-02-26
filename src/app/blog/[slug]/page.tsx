@@ -50,7 +50,6 @@ export default async function BlogPost(props: BlogPostProps) {
   const { params } = props;
   const { slug } = await params;
   const { metadata, content } = await api.posts.content({ slug });
-  console.log(content);
   return (
     <div className="flex flex-col gap-4">
       <Metadata metadata={metadata} />

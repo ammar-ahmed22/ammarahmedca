@@ -71,7 +71,6 @@ export function ProjectCards({
         languageFilter.size > 0 ||
         frameworkFilter.size > 0
       ) {
-        console.log("getting here.");
         setFilteredProjects(
           projects.filter((project) => {
             return (
