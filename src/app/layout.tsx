@@ -41,8 +41,8 @@ export const metadata: Metadata = {
     absolute: "Home | Ammar Ahmed",
   },
   icons: {
-    icon: "/favicon-dark/favicon.ico",
-    apple: "/favicon-dark/apple-touch-icon.png",
+    icon: "/favicon/favicon.ico",
+    apple: "/favicon/apple-touch-icon.png",
   },
   description: `Ammar Ahmed's personal portfolio and blog website created with Next.js, React, TypeScript, and tailwindCSS using Notion as a CMS.`,
   openGraph: {
@@ -50,6 +50,7 @@ export const metadata: Metadata = {
     description:
       "Ammar Ahmed's personal portfolio and blog website created with Next.js using Notion as a CMS.",
     siteName: "ammarahmed.ca",
+    images: ["/home.gif"],
   },
 };
 
