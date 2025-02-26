@@ -5,14 +5,18 @@ import { toPlainText } from "@/lib/notion/utils";
 
 export async function generateMetadata(): Promise<Metadata> {
   const [post] = await api.posts.list({ slug: "about" });
+  const description = toPlainText(post.description);
   return {
     title: "About",
-    description: toPlainText(post.description),
+    description,
     openGraph: {
       title: "About",
       description: toPlainText(post.description),
       type: "website",
       siteName: "ammarahmed.ca",
+      images: [
+        `/api/og?title=About&description=${encodeURIComponent(description)}`,
+      ],
     },
   };
 }
