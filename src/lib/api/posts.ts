@@ -68,11 +68,7 @@ class Posts {
     }
     let image: string | undefined = undefined;
     if (page.cover) {
-      if (page.cover.type === "external") {
-        image = page.cover.external.url;
-      } else if (page.cover.type === "file") {
-        image = page.cover.file.url;
-      }
+      image = `/api/notion-assets/page/${page.id}/cover`;
     }
 
     return {
