@@ -227,16 +227,10 @@ class Posts {
           } as ParagraphBlock);
           break;
         case "image":
-          let url;
-          if (block.image.type === "file") {
-            url = block.image.file.url;
-          } else {
-            url = block.image.external.url;
-          }
           content.push({
             id: block.id,
             type: "image",
-            url,
+            url: `/api/notion-assets/block/${block.id}/image`,
             caption: block.image.caption.map(mapRichText),
           } as ImageBlock);
           break;
@@ -296,16 +290,10 @@ class Posts {
           } as CalloutBlock);
           break;
         case "video":
-          let videoUrl;
-          if (block.video.type === "file") {
-            videoUrl = block.video.file.url;
-          } else {
-            videoUrl = block.video.external.url;
-          }
           content.push({
             id: block.id,
             type: "video",
-            url: videoUrl,
+            url: `/api/notion-assets/block/${block.id}/video`,
             caption: block.video.caption.map(mapRichText),
           } as VideoBlock);
           break;

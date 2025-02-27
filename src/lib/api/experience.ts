@@ -23,14 +23,8 @@ class Experiences {
     return filteredResults.map((result) => {
       const properties = new Properties(result.properties);
       let icon: string | undefined = undefined;
-      if (result.icon) {
-        if (result.icon.type === "file") {
-          icon = result.icon.file.url;
-        } else if (result.icon.type === "emoji") {
-          icon = result.icon.emoji;
-        } else {
-          icon = result.icon.external.url;
-        }
+      if (result.icon && result.icon.type !== "emoji") {
+        icon = `/api/notion-assets/page/${result.id}/icon`;
       }
       return {
         id: result.id,

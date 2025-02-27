@@ -41,7 +41,8 @@ export async function generateMetadata({
       siteName: "ammarahmed.ca",
       title: post.name,
       images: [
-        `/api/og?title=${encodeURIComponent(post.name)}&description=${encodeURIComponent(description)}`,
+        post.image ??
+          `/api/og?title=${encodeURIComponent(post.name)}&description=${encodeURIComponent(description)}`,
       ],
       tags: post.tags,
       url: "https://ammarahmed.ca/blog/" + post.slug,

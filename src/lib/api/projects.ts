@@ -48,11 +48,7 @@ class Projects {
       const properties = new Properties(result.properties);
       let image: string | undefined = undefined;
       if (result.cover) {
-        if (result.cover.type === "external") {
-          image = result.cover.external.url;
-        } else {
-          image = result.cover.file.url;
-        }
+        image = `/api/notion-assets/page/${result.id}/cover`;
       }
       return {
         id: result.id,
