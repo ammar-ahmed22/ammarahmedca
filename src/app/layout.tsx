@@ -9,6 +9,7 @@ import { ThemeProvider } from "@/context/theme";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import NextTopLoader from "nextjs-toploader";
+import { Analytics } from "@vercel/analytics/react";
 import "./globals.css";
 
 const dmMono = DM_Mono({
@@ -64,6 +65,7 @@ export default function RootLayout({
       <html lang="en">
         <body
           className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans text-base`}>
+          <Analytics />
           <NextTopLoader color="hsl(var(--foreground))" />
           <Navbar />
           <main className="mt-[15vh] max-w-4xl mx-auto px-3">
