@@ -12,6 +12,7 @@ const Image: React.FC<ImageBlock> = (block) => {
         src={block.url}
         alt={toPlainText(block.caption)}
         className="w-full rounded-xl"
+        loadingClassName="h-[40vh]"
       />
       {block.caption.length > 0 && (
         <RichText
