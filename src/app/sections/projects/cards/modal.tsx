@@ -43,7 +43,11 @@ export default function CardModal({
       <AnimatePresence>
         {active && typeof active === "object" ? (
           <div className="fixed inset-0  grid place-items-center z-[100]">
-            <Button asChild size="icon" variant="ghost">
+            <Button
+              asChild
+              className="z-[100]"
+              size="icon"
+              variant="ghost">
               <motion.button
                 key={`button-${active.id}-${id}`}
                 layout
