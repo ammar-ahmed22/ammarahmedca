@@ -42,36 +42,39 @@ export default function CardModal({
       </AnimatePresence>
       <AnimatePresence>
         {active && typeof active === "object" ? (
-          <div className="fixed inset-0  grid place-items-center z-[100]">
-            <Button
-              asChild
-              className="z-[100]"
-              size="icon"
-              variant="ghost">
-              <motion.button
-                key={`button-${active.id}-${id}`}
-                layout
-                initial={{
-                  opacity: 0,
-                }}
-                animate={{
-                  opacity: 1,
-                }}
-                exit={{
-                  opacity: 0,
-                  transition: {
-                    duration: 0.05,
-                  },
-                }}
-                className="flex absolute top-2 right-2 items-center justify-center"
-                onClick={() => onClose()}>
-                <XIcon />
-              </motion.button>
-            </Button>
+          <div className="fixed inset-0 grid place-items-center z-[100]">
             <motion.div
               layoutId={`card-${active.id}-${id}`}
               ref={ref}
               className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-background border sm:rounded-3xl gap-4 overflow-scroll">
+              <Button
+                asChild
+                className="z-[100]"
+                size="icon"
+                variant="ghost">
+                <motion.button
+                  key={`button-${active.id}-${id}`}
+                  layout
+                  initial={{
+                    opacity: 0,
+                  }}
+                  animate={{
+                    opacity: 1,
+                  }}
+                  exit={{
+                    opacity: 0,
+                    transition: {
+                      duration: 0.05,
+                    },
+                  }}
+                  className="flex absolute top-2 right-2 items-center justify-center"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    onClose();
+                  }}>
+                  <XIcon />
+                </motion.button>
+              </Button>
               {active.image && (
                 <motion.div layoutId={`image-${active.id}-${id}`}>
                   <ImageWithLoading
