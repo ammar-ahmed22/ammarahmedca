@@ -77,7 +77,9 @@ export default function CardModal({
                   <ImageWithLoading
                     src={active.image}
                     alt={active.name}
-                    className="w-full h-full sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-center"
+                    className="w-full h-full max-h-[40vh] sm:rounded-tr-lg sm:rounded-tl-lg object-cover object-center"
+                    containerClassName="max-h-[40vh]"
+                    loadingClassName="h-[40vh]"
                   />
                 </motion.div>
               )}
