@@ -1,13 +1,13 @@
 import { useContext } from "react";
-import { ThemeContext } from "@/context/theme";
+import { UIContext } from "@/context/ui";
 
 export const useToggleTheme = () => {
-  const { setTheme } = useContext(ThemeContext);
+  const { setTheme } = useContext(UIContext);
   return () =>
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
 };
 
 export function useThemeValue<T>(light: T, dark: T): T {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(UIContext);
   return theme === "light" ? light : dark;
 }

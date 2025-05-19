@@ -1,5 +1,11 @@
 "use client";
-import { useState, useEffect, useId, useMemo } from "react";
+import {
+  useState,
+  useEffect,
+  useId,
+  useMemo,
+  useContext,
+} from "react";
 import { motion } from "framer-motion";
 import ImageWithLoading from "@/components/ui/loading-image";
 import type { Project } from "@/types/api";
@@ -13,6 +19,7 @@ import { Input } from "@/components/ui/input";
 import CardModal from "./modal";
 import Filter from "./filter";
 import { formatDateRange } from "@/lib/date";
+import { UIContext } from "@/context/ui";
 
 export type ProjectCardsProps = {
   projects: Project[];
@@ -41,6 +48,7 @@ export function ProjectCards({
   const [frameworkFilter, setFrameworkFilter] = useState<Set<string>>(
     new Set(),
   );
+  const { setIsNavbarVisible } = useContext(UIContext);
   const [displayedProjects, { reset, showMore }] = useVisibleArray(
     projects,
     4,
@@ -109,6 +117,12 @@ export function ProjectCards({
       );
     }
   }, [projects, query, typeFilter, languageFilter, frameworkFilter]);
+
+  useEffect(() => {
+    if (active) {
+      setIsNavbarVisible(false);
+    }
+  }, [active, setIsNavbarVisible]);
 
   const isSearchFiltering = useMemo(
     () =>

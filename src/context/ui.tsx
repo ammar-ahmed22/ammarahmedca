@@ -1,26 +1,29 @@
 "use client";
 import React, { createContext, useState, useEffect } from "react";
-import type { Theme, ThemeContextType } from "@/types/context/theme";
+import type { Theme, UIContextType } from "@/types/context/ui";
 
-export const ThemeContext = createContext<ThemeContextType>({
+export const UIContext = createContext<UIContextType>({
   theme: "light",
   setTheme: () => {},
+  isNavbarVisible: true,
+  setIsNavbarVisible: () => {},
 });
 
-export type ThemeProviderProps = {
+export type UIContextProviderProps = {
   children: React.ReactNode;
   rootSelector?: string;
   defaultTheme?: Theme;
   defaultClasses?: string;
 };
 
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({
+export const UIContextProvider: React.FC<UIContextProviderProps> = ({
   children,
   rootSelector = ":root",
   defaultTheme = "light",
   defaultClasses = "",
 }) => {
   const [theme, setTheme] = useState<Theme>(defaultTheme);
+  const [isNavbarVisible, setIsNavbarVisible] = useState(true);
 
   useEffect(() => {
     const root = document.querySelector(rootSelector) as HTMLElement;
@@ -40,8 +43,14 @@ export const ThemeProvider: React.FC<ThemeProviderProps> = ({
   }, [defaultClasses, rootSelector]);
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme }}>
+    <UIContext.Provider
+      value={{
+        theme,
+        setTheme,
+        isNavbarVisible,
+        setIsNavbarVisible,
+      }}>
       {children}
-    </ThemeContext.Provider>
+    </UIContext.Provider>
   );
 };

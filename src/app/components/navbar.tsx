@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { cn } from "@/lib/utils";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -18,6 +18,7 @@ import {
   SheetTitle,
   SheetClose,
 } from "@/components/ui/sheet";
+import { UIContext } from "@/context/ui";
 
 export type NavItem = {
   name: string;
@@ -44,7 +45,8 @@ export default function Navbar() {
   const isMobile = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();
 
-  const [visible, setVisible] = useState(true);
+  const { isNavbarVisible: visible, setIsNavbarVisible: setVisible } =
+    useContext(UIContext);
   useEffect(() => {
     if (lastY < 50) {
       setVisible(true);
