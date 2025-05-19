@@ -5,7 +5,7 @@ import {
   DM_Serif_Text,
   DM_Serif_Display,
 } from "next/font/google";
-import { ThemeProvider } from "@/context/theme";
+import { UIContextProvider } from "@/context/ui";
 import Navbar from "./components/navbar";
 import Footer from "./components/footer";
 import NextTopLoader from "nextjs-toploader";
@@ -61,7 +61,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ThemeProvider defaultTheme="dark" rootSelector=":root">
+    <UIContextProvider defaultTheme="dark" rootSelector=":root">
       <html lang="en">
         <body
           className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans text-base`}>
@@ -74,6 +74,6 @@ export default function RootLayout({
           <Footer />
         </body>
       </html>
-    </ThemeProvider>
+    </UIContextProvider>
   );
 }
