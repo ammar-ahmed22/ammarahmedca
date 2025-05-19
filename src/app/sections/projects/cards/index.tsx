@@ -232,7 +232,9 @@ export function ProjectCards({
                       src={project.image}
                       alt={project.name}
                       iconClassName="size-12"
-                      className="w-full h-full max-h-60 rounded-lg object-contain object-top"
+                      className="w-full h-full max-h-60 rounded-lg object-cover object-center"
+                      containerClassName="max-h-60"
+                      loadingClassName="h-60"
                     />
                   </motion.div>
                 )}

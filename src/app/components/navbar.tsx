@@ -57,7 +57,7 @@ export default function Navbar() {
         setVisible(true);
       }
     }
-  }, [direction, lastY]);
+  }, [direction, lastY, setVisible]);
 
   const themeToggleIcon = useThemeValue(<MoonIcon />, <SunIcon />);
   const toggleTheme = useToggleTheme();

@@ -8,6 +8,7 @@ export type ImageWithLoadingProps = {
   alt: string;
   className?: string;
   containerClassName?: string;
+  loadingClassName?: string;
   iconClassName?: string;
 };
 
@@ -16,18 +17,20 @@ export default function ImageWithLoading({
   alt,
   className,
   containerClassName,
+  loadingClassName,
   iconClassName,
 }: ImageWithLoadingProps) {
   const [loading, setLoading] = useState(true);
 
   return (
-    <div className={cn("w-full relative", containerClassName)}>
+    <div
+      className={cn(
+        "w-full relative",
+        containerClassName,
+        loading && loadingClassName,
+      )}>
       {loading && (
-        <div
-          className={cn(
-            "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2",
-            containerClassName,
-          )}>
+        <div className="absolute h-full w-full flex justify-center items-center">
           <LoaderCircleIcon
             className={cn("animate-spin size-24", iconClassName)}
           />
