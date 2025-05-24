@@ -35,6 +35,10 @@ const navItems: NavItem[] = [
     link: "/about",
   },
   {
+    name: "Leetcode",
+    link: "/leetcode",
+  },
+  {
     name: "Blog",
     link: "/blog",
   },
