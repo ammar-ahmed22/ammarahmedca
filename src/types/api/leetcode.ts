@@ -1,10 +1,14 @@
+import { Block } from "./blocks";
+
 export type LeetcodeDifficulty = "easy" | "medium" | "hard";
 
 export type LeetcodeProblem = {
   id: string;
   difficulty: LeetcodeDifficulty;
   name: string;
-  content: string;
+  raw: string;
+  description?: Block;
+  blocks: Block[];
 };
 
 export type YamlProblem = {
