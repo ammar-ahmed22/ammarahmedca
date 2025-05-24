@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import api from "@/lib/api";
-import Block from "../blog/[slug]/block";
+import Block from "@/components/ui/block";
 import { toPlainText } from "@/lib/notion/utils";
 
 export async function generateMetadata(): Promise<Metadata> {

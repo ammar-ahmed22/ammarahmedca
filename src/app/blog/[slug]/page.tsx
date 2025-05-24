@@ -1,6 +1,6 @@
 import api from "@/lib/api";
 import Metadata from "./metadata";
-import Block from "./block";
+import Block from "@/components/ui/block";
 import { Metadata as NextMetadata } from "next";
 import { toPlainText } from "@/lib/notion/utils";
 
