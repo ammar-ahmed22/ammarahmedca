@@ -5,7 +5,7 @@ import Link from "next/link";
 import Problems from "./problems";
 
 const description =
-  "Showcasing my solutions to Leetcode problems alongside my thought process and approach to solving them.";
+  "Showcasing my solutions to Leetcode problems in Go alongside my thought process and approach to solving them.";
 
 export const metadata: Metadata = {
   title: "Leetcode",

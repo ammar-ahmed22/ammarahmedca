@@ -9,6 +9,10 @@ import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { v4 as uuid } from "uuid";
 import { Block } from "@/types/api/blocks";
 
+export type ProblemListOptions = {
+  difficulty?: string;
+};
+
 class Leetcode {
   private async readGitHubFile(path: string): Promise<string> {
     const token = process.env.GITHUB_TOKEN;
@@ -30,7 +34,7 @@ class Leetcode {
     const base64 = data.content;
     return Buffer.from(base64, "base64").toString("utf-8");
   }
-  async list(): Promise<LeetcodeProblem[]> {
+  async list(opts?: ProblemListOptions): Promise<LeetcodeProblem[]> {
     const problemsYaml = await this.readGitHubFile("problems.yaml");
     const problems = yaml.parse(problemsYaml) as Record<
       string,
@@ -43,8 +47,15 @@ class Leetcode {
       },
     );
 
+    let filteredProblems = publishedProblems;
+    if (opts?.difficulty) {
+      filteredProblems = publishedProblems.filter((entry) => {
+        return entry[1].difficulty === opts.difficulty;
+      });
+    }
+
     const leetcodeProblems: LeetcodeProblem[] = await Promise.all(
-      publishedProblems.map(async ([id, problem]) => {
+      filteredProblems.map(async ([id, problem]) => {
         const path = `${encodeURIComponent(problem.directory)}/docs.md`;
         const content = await this.readGitHubFile(path);
         const blocks = markdownToBlocks(content);
