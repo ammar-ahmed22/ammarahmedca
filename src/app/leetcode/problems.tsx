@@ -5,14 +5,10 @@ import { format } from "date-fns";
 import Link from "next/link";
 import React from "react";
 import Block from "@/components/ui/block";
+import { capitalize } from "@/lib/utils";
 
 export type ProblemsProps = {
   problems: LeetcodeProblem[];
-};
-
-// TODO: Move this to a utils file
-const capitalize = (str: string) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
 };
 
 export default function Problems({ problems }: ProblemsProps) {
