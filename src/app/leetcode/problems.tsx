@@ -1,7 +1,6 @@
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { LeetcodeProblem } from "@/types/api/leetcode";
-import { format } from "date-fns";
 import Link from "next/link";
 import React from "react";
 import Block from "@/components/ui/block";
@@ -27,9 +26,6 @@ export default function Problems({ problems }: ProblemsProps) {
                       {capitalize(problem.difficulty)}
                     </Badge>
                   </div>
-                  <span className="text-neutral">
-                    {format(new Date(), "MMM dd, yyyy")}
-                  </span>
                   <h4 className="text-xl font-bold mt-2">
                     {problem.name}
                   </h4>
