@@ -1,5 +1,6 @@
 import yaml from "yaml";
 import type {
+  LeetcodeMetadata,
   LeetcodeProblem,
   YamlProblem,
 } from "@/types/api/leetcode";
@@ -43,6 +44,41 @@ class Leetcode {
     const data = await res.json();
     const base64 = data.content;
     return Buffer.from(base64, "base64").toString("utf-8");
+  }
+
+  async metadata(): Promise<LeetcodeMetadata> {
+    const problemsYaml = await this.readGitHubFile("problems.yaml");
+    const problems = yaml.parse(problemsYaml) as Record<
+      string,
+      YamlProblem
+    >;
+    const publishedProblems = Object.entries(problems).filter(
+      (entry) => entry[1].published,
+    );
+
+    const easy = publishedProblems.filter(
+      (entry) => entry[1].difficulty === "easy",
+    ).length;
+    const medium = publishedProblems.filter(
+      (entry) => entry[1].difficulty === "medium",
+    ).length;
+    const hard = publishedProblems.filter(
+      (entry) => entry[1].difficulty === "hard",
+    ).length;
+
+    const allTags = new Set<string>();
+    for (const [, problem] of publishedProblems) {
+      if (problem.tags) {
+        problem.tags.forEach((tag) => allTags.add(tag));
+      }
+    }
+
+    return {
+      easy,
+      medium,
+      hard,
+      allTags: Array.from(allTags),
+    };
   }
 
   async list(
