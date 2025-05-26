@@ -39,7 +39,7 @@ export default async function Leetcode(props: LeetcodeProps) {
   });
   return (
     <div className="flex flex-col gap-4 items-center">
-      <div className="md:w-4/5 w-full mb-8">
+      <div className="md:w-4/5 w-full mb-4">
         <h1 className="text-4xl font-display font-bold text-center">
           Leetcode
         </h1>
@@ -47,7 +47,7 @@ export default async function Leetcode(props: LeetcodeProps) {
           {description}
         </p>
       </div>
-      <div className="flex flex-col gap-8 w-full">
+      <div className="flex flex-col gap-8 w-full items-center">
         <div className="flex gap-2 items-center px-6">
           <Link href="/leetcode/easy">
             <Badge variant="lc-easy">Easy</Badge>

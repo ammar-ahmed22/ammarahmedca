@@ -9,6 +9,7 @@ import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { v4 as uuid } from "uuid";
 import { Block } from "@/types/api/blocks";
 import { paginate } from "../utils";
+import { parseISO } from "date-fns";
 
 export type ProblemListOptions = {
   difficulty?: string;
@@ -97,9 +98,16 @@ class Leetcode {
           raw: content,
           blocks: parsed,
           description: description as Block | undefined,
+          date: parseISO(problem.date),
+          tags: problem.tags,
         };
       }),
     );
+
+    leetcodeProblems.sort((a, b) => {
+      return b.date.getTime() - a.date.getTime();
+    });
+
     return {
       problems: leetcodeProblems,
       page: opts?.page ?? 0,

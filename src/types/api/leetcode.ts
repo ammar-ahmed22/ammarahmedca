@@ -9,10 +9,14 @@ export type LeetcodeProblem = {
   raw: string;
   description?: Block;
   blocks: Block[];
+  date: Date;
+  tags?: string[];
 };
 
 export type YamlProblem = {
   published: boolean;
   difficulty: LeetcodeDifficulty;
   directory: string;
+  date: string;
+  tags?: string[];
 };

@@ -15,6 +15,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { format } from "date-fns";
 
 export type ProblemsProps = {
   problems: LeetcodeProblem[];
@@ -42,11 +43,28 @@ export default function Problems({
                       {capitalize(problem.difficulty)}
                     </Badge>
                   </div>
+                  <span className="text-sm text-neutral-500">
+                    {format(problem.date, "MMM dd, yyyy")}
+                  </span>
                   <h4 className="text-xl font-bold mt-2">
                     {problem.name}
                   </h4>
                   {problem.description && (
                     <Block block={problem.description} />
+                  )}
+                  {problem.tags && (
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {problem.tags.map((tag) => {
+                        return (
+                          <Badge
+                            key={problem.id + tag}
+                            variant="outline"
+                            className="border-foreground/30">
+                            #{tag}
+                          </Badge>
+                        );
+                      })}
+                    </div>
                   )}
                 </CardContent>
               </Card>
