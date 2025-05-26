@@ -37,6 +37,7 @@ export default async function Leetcode(props: LeetcodeProps) {
   const { problems, totalPages } = await api.leetcode.list({
     page: parsedPage,
   });
+  const metadata = await api.leetcode.metadata();
   return (
     <div className="flex flex-col gap-4 items-center">
       <div className="md:w-4/5 w-full mb-4">
@@ -50,13 +51,15 @@ export default async function Leetcode(props: LeetcodeProps) {
       <div className="flex flex-col gap-8 w-full items-center">
         <div className="flex gap-2 items-center px-6">
           <Link href="/leetcode/easy">
-            <Badge variant="lc-easy">Easy</Badge>
+            <Badge variant="lc-easy">Easy | {metadata.easy}</Badge>
           </Link>
           <Link href="/leetcode/medium">
-            <Badge variant="lc-medium">Medium</Badge>
+            <Badge variant="lc-medium">
+              Medium | {metadata.medium}
+            </Badge>
           </Link>
           <Link href="/leetcode/hard">
-            <Badge variant="lc-hard">Hard</Badge>
+            <Badge variant="lc-hard">Hard | {metadata.hard}</Badge>
           </Link>
         </div>
       </div>

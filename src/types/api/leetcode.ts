@@ -20,3 +20,10 @@ export type YamlProblem = {
   date: string;
   tags?: string[];
 };
+
+export type LeetcodeMetadata = {
+  easy: number;
+  medium: number;
+  hard: number;
+  allTags: string[];
+};
