@@ -44,6 +44,7 @@ class Leetcode {
     const base64 = data.content;
     return Buffer.from(base64, "base64").toString("utf-8");
   }
+
   async list(
     opts?: ProblemListOptions,
   ): Promise<ProblemListResponse> {
@@ -112,6 +113,49 @@ class Leetcode {
       problems: leetcodeProblems,
       page: opts?.page ?? 0,
       totalPages: paginated.totalPages,
+    };
+  }
+
+  async get(id: string): Promise<LeetcodeProblem> {
+    const problemsYaml = await this.readGitHubFile("problems.yaml");
+    const problems = yaml.parse(problemsYaml) as Record<
+      string,
+      YamlProblem
+    >;
+
+    const problem = problems[id];
+    if (!problem) {
+      throw new Error(`Problem with id ${id} not found`);
+    }
+
+    if (!problem.published) {
+      throw new Error(`Problem with id ${id} is not found`);
+    }
+
+    const path = `${encodeURIComponent(problem.directory)}/docs.md`;
+    const content = await this.readGitHubFile(path);
+    const blocks = markdownToBlocks(content);
+    const parsed = (
+      await parseBlocks(blocks as BlockObjectResponse[])
+    ).map((block) => {
+      return {
+        ...block,
+        id: block.id ?? uuid(),
+      };
+    });
+    // Find the first block that is not a heading
+    const description = parsed.find((block) => {
+      return block.type !== "heading";
+    });
+    return {
+      id,
+      difficulty: problem.difficulty,
+      name: problem.directory.split("-")[1].trim(),
+      raw: content,
+      blocks: parsed,
+      description: description as Block | undefined,
+      date: parseISO(problem.date),
+      tags: problem.tags,
     };
   }
 }

@@ -16,6 +16,8 @@ const colors: Record<LeetcodeDifficulty, string> = {
   hard: "text-red-500",
 };
 
+export const revalidate = 60;
+
 export function generateStaticParams() {
   return [
     { difficulty: "easy" },
