@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { capitalize, cn } from "@/lib/utils";
+import { capitalize, cn, parsePositiveInt } from "@/lib/utils";
 import { LeetcodeDifficulty } from "@/types/api/leetcode";
 import Problems from "../problems";
 import { Metadata } from "next";
@@ -7,6 +7,7 @@ import LinkBreadcrumb from "@/components/ui/link-breadcrumb";
 
 export type DifficultyProps = {
   params: Promise<{ difficulty: LeetcodeDifficulty }>;
+  searchParams: Promise<{ page?: string }>;
 };
 
 const colors: Record<LeetcodeDifficulty, string> = {
@@ -46,9 +47,11 @@ export async function generateMetadata(
 }
 
 export default async function Difficulty(props: DifficultyProps) {
-  const { params } = props;
+  const { params, searchParams } = props;
   const { difficulty } = await params;
-  const problems = await api.leetcode.list({
+  const { page } = await searchParams;
+  const parsedPage = parsePositiveInt(page, 0);
+  const { problems, totalPages } = await api.leetcode.list({
     difficulty,
   });
   return (
@@ -72,7 +75,11 @@ export default async function Difficulty(props: DifficultyProps) {
           Leetcode problems.
         </p>
       </div>
-      <Problems problems={problems} />
+      <Problems
+        problems={problems}
+        totalPages={totalPages}
+        page={parsedPage}
+      />
     </div>
   );
 }
