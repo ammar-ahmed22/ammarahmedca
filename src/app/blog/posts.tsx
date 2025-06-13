@@ -55,11 +55,13 @@ export default function Posts({ posts }: PostsProps) {
             <Link href={`/blog/${post.slug}`}>
               <Card
                 key={post.id}
-                className="w-full shadow-none flex-grow border-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 [&_img]:hover:scale-125 [&_img]:scale-100 cursor-pointer transition-all ease-in-out duration-200 relative">
+                className="w-full shadow-none flex-grow border-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 [&_img]:hover:scale-125 [&_img]:scale-100 cursor-pointer transition-all ease-in-out duration-200 relative"
+              >
                 {post.image && post.category && (
                   <Badge
                     className="absolute top-4 left-4 z-20 rounded-full border-foreground/30 bg-background/60"
-                    variant="outline">
+                    variant="outline"
+                  >
                     {post.category}
                   </Badge>
                 )}
@@ -77,7 +79,8 @@ export default function Posts({ posts }: PostsProps) {
                     <div className="my-4">
                       <Badge
                         className="rounded-full border-foreground/30 bg-background/60"
-                        variant="outline">
+                        variant="outline"
+                      >
                         {post.category}
                       </Badge>
                     </div>
@@ -101,7 +104,8 @@ export default function Posts({ posts }: PostsProps) {
                         <Badge
                           key={`post-${post.id}-tag-${tagIdx}`}
                           variant="outline"
-                          className="border-foreground/30">
+                          className="border-foreground/30"
+                        >
                           #{tag}
                         </Badge>
                       );

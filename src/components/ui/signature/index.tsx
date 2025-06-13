@@ -61,7 +61,8 @@ export default function Signature({
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       stroke="currentColor"
-      className={cn("h-full w-auto", className)}>
+      className={cn("h-full w-auto", className)}
+    >
       {signatureSvgPathLengths.map((length, idx) => {
         return (
           <motion.path

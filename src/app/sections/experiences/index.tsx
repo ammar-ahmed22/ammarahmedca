@@ -44,7 +44,8 @@ export default async function Experiences() {
                     return (
                       <Badge
                         key={`${experience.id}-${skill}`}
-                        variant="outline">
+                        variant="outline"
+                      >
                         {skill}
                       </Badge>
                     );

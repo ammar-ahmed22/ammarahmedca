@@ -20,7 +20,8 @@ export default function RichText({
 
   return (
     <Component
-      className={cn("text-neutral whitespace-pre-line", className)}>
+      className={cn("text-neutral whitespace-pre-line", className)}
+    >
       <Mathjax.Provider>
         {data.map((richText, index) => {
           const { annotations, plainText } = richText;
@@ -42,7 +43,8 @@ export default function RichText({
                 className={className}
                 href={annotations.href}
                 target="_blank"
-                rel="noopener noreferrer">
+                rel="noopener noreferrer"
+              >
                 {plainText}
               </a>
             );

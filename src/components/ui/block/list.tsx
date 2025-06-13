@@ -34,7 +34,8 @@ export const ListItem: React.FC<ListItemProps> = ({
           className={cn("list-inside", {
             "list-[revert]": type === "unordered",
             "list-[lower-alpha]": type === "ordered",
-          })}>
+          })}
+        >
           {data.children.map((child, idx) => {
             return (
               <ListItem

@@ -39,7 +39,8 @@ export default function Metadata({ metadata }: MetadataProps) {
             <Badge
               key={`post-${metadata.id}-tag-${tag}`}
               variant="outline"
-              className="border-foreground/30">
+              className="border-foreground/30"
+            >
               #{tag}
             </Badge>
           );

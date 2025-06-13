@@ -28,7 +28,8 @@ export default function ImageWithLoading({
         "w-full relative",
         containerClassName,
         loading && loadingClassName,
-      )}>
+      )}
+    >
       {loading && (
         <div className="absolute h-full w-full flex justify-center items-center">
           <LoaderCircleIcon

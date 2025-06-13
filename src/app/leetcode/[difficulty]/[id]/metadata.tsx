@@ -42,7 +42,8 @@ export default function LeetcodeProblemMetadata(
               <Badge
                 key={`${problem.id}-${tag}`}
                 className="border-foreground/30"
-                variant="outline">
+                variant="outline"
+              >
                 #{tag}
               </Badge>
             );

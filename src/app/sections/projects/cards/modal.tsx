@@ -46,12 +46,14 @@ export default function CardModal({
             <motion.div
               layoutId={`card-${active.id}-${id}`}
               ref={ref}
-              className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-background border sm:rounded-3xl gap-4 overflow-scroll">
+              className="w-full max-w-[500px] h-full md:h-fit md:max-h-[90%] flex flex-col bg-background border sm:rounded-3xl gap-4 overflow-scroll"
+            >
               <Button
                 asChild
                 className="z-[100]"
                 size="icon"
-                variant="ghost">
+                variant="ghost"
+              >
                 <motion.button
                   key={`button-${active.id}-${id}`}
                   layout
@@ -71,7 +73,8 @@ export default function CardModal({
                   onClick={(e) => {
                     e.stopPropagation();
                     onClose();
-                  }}>
+                  }}
+                >
                   <XIcon />
                 </motion.button>
               </Button>
@@ -91,12 +94,14 @@ export default function CardModal({
                   <div>
                     <motion.small
                       layoutId={`type-${active.id}-${id}`}
-                      className="uppercase text-sm font-bold">
+                      className="uppercase text-sm font-bold"
+                    >
                       {active.type.join(" • ")}
                     </motion.small>
                     <motion.h3
                       layoutId={`title-${active.id}-${id}`}
-                      className="font-bold text-neutral-700 dark:text-neutral-200 text-base">
+                      className="font-bold text-neutral-700 dark:text-neutral-200 text-base"
+                    >
                       {active.name}
                     </motion.h3>
                   </div>
@@ -110,7 +115,8 @@ export default function CardModal({
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           href={active.github}
-                          target="_blank">
+                          target="_blank"
+                        >
                           <SiGithub /> GitHub
                         </motion.a>
                       </Button>
@@ -119,14 +125,16 @@ export default function CardModal({
                       <Button
                         asChild
                         className="rounded-full"
-                        variant="outline">
+                        variant="outline"
+                      >
                         <motion.a
                           layout
                           initial={{ opacity: 0 }}
                           animate={{ opacity: 1 }}
                           exit={{ opacity: 0 }}
                           href={active.external}
-                          target="_blank">
+                          target="_blank"
+                        >
                           <ExternalLinkIcon /> Demo
                         </motion.a>
                       </Button>
@@ -135,7 +143,8 @@ export default function CardModal({
                 </div>
                 <motion.div
                   className="flex flex-col gap-2 px-4 pb-2"
-                  layoutId={`tags-${active.id}-${id}`}>
+                  layoutId={`tags-${active.id}-${id}`}
+                >
                   {active.languages.length > 0 && (
                     <div className="flex flex-wrap gap-2">
                       {active.languages.map((lang) => {
@@ -143,7 +152,8 @@ export default function CardModal({
                           <Badge
                             key={lang}
                             className="text-xs"
-                            variant="outline">
+                            variant="outline"
+                          >
                             {lang}
                           </Badge>
                         );
@@ -157,7 +167,8 @@ export default function CardModal({
                           <Badge
                             key={framework}
                             className="text-xs"
-                            variant="secondary">
+                            variant="secondary"
+                          >
                             {framework}
                           </Badge>
                         );
@@ -168,7 +179,8 @@ export default function CardModal({
                 {active.date && (
                   <motion.div
                     layoutId={`date-${active.id}-${id}`}
-                    className="flex gap-2 text-neutral items-center px-4">
+                    className="flex gap-2 text-neutral items-center px-4"
+                  >
                     <CalendarIcon className="size-4" />
                     <span>
                       {formatDateRange(active.date, "MMM yyyy")}
@@ -181,7 +193,8 @@ export default function CardModal({
                   layout
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}>
+                  exit={{ opacity: 0 }}
+                >
                   <RichText data={active.description} as="p" />
                 </motion.div>
               </div>

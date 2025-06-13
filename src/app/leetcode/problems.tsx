@@ -35,7 +35,8 @@ export default function Problems({
         return (
           <React.Fragment key={problem.id}>
             <Link
-              href={`/leetcode/${problem.difficulty}/${problem.id}`}>
+              href={`/leetcode/${problem.difficulty}/${problem.id}`}
+            >
               <Card className="w-full shadow-none flex-grow border-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 [&_img]:hover:scale-125 [&_img]:scale-100 cursor-pointer transition-all ease-in-out duration-200 relative">
                 <CardContent>
                   <div className="py-4">
@@ -59,7 +60,8 @@ export default function Problems({
                           <Badge
                             key={problem.id + tag}
                             variant="outline"
-                            className="border-foreground/30">
+                            className="border-foreground/30"
+                          >
                             #{tag}
                           </Badge>
                         );
@@ -92,7 +94,8 @@ export default function Problems({
                   <PaginationItem key={i}>
                     <PaginationLink
                       href={`/leetcode?page=${i}`}
-                      isActive={page === i}>
+                      isActive={page === i}
+                    >
                       {i + 1}
                     </PaginationLink>
                   </PaginationItem>
@@ -104,14 +107,16 @@ export default function Problems({
               <PaginationItem>
                 <PaginationLink
                   href="/leetcode?page=0"
-                  isActive={page === 0}>
+                  isActive={page === 0}
+                >
                   1
                 </PaginationLink>
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink
                   href="/leetcode?page=1"
-                  isActive={page === 1}>
+                  isActive={page === 1}
+                >
                   2
                 </PaginationLink>
               </PaginationItem>
@@ -121,7 +126,8 @@ export default function Problems({
               <PaginationItem>
                 <PaginationLink
                   href={`/leetcode?page=${totalPages - 1}`}
-                  isActive={page === totalPages - 1}>
+                  isActive={page === totalPages - 1}
+                >
                   {totalPages}
                 </PaginationLink>
               </PaginationItem>

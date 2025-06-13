@@ -99,7 +99,8 @@ export default function Navbar() {
           {
             "border-none shadow-none": lastY === 0,
           },
-        )}>
+        )}
+      >
         <Image
           src={logoSrc}
           alt="Logo for ammarahmed.ca"
@@ -125,7 +126,8 @@ export default function Navbar() {
                         "dark:text-foreground text-foreground border-b dark:border-neutral-50 border-neutral-900":
                           isActive,
                       },
-                    )}>
+                    )}
+                  >
                     <span className="hidden sm:block text-md">
                       {navItem.name}
                     </span>
@@ -137,7 +139,8 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                onClick={() => toggleTheme()}>
+                onClick={() => toggleTheme()}
+              >
                 {themeToggleIcon}
               </Button>
               <a
@@ -147,7 +150,8 @@ export default function Navbar() {
                 className={buttonVariants({
                   variant: "ghost",
                   size: "icon",
-                })}>
+                })}
+              >
                 <SiGithub />
               </a>
             </div>
@@ -158,13 +162,15 @@ export default function Navbar() {
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
-                className="size-12 [&_svg]:size-6">
+                className="size-12 [&_svg]:size-6"
+              >
                 <MenuIcon />
               </Button>
             </SheetTrigger>
             <SheetContent
               side="top"
-              className="w-screen h-screen flex flex-col items-center justify-center">
+              className="w-screen h-screen flex flex-col items-center justify-center"
+            >
               <SheetTitle className="hidden">
                 Website Navigation
               </SheetTitle>
@@ -181,7 +187,8 @@ export default function Navbar() {
                         className={cn("text-4xl font-bold pb-2", {
                           "border-b dark:border-neutral-50 border-neutral-900":
                             isActive,
-                        })}>
+                        })}
+                      >
                         {navItem.name}
                       </Link>
                     </SheetClose>
@@ -199,7 +206,8 @@ export default function Navbar() {
                   rel="noreferrer noopenner"
                   className={buttonVariants({
                     variant: "ghost",
-                  })}>
+                  })}
+                >
                   <SiGithub />
                   GitHub
                 </a>

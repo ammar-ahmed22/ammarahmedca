@@ -203,12 +203,14 @@ export function ProjectCards({
             return (
               <Badge
                 key={`filter-badge-type-${type}`}
-                className="flex gap-2 hover:bg-primary">
+                className="flex gap-2 hover:bg-primary"
+              >
                 {type}{" "}
                 <Button
                   size="icon"
                   className="size-4 [&_svg]:size-3"
-                  variant="default">
+                  variant="default"
+                >
                   <XIcon />
                 </Button>
               </Badge>
@@ -224,7 +226,8 @@ export function ProjectCards({
               layoutId={`card-${project.id}-${id}`}
               key={project.id}
               className="h-full"
-              onClick={() => setActive(project)}>
+              onClick={() => setActive(project)}
+            >
               <Card className="h-full py-8 px-5 flex flex-col gap-4 hover:bg-neutral-50 dark:hover:bg-neutral-800 cursor-pointer">
                 {project.image && (
                   <motion.div layoutId={`image-${project.id}-${id}`}>
@@ -242,18 +245,21 @@ export function ProjectCards({
                   <div>
                     <motion.small
                       layoutId={`type-${project.id}-${id}`}
-                      className="uppercase text-sm font-bold">
+                      className="uppercase text-sm font-bold"
+                    >
                       {project.type.join(" • ")}
                     </motion.small>
                     <motion.h3
                       layoutId={`title-${project.id}`}
-                      className="font-bold text-neutral-800 dark:text-neutral-200 text-base">
+                      className="font-bold text-neutral-800 dark:text-neutral-200 text-base"
+                    >
                       {project.name}
                     </motion.h3>
                   </div>
                   <motion.div
                     className="flex flex-col gap-2"
-                    layoutId={`tags-${project.id}-${id}`}>
+                    layoutId={`tags-${project.id}-${id}`}
+                  >
                     {project.languages.length > 0 && (
                       <div className="flex flex-wrap gap-2">
                         {project.languages.map((lang) => {
@@ -261,7 +267,8 @@ export function ProjectCards({
                             <Badge
                               key={lang}
                               className="text-xs"
-                              variant="outline">
+                              variant="outline"
+                            >
                               {lang}
                             </Badge>
                           );
@@ -275,7 +282,8 @@ export function ProjectCards({
                             <Badge
                               key={framework}
                               className="text-xs"
-                              variant="secondary">
+                              variant="secondary"
+                            >
                               {framework}
                             </Badge>
                           );
@@ -286,7 +294,8 @@ export function ProjectCards({
                   {project.date && (
                     <motion.div
                       layoutId={`date-${project.id}-${id}`}
-                      className="flex gap-2 text-neutral items-center">
+                      className="flex gap-2 text-neutral items-center"
+                    >
                       <CalendarIcon className="size-4" />
                       <span>
                         {formatDateRange(project.date, "MMM yyyy")}
@@ -307,7 +316,8 @@ export function ProjectCards({
               } else {
                 showMore(4);
               }
-            }}>
+            }}
+          >
             {displayedProjects.length === projects.length ? (
               <ArrowUpIcon />
             ) : (

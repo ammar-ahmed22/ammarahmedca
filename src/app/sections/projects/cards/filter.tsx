@@ -74,7 +74,8 @@ export default function Filter({
                       return (
                         <CommandItem
                           key={`type-${type}`}
-                          onSelect={() => onSelectType(type)}>
+                          onSelect={() => onSelectType(type)}
+                        >
                           {filteredTypes.has(type) ? (
                             <CheckIcon />
                           ) : null}
@@ -103,7 +104,8 @@ export default function Filter({
                       return (
                         <CommandItem
                           key={`language-${language}`}
-                          onSelect={() => onSelectLanguage(language)}>
+                          onSelect={() => onSelectLanguage(language)}
+                        >
                           {filteredLanguages.has(language) ? (
                             <CheckIcon />
                           ) : null}
@@ -134,7 +136,8 @@ export default function Filter({
                           key={`type-${framework}`}
                           onSelect={() =>
                             onSelectFramework(framework)
-                          }>
+                          }
+                        >
                           {filteredFrameworks.has(framework) ? (
                             <CheckIcon />
                           ) : null}

@@ -34,7 +34,8 @@ export async function GET(request: Request) {
           flexDirection: "column",
           justifyContent: "space-between",
           alignItems: "flex-start",
-        }}>
+        }}
+      >
         <div style={{ display: "flex", flexDirection: "column" }}>
           <div
             style={{
@@ -42,7 +43,8 @@ export async function GET(request: Request) {
               fontSize: 50,
               fontWeight: "bold",
               marginBottom: 16,
-            }}>
+            }}
+          >
             {title}
           </div>
           <div
@@ -50,7 +52,8 @@ export async function GET(request: Request) {
               fontFamily: "DM Sans",
               fontSize: 24,
               color: "rgb(163, 163, 163)",
-            }}>
+            }}
+          >
             {description}
           </div>
         </div>
@@ -60,7 +63,8 @@ export async function GET(request: Request) {
             justifyContent: "flex-end",
             alignItems: "center",
             width: "100%",
-          }}>
+          }}
+        >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={

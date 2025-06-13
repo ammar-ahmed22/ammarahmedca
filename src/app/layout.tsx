@@ -64,7 +64,8 @@ export default function RootLayout({
     <UIContextProvider defaultTheme="dark" rootSelector=":root">
       <html lang="en">
         <body
-          className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans text-base`}>
+          className={`${dmMono.variable} ${dmSans.variable} ${dmSerifText.variable} ${dmSerifDisplay.variable} antialiased font-sans text-base`}
+        >
           <Analytics />
           <NextTopLoader color="hsl(var(--foreground))" />
           <Navbar />

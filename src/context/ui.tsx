@@ -49,7 +49,8 @@ export const UIContextProvider: React.FC<UIContextProviderProps> = ({
         setTheme,
         isNavbarVisible,
         setIsNavbarVisible,
-      }}>
+      }}
+    >
       {children}
     </UIContext.Provider>
   );

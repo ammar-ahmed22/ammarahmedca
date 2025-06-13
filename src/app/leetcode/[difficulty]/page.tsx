@@ -69,7 +69,8 @@ export default async function Difficulty(props: DifficultyProps) {
           className={cn(
             "text-4xl font-bold font-display",
             colors[difficulty],
-          )}>
+          )}
+        >
           {capitalize(difficulty)}
         </h1>
         <p className="text-lg text-neutral">

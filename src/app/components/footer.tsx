@@ -17,7 +17,8 @@ export default function Footer() {
           className={buttonVariants({
             size: "icon",
             variant: "ghost",
-          })}>
+          })}
+        >
           <SiLinkedin />
         </a>
         <a
@@ -27,7 +28,8 @@ export default function Footer() {
           className={buttonVariants({
             size: "icon",
             variant: "ghost",
-          })}>
+          })}
+        >
           <SiGithub />
         </a>
         <a
@@ -37,7 +39,8 @@ export default function Footer() {
           className={buttonVariants({
             size: "icon",
             variant: "ghost",
-          })}>
+          })}
+        >
           <MailIcon />
         </a>
       </div>
