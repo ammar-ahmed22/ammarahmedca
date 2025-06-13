@@ -83,7 +83,7 @@ export function mapRichText(
     plainText: rt.plain_text ?? rt.text?.content ?? "",
     annotations: {
       ...rt.annotations,
-      href: rt.href ?? undefined,
+      href: rt.href ?? rt.text?.link?.url ?? undefined,
       equation: rt.type === "equation",
     },
   };
