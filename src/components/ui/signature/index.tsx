@@ -1,5 +1,5 @@
 "use client";
-import { AnimationProps, motion } from "motion/react";
+import { motion, SVGMotionProps } from "motion/react";
 import { signatureSvgPaths, signatureSvgPathLengths } from "./data";
 import { useScrollY } from "@/hooks/scroll";
 import { cn } from "@/lib/utils";
@@ -17,43 +17,44 @@ export default function Signature({
   animationType = "scroll",
 }: SignatureProps) {
   const { lastY } = useScrollY();
-  const getAnimationProps: (idx: number) => AnimationProps =
-    useCallback(
-      (idx: number) => {
-        if (animationType === "scroll") {
-          return {
-            animate: {
-              strokeDashoffset:
-                lastY === 0 ? 0 : signatureSvgPathLengths[idx],
-            },
-            transition: {
-              duration,
-              delay:
-                lastY === 0
-                  ? idx * duration
-                  : (signatureSvgPathLengths.length - idx - 1) *
-                    duration,
-              ease: "easeInOut",
-            },
-          };
-        } else {
-          return {
-            animate: {
-              strokeDashoffset: 0,
-            },
-            transition: {
-              duration,
-              delay: idx * duration,
-              repeat: Infinity,
-              repeatType: "reverse",
-              repeatDelay: duration + 1,
-              ease: "easeInOut",
-            },
-          };
-        }
-      },
-      [animationType, duration, lastY],
-    );
+  const getAnimationProps: (
+    idx: number,
+  ) => SVGMotionProps<SVGPathElement> = useCallback(
+    (idx: number) => {
+      if (animationType === "scroll") {
+        return {
+          animate: {
+            strokeDashoffset:
+              lastY === 0 ? 0 : signatureSvgPathLengths[idx],
+          },
+          transition: {
+            duration,
+            delay:
+              lastY === 0
+                ? idx * duration
+                : (signatureSvgPathLengths.length - idx - 1) *
+                  duration,
+            ease: "easeInOut",
+          },
+        };
+      } else {
+        return {
+          animate: {
+            strokeDashoffset: 0,
+          },
+          transition: {
+            duration,
+            delay: idx * duration,
+            repeat: Infinity,
+            repeatType: "reverse",
+            repeatDelay: duration + 1,
+            ease: "easeInOut",
+          },
+        };
+      }
+    },
+    [animationType, duration, lastY],
+  );
 
   return (
     <svg

@@ -171,7 +171,6 @@ class Leetcode {
     const path = `${encodeURIComponent(problem.directory)}/docs.md`;
     const content = await this.readGitHubFile(path);
     const blocks = markdownToBlocks(content);
-    console.log(blocks);
     const parsed = (
       await parseBlocks(blocks as BlockObjectResponse[])
     ).map((block) => {
