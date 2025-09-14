@@ -45,9 +45,10 @@ Switching between light and dark mode.
 
 ### Continous Deployment
 
-Client-side and server-side deployment is set-up automatically with `production` branch pushes. 
+Client-side and server-side deployment is set-up automatically with `production` branch pushes.
 
 ## 🎨 Design Reference
+
 #### Fonts
 
 | Type    | Font                                                                            |
@@ -59,3 +60,4 @@ Client-side and server-side deployment is set-up automatically with `production`
 ## 💬 Feedback
 
 If you have any feedback, please reach out to me at ammar.ahmed1@uwaterloo.ca.
+Shadow was here!
