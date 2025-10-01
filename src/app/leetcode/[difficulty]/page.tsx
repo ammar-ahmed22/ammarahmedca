@@ -80,6 +80,7 @@ export default async function Difficulty(props: DifficultyProps) {
       </div>
       <Problems
         problems={problems}
+        difficulty={difficulty}
         totalPages={totalPages}
         page={parsedPage}
       />
