@@ -20,14 +20,19 @@ import { format } from "date-fns";
 export type ProblemsProps = {
   problems: LeetcodeProblem[];
   totalPages: number;
+  difficulty?: string;
   page: number;
 };
 
 export default function Problems({
   problems,
   totalPages,
+  difficulty,
   page,
 }: ProblemsProps) {
+  const baseUrl = difficulty
+    ? `/leetcode/${difficulty}`
+    : "/leetcode";
   return (
     <div className="flex flex-col gap-4">
       {problems.map((problem, idx, all) => {
@@ -81,7 +86,7 @@ export default function Problems({
         <PaginationContent>
           <PaginationItem>
             <PaginationPrevious
-              href={`/leetcode?page=${page - 1}`}
+              href={`${baseUrl}?page=${page - 1}`}
               className={cn(
                 page === 0 && "pointer-events-none opacity-50",
               )}
@@ -93,7 +98,7 @@ export default function Problems({
                 return (
                   <PaginationItem key={i}>
                     <PaginationLink
-                      href={`/leetcode?page=${i}`}
+                      href={`${baseUrl}?page=${i}`}
                       isActive={page === i}
                     >
                       {i + 1}
@@ -106,7 +111,7 @@ export default function Problems({
             <>
               <PaginationItem>
                 <PaginationLink
-                  href="/leetcode?page=0"
+                  href={`${baseUrl}?page=0`}
                   isActive={page === 0}
                 >
                   1
@@ -114,7 +119,7 @@ export default function Problems({
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink
-                  href="/leetcode?page=1"
+                  href={`${baseUrl}?page=1`}
                   isActive={page === 1}
                 >
                   2
@@ -125,7 +130,7 @@ export default function Problems({
               </PaginationItem>
               <PaginationItem>
                 <PaginationLink
-                  href={`/leetcode?page=${totalPages - 1}`}
+                  href={`${baseUrl}?page=${totalPages - 1}`}
                   isActive={page === totalPages - 1}
                 >
                   {totalPages}
@@ -135,7 +140,7 @@ export default function Problems({
           )}
           <PaginationItem>
             <PaginationNext
-              href={`/leetcode?page=${page + 1}`}
+              href={`${baseUrl}?page=${page + 1}`}
               className={cn(
                 page === totalPages - 1 &&
                   "pointer-events-none opacity-50",
