@@ -13,7 +13,8 @@ export type LeetcodeProblem = {
   tags?: string[];
 };
 
-export type YamlProblem = {
+export type LeetcodeProblemMetadata = {
+  id: string;
   published: boolean;
   difficulty: LeetcodeDifficulty;
   directory: string;

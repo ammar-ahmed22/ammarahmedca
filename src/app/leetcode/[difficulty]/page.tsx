@@ -53,8 +53,9 @@ export default async function Difficulty(props: DifficultyProps) {
   const { difficulty } = await params;
   const { page } = await searchParams;
   const parsedPage = parsePositiveInt(page, 0);
-  const { problems, totalPages } = await api.leetcode.list({
+  const { problems, totalPages } = await api.leetcode.listProblems({
     difficulty,
+    page: parsedPage,
   });
   return (
     <div className="flex flex-col gap-4 items-center">
