@@ -11,6 +11,7 @@ import { v4 as uuid } from "uuid";
 import { Block } from "@/types/api/blocks";
 import { paginate } from "../utils";
 import { parseISO } from "date-fns";
+import { RichText } from "@/types/api";
 
 export type ProblemListOptions = {
   difficulty?: string;
@@ -130,6 +131,22 @@ class Leetcode {
     };
   }
 
+  private removeLinksFromRichText(richText: RichText[]): RichText[] {
+    return richText.map((rt) => {
+      if (rt.annotations.href) {
+        return {
+          ...rt,
+          annotations: {
+            ...rt.annotations,
+            href: undefined,
+          },
+        };
+      }
+
+      return rt;
+    });
+  }
+
   async listProblems(
     opts?: ProblemListOptions,
   ): Promise<ProblemListResponse> {
@@ -177,6 +194,31 @@ class Leetcode {
         const description = parsed.find((block) => {
           return block.type !== "heading";
         });
+        if (description?.type === "paragraph") {
+          description.content = this.removeLinksFromRichText(
+            description.content,
+          );
+        } else if (description?.type === "code") {
+          description.caption = this.removeLinksFromRichText(
+            description.caption,
+          );
+        } else if (description?.type === "image") {
+          description.caption = this.removeLinksFromRichText(
+            description.caption,
+          );
+        } else if (description?.type === "video") {
+          description.caption = this.removeLinksFromRichText(
+            description.caption,
+          );
+        } else if (description?.type === "quote") {
+          description.content = this.removeLinksFromRichText(
+            description.content,
+          );
+        } else if (description?.type === "callout") {
+          description.content = this.removeLinksFromRichText(
+            description.content,
+          );
+        }
         return {
           id,
           difficulty: problem.difficulty,
