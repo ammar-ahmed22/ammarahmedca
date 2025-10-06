@@ -2,7 +2,7 @@ import yaml from "yaml";
 import type {
   LeetcodeMetadata,
   LeetcodeProblem,
-  YamlProblem,
+  LeetcodeProblemMetadata,
 } from "@/types/api/leetcode";
 import { markdownToBlocks } from "@tryfabric/martian";
 import { parseBlocks } from "../notion/utils";
@@ -22,6 +22,11 @@ export type ProblemListResponse = {
   problems: LeetcodeProblem[];
   page: number;
   totalPages: number;
+};
+
+export type ProblemMetadataOptions = {
+  query?: string;
+  difficulty?: string;
 };
 
 class Leetcode {
@@ -46,28 +51,72 @@ class Leetcode {
     return Buffer.from(base64, "base64").toString("utf-8");
   }
 
-  async metadata(): Promise<LeetcodeMetadata> {
+  async problemMetadata(
+    opts?: ProblemMetadataOptions,
+  ): Promise<LeetcodeProblemMetadata[]> {
     const problemsYaml = await this.readGitHubFile("problems.yaml");
-    const problems = yaml.parse(problemsYaml) as Record<
+    const parsedYaml = yaml.parse(problemsYaml) as Record<
       string,
-      YamlProblem
+      Omit<LeetcodeProblemMetadata, "id">
     >;
-    const publishedProblems = Object.entries(problems).filter(
-      (entry) => entry[1].published,
+    let problems: LeetcodeProblemMetadata[] = Object.entries(
+      parsedYaml,
+    ).map(([id, metadata]) => {
+      return {
+        id,
+        ...metadata,
+      };
+    });
+
+    if (opts?.difficulty) {
+      problems = problems.filter((problem) => {
+        return problem.difficulty === opts.difficulty;
+      });
+    }
+
+    if (opts?.query) {
+      const normalizedQuery = opts.query.trim().toLowerCase();
+      problems = problems.filter((problem) => {
+        let match = false;
+
+        if (
+          problem.directory.toLowerCase().includes(normalizedQuery)
+        ) {
+          match = true;
+        }
+
+        if (problem.tags && problem.tags.length > 0) {
+          for (const tag of problem.tags) {
+            if (tag.toLowerCase().includes(normalizedQuery)) {
+              match = true;
+            }
+          }
+        }
+
+        return match;
+      });
+    }
+    return problems;
+  }
+
+  async metadata(): Promise<LeetcodeMetadata> {
+    const problems = await this.problemMetadata();
+    const publishedProblems = problems.filter(
+      (problem) => problem.published,
     );
 
     const easy = publishedProblems.filter(
-      (entry) => entry[1].difficulty === "easy",
+      (problem) => problem.difficulty === "easy",
     ).length;
     const medium = publishedProblems.filter(
-      (entry) => entry[1].difficulty === "medium",
+      (problem) => problem.difficulty === "medium",
     ).length;
     const hard = publishedProblems.filter(
-      (entry) => entry[1].difficulty === "hard",
+      (problem) => problem.difficulty === "hard",
     ).length;
 
     const allTags = new Set<string>();
-    for (const [, problem] of publishedProblems) {
+    for (const problem of publishedProblems) {
       if (problem.tags) {
         problem.tags.forEach((tag) => allTags.add(tag));
       }
@@ -81,13 +130,13 @@ class Leetcode {
     };
   }
 
-  async list(
+  async listProblems(
     opts?: ProblemListOptions,
   ): Promise<ProblemListResponse> {
     const problemsYaml = await this.readGitHubFile("problems.yaml");
     const problems = yaml.parse(problemsYaml) as Record<
       string,
-      YamlProblem
+      LeetcodeProblemMetadata
     >;
 
     const publishedProblems = Object.entries(problems).filter(
@@ -152,11 +201,11 @@ class Leetcode {
     };
   }
 
-  async get(id: string): Promise<LeetcodeProblem> {
+  async getProblem(id: string): Promise<LeetcodeProblem> {
     const problemsYaml = await this.readGitHubFile("problems.yaml");
     const problems = yaml.parse(problemsYaml) as Record<
       string,
-      YamlProblem
+      LeetcodeProblemMetadata
     >;
 
     const problem = problems[id];

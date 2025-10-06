@@ -34,7 +34,7 @@ export default async function Leetcode(props: LeetcodeProps) {
   const { searchParams } = props;
   const { page } = await searchParams;
   const parsedPage = parsePositiveInt(page, 0);
-  const { problems, totalPages } = await api.leetcode.list({
+  const { problems, totalPages } = await api.leetcode.listProblems({
     page: parsedPage,
   });
   const metadata = await api.leetcode.metadata();

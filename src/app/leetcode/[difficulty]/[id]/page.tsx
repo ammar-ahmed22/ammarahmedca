@@ -11,7 +11,7 @@ export const generateStaticParams = async (
 ) => {
   const { params } = props;
   const { difficulty } = await params;
-  const problems = await api.leetcode.list({
+  const problems = await api.leetcode.listProblems({
     difficulty,
     pageSize: 1000,
   });
@@ -29,7 +29,7 @@ export const generateMetadata = async (
 ) => {
   const { params } = props;
   const { id } = await params;
-  const problem = await api.leetcode.get(id);
+  const problem = await api.leetcode.getProblem(id);
   const description = `Solution and thought process for Leetcode problem ${problem.name}`;
   return {
     title: `Leetcode - ${problem.name}`,
@@ -52,7 +52,7 @@ export default async function LeetcodeProblem(
 ) {
   const { params } = props;
   const { id } = await params;
-  const problem = await api.leetcode.get(id);
+  const problem = await api.leetcode.getProblem(id);
   return (
     <div className="flex flex-col gap-4">
       <LeetcodeProblemMetadata problem={problem} />
