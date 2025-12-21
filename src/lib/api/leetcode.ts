@@ -1,5 +1,5 @@
-import yaml from "yaml";
 import type {
+  LeetcodeDifficulty,
   LeetcodeMetadata,
   LeetcodeProblem,
   LeetcodeProblemMetadata,
@@ -9,9 +9,7 @@ import { parseBlocks } from "../notion/utils";
 import { BlockObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { v4 as uuid } from "uuid";
 import { Block } from "@/types/api/blocks";
-import { paginate } from "../utils";
 import { parseISO } from "date-fns";
-import { RichText } from "@/types/api";
 
 export type ProblemListOptions = {
   difficulty?: string;
@@ -37,7 +35,7 @@ class Leetcode {
       throw new Error("GITHUB_TOKEN is not set");
     }
     const res = await fetch(
-      `https://api.github.com/repos/ammar-ahmed22/lcgo/contents/${path}`,
+      `https://api.github.com/repos/ammar-ahmed22/lcnotes/contents/${path}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,22 +50,24 @@ class Leetcode {
     return Buffer.from(base64, "base64").toString("utf-8");
   }
 
+  private async problemsJSON(): Promise<
+    Record<string, LeetcodeProblemMetadata>
+  > {
+    const problemsContent =
+      await this.readGitHubFile("problems.json");
+    const parsed = JSON.parse(problemsContent) as Record<
+      string,
+      LeetcodeProblemMetadata
+    >;
+    return parsed;
+  }
+
   async problemMetadata(
     opts?: ProblemMetadataOptions,
   ): Promise<LeetcodeProblemMetadata[]> {
-    const problemsYaml = await this.readGitHubFile("problems.yaml");
-    const parsedYaml = yaml.parse(problemsYaml) as Record<
-      string,
-      Omit<LeetcodeProblemMetadata, "id">
-    >;
-    let problems: LeetcodeProblemMetadata[] = Object.entries(
-      parsedYaml,
-    ).map(([id, metadata]) => {
-      return {
-        id,
-        ...metadata,
-      };
-    });
+    const problemsJSON = await this.problemsJSON();
+    let problems: LeetcodeProblemMetadata[] =
+      Object.values(problemsJSON);
 
     if (opts?.difficulty) {
       problems = problems.filter((problem) => {
@@ -107,14 +107,14 @@ class Leetcode {
     );
 
     const easy = publishedProblems.filter(
-      (problem) => problem.difficulty === "easy",
-    ).length;
+      (problem) => problem.difficulty === "Easy",
+    );
     const medium = publishedProblems.filter(
-      (problem) => problem.difficulty === "medium",
-    ).length;
+      (problem) => problem.difficulty === "Medium",
+    );
     const hard = publishedProblems.filter(
-      (problem) => problem.difficulty === "hard",
-    ).length;
+      (problem) => problem.difficulty === "Hard",
+    );
 
     const allTags = new Set<string>();
     for (const problem of publishedProblems) {
@@ -131,126 +131,21 @@ class Leetcode {
     };
   }
 
-  private removeLinksFromRichText(richText: RichText[]): RichText[] {
-    return richText.map((rt) => {
-      if (rt.annotations.href) {
-        return {
-          ...rt,
-          annotations: {
-            ...rt.annotations,
-            href: undefined,
-          },
-        };
-      }
-
-      return rt;
+  private async markdownFileToBlocks(path: string): Promise<Block[]> {
+    const content = await this.readGitHubFile(path);
+    const blocks = markdownToBlocks(content);
+    const parsed = await parseBlocks(blocks as BlockObjectResponse[]);
+    return parsed.map((block) => {
+      return {
+        ...block,
+        id: block.id ?? uuid(),
+      };
     });
-  }
-
-  async listProblems(
-    opts?: ProblemListOptions,
-  ): Promise<ProblemListResponse> {
-    const problemsYaml = await this.readGitHubFile("problems.yaml");
-    const problems = yaml.parse(problemsYaml) as Record<
-      string,
-      LeetcodeProblemMetadata
-    >;
-
-    const publishedProblems = Object.entries(problems).filter(
-      (entry) => {
-        return entry[1].published;
-      },
-    );
-
-    let filteredProblems = publishedProblems;
-    if (opts?.difficulty) {
-      filteredProblems = publishedProblems.filter((entry) => {
-        return entry[1].difficulty === opts.difficulty;
-      });
-    }
-    const paginated = paginate(
-      filteredProblems,
-      opts?.pageSize ?? 10,
-    );
-
-    if (opts?.page && opts.page >= paginated.totalPages) {
-      throw new Error(`Page ${opts.page} does not exist`);
-    }
-
-    const leetcodeProblems: LeetcodeProblem[] = await Promise.all(
-      paginated.pages[opts?.page ?? 0].map(async ([id, problem]) => {
-        const path = `${encodeURIComponent(problem.directory)}/docs.md`;
-        const content = await this.readGitHubFile(path);
-        const blocks = markdownToBlocks(content);
-        const parsed = (
-          await parseBlocks(blocks as BlockObjectResponse[])
-        ).map((block) => {
-          return {
-            ...block,
-            id: block.id ?? uuid(),
-          };
-        });
-        // Find the first block that is not a heading
-        const description = parsed.find((block) => {
-          return block.type !== "heading";
-        });
-        if (description?.type === "paragraph") {
-          description.content = this.removeLinksFromRichText(
-            description.content,
-          );
-        } else if (description?.type === "code") {
-          description.caption = this.removeLinksFromRichText(
-            description.caption,
-          );
-        } else if (description?.type === "image") {
-          description.caption = this.removeLinksFromRichText(
-            description.caption,
-          );
-        } else if (description?.type === "video") {
-          description.caption = this.removeLinksFromRichText(
-            description.caption,
-          );
-        } else if (description?.type === "quote") {
-          description.content = this.removeLinksFromRichText(
-            description.content,
-          );
-        } else if (description?.type === "callout") {
-          description.content = this.removeLinksFromRichText(
-            description.content,
-          );
-        }
-        return {
-          id,
-          difficulty: problem.difficulty,
-          name: problem.directory.split("-")[1].trim(),
-          raw: content,
-          blocks: parsed,
-          description: description as Block | undefined,
-          date: parseISO(problem.date),
-          tags: problem.tags,
-        };
-      }),
-    );
-
-    leetcodeProblems.sort((a, b) => {
-      return b.date.getTime() - a.date.getTime();
-    });
-
-    return {
-      problems: leetcodeProblems,
-      page: opts?.page ?? 0,
-      totalPages: paginated.totalPages,
-    };
   }
 
   async getProblem(id: string): Promise<LeetcodeProblem> {
-    const problemsYaml = await this.readGitHubFile("problems.yaml");
-    const problems = yaml.parse(problemsYaml) as Record<
-      string,
-      LeetcodeProblemMetadata
-    >;
-
-    const problem = problems[id];
+    const problemsJSON = await this.problemsJSON();
+    const problem = problemsJSON[id];
     if (!problem) {
       throw new Error(`Problem with id ${id} not found`);
     }
@@ -259,29 +154,26 @@ class Leetcode {
       throw new Error(`Problem with id ${id} is not found`);
     }
 
-    const path = `${encodeURIComponent(problem.directory)}/docs.md`;
-    const content = await this.readGitHubFile(path);
-    const blocks = markdownToBlocks(content);
-    const parsed = (
-      await parseBlocks(blocks as BlockObjectResponse[])
-    ).map((block) => {
-      return {
-        ...block,
-        id: block.id ?? uuid(),
-      };
-    });
-    // Find the first block that is not a heading
-    const description = parsed.find((block) => {
-      return block.type !== "heading";
-    });
+    const basePath = encodeURIComponent(problem.directory);
+
+    const description = await this.markdownFileToBlocks(
+      `${basePath}/docs.md`,
+    );
+    const notes = await this.markdownFileToBlocks(
+      `${basePath}/notes.md`,
+    );
+    const solution = await this.readGitHubFile(
+      `${basePath}/solution.py`,
+    );
     return {
       id,
-      difficulty: problem.difficulty,
-      name: problem.directory.split("-")[1].trim(),
-      raw: content,
-      blocks: parsed,
-      description: description as Block | undefined,
-      date: parseISO(problem.date),
+      difficulty:
+        problem.difficulty.toLowerCase() as LeetcodeDifficulty,
+      title: problem.title,
+      description,
+      notes,
+      solution,
+      datetime: parseISO(problem.datetime),
       tags: problem.tags,
     };
   }

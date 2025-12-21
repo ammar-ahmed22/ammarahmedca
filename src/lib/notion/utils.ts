@@ -262,5 +262,23 @@ export async function parseBlocks(
       }
     }
   }
+  if (listStack.length > 0) {
+    // Insert before the last element for correct ordering
+    if (listType === "unorderedList") {
+      content.splice(content.length - 1, 0, {
+        id: uuid(),
+        type: "unorderedList",
+        content: listStack,
+      } as UnorderedListBlock);
+    } else {
+      content.splice(content.length - 1, 0, {
+        id: uuid(),
+        type: "orderedList",
+        content: listStack,
+      } as OrderedListBlock);
+    }
+    listStack = [];
+  }
+
   return content;
 }

@@ -25,7 +25,7 @@ export default function LeetcodeProblemMetadata(
             content: capitalize(problem.difficulty),
           },
           {
-            content: problem.name,
+            content: problem.title,
           },
         ]}
       />
@@ -33,7 +33,7 @@ export default function LeetcodeProblemMetadata(
         {capitalize(problem.difficulty)}
       </Badge>
       <span className="text-neutral">
-        {format(problem.date, "MMM dd, yyyy")}
+        {format(problem.datetime, "MMM dd, yyyy")}
       </span>
       {problem.tags && (
         <div className="flex flex-wrap gap-2">
