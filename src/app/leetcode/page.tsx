@@ -1,12 +1,10 @@
-import { Badge } from "@/components/ui/badge";
 import api from "@/lib/api";
 import { Metadata } from "next";
-import Link from "next/link";
-import Problems from "./problems";
-import { parsePositiveInt } from "@/lib/utils";
+import { LeetcodeGraph } from "./graph";
+import ProblemsGrid from "./problems-grid";
 
 const description =
-  "Showcasing my solutions to Leetcode problems in Go alongside my thought process and approach to solving them.";
+  "Showcasing my solutions to Leetcode problems in Python alongside my thought process and approach to solving them.";
 
 export const metadata: Metadata = {
   title: "Leetcode",
@@ -24,50 +22,33 @@ export const metadata: Metadata = {
 
 export const revalidate = 60;
 
-export type LeetcodeProps = {
-  searchParams: Promise<{
-    page?: string;
-  }>;
-};
-
-export default async function Leetcode(props: LeetcodeProps) {
-  const { searchParams } = props;
-  const { page } = await searchParams;
-  const parsedPage = parsePositiveInt(page, 0);
-  const { problems, totalPages } = await api.leetcode.listProblems({
-    page: parsedPage,
-  });
+export default async function Leetcode() {
   const metadata = await api.leetcode.metadata();
+  const problems = [
+    ...metadata.easy,
+    ...metadata.medium,
+    ...metadata.hard,
+  ];
   return (
     <div className="flex flex-col gap-4 items-center">
-      <div className="md:w-4/5 w-full mb-4">
-        <h1 className="text-4xl font-display font-bold text-center">
-          Leetcode
-        </h1>
-        <p className="text-lg text-neutral text-center">
-          {description}
-        </p>
-      </div>
-      <div className="flex flex-col gap-8 w-full items-center">
-        <div className="flex gap-2 items-center px-6">
-          <Link href="/leetcode/easy">
-            <Badge variant="lc-easy">Easy | {metadata.easy}</Badge>
-          </Link>
-          <Link href="/leetcode/medium">
-            <Badge variant="lc-medium">
-              Medium | {metadata.medium}
-            </Badge>
-          </Link>
-          <Link href="/leetcode/hard">
-            <Badge variant="lc-hard">Hard | {metadata.hard}</Badge>
-          </Link>
+      <div className="w-full grid grid-cols-1 md:grid-cols-4">
+        <div className="md:col-span-3 flex flex-col justify-center">
+          <h1 className="text-4xl font-display font-bold md:text-start text-center">
+            Leetcode
+          </h1>
+          <p className="text-neutral md:text-start text-center">
+            {description}
+          </p>
+        </div>
+        <div>
+          <LeetcodeGraph
+            easy={metadata.easy.length}
+            medium={metadata.medium.length}
+            hard={metadata.hard.length}
+          />
         </div>
       </div>
-      <Problems
-        problems={problems}
-        totalPages={totalPages}
-        page={parsedPage}
-      />
+      <ProblemsGrid problems={problems} allTags={metadata.allTags} />
     </div>
   );
 }

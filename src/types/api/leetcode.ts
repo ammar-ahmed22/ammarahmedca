@@ -5,26 +5,28 @@ export type LeetcodeDifficulty = "easy" | "medium" | "hard";
 export type LeetcodeProblem = {
   id: string;
   difficulty: LeetcodeDifficulty;
-  name: string;
-  raw: string;
-  description?: Block;
-  blocks: Block[];
-  date: Date;
+  title: string;
+  description: Block[];
+  notes: Block[];
+  solution: string;
+  datetime: Date;
   tags?: string[];
 };
 
 export type LeetcodeProblemMetadata = {
   id: string;
-  published: boolean;
-  difficulty: LeetcodeDifficulty;
+  title: string;
   directory: string;
-  date: string;
+  difficulty: string;
   tags?: string[];
+  notes: string;
+  published: boolean;
+  datetime: string;
 };
 
 export type LeetcodeMetadata = {
-  easy: number;
-  medium: number;
-  hard: number;
+  easy: LeetcodeProblemMetadata[];
+  medium: LeetcodeProblemMetadata[];
+  hard: LeetcodeProblemMetadata[];
   allTags: string[];
 };

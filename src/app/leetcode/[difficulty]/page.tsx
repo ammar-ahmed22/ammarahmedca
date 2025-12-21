@@ -1,13 +1,13 @@
 import api from "@/lib/api";
-import { capitalize, cn, parsePositiveInt } from "@/lib/utils";
+import { capitalize } from "@/lib/utils";
 import { LeetcodeDifficulty } from "@/types/api/leetcode";
-import Problems from "../problems";
 import { Metadata } from "next";
 import LinkBreadcrumb from "@/components/ui/link-breadcrumb";
+import ProblemsGrid from "../problems-grid";
+import { LeetcodeGraph } from "../graph";
 
 export type DifficultyProps = {
   params: Promise<{ difficulty: LeetcodeDifficulty }>;
-  searchParams: Promise<{ page?: string }>;
 };
 
 const colors: Record<LeetcodeDifficulty, string> = {
@@ -49,41 +49,44 @@ export async function generateMetadata(
 }
 
 export default async function Difficulty(props: DifficultyProps) {
-  const { params, searchParams } = props;
+  const { params } = props;
   const { difficulty } = await params;
-  const { page } = await searchParams;
-  const parsedPage = parsePositiveInt(page, 0);
-  const { problems, totalPages } = await api.leetcode.listProblems({
-    difficulty,
-    page: parsedPage,
-  });
+  const metadata = await api.leetcode.metadata();
   return (
     <div className="flex flex-col gap-4 items-center">
-      <div className="w-full px-6">
+      <div className="w-full">
         <LinkBreadcrumb
           items={[
             { content: "Leetcode", href: "/leetcode" },
             { content: capitalize(difficulty) },
           ]}
         />
-        <h1
-          className={cn(
-            "text-4xl font-bold font-display",
-            colors[difficulty],
-          )}
-        >
-          {capitalize(difficulty)}
-        </h1>
-        <p className="text-lg text-neutral">
-          Solutions and thought process for {difficulty} difficulty
-          Leetcode problems.
-        </p>
       </div>
-      <Problems
-        problems={problems}
-        difficulty={difficulty}
-        totalPages={totalPages}
-        page={parsedPage}
+      <div className="w-full grid grid-cols-1 md:grid-cols-4">
+        <div className="md:col-span-3 flex flex-col justify-center">
+          <h1 className="text-4xl font-display font-bold md:text-start text-center">
+            Leetcode{" "}
+            <span className={colors[difficulty]}>
+              {capitalize(difficulty)}
+            </span>
+          </h1>
+          <p className="text-neutral md:text-start text-center">
+            Solutions and throught process for {difficulty} difficulty
+            Leetcode problems.
+          </p>
+        </div>
+        <div>
+          <LeetcodeGraph
+            easy={metadata.easy.length}
+            medium={metadata.medium.length}
+            hard={metadata.hard.length}
+            active={difficulty}
+          />
+        </div>
+      </div>
+      <ProblemsGrid
+        problems={metadata[difficulty]}
+        allTags={metadata.allTags}
       />
     </div>
   );
