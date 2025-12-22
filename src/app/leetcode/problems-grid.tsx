@@ -152,46 +152,52 @@ export default function ProblemsGrid({
         </div>
       )}
       <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {filteredProblems.map((problem) => {
-          const lower = toLowerDifficulty(problem.difficulty);
-          const dateObj = new Date(problem.datetime);
-          return (
-            <Link
-              key={problem.id}
-              href={`/leetcode/${lower}/${problem.id}`}
-              className="contents"
-            >
-              <Card className="shadow-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 cursor-pointer transition-all ease-in-out duration-200">
-                <CardContent>
-                  <div className="py-4">
-                    <Badge variant={`lc-${lower}`}>
-                      {problem.difficulty}
-                    </Badge>
-                  </div>
-                  <span className="text-sm text-neutral-500">
-                    {format(dateObj, "MMM dd, yyyy")}
-                  </span>
-                  <h4 className="text-lg font-bold mt-2">
-                    {problem.title}
-                  </h4>
-                  {problem.tags && problem.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {problem.tags.map((tag) => (
-                        <Badge
-                          key={`${problem.id}-${tag}`}
-                          variant="outline"
-                          className="border-foreground/30"
-                        >
-                          #{tag}
-                        </Badge>
-                      ))}
+        {filteredProblems
+          .sort(
+            (a, b) =>
+              new Date(b.datetime).getTime() -
+              new Date(a.datetime).getTime(),
+          )
+          .map((problem) => {
+            const lower = toLowerDifficulty(problem.difficulty);
+            const dateObj = new Date(problem.datetime);
+            return (
+              <Link
+                key={problem.id}
+                href={`/leetcode/${lower}/${problem.id}`}
+                className="contents"
+              >
+                <Card className="shadow-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 cursor-pointer transition-all ease-in-out duration-200">
+                  <CardContent>
+                    <div className="py-4">
+                      <Badge variant={`lc-${lower}`}>
+                        {problem.difficulty}
+                      </Badge>
                     </div>
-                  )}
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
+                    <span className="text-sm text-neutral-500">
+                      {format(dateObj, "MMM dd, yyyy")}
+                    </span>
+                    <h4 className="text-lg font-bold mt-2">
+                      {problem.title}
+                    </h4>
+                    {problem.tags && problem.tags.length > 0 && (
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {problem.tags.map((tag) => (
+                          <Badge
+                            key={`${problem.id}-${tag}`}
+                            variant="outline"
+                            className="border-foreground/30"
+                          >
+                            #{tag}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
       </div>
     </div>
   );
