@@ -11,7 +11,7 @@ export default async function Experiences() {
   const experiences = await api.experiences.list();
 
   return (
-    <section className="min-h-screen" id="experience">
+    <section className="min-h-screen mb-24" id="experience">
       <h2 className="text-4xl mb-1 font-display font-bold">
         Experiences
       </h2>
