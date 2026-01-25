@@ -1,16 +1,16 @@
 import { notion } from "../notion/client";
 
-type DatabaseQueryParams = Omit<
+export type DatabaseQueryParams = Omit<
   Parameters<(typeof notion)["databases"]["query"]>[0],
   "database_id"
 >;
 
-type DatabaseRetreiveParams = Omit<
+export type DatabaseRetreiveParams = Omit<
   Parameters<(typeof notion)["databases"]["retrieve"]>[0],
   "database_id"
 >;
 
-type DatabaseUpdateParams = Omit<
+export type DatabaseUpdateParams = Omit<
   Parameters<(typeof notion)["databases"]["update"]>[0],
   "database_id"
 >;
@@ -41,26 +41,26 @@ class Database {
 
 if (!process.env.PROJECTS_DB_ID) {
   throw new Error(
-    "Please set the PROJECTS_DATABASE_ID environment variable",
+    "Please set the PROJECTS_DB_ID environment variable",
   );
 }
 
 if (!process.env.EXPERIENCE_DB_ID) {
   throw new Error(
-    "Please set the EXPERIENCE_DATABASE_ID environment variable",
+    "Please set the EXPERIENCE_DB_ID environment variable",
   );
 }
 
 if (!process.env.SKILLS_DB_ID) {
-  throw new Error(
-    "Please set the SKILLS_DATABASE_ID environment variable",
-  );
+  throw new Error("Please set the SKILLS_DB_ID environment variable");
 }
 
 if (!process.env.BLOG_DB_ID) {
-  throw new Error(
-    "Please set the BLOG_DATABASE_ID environment variable",
-  );
+  throw new Error("Please set the BLOG_DB_ID environment variable");
+}
+
+if (!process.env.TODO_DB_ID) {
+  throw new Error("Please set the TODO_DB_ID environment variable");
 }
 
 export const databases = {
@@ -68,4 +68,5 @@ export const databases = {
   experience: new Database(process.env.EXPERIENCE_DB_ID),
   skills: new Database(process.env.SKILLS_DB_ID),
   blog: new Database(process.env.BLOG_DB_ID),
+  todo: new Database(process.env.TODO_DB_ID),
 };

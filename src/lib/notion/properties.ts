@@ -1,6 +1,7 @@
 import { DateRange, RichText } from "@/types/api";
 import { PageObjectResponse } from "@notionhq/client/build/src/api-endpoints";
 import { mapRichText } from "./utils";
+import { parseNotionDate } from "../utils";
 
 export type DatabaseProperties = PageObjectResponse["properties"];
 export type DatabaseProperty = DatabaseProperties[string];
@@ -49,18 +50,11 @@ class Property {
   asDateRange(): DateRange | undefined {
     if (this.property.type === "date") {
       if (!this.property.date) return undefined;
-      const [year, month, day] = this.property.date.start
-        .split("-")
-        .map(Number);
       const res: DateRange = {
-        start: new Date(year, month - 1, day),
+        start: parseNotionDate(this.property.date.start),
       };
-
       if (this.property.date.end) {
-        const [year, month, day] = this.property.date.end
-          .split("-")
-          .map(Number);
-        res.end = new Date(year, month - 1, day);
+        res.end = parseNotionDate(this.property.date.end);
       }
 
       return res;
@@ -87,6 +81,13 @@ class Property {
       return this.property.url ?? undefined;
     }
     throw new ParseError(this.propertyName, "url");
+  }
+
+  asStatus(): string | undefined {
+    if (this.property.type === "status") {
+      return this.property.status?.name;
+    }
+    throw new ParseError(this.propertyName, "status");
   }
 }
 
