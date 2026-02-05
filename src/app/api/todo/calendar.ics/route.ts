@@ -71,7 +71,7 @@ export async function GET(): Promise<NextResponse> {
       }
 
       const shared = {
-        title: name,
+        title: `${name} | ${course}`,
         location: course,
       };
 
