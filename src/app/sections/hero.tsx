@@ -41,6 +41,8 @@ export default function Hero() {
           Currently at the{" "}
           <a
             href="https://uwaterloo.ca"
+            target="_blank"
+            rel="noopener noreferrer"
             className="underline underline-offset-4"
           >
             University of Waterloo
