@@ -6,16 +6,21 @@ import Link from "next/link";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import ImageWithLoading from "@/components/ui/loading-image";
+import { useSearchParams } from "next/navigation";
 
 export type MetadataProps = {
   metadata: PostMetadata;
 };
 
 export default function Metadata({ metadata }: MetadataProps) {
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from");
+  const backHref = from === "home" ? "/" : "/blog";
+
   return (
     <div className="flex flex-col gap-4">
       <Button asChild variant="ghost" className="w-fit">
-        <Link href="/blog">
+        <Link href={backHref}>
           <ArrowLeftIcon /> Back
         </Link>
       </Button>
