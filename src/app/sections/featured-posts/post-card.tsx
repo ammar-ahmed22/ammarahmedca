@@ -12,7 +12,7 @@ export type PostCardProps = {
 
 export default function PostCard({ post }: PostCardProps) {
   return (
-    <Link href={`/blog/${post.slug}`}>
+    <Link href={`/blog/${post.slug}?from=home`}>
       <Card className="w-full h-full shadow-none flex-grow border-none hover:bg-neutral-300/50 dark:hover:bg-neutral-600/50 [&_img]:hover:scale-125 [&_img]:scale-100 cursor-pointer transition-all ease-in-out duration-200 relative">
         {post.image && post.category && (
           <Badge
