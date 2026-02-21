@@ -3,6 +3,7 @@ import Metadata from "./metadata";
 import Block from "@/components/ui/block";
 import { Metadata as NextMetadata } from "next";
 import { toPlainText } from "@/lib/notion/utils";
+import { Suspense } from "react";
 
 export type BlogPostProps = {
   params: Promise<{ slug: string }>;
@@ -56,7 +57,9 @@ export default async function BlogPost(props: BlogPostProps) {
   const { metadata, content } = await api.posts.content({ slug });
   return (
     <div className="flex flex-col gap-4">
-      <Metadata metadata={metadata} />
+      <Suspense>
+        <Metadata metadata={metadata} />
+      </Suspense>
       <div className="flex flex-col gap-4">
         {content.map((block) => {
           return <Block key={block.id} block={block} />;
