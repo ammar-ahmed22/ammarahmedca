@@ -13,7 +13,7 @@ const Video: React.FC<VideoBlock> = (block) => {
       {block.caption.length > 0 && (
         <RichText
           as="span"
-          className="text-sm text-center"
+          className="text-base text-center"
           data={block.caption}
         />
       )}

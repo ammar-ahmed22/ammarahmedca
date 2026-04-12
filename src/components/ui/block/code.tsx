@@ -8,7 +8,6 @@ import {
 } from "react-syntax-highlighter/dist/cjs/styles/prism";
 import { useThemeValue } from "@/hooks/theme";
 import RichText from "@/components/ui/rich-text";
-import { Button } from "@/components/ui/button";
 import { ClipboardIcon, CheckIcon } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -21,40 +20,55 @@ const Code: React.FC<CodeBlock> = (block) => {
     setTimeout(() => setCopied(false), 2000);
   };
   return (
-    <div className="flex flex-col gap-2 relative [&_button]:hover:block [&_button]:hidden">
-      <Button
-        size="icon"
-        className={cn("absolute top-4 right-4", {
-          "!block": copied,
-        })}
-        variant="ghost"
-        onClick={handleCopy}
-      >
-        {copied ? (
-          <CheckIcon className="text-green-500" />
-        ) : (
-          <ClipboardIcon />
-        )}
-      </Button>
-      <SyntaxHighlighter
-        showLineNumbers
-        customStyle={{
-          width: "100%",
-          borderRadius: "0.5rem",
-          margin: 0,
-          fontSize: "0.875rem",
-        }}
-        language={block.language}
-        lineProps={{ style: { backgroundColor: "transparent" } }}
-        style={style}
-        PreTag="div"
-      >
-        {block.content}
-      </SyntaxHighlighter>
+    <div className="flex flex-col gap-2 my-2">
+      <div className="border border-border bg-surface relative group">
+        <div className="flex items-center justify-between border-b border-border px-3 py-1.5 font-mono text-2xs text-muted">
+          <span className="uppercase tracking-wider">
+            {block.language || "text"}
+          </span>
+          <button
+            onClick={handleCopy}
+            className={cn(
+              "flex items-center gap-1 hover:text-foreground transition-colors",
+            )}
+            aria-label="Copy"
+          >
+            {copied ? (
+              <>
+                <CheckIcon className="size-3" />
+                <span>copied</span>
+              </>
+            ) : (
+              <>
+                <ClipboardIcon className="size-3" />
+                <span>copy</span>
+              </>
+            )}
+          </button>
+        </div>
+        <SyntaxHighlighter
+          showLineNumbers
+          customStyle={{
+            margin: 0,
+            fontSize: "0.8125rem",
+          }}
+          lineNumberStyle={{
+            color: "oklch(var(--muted))",
+            opacity: 0.5,
+            paddingRight: "1em",
+            minWidth: "2em",
+          }}
+          language={block.language}
+          style={style}
+          PreTag="div"
+        >
+          {block.content}
+        </SyntaxHighlighter>
+      </div>
       {block.caption.length > 0 && (
         <RichText
           as="span"
-          className="text-center text-xs"
+          className="text-center text-xs text-muted font-mono"
           data={block.caption}
         />
       )}

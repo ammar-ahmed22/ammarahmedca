@@ -1,55 +1,51 @@
 "use client";
-import { SiGithub, SiLinkedin } from "react-icons/si";
-import { MailIcon } from "lucide-react";
-import { buttonVariants } from "@/components/ui/button";
+import Signature from "@/components/ui/signature";
 
 export default function Footer() {
+  const year = new Date().getFullYear();
   return (
-    <footer className="mt-40 border-t flex flex-col items-center justify-center py-4">
-      <span className="font-bold">
-        Get in touch with me and follow my journey!
-      </span>
-      <div className="flex items-center">
-        <a
-          href="https://www.linkedin.com/in/ammarahmed2203/"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonVariants({
-            size: "icon",
-            variant: "ghost",
-          })}
-        >
-          <SiLinkedin />
-        </a>
-        <a
-          href="https://github.com/ammar-ahmed22"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonVariants({
-            size: "icon",
-            variant: "ghost",
-          })}
-        >
-          <SiGithub />
-        </a>
-        <a
-          href="mailto:ammar.ahmed1@uwaterloo.ca"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={buttonVariants({
-            size: "icon",
-            variant: "ghost",
-          })}
-        >
-          <MailIcon />
-        </a>
+    <footer className="border-t border-border mt-24">
+      <div className="max-w-[72ch] mx-auto px-4 sm:px-8 py-10">
+        <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+          <div className="flex items-start flex-col gap-3">
+            <Signature
+              className="h-16 w-auto text-foreground"
+              animationType="once"
+              duration={1.2}
+            />
+            <span className="font-mono text-xs text-muted">
+              — ammar ahmed, {year}
+            </span>
+          </div>
+          <div className="flex flex-col gap-1 font-mono text-base">
+            <a
+              href="https://www.linkedin.com/in/ammarahmed2203/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-foreground"
+            >
+              [linkedin↗]
+            </a>
+            <a
+              href="https://github.com/ammar-ahmed22"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-muted hover:text-foreground"
+            >
+              [github↗]
+            </a>
+            <a
+              href="mailto:ammar.ahmed1@uwaterloo.ca"
+              className="text-muted hover:text-foreground"
+            >
+              [email↗]
+            </a>
+          </div>
+        </div>
+        <div className="mt-10 text-center font-mono text-xs text-muted select-none">
+          --EOF--
+        </div>
       </div>
-      <span className="text-sm text-neutral">
-        Built and Designed by Ammar Ahmed
-      </span>
-      <small className="text-xs text-neutral">
-        All Rights Reserved © 2025
-      </small>
     </footer>
   );
 }

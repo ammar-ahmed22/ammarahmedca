@@ -34,7 +34,7 @@ export async function generateMetadata({
   const [post] = await api.posts.list({ slug });
   const description = toPlainText(post.description);
   return {
-    title: post.name,
+    title: `~/blog/${post.slug}`,
     description,
     openGraph: {
       type: "article",
@@ -56,15 +56,19 @@ export default async function BlogPost(props: BlogPostProps) {
   const { slug } = await params;
   const { metadata, content } = await api.posts.content({ slug });
   return (
-    <div className="flex flex-col gap-4">
+    <article className="flex flex-col gap-6">
       <Suspense>
         <Metadata metadata={metadata} />
       </Suspense>
-      <div className="flex flex-col gap-4">
+      <span className="ascii-rule" />
+      <div className="prose-mono flex flex-col gap-5">
         {content.map((block) => {
           return <Block key={block.id} block={block} />;
         })}
       </div>
-    </div>
+      <div className="mt-12">
+        <span className="ascii-rule" />
+      </div>
+    </article>
   );
 }

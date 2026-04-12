@@ -11,13 +11,11 @@ export default async function Projects() {
   });
 
   return (
-    <section id="projects" className="min-h-screen mb-24">
-      <h2 className="text-4xl mb-1 font-display font-bold">
-        Projects
+    <section id="projects" className="py-16 sm:py-24">
+      <h2 className="font-mono text-base text-muted mb-2">
+        ~/projects $ ls
       </h2>
-      <p className="text-neutral text-lg mb-4">
-        Check out what I&apos;ve been working on!
-      </p>
+      <span className="ascii-rule mb-4" />
       <ProjectCards
         projects={projects}
         allTypes={filterProperties.types}

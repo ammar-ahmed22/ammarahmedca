@@ -1,4 +1,5 @@
 import api from "@/lib/api";
+import { notFound } from "next/navigation";
 import LeetcodeProblemMetadata from "./metadata";
 import Block from "@/components/ui/block";
 import { Block as BlockType } from "@/types/api/blocks";
@@ -17,7 +18,7 @@ export const generateStaticParams = async () => {
   ];
   return problems.map((problem) => ({
     id: problem.id,
-    difficulty: problem.difficulty,
+    difficulty: problem.difficulty.toLowerCase(),
   }));
 };
 
@@ -29,10 +30,15 @@ export const generateMetadata = async (
 ) => {
   const { params } = props;
   const { id } = await params;
-  const problem = await api.leetcode.getProblem(id);
+  let problem;
+  try {
+    problem = await api.leetcode.getProblem(id);
+  } catch {
+    return { title: "leetcode/not-found" };
+  }
   const description = `Solution and thought process for Leetcode problem ${problem.title}`;
   return {
-    title: `Leetcode - ${problem.title}`,
+    title: `~/leetcode/${problem.difficulty}/${problem.id}`,
     description,
     openGraph: {
       type: "website",
@@ -47,26 +53,39 @@ export const generateMetadata = async (
   };
 };
 
+function SectionLabel({ children }: { children: React.ReactNode }) {
+  return (
+    <h2 className="font-mono text-base text-muted mt-4">
+      ## {children}
+    </h2>
+  );
+}
+
 export default async function LeetcodeProblem(
   props: LeetcodeProblemProps,
 ) {
   const { params } = props;
   const { id } = await params;
-  const problem = await api.leetcode.getProblem(id);
+  let problem;
+  try {
+    problem = await api.leetcode.getProblem(id);
+  } catch {
+    notFound();
+  }
   return (
-    <div className="flex flex-col gap-4">
+    <article className="flex flex-col gap-6">
       <LeetcodeProblemMetadata problem={problem} />
-      <div className="flex flex-col gap-4">
-        {problem.description.map((block) => {
-          return <Block key={block.id} block={block} />;
-        })}
-        <h2 className="text-foreground font-bold text-xl">Notes</h2>
-        {problem.notes.map((block) => {
-          return <Block key={block.id} block={block} />;
-        })}
-        <h2 className="text-foreground font-bold text-xl">
-          Solution
-        </h2>
+      <span className="ascii-rule" />
+      <div className="prose-mono flex flex-col gap-4">
+        <SectionLabel>description</SectionLabel>
+        {problem.description.map((block) => (
+          <Block key={block.id} block={block} />
+        ))}
+        <SectionLabel>notes</SectionLabel>
+        {problem.notes.map((block) => (
+          <Block key={block.id} block={block} />
+        ))}
+        <SectionLabel>solution</SectionLabel>
         <Block
           block={
             {
@@ -78,6 +97,12 @@ export default async function LeetcodeProblem(
           }
         />
       </div>
-    </div>
+      <div className="mt-8">
+        <span className="ascii-rule" />
+        <div className="text-center font-mono text-xs text-muted mt-4 select-none">
+          --EOF--
+        </div>
+      </div>
+    </article>
   );
 }

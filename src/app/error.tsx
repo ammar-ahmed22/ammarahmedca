@@ -1,7 +1,5 @@
-"use client"; // Error boundaries must be Client Components
+"use client";
 import { useEffect } from "react";
-import { CircleAlertIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 
 export default function Error({
   error,
@@ -11,29 +9,31 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error(error);
   }, [error]);
 
   return (
-    <div className="w-screen h-screen flex flex-col gap-3 justify-center items-center absolute top-0 left-0">
-      <CircleAlertIcon className="size-16 text-foreground" />
-      <div className="text-center">
-        <h2 className="text-2xl font-bold">
+    <div className="min-h-[60vh] flex flex-col items-start justify-center gap-4 font-mono">
+      <div className="text-xs text-muted">~ $ ./load-page</div>
+      <div className="flex flex-col gap-2 max-w-[68ch]">
+        <p className="text-base">
+          <span className="text-muted">error: </span>
           {process.env.NODE_ENV === "development"
             ? error.name
-            : "Oops!"}
-        </h2>
-        <p className="text-neutral text-lg">
-          {/* Something went wrong loading this page */}
+            : "something went wrong"}
+        </p>
+        <p className="text-base text-muted">
           {process.env.NODE_ENV === "development"
             ? error.message
-            : "Something went wrong loading this page"}
+            : "the page failed to load. try again."}
         </p>
       </div>
-      <Button variant="outline" onClick={() => reset()}>
-        Try Again
-      </Button>
+      <button
+        onClick={() => reset()}
+        className="font-mono text-base border border-border px-3 py-1.5 hover:bg-foreground hover:text-background"
+      >
+        [retry]
+      </button>
     </div>
   );
 }

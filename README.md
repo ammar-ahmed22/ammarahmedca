@@ -3,7 +3,6 @@
 >
   <img src="./public/LogoIcon-dark.png" width="50" />
   <h1>ammarahmed.ca</h1>
-  <img src="./public/home.gif" width="1423" />
   <p>
     After re-making and re-designing my personal website hundreds of times, I have finally arrived at a design which I quite enjoy. Take a scroll at <a href="https://ammarahmed.ca">ammarahmed.ca</a>
   </p>
@@ -46,15 +45,6 @@ Switching between light and dark mode.
 ### Continous Deployment
 
 Client-side and server-side deployment is set-up automatically with `production` branch pushes. 
-
-## 🎨 Design Reference
-#### Fonts
-
-| Type    | Font                                                                            |
-| ------- | ------------------------------------------------------------------------------- |
-| Heading | [DM Serif Display](https://fonts.google.com/specimen/DM+Serif+Display), _serif_ |
-| Body    | [DM Sans](https://fonts.google.com/specimen/DM+Sans), _sans-serif_              |
-| Mono    | [DM Mono](https://fonts.google.com/specimen/DM+Mono), _monospace_               |
 
 ## 💬 Feedback
 

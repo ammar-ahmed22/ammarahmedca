@@ -8,7 +8,7 @@ import { useCallback } from "react";
 export type SignatureProps = {
   className?: string;
   duration?: number;
-  animationType?: "scroll" | "repeat";
+  animationType?: "scroll" | "repeat" | "once";
 };
 
 export default function Signature({
@@ -34,6 +34,22 @@ export default function Signature({
                 ? idx * duration
                 : (signatureSvgPathLengths.length - idx - 1) *
                   duration,
+            ease: "easeInOut",
+          },
+        };
+      } else if (animationType === "once") {
+        return {
+          initial: {
+            strokeDasharray: signatureSvgPathLengths[idx],
+            strokeDashoffset: signatureSvgPathLengths[idx],
+          },
+          whileInView: {
+            strokeDashoffset: 0,
+          },
+          viewport: { once: true },
+          transition: {
+            duration,
+            delay: idx * duration,
             ease: "easeInOut",
           },
         };

@@ -4,7 +4,11 @@ import { ParagraphBlock } from "@/types/api/blocks";
 
 const Paragraph: React.FC<ParagraphBlock> = (block) => {
   return (
-    <RichText as="p" className="text-neutral" data={block.content} />
+    <RichText
+      as="p"
+      className="font-mono text-base text-foreground leading-relaxed"
+      data={block.content}
+    />
   );
 };
 
