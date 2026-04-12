@@ -7,10 +7,10 @@ const description =
   "Showcasing my solutions to Leetcode problems in Python alongside my thought process and approach to solving them.";
 
 export const metadata: Metadata = {
-  title: "Leetcode",
+  title: "~/leetcode",
   description,
   openGraph: {
-    title: "Leetcode",
+    title: "leetcode",
     description,
     type: "website",
     siteName: "ammarahmed.ca",
@@ -30,24 +30,25 @@ export default async function Leetcode() {
     ...metadata.hard,
   ];
   return (
-    <div className="flex flex-col gap-4 items-center">
-      <div className="w-full grid grid-cols-1 md:grid-cols-4">
-        <div className="md:col-span-3 flex flex-col justify-center">
-          <h1 className="text-4xl font-display font-bold md:text-start text-center">
-            Leetcode
-          </h1>
-          <p className="text-neutral md:text-start text-center">
-            {description}
-          </p>
+    <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <div className="font-mono text-xs text-muted">
+          ~/leetcode $ stat solved
         </div>
-        <div>
-          <LeetcodeGraph
-            easy={metadata.easy.length}
-            medium={metadata.medium.length}
-            hard={metadata.hard.length}
-          />
-        </div>
+        <h1 className="font-display text-5xl sm:text-6xl leading-none">
+          leetcode.
+        </h1>
+        <p className="font-mono text-base text-muted max-w-[68ch]">
+          {description}
+        </p>
       </div>
+      <span className="ascii-rule" />
+      <LeetcodeGraph
+        easy={metadata.easy.length}
+        medium={metadata.medium.length}
+        hard={metadata.hard.length}
+      />
+      <span className="ascii-rule mt-4" />
       <ProblemsGrid problems={problems} allTags={metadata.allTags} />
     </div>
   );

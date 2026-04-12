@@ -2,18 +2,12 @@ import api from "@/lib/api";
 import { capitalize } from "@/lib/utils";
 import { LeetcodeDifficulty } from "@/types/api/leetcode";
 import { Metadata } from "next";
-import LinkBreadcrumb from "@/components/ui/link-breadcrumb";
+import Link from "next/link";
 import ProblemsGrid from "../problems-grid";
 import { LeetcodeGraph } from "../graph";
 
 export type DifficultyProps = {
   params: Promise<{ difficulty: LeetcodeDifficulty }>;
-};
-
-const colors: Record<LeetcodeDifficulty, string> = {
-  easy: "text-green-500",
-  medium: "text-yellow-500",
-  hard: "text-red-500",
 };
 
 export const revalidate = 60;
@@ -33,7 +27,7 @@ export async function generateMetadata(
   const { difficulty } = await params;
   const description = `Solutions and thought process for ${difficulty} difficulty Leetcode problems.`;
   return {
-    title: `Leetcode - ${capitalize(difficulty)}`,
+    title: `~/leetcode/${difficulty}`,
     description,
     openGraph: {
       type: "website",
@@ -53,37 +47,34 @@ export default async function Difficulty(props: DifficultyProps) {
   const { difficulty } = await params;
   const metadata = await api.leetcode.metadata();
   return (
-    <div className="flex flex-col gap-4 items-center">
-      <div className="w-full">
-        <LinkBreadcrumb
-          items={[
-            { content: "Leetcode", href: "/leetcode" },
-            { content: capitalize(difficulty) },
-          ]}
-        />
+    <div className="flex flex-col gap-6">
+      <div className="font-mono text-xs text-muted flex gap-2">
+        <Link href="/leetcode" className="hover:text-foreground">
+          ~/leetcode
+        </Link>
+        <span>/</span>
+        <span>{difficulty}</span>
       </div>
-      <div className="w-full grid grid-cols-1 md:grid-cols-4">
-        <div className="md:col-span-3 flex flex-col justify-center">
-          <h1 className="text-4xl font-display font-bold md:text-start text-center">
-            Leetcode{" "}
-            <span className={colors[difficulty]}>
-              {capitalize(difficulty)}
-            </span>
-          </h1>
-          <p className="text-neutral md:text-start text-center">
-            Solutions and throught process for {difficulty} difficulty
-            Leetcode problems.
-          </p>
+      <div className="flex flex-col gap-2">
+        <div className="font-mono text-xs text-muted">
+          ~/leetcode/{difficulty} $ ls
         </div>
-        <div>
-          <LeetcodeGraph
-            easy={metadata.easy.length}
-            medium={metadata.medium.length}
-            hard={metadata.hard.length}
-            active={difficulty}
-          />
-        </div>
+        <h1 className="font-display text-5xl sm:text-6xl leading-none">
+          {difficulty}.
+        </h1>
+        <p className="font-mono text-base text-muted max-w-[68ch]">
+          Solutions and thought process for {difficulty} difficulty
+          Leetcode problems.
+        </p>
       </div>
+      <span className="ascii-rule" />
+      <LeetcodeGraph
+        easy={metadata.easy.length}
+        medium={metadata.medium.length}
+        hard={metadata.hard.length}
+        active={difficulty}
+      />
+      <span className="ascii-rule mt-4" />
       <ProblemsGrid
         problems={metadata[difficulty]}
         allTags={metadata.allTags}

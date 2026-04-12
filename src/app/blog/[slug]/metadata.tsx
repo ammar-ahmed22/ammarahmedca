@@ -1,11 +1,7 @@
 "use client";
 import { PostMetadata } from "@/types/api";
-import { Button } from "@/components/ui/button";
-import { ArrowLeftIcon } from "lucide-react";
 import Link from "next/link";
 import { format } from "date-fns";
-import { Badge } from "@/components/ui/badge";
-import ImageWithLoading from "@/components/ui/loading-image";
 import { useSearchParams } from "next/navigation";
 
 export type MetadataProps = {
@@ -18,39 +14,38 @@ export default function Metadata({ metadata }: MetadataProps) {
   const backHref = from === "home" ? "/" : "/blog";
 
   return (
-    <div className="flex flex-col gap-4">
-      <Button asChild variant="ghost" className="w-fit">
-        <Link href={backHref}>
-          <ArrowLeftIcon /> Back
-        </Link>
-      </Button>
-      <span className="font-bold uppercase">{metadata.category}</span>
-      {metadata.image && (
-        <ImageWithLoading
-          src={metadata.image}
-          alt={metadata.name + " cover image"}
-          className="w-full h-[40vh] object-cover rounded-lg"
-        />
-      )}
-      {metadata.date && (
-        <span className="text-neutral">
-          {format(metadata.date, "MMM dd, yyyy")}
-        </span>
-      )}
-      <h1 className="text-4xl font-semibold">{metadata.name}</h1>
-      <div className="flex flex-wrap gap-2">
-        {metadata.tags.map((tag) => {
-          return (
-            <Badge
-              key={`post-${metadata.id}-tag-${tag}`}
-              variant="outline"
-              className="border-foreground/30"
-            >
-              #{tag}
-            </Badge>
-          );
-        })}
+    <header className="flex flex-col gap-4">
+      <Link
+        href={backHref}
+        className="font-mono text-xs text-muted hover:text-foreground w-fit"
+      >
+        ← cd ..
+      </Link>
+      <div className="font-mono text-xs text-muted tabular-nums uppercase tracking-wider flex flex-wrap gap-2">
+        {metadata.date && (
+          <span>[{format(metadata.date, "yyyy-MM-dd")}]</span>
+        )}
+        {metadata.category && (
+          <>
+            <span>·</span>
+            <span>{metadata.category}</span>
+          </>
+        )}
       </div>
-    </div>
+      <h1 className="font-display text-4xl sm:text-5xl leading-[1.05]">
+        {metadata.name}
+      </h1>
+      {metadata.tags.length > 0 && (
+        <div className="font-mono text-xs text-muted">
+          [
+          {metadata.tags.map((t, i) => (
+            <span key={t}>
+              {i > 0 && ", "}#{t}
+            </span>
+          ))}
+          ]
+        </div>
+      )}
+    </header>
   );
 }

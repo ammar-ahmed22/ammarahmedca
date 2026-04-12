@@ -4,9 +4,17 @@ import RichText from "@/components/ui/rich-text";
 
 const Callout: React.FC<CalloutBlock> = (block) => {
   return (
-    <div className="flex gap-4 p-4 dark:bg-foreground/10 bg-foreground/5 rounded-xl">
-      {block.icon && <span className="text-xl">{block.icon}</span>}
-      <RichText data={block.content} as="span" />
+    <div className="flex gap-3 p-4 border border-border my-2">
+      {block.icon && (
+        <span className="font-mono text-base shrink-0 select-none">
+          {block.icon}
+        </span>
+      )}
+      <RichText
+        data={block.content}
+        as="p"
+        className="font-mono text-base text-foreground"
+      />
     </div>
   );
 };

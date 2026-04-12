@@ -7,21 +7,23 @@ import { toPlainText } from "@/lib/notion/utils";
 
 const Image: React.FC<ImageBlock> = (block) => {
   return (
-    <div className="flex flex-col gap-2 relative">
-      <ImageWithLoading
-        src={block.url}
-        alt={toPlainText(block.caption)}
-        className="w-full rounded-xl"
-        loadingClassName="h-[40vh]"
-      />
+    <figure className="flex flex-col gap-2 my-4">
+      <div className="border border-border p-1">
+        <ImageWithLoading
+          src={block.url}
+          alt={toPlainText(block.caption)}
+          className="w-full"
+          loadingClassName="h-[40vh]"
+        />
+      </div>
       {block.caption.length > 0 && (
         <RichText
           data={block.caption}
-          as="span"
-          className="text-xs text-center"
+          as="figcaption"
+          className="font-mono text-xs text-muted text-center"
         />
       )}
-    </div>
+    </figure>
   );
 };
 

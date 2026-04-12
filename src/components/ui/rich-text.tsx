@@ -9,38 +9,38 @@ export type RichTextProps = {
   data: RichText[];
   as: React.ElementType;
   className?: string;
+  prefix?: React.ReactNode;
 };
 
 export default function RichText({
   data,
   as = "p",
   className,
+  prefix,
 }: RichTextProps) {
   const Component = as;
 
   return (
-    <Component
-      className={cn("text-neutral whitespace-pre-line", className)}
-    >
+    <Component className={cn("whitespace-pre-line", className)}>
+      {prefix}
       <Mathjax.Provider>
         {data.map((richText, index) => {
           const { annotations, plainText } = richText;
-          const className = cn({
+          const innerClassName = cn({
             "font-bold": annotations.bold,
             italic: annotations.italic,
             "line-through": annotations.strikethrough,
             underline: annotations.underline,
-            "bg-foreground/20 font-mono text-neutral-800 dark:text-neutral-300 py-0.5 px-2 rounded-sm text-sm":
+            "border border-border px-1 text-foreground":
               annotations.code,
-            "text-foreground  hover:underline cursor-pointer":
-              annotations.href,
+            "text-foreground link-underline": annotations.href,
           });
           const key = `richtext-${index}`;
           if (annotations.href) {
             return (
               <a
                 key={key}
-                className={className}
+                className={innerClassName}
                 href={annotations.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -60,7 +60,7 @@ export default function RichText({
             );
           }
           return (
-            <span key={key} className={className}>
+            <span key={key} className={innerClassName}>
               {plainText}
             </span>
           );

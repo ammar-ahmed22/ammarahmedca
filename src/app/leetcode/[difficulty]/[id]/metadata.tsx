@@ -1,5 +1,4 @@
-import { Badge } from "@/components/ui/badge";
-import LinkBreadcrumb from "@/components/ui/link-breadcrumb";
+import Link from "next/link";
 import { capitalize } from "@/lib/utils";
 import { LeetcodeProblem } from "@/types/api/leetcode";
 import { format } from "date-fns";
@@ -8,48 +7,56 @@ export type LeetcodeProblemMetadataProps = {
   problem: LeetcodeProblem;
 };
 
-export default function LeetcodeProblemMetadata(
-  props: LeetcodeProblemMetadataProps,
-) {
-  const { problem } = props;
+const difficultyMark: Record<string, string> = {
+  easy: "○",
+  medium: "◐",
+  hard: "●",
+};
+
+export default function LeetcodeProblemMetadata({
+  problem,
+}: LeetcodeProblemMetadataProps) {
+  const diff = problem.difficulty.toLowerCase();
   return (
-    <div className="flex flex-col gap-4">
-      <LinkBreadcrumb
-        items={[
-          {
-            href: "/leetcode",
-            content: "Leetcode",
-          },
-          {
-            href: `/leetcode/${problem.difficulty}`,
-            content: capitalize(problem.difficulty),
-          },
-          {
-            content: problem.title,
-          },
-        ]}
-      />
-      <Badge variant={`lc-${problem.difficulty}`} className="w-fit">
-        {capitalize(problem.difficulty)}
-      </Badge>
-      <span className="text-neutral">
-        {format(problem.datetime, "MMM dd, yyyy")}
-      </span>
-      {problem.tags && (
-        <div className="flex flex-wrap gap-2">
-          {problem.tags.map((tag) => {
-            return (
-              <Badge
-                key={`${problem.id}-${tag}`}
-                className="border-foreground/30"
-                variant="outline"
-              >
-                #{tag}
-              </Badge>
-            );
-          })}
+    <header className="flex flex-col gap-3">
+      <div className="font-mono text-xs text-muted flex gap-2 flex-wrap">
+        <Link href="/leetcode" className="hover:text-foreground">
+          ~/leetcode
+        </Link>
+        <span>/</span>
+        <Link
+          href={`/leetcode/${diff}`}
+          className="hover:text-foreground"
+        >
+          {diff}
+        </Link>
+        <span>/</span>
+        <span className="truncate">{problem.id}</span>
+      </div>
+      <div className="font-mono text-2xs uppercase tracking-wider text-muted flex flex-wrap gap-3">
+        <span className="flex items-center gap-1.5">
+          <span aria-hidden>{difficultyMark[diff]}</span>
+          {capitalize(problem.difficulty)}
+        </span>
+        <span>·</span>
+        <span className="tabular-nums">
+          [{format(problem.datetime, "yyyy-MM-dd")}]
+        </span>
+      </div>
+      <h1 className="font-display text-3xl sm:text-4xl leading-tight">
+        {problem.title}
+      </h1>
+      {problem.tags && problem.tags.length > 0 && (
+        <div className="font-mono text-xs text-muted">
+          [
+          {problem.tags.map((t, i) => (
+            <span key={t}>
+              {i > 0 && ", "}#{t}
+            </span>
+          ))}
+          ]
         </div>
       )}
-    </div>
+    </header>
   );
 }
