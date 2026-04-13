@@ -5,7 +5,6 @@ import Signature from "@/components/ui/signature";
 type Line = string | { href: string; text: string };
 
 const introductionLines: Line[][] = [
-  ["Hi! I'm Ammar!"],
   [
     "I like to build software and write about my thoughts and experiences.",
   ],
@@ -18,8 +17,8 @@ const introductionLines: Line[][] = [
     " with a BASc in Engineering.",
   ],
   // [
-  //   "Currently a Software Engineer at ",
-  // { href: "https://placeholder.com", text: "Placeholder" },
+  //   "Software Engineer at ",
+  //   { href: "https://placeholder.com", text: "Placeholder" },
   //   ".",
   // ],
 ];
