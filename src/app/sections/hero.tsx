@@ -9,6 +9,11 @@ const introductionLines: Line[][] = [
     "I like to build software and write about my thoughts and experiences.",
   ],
   [
+    "Software Engineer at ",
+    { href: "https://ziphq.com", text: "Zip" },
+    ".",
+  ],
+  [
     "Graduated from the ",
     {
       href: "https://uwaterloo.ca/",
@@ -16,11 +21,6 @@ const introductionLines: Line[][] = [
     },
     " with a BASc in Engineering.",
   ],
-  // [
-  //   "Software Engineer at ",
-  //   { href: "https://placeholder.com", text: "Placeholder" },
-  //   ".",
-  // ],
 ];
 
 export default function Hero() {
